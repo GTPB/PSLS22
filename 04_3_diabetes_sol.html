@@ -12,10 +12,10 @@
 <meta name="author" content="Lieven Clement, Jeroen Gilis and Milan Malfait" />
 
 
-<title>Exercise 4.3: Exploring the diabetes dataset</title>
+<title>Exercise 4.3: Exploring the diabetes dataset - solution</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -49,6 +49,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -187,6 +188,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -415,7 +419,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -431,7 +435,7 @@ div.tocify {
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-chalkboard-teacher"></span>
      
     Lectures
@@ -487,7 +491,7 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-laptop"></span>
      
     Labs
@@ -534,7 +538,7 @@ div.tocify {
 <div id="header">
 
 <div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
 <ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
@@ -545,7 +549,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Exercise 4.3: Exploring the diabetes dataset</h1>
+<h1 class="title toc-ignore">Exercise 4.3: Exploring the diabetes dataset - solution</h1>
 <h4 class="author">Lieven Clement, Jeroen Gilis and Milan Malfait</h4>
 <h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
 
@@ -553,8 +557,8 @@ div.tocify {
 
 
 <div id="aims-of-this-exercise" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Aims of this exercise</h1>
-<p>In this tutorial, you will acquire the skills to</p>
+<h1><span class="header-section-number">1</span> Aims of this exercise</h1>
+<p>In this exercise, you will acquire the skills to</p>
 <ul>
 <li>recognize paired data</li>
 <li>conduct a data exploration in R for data from paired experimental designs.</li>
@@ -562,7 +566,7 @@ div.tocify {
 </ul>
 </div>
 <div id="the-diabetes-dataset" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> The diabetes dataset</h1>
+<h1><span class="header-section-number">2</span> The diabetes dataset</h1>
 <p>The <code>diabetes dataset</code> holds information on a small experiment with 8 patients that are subjected to a glucose tolerance test.</p>
 <p>Patients had to fast for eight hours before the test. When the patients entered the hospital their baseline glucose level was measured (mmol/l).</p>
 <p>Patients then had to drink 250 ml of a syrupy glucose solution containing 100 grams of sugar. Two hours later, their blood glucose level was measured again.</p>
@@ -574,20 +578,21 @@ div.tocify {
 </ul>
 </div>
 <div id="import-the-data" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Import the data</h1>
+<h1><span class="header-section-number">3</span> Import the data</h1>
 <p>Data path:</p>
 <p><code>https://raw.githubusercontent.com/statOmics/PSLS21/data/diabetes.txt</code></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/diabetes.txt&quot;</span>, <span class="at">delim =</span><span class="st">&quot; &quot;</span>)</span></code></pre></div>
-<pre><code>## 
+<pre><code>## Rows: 8 Columns: 3
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   before = col_double(),
-##   after = col_double(),
-##   patient = col_character()
-## )</code></pre>
+## Delimiter: &quot; &quot;
+## chr (1): patient
+## dbl (2): before, after
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>Have a first look at the data</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(diabetes)</span></code></pre></div>
 <pre><code>## Rows: 8
@@ -597,7 +602,7 @@ div.tocify {
 ## $ patient &lt;chr&gt; &quot;pat1&quot;, &quot;pat2&quot;, &quot;pat3&quot;, &quot;pat4&quot;, &quot;pat5&quot;, &quot;pat6&quot;, &quot;pat7&quot;, &quot;pat8&quot;</code></pre>
 </div>
 <div id="data-visualization" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Data visualization</h1>
+<h1><span class="header-section-number">4</span> Data visualization</h1>
 <p>The data are not in tidy format. We can easily visualize the glucose levels by adopting the <code>gather()</code> function from tidyverse. It will reshape the dataframe, such that we have have a single variable <code>time</code>, which points at the timepoint of the measurement, and <code>concentration</code>, which contains the actual glucose concentration at before or after drinking the glucose solution for each patient.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>diabetes_long <span class="ot">&lt;-</span> diabetes <span class="sc">%&gt;%</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(time, concentration, <span class="sc">-</span>patient)</span>
@@ -608,7 +613,7 @@ div.tocify {
   </script>
 </div>
 <div id="barplot" class="section level2" number="4.1">
-<h2 number="4.1"><span class="header-section-number">4.1</span> Barplot</h2>
+<h2><span class="header-section-number">4.1</span> Barplot</h2>
 <p>Not all visualization types will be equally informative.</p>
 <p>A barplot is a plot that you will commonly find in scientific publications. The code for generating such a barplot is provided below:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>diabetes_long <span class="sc">%&gt;%</span></span>
@@ -651,7 +656,7 @@ div.tocify {
 <p>So the boxplots of glucose measurements before and after the are not telling the full story! The boxplot is thus not a good plot for exploring the data of the diabetes dataset!</p>
 </div>
 <div id="paired-data" class="section level2" number="4.2">
-<h2 number="4.2"><span class="header-section-number">4.2</span> Paired data</h2>
+<h2><span class="header-section-number">4.2</span> Paired data</h2>
 <p>A line plot is a better plot for paired data! Note that we also convert the variable time in a factor first and relevel it so that the concentration before is plotted first.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>diabetes_long <span class="ot">&lt;-</span> diabetes_long <span class="sc">%&gt;%</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> <span class="fu">as.factor</span>(time)) <span class="sc">%&gt;%</span> </span>
@@ -679,10 +684,10 @@ div.tocify {
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Difference in glucose concentration</span><span class="sc">\n</span><span class="st">before and after sugar intake&quot;</span>)</span></code></pre></div>
 <p><img src="04_3_diabetes_sol_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<p>The mean difference in glucose concentration is higher zero. It seems that dosing glucose has increased the glucose concentration on average with around 2 mmol/l. In the next tutorials, we will learn how we can test if this increase is statistically significant.</p>
+<p>The mean difference in glucose concentration is higher zero. It seems that dosing glucose has increased the glucose concentration on average with around 2 mmol/l. In the next exercises, we will learn how we can test if this increase is statistically significant.</p>
 </div>
 <div id="qq-plot" class="section level2" number="4.3">
-<h2 number="4.3"><span class="header-section-number">4.3</span> QQ-plot</h2>
+<h2><span class="header-section-number">4.3</span> QQ-plot</h2>
 <p>We can now assess if the differences are normally distributed.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="sc">%&gt;%</span> </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> difference)) <span class="sc">+</span></span>
@@ -693,7 +698,7 @@ div.tocify {
 </div>
 </div>
 <div id="descriptive-statistics" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> Descriptive statistics</h1>
+<h1><span class="header-section-number">5</span> Descriptive statistics</h1>
 <ul>
 <li>Generate a code chunk to calculate useful summary statistics for the diabetes data</li>
 </ul>
@@ -715,7 +720,7 @@ div.tocify {
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2UgNC4zOiBFeHBsb3JpbmcgdGhlIGRpYWJldGVzIGRhdGFzZXQiCmF1dGhvcjogIkxpZXZlbiBDbGVtZW50LCBKZXJvZW4gR2lsaXMgYW5kIE1pbGFuIE1hbGZhaXQiCmRhdGU6ICJzdGF0T21pY3MsIEdoZW50IFVuaXZlcnNpdHkgKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbykiCi0tLQoKIyBBaW1zIG9mIHRoaXMgZXhlcmNpc2UKCkluIHRoaXMgdHV0b3JpYWwsIHlvdSB3aWxsIGFjcXVpcmUgdGhlIHNraWxscyB0byAKCi0gcmVjb2duaXplIHBhaXJlZCBkYXRhCi0gY29uZHVjdCBhIGRhdGEgZXhwbG9yYXRpb24gaW4gUiBmb3IgZGF0YSBmcm9tCnBhaXJlZCBleHBlcmltZW50YWwgZGVzaWducy4KLSBpbnRlcnByZXQgdGhlIHJlc3VsdHMgb2YgYSBkYXRhIGV4cGxvcmF0aW9uIGZvciBwYWlyZWQgZXhwZXJpbWVudGFsIGRlc2lnbnMKCiMgVGhlIGRpYWJldGVzIGRhdGFzZXQKClRoZSBgZGlhYmV0ZXMgZGF0YXNldGAgaG9sZHMgaW5mb3JtYXRpb24gb24gYSBzbWFsbCBleHBlcmltZW50IHdpdGgKOCBwYXRpZW50cyB0aGF0IGFyZSBzdWJqZWN0ZWQgdG8gIGEgZ2x1Y29zZSB0b2xlcmFuY2UgdGVzdC4KCgpQYXRpZW50cyBoYWQgdG8gZmFzdCBmb3IgZWlnaHQgaG91cnMgYmVmb3JlIHRoZSB0ZXN0LiAKV2hlbiB0aGUgcGF0aWVudHMgZW50ZXJlZCB0aGUgaG9zcGl0YWwgdGhlaXIgYmFzZWxpbmUgZ2x1Y29zZSBsZXZlbCB3YXMgbWVhc3VyZWQgKG1tb2wvbCkuIAoKUGF0aWVudHMgdGhlbiAgaGFkIHRvIGRyaW5rIDI1MCBtbCBvZiBhIHN5cnVweSBnbHVjb3NlIHNvbHV0aW9uIGNvbnRhaW5pbmcgMTAwIGdyYW1zIG9mIHN1Z2FyLiAKVHdvIGhvdXJzIGxhdGVyLCB0aGVpciBibG9vZCBnbHVjb3NlIGxldmVsIHdhcyBtZWFzdXJlZCBhZ2Fpbi4gCgpUaGUgZGF0YSBjb25zaXN0IG9mIHRocmVlIHZhcmlhYmxlczoKCi0gYmVmb3JlOiBnbHVjb3NlIGNvbmNlbnRyYXRpb24gdXBvbiA4IGhvdXJzIG9mIGZhc3RpbmcgKG1tb2wvbCkKLSBhZnRlcjogZ2x1Y29zZSBjb25jZW50cmF0aW9uIDIgaG91cnMgYWZ0ZXIgZHJpbmtpbmcgZ2x1Y29zZSBzb2x1dGlvbiAobW1vbC9sKS4KLSBwYXRpZW50OiBpZGVudGlmaWVyIGZvciB0aGUgcGF0aWVudAoKIyBJbXBvcnQgdGhlIGRhdGEKCkRhdGEgcGF0aDoKCiAgYGh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9zdGF0T21pY3MvUFNMUzIxL2RhdGEvZGlhYmV0ZXMudHh0YAoKYGBge3IsIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9CmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KHJlYWRyKQpsaWJyYXJ5KGdncGxvdDIpCmBgYAoKYGBge3J9CmRpYWJldGVzIDwtIHJlYWRfZGVsaW0oImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9zdGF0T21pY3MvUFNMUzIxL2RhdGEvZGlhYmV0ZXMudHh0IiwgZGVsaW0gPSIgIikKYGBgCgpIYXZlIGEgZmlyc3QgbG9vayBhdCB0aGUgZGF0YQoKYGBge3J9CmdsaW1wc2UoZGlhYmV0ZXMpCmBgYAoKIyBEYXRhIHZpc3VhbGl6YXRpb24KClRoZSBkYXRhIGFyZSBub3QgaW4gdGlkeSBmb3JtYXQuIApXZSBjYW4gZWFzaWx5IHZpc3VhbGl6ZSB0aGUgZ2x1Y29zZSBsZXZlbHMgYnkgYWRvcHRpbmcgdGhlIGBnYXRoZXIoKWAKZnVuY3Rpb24gZnJvbSB0aWR5dmVyc2UuIApJdCB3aWxsIHJlc2hhcGUgdGhlIGRhdGFmcmFtZSwKc3VjaCB0aGF0IHdlIGhhdmUgaGF2ZSBhIHNpbmdsZSB2YXJpYWJsZSBgdGltZWAsIHdoaWNoCnBvaW50cyBhdCB0aGUgdGltZXBvaW50IG9mIHRoZSBtZWFzdXJlbWVudCwgYW5kIGBjb25jZW50cmF0aW9uYCwKd2hpY2ggY29udGFpbnMgdGhlIGFjdHVhbCBnbHVjb3NlIGNvbmNlbnRyYXRpb24gYXQgYmVmb3JlIG9yIGFmdGVyIGRyaW5raW5nIHRoZSBnbHVjb3NlIHNvbHV0aW9uCmZvciBlYWNoIHBhdGllbnQuCgpgYGB7cn0KZGlhYmV0ZXNfbG9uZyA8LSBkaWFiZXRlcyAlPiUKICBnYXRoZXIodGltZSwgY29uY2VudHJhdGlvbiwgLXBhdGllbnQpCmRpYWJldGVzX2xvbmcKYGBgCgojIyBCYXJwbG90CgpOb3QgYWxsIHZpc3VhbGl6YXRpb24gdHlwZXMgd2lsbCBiZSBlcXVhbGx5IGluZm9ybWF0aXZlLgoKQSBiYXJwbG90IGlzIGEgcGxvdCB0aGF0IHlvdSB3aWxsCmNvbW1vbmx5IGZpbmQgaW4gc2NpZW50aWZpYyBwdWJsaWNhdGlvbnMuIApUaGUgY29kZSBmb3IgZ2VuZXJhdGluZyBzdWNoIGEgYmFycGxvdAppcyBwcm92aWRlZCBiZWxvdzoKCmBgYHtyfQpkaWFiZXRlc19sb25nICU+JQogICMjIENhbGN1bGF0ZSBzdW1tYXJyeSBzdGF0aXN0aWNzIGZvciB0aGUgImNvbmNlbnRyYXRpb24iIHZhcmlhYmxlIGZvciBlYWNoICJ0aW1lIgogIGdyb3VwX2J5KHRpbWUpICU+JQogIHN1bW1hcml6ZSgKICAgIG1lYW4gPSBtZWFuKGNvbmNlbnRyYXRpb24sIG5hLnJtID0gVFJVRSksCiAgICBzZCA9IHNkKGNvbmNlbnRyYXRpb24sIG5hLnJtID0gVFJVRSksCiAgICBuID0gbigpCiAgKSAlPiUKICAjIyBDb21wdXRlIHRoZSBzdGFuZGFyZCBlcnJvcnMgZm9yIHRoZSBtZWFucwogIG11dGF0ZShzZSA9IHNkIC8gc3FydChuKSkgJT4lCiAgZ2dwbG90KGFlcyh4ID0gdGltZSwgeSA9IG1lYW4sIGZpbGwgPSB0aW1lKSkgKwogIHRoZW1lX2J3KCkgKwogIGdlb21fYmFyKHN0YXQgPSAiaWRlbnRpdHkiKSArCiAgZ2VvbV9lcnJvcmJhcihhZXMoeW1pbiA9IG1lYW4gLSBzZSwgeW1heCA9IG1lYW4gKyBzZSksIHdpZHRoID0gMC4yKSArCiAgZ2d0aXRsZSgiQmFycGxvdCBvZiBnbHVjb3NlIG1lYXN1cmVtZW50cyIpICsKICB5bGFiKCJjb25jZW50cmF0aW9uIChtbW9sL2wpIikKYGBgCgoKQSBiYXJwbG90LCBob3dldmVyLCBpcyBub3QgdmVyeSBpbmZvcm1hdGl2ZS4gClRoZSBoZWlnaHQgb2YgdGhlCmJhcnMgb25seSBwcm92aWRlcyB1cyB3aXRoIGluZm9ybWF0aW9uIG9mIHRoZSBtZWFuIGJsb29kIHByZXNzdXJlLgpIb3dldmVyLCB3ZSBkb24ndCBzZWUgdGhlIGFjdHVhbCB1bmRlcmx5aW5nIHZhbHVlcywgc28gd2UgZm9yCmluc3RhbmNlIGRvbid0IGhhdmUgYW55IGluZm9ybWF0aW9uIG9uIHRoZSBzcHJlYWQgb2YgdGhlIGRhdGEuCkl0IGlzIHVzdWFsbHkgbW9yZSBpbmZvcm1hdGl2ZSB0byByZXByZXNlbnQgdG8gdW5kZXJseWluZwp2YWx1ZXMgYXMgX3Jhd18gYXMgcG9zc2libGUuIApOb3RlIHRoYXQgaXQgaXMgcG9zc2libGUgdG8gYWRkIHRoZQpyYXcgZGF0YSBvbiB0aGUgYmFycGxvdCwgYnV0IHdlIHN0aWxsIHdvdWxkIG5vdCBzZWUgYW55IG1lYXN1cmVzCm9mIHRoZSBzcHJlYWQsIHN1Y2ggYXMgdGhlIGludGVycXVhcnRpbGUgcmFuZ2UuCgpBbm90aGVyIGNydWNpYWwgYXNwZWN0IG9mIHRoZSBkYXRhIGFyZSBhbHNvIG5vdCBkaXNwbGF5ZWQ6IAp0aGUgZGF0YSBhcmUgcGFpcmVkIQoKKipCYXNlZCBvbiB0aGVzZSBjcml0aXNpc21zLCBjYW4geW91IHRoaW5rIG9mIGEgYmV0dGVyKioKKip2aXN1YWxpemF0aW9uIHN0cmF0ZWd5IGZvciB0aGUgY2FwdG9wcmlsIGRhdGE/KioKCioqQWRkIHlvdXIgcHJvcG9zZWQgdmlzdWFsaXphdGlvbiBzdHJhdGVneSBoZXJlKioKCkl0IGlzIHVzdWFsbHkgbW9yZSBpbmZvcm1hdGl2ZSB0byByZXByZXNlbnQgdG8gdW5kZXJseWluZwp2YWx1ZXMgYXMgX3Jhd18gYXMgcG9zc2libGUuIEJveHBsb3RzIGFyZSBpZGVhbCBmb3IgdGhpcy4KCmBgYHtyfQpkaWFiZXRlc19sb25nICU+JQogIGdncGxvdChhZXMoeCA9IHRpbWUsIHkgPSBjb25jZW50cmF0aW9uLCBmaWxsID0gdGltZSkpICsKICBzY2FsZV9maWxsX2JyZXdlcihwYWxldHRlID0gIlJkR3kiKSArCiAgdGhlbWVfYncoKSArCiAgZ2VvbV9ib3hwbG90KG91dGxpZXIuc2hhcGUgPSBOQSkgKwogIGdlb21faml0dGVyKHdpZHRoID0gMC4yKSArCiAgc3RhdF9zdW1tYXJ5KAogICAgZnVuID0gbWVhbiwgZ2VvbSA9ICJwb2ludCIsCiAgICBzaGFwZSA9IDUsIHNpemUgPSAzLAogICAgY29sb3IgPSAiYmxhY2siCiAgKSArCiAgZ2d0aXRsZSgiTmFpdmUgYm94cGxvdCBvZiBnbHVjb3NlIGNvbmNlbnRyYXRpb25cbk5vdCBhIGdvb2QgcmVwcmVzZW50YXRpb24gZm9yIHBhaXJlZCBkYXRhISIpICsKICB5bGFiKCJDb25jZW50cmF0aW9uIChtbW9sL2wpIikKYGBgCgpOb3RlLCBob3dldmVyIHRoYXQgZm9yIHRoZXNlIGRhdGEgdGhlIGJveHBsb3RzIGFyZSBtaXNzaW5nIGEgY3J1Y2lhbCBwYXJ0IG9mIHRoZSBpbmZvcm1hdGlvbjogVGhlIGRhdGEgYXJlIHBhaXJlZCEKClNvIHRoZSBib3hwbG90cyBvZiBnbHVjb3NlIG1lYXN1cmVtZW50cyBiZWZvcmUgYW5kIGFmdGVyIHRoZSAgYXJlIG5vdCB0ZWxsaW5nIHRoZSBmdWxsIHN0b3J5ISBUaGUgYm94cGxvdCBpcyB0aHVzIG5vdCBhIGdvb2QgcGxvdCBmb3IgZXhwbG9yaW5nIHRoZSBkYXRhIG9mIHRoZSBkaWFiZXRlcyBkYXRhc2V0ISAKCiMjIFBhaXJlZCBkYXRhIAoKQSBsaW5lIHBsb3QgaXMgYSBiZXR0ZXIgcGxvdCBmb3IgcGFpcmVkIGRhdGEhIApOb3RlIHRoYXQgd2UgYWxzbyBjb252ZXJ0IHRoZSB2YXJpYWJsZSB0aW1lIGluIGEgZmFjdG9yIGZpcnN0IGFuZCByZWxldmVsIGl0IHNvIHRoYXQgdGhlIGNvbmNlbnRyYXRpb24gYmVmb3JlIGlzIHBsb3R0ZWQgZmlyc3QuIAoKYGBge3J9CmRpYWJldGVzX2xvbmcgPC0gZGlhYmV0ZXNfbG9uZyAlPiUKICBtdXRhdGUodGltZSA9IGFzLmZhY3Rvcih0aW1lKSkgJT4lIAogIG11dGF0ZSh0aW1lID0gcmVsZXZlbCh0aW1lLCJiZWZvcmUiKSkgCmRpYWJldGVzX2xvbmcgJT4lCiAgICBnZ3Bsb3QoYWVzKHggPSB0aW1lLCB5ID0gY29uY2VudHJhdGlvbikpICsKICAgIGdlb21fcG9pbnQoKSArCiAgIGdlb21fbGluZShhZXMoZ3JvdXAgPSBwYXRpZW50KSkgKwogICAgeWxhYigiQ29uY2VudHJhdGlvbiAobW1vbC9sKSIpICsKICAgIGdndGl0bGUoIkluZm9ybWF0aXZlIHBsb3Qgb24gZ2x1Y29zZSBsZXZlbCBmb3IgcGFpcmVkIGRhdGEiKQpgYGAKCldlIG9ic2VydmUgdGhhdCB0aGUgZ2x1Y29zZSBjb25jZW50cmF0aW9ucyBpbmNyZWFzZSBmb3IgYWxtb3N0IGFsbCBwYXRpZW50cyEgClRoaXMgaXMgYSBwbG90IHRoYXQgc2hvd3MgYWxsIGZlYXR1cmVzIGluIHRoZSBkYXRhIGFuZCBjbGVhcmx5IGluZGljYXRlcyB0aGF0IHRoZSBkYXRhIGFyZSBwYWlyZWQuIAoKQWx0ZXJuYXRpdmVseSwgd2UgbWlnaHQgcGxvdCBjYWxjdWxhdGUgdGhlIGRpZmZlcmVuY2VzIGluIGdsdWNvc2UgbGV2ZWxzIGFmdGVyIGFuZCBiZWZvcmUgZG9zaW5nIGdsdWNvc2UgZmlyc3QgYW5kIG1ha2UgYSBib3hwbG90IG9mIHRoZSBkaWZmZXJlbmNlcyEgCgpgYGB7cn0KZGlhYmV0ZXMgPC0gZGlhYmV0ZXMgJT4lIAogIG11dGF0ZShkaWZmZXJlbmNlID0gYWZ0ZXIgLSBiZWZvcmUpCmRpYWJldGVzICU+JSAKICBnZ3Bsb3QoYWVzKHggPSIiLCB5ID0gZGlmZmVyZW5jZSkpICsKICBnZW9tX2JveHBsb3Qob3V0bGllci5zaGFwZSA9IE5BKSArCiAgZ2VvbV9qaXR0ZXIod2lkdGggPSAwLjIpICsKICAgeWxhYigiRGlmZmVyZW5jZSAobW1vbC9sKSIpICsKICBzdGF0X3N1bW1hcnkoCiAgICBmdW4gPSBtZWFuLCBnZW9tID0gInBvaW50IiwKICAgIHNoYXBlID0gNSwgc2l6ZSA9IDMsCiAgICBjb2xvciA9ICJibGFjayIKICApICsKICBnZ3RpdGxlKCJEaWZmZXJlbmNlIGluIGdsdWNvc2UgY29uY2VudHJhdGlvblxuYmVmb3JlIGFuZCBhZnRlciBzdWdhciBpbnRha2UiKQpgYGAKClRoZSBtZWFuIGRpZmZlcmVuY2UgaW4gZ2x1Y29zZSBjb25jZW50cmF0aW9uIGlzIGhpZ2hlciB6ZXJvLiBJdCBzZWVtcyB0aGF0IGRvc2luZyBnbHVjb3NlIGhhcyBpbmNyZWFzZWQgdGhlIGdsdWNvc2UgY29uY2VudHJhdGlvbiBvbiBhdmVyYWdlIHdpdGggYXJvdW5kIDIgbW1vbC9sLiAKSW4gdGhlIG5leHQgdHV0b3JpYWxzLCB3ZSB3aWxsCmxlYXJuIGhvdyB3ZSBjYW4gdGVzdCBpZiB0aGlzIGluY3JlYXNlIGlzIHN0YXRpc3RpY2FsbHkgc2lnbmlmaWNhbnQuCgojIyBRUS1wbG90CgpXZSBjYW4gbm93IGFzc2VzcyBpZiB0aGUgZGlmZmVyZW5jZXMgYXJlIG5vcm1hbGx5IGRpc3RyaWJ1dGVkLiAKCmBgYHtyfQpkaWFiZXRlcyAlPiUgCiAgZ2dwbG90KGFlcyhzYW1wbGUgPSBkaWZmZXJlbmNlKSkgKwogIGdlb21fcXEoKSArCiAgZ2VvbV9xcV9saW5lKCkgCmBgYAoKVGhlIGRpZmZlcmVuY2VzIGluIGdsdWNvc2UgY29uY2VudHJhdGlvbiBhcHBlYXJzIHRvIGJlIG5vcm1hbGx5IGRpc3RyaWJ1dGVkLgoKIyBEZXNjcmlwdGl2ZSBzdGF0aXN0aWNzCgotIEdlbmVyYXRlIGEgY29kZSBjaHVuayB0byBjYWxjdWxhdGUgdXNlZnVsIHN1bW1hcnkgc3RhdGlzdGljcyBmb3IKdGhlIGRpYWJldGVzIGRhdGEKCmBgYHtyfQpkaWFiZXRlc1N1bSA8LSBkaWFiZXRlcyAlPiUgCiAgIGdhdGhlcih0aW1lLCBjb25jZW50cmF0aW9uLCAtcGF0aWVudCkgICU+JQogICBncm91cF9ieSh0aW1lKSAlPiUKICBzdW1tYXJpemUoCiAgICBtZWFuID0gbWVhbihjb25jZW50cmF0aW9uLCBuYS5ybSA9IFRSVUUpLAogICAgc2QgPSBzZChjb25jZW50cmF0aW9uLCBuYS5ybSA9IFRSVUUpLAogICAgbiA9IG4oKQogICkgJT4lCiAgIyMgQ29tcHV0ZSB0aGUgc3RhbmRhcmQgZXJyb3JzIGZvciB0aGUgbWVhbnMKICBtdXRhdGUoc2UgPSBzZCAvIHNxcnQobikpIApkaWFiZXRlc1N1bQpgYGAK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2UgNC4zOiBFeHBsb3JpbmcgdGhlIGRpYWJldGVzIGRhdGFzZXQgLSBzb2x1dGlvbiIKYXV0aG9yOiAiTGlldmVuIENsZW1lbnQsIEplcm9lbiBHaWxpcyBhbmQgTWlsYW4gTWFsZmFpdCIKZGF0ZTogInN0YXRPbWljcywgR2hlbnQgVW5pdmVyc2l0eSAoaHR0cHM6Ly9zdGF0b21pY3MuZ2l0aHViLmlvKSIKLS0tCgojIEFpbXMgb2YgdGhpcyBleGVyY2lzZQoKSW4gdGhpcyBleGVyY2lzZSwgeW91IHdpbGwgYWNxdWlyZSB0aGUgc2tpbGxzIHRvIAoKLSByZWNvZ25pemUgcGFpcmVkIGRhdGEKLSBjb25kdWN0IGEgZGF0YSBleHBsb3JhdGlvbiBpbiBSIGZvciBkYXRhIGZyb20KcGFpcmVkIGV4cGVyaW1lbnRhbCBkZXNpZ25zLgotIGludGVycHJldCB0aGUgcmVzdWx0cyBvZiBhIGRhdGEgZXhwbG9yYXRpb24gZm9yIHBhaXJlZCBleHBlcmltZW50YWwgZGVzaWducwoKIyBUaGUgZGlhYmV0ZXMgZGF0YXNldAoKVGhlIGBkaWFiZXRlcyBkYXRhc2V0YCBob2xkcyBpbmZvcm1hdGlvbiBvbiBhIHNtYWxsIGV4cGVyaW1lbnQgd2l0aAo4IHBhdGllbnRzIHRoYXQgYXJlIHN1YmplY3RlZCB0byAgYSBnbHVjb3NlIHRvbGVyYW5jZSB0ZXN0LgoKClBhdGllbnRzIGhhZCB0byBmYXN0IGZvciBlaWdodCBob3VycyBiZWZvcmUgdGhlIHRlc3QuIApXaGVuIHRoZSBwYXRpZW50cyBlbnRlcmVkIHRoZSBob3NwaXRhbCB0aGVpciBiYXNlbGluZSBnbHVjb3NlIGxldmVsIHdhcyBtZWFzdXJlZCAobW1vbC9sKS4gCgpQYXRpZW50cyB0aGVuICBoYWQgdG8gZHJpbmsgMjUwIG1sIG9mIGEgc3lydXB5IGdsdWNvc2Ugc29sdXRpb24gY29udGFpbmluZyAxMDAgZ3JhbXMgb2Ygc3VnYXIuIApUd28gaG91cnMgbGF0ZXIsIHRoZWlyIGJsb29kIGdsdWNvc2UgbGV2ZWwgd2FzIG1lYXN1cmVkIGFnYWluLiAKClRoZSBkYXRhIGNvbnNpc3Qgb2YgdGhyZWUgdmFyaWFibGVzOgoKLSBiZWZvcmU6IGdsdWNvc2UgY29uY2VudHJhdGlvbiB1cG9uIDggaG91cnMgb2YgZmFzdGluZyAobW1vbC9sKQotIGFmdGVyOiBnbHVjb3NlIGNvbmNlbnRyYXRpb24gMiBob3VycyBhZnRlciBkcmlua2luZyBnbHVjb3NlIHNvbHV0aW9uIChtbW9sL2wpLgotIHBhdGllbnQ6IGlkZW50aWZpZXIgZm9yIHRoZSBwYXRpZW50CgojIEltcG9ydCB0aGUgZGF0YQoKRGF0YSBwYXRoOgoKICBgaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3N0YXRPbWljcy9QU0xTMjEvZGF0YS9kaWFiZXRlcy50eHRgCgpgYGB7ciwgbWVzc2FnZT1GQUxTRSwgd2FybmluZz1GQUxTRX0KbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkocmVhZHIpCmxpYnJhcnkoZ2dwbG90MikKYGBgCgpgYGB7cn0KZGlhYmV0ZXMgPC0gcmVhZF9kZWxpbSgiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3N0YXRPbWljcy9QU0xTMjEvZGF0YS9kaWFiZXRlcy50eHQiLCBkZWxpbSA9IiAiKQpgYGAKCkhhdmUgYSBmaXJzdCBsb29rIGF0IHRoZSBkYXRhCgpgYGB7cn0KZ2xpbXBzZShkaWFiZXRlcykKYGBgCgojIERhdGEgdmlzdWFsaXphdGlvbgoKVGhlIGRhdGEgYXJlIG5vdCBpbiB0aWR5IGZvcm1hdC4gCldlIGNhbiBlYXNpbHkgdmlzdWFsaXplIHRoZSBnbHVjb3NlIGxldmVscyBieSBhZG9wdGluZyB0aGUgYGdhdGhlcigpYApmdW5jdGlvbiBmcm9tIHRpZHl2ZXJzZS4gCkl0IHdpbGwgcmVzaGFwZSB0aGUgZGF0YWZyYW1lLApzdWNoIHRoYXQgd2UgaGF2ZSBoYXZlIGEgc2luZ2xlIHZhcmlhYmxlIGB0aW1lYCwgd2hpY2gKcG9pbnRzIGF0IHRoZSB0aW1lcG9pbnQgb2YgdGhlIG1lYXN1cmVtZW50LCBhbmQgYGNvbmNlbnRyYXRpb25gLAp3aGljaCBjb250YWlucyB0aGUgYWN0dWFsIGdsdWNvc2UgY29uY2VudHJhdGlvbiBhdCBiZWZvcmUgb3IgYWZ0ZXIgZHJpbmtpbmcgdGhlIGdsdWNvc2Ugc29sdXRpb24KZm9yIGVhY2ggcGF0aWVudC4KCmBgYHtyfQpkaWFiZXRlc19sb25nIDwtIGRpYWJldGVzICU+JQogIGdhdGhlcih0aW1lLCBjb25jZW50cmF0aW9uLCAtcGF0aWVudCkKZGlhYmV0ZXNfbG9uZwpgYGAKCiMjIEJhcnBsb3QKCk5vdCBhbGwgdmlzdWFsaXphdGlvbiB0eXBlcyB3aWxsIGJlIGVxdWFsbHkgaW5mb3JtYXRpdmUuCgpBIGJhcnBsb3QgaXMgYSBwbG90IHRoYXQgeW91IHdpbGwKY29tbW9ubHkgZmluZCBpbiBzY2llbnRpZmljIHB1YmxpY2F0aW9ucy4gClRoZSBjb2RlIGZvciBnZW5lcmF0aW5nIHN1Y2ggYSBiYXJwbG90CmlzIHByb3ZpZGVkIGJlbG93OgoKYGBge3J9CmRpYWJldGVzX2xvbmcgJT4lCiAgIyMgQ2FsY3VsYXRlIHN1bW1hcnJ5IHN0YXRpc3RpY3MgZm9yIHRoZSAiY29uY2VudHJhdGlvbiIgdmFyaWFibGUgZm9yIGVhY2ggInRpbWUiCiAgZ3JvdXBfYnkodGltZSkgJT4lCiAgc3VtbWFyaXplKAogICAgbWVhbiA9IG1lYW4oY29uY2VudHJhdGlvbiwgbmEucm0gPSBUUlVFKSwKICAgIHNkID0gc2QoY29uY2VudHJhdGlvbiwgbmEucm0gPSBUUlVFKSwKICAgIG4gPSBuKCkKICApICU+JQogICMjIENvbXB1dGUgdGhlIHN0YW5kYXJkIGVycm9ycyBmb3IgdGhlIG1lYW5zCiAgbXV0YXRlKHNlID0gc2QgLyBzcXJ0KG4pKSAlPiUKICBnZ3Bsb3QoYWVzKHggPSB0aW1lLCB5ID0gbWVhbiwgZmlsbCA9IHRpbWUpKSArCiAgdGhlbWVfYncoKSArCiAgZ2VvbV9iYXIoc3RhdCA9ICJpZGVudGl0eSIpICsKICBnZW9tX2Vycm9yYmFyKGFlcyh5bWluID0gbWVhbiAtIHNlLCB5bWF4ID0gbWVhbiArIHNlKSwgd2lkdGggPSAwLjIpICsKICBnZ3RpdGxlKCJCYXJwbG90IG9mIGdsdWNvc2UgbWVhc3VyZW1lbnRzIikgKwogIHlsYWIoImNvbmNlbnRyYXRpb24gKG1tb2wvbCkiKQpgYGAKCgpBIGJhcnBsb3QsIGhvd2V2ZXIsIGlzIG5vdCB2ZXJ5IGluZm9ybWF0aXZlLiAKVGhlIGhlaWdodCBvZiB0aGUKYmFycyBvbmx5IHByb3ZpZGVzIHVzIHdpdGggaW5mb3JtYXRpb24gb2YgdGhlIG1lYW4gYmxvb2QgcHJlc3N1cmUuCkhvd2V2ZXIsIHdlIGRvbid0IHNlZSB0aGUgYWN0dWFsIHVuZGVybHlpbmcgdmFsdWVzLCBzbyB3ZSBmb3IKaW5zdGFuY2UgZG9uJ3QgaGF2ZSBhbnkgaW5mb3JtYXRpb24gb24gdGhlIHNwcmVhZCBvZiB0aGUgZGF0YS4KSXQgaXMgdXN1YWxseSBtb3JlIGluZm9ybWF0aXZlIHRvIHJlcHJlc2VudCB0byB1bmRlcmx5aW5nCnZhbHVlcyBhcyBfcmF3XyBhcyBwb3NzaWJsZS4gCk5vdGUgdGhhdCBpdCBpcyBwb3NzaWJsZSB0byBhZGQgdGhlCnJhdyBkYXRhIG9uIHRoZSBiYXJwbG90LCBidXQgd2Ugc3RpbGwgd291bGQgbm90IHNlZSBhbnkgbWVhc3VyZXMKb2YgdGhlIHNwcmVhZCwgc3VjaCBhcyB0aGUgaW50ZXJxdWFydGlsZSByYW5nZS4KCkFub3RoZXIgY3J1Y2lhbCBhc3BlY3Qgb2YgdGhlIGRhdGEgYXJlIGFsc28gbm90IGRpc3BsYXllZDogCnRoZSBkYXRhIGFyZSBwYWlyZWQhCgoqKkJhc2VkIG9uIHRoZXNlIGNyaXRpc2lzbXMsIGNhbiB5b3UgdGhpbmsgb2YgYSBiZXR0ZXIqKgoqKnZpc3VhbGl6YXRpb24gc3RyYXRlZ3kgZm9yIHRoZSBjYXB0b3ByaWwgZGF0YT8qKgoKKipBZGQgeW91ciBwcm9wb3NlZCB2aXN1YWxpemF0aW9uIHN0cmF0ZWd5IGhlcmUqKgoKSXQgaXMgdXN1YWxseSBtb3JlIGluZm9ybWF0aXZlIHRvIHJlcHJlc2VudCB0byB1bmRlcmx5aW5nCnZhbHVlcyBhcyBfcmF3XyBhcyBwb3NzaWJsZS4gQm94cGxvdHMgYXJlIGlkZWFsIGZvciB0aGlzLgoKYGBge3J9CmRpYWJldGVzX2xvbmcgJT4lCiAgZ2dwbG90KGFlcyh4ID0gdGltZSwgeSA9IGNvbmNlbnRyYXRpb24sIGZpbGwgPSB0aW1lKSkgKwogIHNjYWxlX2ZpbGxfYnJld2VyKHBhbGV0dGUgPSAiUmRHeSIpICsKICB0aGVtZV9idygpICsKICBnZW9tX2JveHBsb3Qob3V0bGllci5zaGFwZSA9IE5BKSArCiAgZ2VvbV9qaXR0ZXIod2lkdGggPSAwLjIpICsKICBzdGF0X3N1bW1hcnkoCiAgICBmdW4gPSBtZWFuLCBnZW9tID0gInBvaW50IiwKICAgIHNoYXBlID0gNSwgc2l6ZSA9IDMsCiAgICBjb2xvciA9ICJibGFjayIKICApICsKICBnZ3RpdGxlKCJOYWl2ZSBib3hwbG90IG9mIGdsdWNvc2UgY29uY2VudHJhdGlvblxuTm90IGEgZ29vZCByZXByZXNlbnRhdGlvbiBmb3IgcGFpcmVkIGRhdGEhIikgKwogIHlsYWIoIkNvbmNlbnRyYXRpb24gKG1tb2wvbCkiKQpgYGAKCk5vdGUsIGhvd2V2ZXIgdGhhdCBmb3IgdGhlc2UgZGF0YSB0aGUgYm94cGxvdHMgYXJlIG1pc3NpbmcgYSBjcnVjaWFsIHBhcnQgb2YgdGhlIGluZm9ybWF0aW9uOiBUaGUgZGF0YSBhcmUgcGFpcmVkIQoKU28gdGhlIGJveHBsb3RzIG9mIGdsdWNvc2UgbWVhc3VyZW1lbnRzIGJlZm9yZSBhbmQgYWZ0ZXIgdGhlICBhcmUgbm90IHRlbGxpbmcgdGhlIGZ1bGwgc3RvcnkhIFRoZSBib3hwbG90IGlzIHRodXMgbm90IGEgZ29vZCBwbG90IGZvciBleHBsb3JpbmcgdGhlIGRhdGEgb2YgdGhlIGRpYWJldGVzIGRhdGFzZXQhIAoKIyMgUGFpcmVkIGRhdGEgCgpBIGxpbmUgcGxvdCBpcyBhIGJldHRlciBwbG90IGZvciBwYWlyZWQgZGF0YSEgCk5vdGUgdGhhdCB3ZSBhbHNvIGNvbnZlcnQgdGhlIHZhcmlhYmxlIHRpbWUgaW4gYSBmYWN0b3IgZmlyc3QgYW5kIHJlbGV2ZWwgaXQgc28gdGhhdCB0aGUgY29uY2VudHJhdGlvbiBiZWZvcmUgaXMgcGxvdHRlZCBmaXJzdC4gCgpgYGB7cn0KZGlhYmV0ZXNfbG9uZyA8LSBkaWFiZXRlc19sb25nICU+JQogIG11dGF0ZSh0aW1lID0gYXMuZmFjdG9yKHRpbWUpKSAlPiUgCiAgbXV0YXRlKHRpbWUgPSByZWxldmVsKHRpbWUsImJlZm9yZSIpKSAKZGlhYmV0ZXNfbG9uZyAlPiUKICAgIGdncGxvdChhZXMoeCA9IHRpbWUsIHkgPSBjb25jZW50cmF0aW9uKSkgKwogICAgZ2VvbV9wb2ludCgpICsKICAgZ2VvbV9saW5lKGFlcyhncm91cCA9IHBhdGllbnQpKSArCiAgICB5bGFiKCJDb25jZW50cmF0aW9uIChtbW9sL2wpIikgKwogICAgZ2d0aXRsZSgiSW5mb3JtYXRpdmUgcGxvdCBvbiBnbHVjb3NlIGxldmVsIGZvciBwYWlyZWQgZGF0YSIpCmBgYAoKV2Ugb2JzZXJ2ZSB0aGF0IHRoZSBnbHVjb3NlIGNvbmNlbnRyYXRpb25zIGluY3JlYXNlIGZvciBhbG1vc3QgYWxsIHBhdGllbnRzISAKVGhpcyBpcyBhIHBsb3QgdGhhdCBzaG93cyBhbGwgZmVhdHVyZXMgaW4gdGhlIGRhdGEgYW5kIGNsZWFybHkgaW5kaWNhdGVzIHRoYXQgdGhlIGRhdGEgYXJlIHBhaXJlZC4gCgpBbHRlcm5hdGl2ZWx5LCB3ZSBtaWdodCBwbG90IGNhbGN1bGF0ZSB0aGUgZGlmZmVyZW5jZXMgaW4gZ2x1Y29zZSBsZXZlbHMgYWZ0ZXIgYW5kIGJlZm9yZSBkb3NpbmcgZ2x1Y29zZSBmaXJzdCBhbmQgbWFrZSBhIGJveHBsb3Qgb2YgdGhlIGRpZmZlcmVuY2VzISAKCmBgYHtyfQpkaWFiZXRlcyA8LSBkaWFiZXRlcyAlPiUgCiAgbXV0YXRlKGRpZmZlcmVuY2UgPSBhZnRlciAtIGJlZm9yZSkKZGlhYmV0ZXMgJT4lIAogIGdncGxvdChhZXMoeCA9IiIsIHkgPSBkaWZmZXJlbmNlKSkgKwogIGdlb21fYm94cGxvdChvdXRsaWVyLnNoYXBlID0gTkEpICsKICBnZW9tX2ppdHRlcih3aWR0aCA9IDAuMikgKwogICB5bGFiKCJEaWZmZXJlbmNlIChtbW9sL2wpIikgKwogIHN0YXRfc3VtbWFyeSgKICAgIGZ1biA9IG1lYW4sIGdlb20gPSAicG9pbnQiLAogICAgc2hhcGUgPSA1LCBzaXplID0gMywKICAgIGNvbG9yID0gImJsYWNrIgogICkgKwogIGdndGl0bGUoIkRpZmZlcmVuY2UgaW4gZ2x1Y29zZSBjb25jZW50cmF0aW9uXG5iZWZvcmUgYW5kIGFmdGVyIHN1Z2FyIGludGFrZSIpCmBgYAoKVGhlIG1lYW4gZGlmZmVyZW5jZSBpbiBnbHVjb3NlIGNvbmNlbnRyYXRpb24gaXMgaGlnaGVyIHplcm8uIEl0IHNlZW1zIHRoYXQgZG9zaW5nIGdsdWNvc2UgaGFzIGluY3JlYXNlZCB0aGUgZ2x1Y29zZSBjb25jZW50cmF0aW9uIG9uIGF2ZXJhZ2Ugd2l0aCBhcm91bmQgMiBtbW9sL2wuIApJbiB0aGUgbmV4dCBleGVyY2lzZXMsIHdlIHdpbGwKbGVhcm4gaG93IHdlIGNhbiB0ZXN0IGlmIHRoaXMgaW5jcmVhc2UgaXMgc3RhdGlzdGljYWxseSBzaWduaWZpY2FudC4KCiMjIFFRLXBsb3QKCldlIGNhbiBub3cgYXNzZXNzIGlmIHRoZSBkaWZmZXJlbmNlcyBhcmUgbm9ybWFsbHkgZGlzdHJpYnV0ZWQuIAoKYGBge3J9CmRpYWJldGVzICU+JSAKICBnZ3Bsb3QoYWVzKHNhbXBsZSA9IGRpZmZlcmVuY2UpKSArCiAgZ2VvbV9xcSgpICsKICBnZW9tX3FxX2xpbmUoKSAKYGBgCgpUaGUgZGlmZmVyZW5jZXMgaW4gZ2x1Y29zZSBjb25jZW50cmF0aW9uIGFwcGVhcnMgdG8gYmUgbm9ybWFsbHkgZGlzdHJpYnV0ZWQuCgojIERlc2NyaXB0aXZlIHN0YXRpc3RpY3MKCi0gR2VuZXJhdGUgYSBjb2RlIGNodW5rIHRvIGNhbGN1bGF0ZSB1c2VmdWwgc3VtbWFyeSBzdGF0aXN0aWNzIGZvcgp0aGUgZGlhYmV0ZXMgZGF0YQoKYGBge3J9CmRpYWJldGVzU3VtIDwtIGRpYWJldGVzICU+JSAKICAgZ2F0aGVyKHRpbWUsIGNvbmNlbnRyYXRpb24sIC1wYXRpZW50KSAgJT4lCiAgIGdyb3VwX2J5KHRpbWUpICU+JQogIHN1bW1hcml6ZSgKICAgIG1lYW4gPSBtZWFuKGNvbmNlbnRyYXRpb24sIG5hLnJtID0gVFJVRSksCiAgICBzZCA9IHNkKGNvbmNlbnRyYXRpb24sIG5hLnJtID0gVFJVRSksCiAgICBuID0gbigpCiAgKSAlPiUKICAjIyBDb21wdXRlIHRoZSBzdGFuZGFyZCBlcnJvcnMgZm9yIHRoZSBtZWFucwogIG11dGF0ZShzZSA9IHNkIC8gc3FydChuKSkgCmRpYWJldGVzU3VtCmBgYAo=</div>
 <div class="footer">
     <hr>
     This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">

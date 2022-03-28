@@ -14,8 +14,8 @@
 
 <title>Exercise 4.4: Exploring the FEV dataset - solution</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -49,6 +49,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -187,6 +188,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -415,7 +419,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -431,7 +435,7 @@ div.tocify {
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-chalkboard-teacher"></span>
      
     Lectures
@@ -487,7 +491,7 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-laptop"></span>
      
     Labs
@@ -534,7 +538,7 @@ div.tocify {
 <div id="header">
 
 <div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
 <ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
@@ -552,19 +556,19 @@ div.tocify {
 </div>
 
 
-<div id="aims" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Aims</h1>
-<p>In this tutorial, you will learn how data exploration and plots can help you to discover confounding in a real datasets.</p>
+<div id="aims-of-this-exercise" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Aims of this exercise</h1>
+<p>In this exercise, you will learn how data exploration and plots can help you to discover confounding in a real datasets.</p>
 <p>You will also improve your data wrangling skills by importing, tidying, wrangling and visualizing data yourself.</p>
 </div>
 <div id="the-fev-dataset" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> The FEV dataset</h1>
+<h1><span class="header-section-number">2</span> The FEV dataset</h1>
 <p>The <code>forced expiratory volume</code> (FEV) is a measure of how much air a person can exhale (in liters) during a forced breath. In this dataset, the FEV of 606 children, between the ages of 6 and 17, were measured. The dataset also provides additional information on these children: their <code>age</code>, their <code>height</code>, their <code>gender</code> and, most importantly, whether the child is a smoker or a non-smoker.</p>
 <p>The goal of this experiment was to find out whether or not smoking has an effect on the FEV of children.</p>
 <p>Note: to analyse this dataset properly, we will need some relatively advanced modeling techniques. At the end of this week, you will have seen all three required steps to analyse such a dataset! For now, we will limit ourselves to exploring the data.</p>
 </div>
 <div id="load-libraries" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Load libraries</h1>
+<h1><span class="header-section-number">3</span> Load libraries</h1>
 <p>If you do not have these libraries installed, make sure to install them first by using the <code>install.packages()</code> function with missing the package name inside the parentheses (and using quotation marks, like <code>install.packages("car")</code>)</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -573,18 +577,17 @@ div.tocify {
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code></pre></div>
 </div>
 <div id="import-the-data" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Import the data</h1>
+<h1><span class="header-section-number">4</span> Import the data</h1>
 <p>Note: <code>fev.txt</code> is a tab-separated file: make sure to select the correct <code>readr</code> function!</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fev <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/fev.txt&quot;</span>)</span></code></pre></div>
-<pre><code>## 
+<pre><code>## Rows: 606 Columns: 5
 ## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   age = col_double(),
-##   fev = col_double(),
-##   height = col_double(),
-##   gender = col_character(),
-##   smoking = col_double()
-## )</code></pre>
+## Delimiter: &quot;\t&quot;
+## chr (1): gender
+## dbl (4): age, fev, height, smoking
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fev)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -593,7 +596,7 @@ div.tocify {
 </div>
 </div>
 <div id="data-wrangling" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> Data wrangling</h1>
+<h1><span class="header-section-number">5</span> Data wrangling</h1>
 <p>There are a few things in the formatting of the data that can be improved:</p>
 <ol style="list-style-type: decimal">
 <li><p>Both <code>gender</code> and <code>smoking</code> can be transformed to factors.</p></li>
@@ -613,7 +616,7 @@ div.tocify {
 <p>That’s better!</p>
 </div>
 <div id="data-exploration" class="section level1" number="6">
-<h1 number="6"><span class="header-section-number">6</span> Data exploration</h1>
+<h1><span class="header-section-number">6</span> Data exploration</h1>
 <p>Now, let’s make a first explorative plot, showing only the FEV for both smoking categories.</p>
 <p>Which type of plot do you suggest?</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fev <span class="sc">%&gt;%</span></span>
@@ -660,7 +663,7 @@ div.tocify {
 <p>There is a clear relationship between height and FEV. In addition, we see that for the large height values (&gt;175cm), we mainly find male subjects.</p>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2UgNC40OiBFeHBsb3JpbmcgdGhlIEZFViBkYXRhc2V0IC0gc29sdXRpb24iCmF1dGhvcjogIkxpZXZlbiBDbGVtZW50LCBKZXJvZW4gR2lsaXMgYW5kIE1pbGFuIE1hbGZhaXQiCmRhdGU6ICJzdGF0T21pY3MsIEdoZW50IFVuaXZlcnNpdHkgKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbykiCi0tLQoKIyBBaW1zCgpJbiB0aGlzIHR1dG9yaWFsLCB5b3Ugd2lsbCBsZWFybiBob3cgZGF0YSBleHBsb3JhdGlvbiBhbmQgcGxvdHMgY2FuIGhlbHAgeW91IHRvIGRpc2NvdmVyIGNvbmZvdW5kaW5nIGluIGEgcmVhbCBkYXRhc2V0cy4KCllvdSB3aWxsIGFsc28gaW1wcm92ZSB5b3VyIGRhdGEgd3JhbmdsaW5nIHNraWxscyBieSBpbXBvcnRpbmcsIHRpZHlpbmcsIHdyYW5nbGluZyBhbmQgdmlzdWFsaXppbmcgZGF0YSB5b3Vyc2VsZi4KCgojIFRoZSBGRVYgZGF0YXNldAoKVGhlIGBmb3JjZWQgZXhwaXJhdG9yeSB2b2x1bWVgIChGRVYpCmlzIGEgbWVhc3VyZSBvZiBob3cgbXVjaCBhaXIgYSBwZXJzb24gY2FuIGV4aGFsZSAoaW4gbGl0ZXJzKQpkdXJpbmcgIGEgZm9yY2VkIGJyZWF0aC4gSW4gdGhpcyBkYXRhc2V0LCB0aGUgRkVWIG9mIDYwNiBjaGlsZHJlbiwKYmV0d2VlbiB0aGUgYWdlcyBvZiA2IGFuZCAxNywgd2VyZSBtZWFzdXJlZC4gVGhlIGRhdGFzZXQKYWxzbyBwcm92aWRlcyBhZGRpdGlvbmFsIGluZm9ybWF0aW9uIG9uIHRoZXNlIGNoaWxkcmVuOgp0aGVpciBgYWdlYCwgdGhlaXIgYGhlaWdodGAsIHRoZWlyIGBnZW5kZXJgIGFuZCwgbW9zdAppbXBvcnRhbnRseSwgd2hldGhlciB0aGUgY2hpbGQgaXMgYSBzbW9rZXIgb3IgYSBub24tc21va2VyLgoKVGhlIGdvYWwgb2YgdGhpcyBleHBlcmltZW50IHdhcyB0byBmaW5kIG91dCB3aGV0aGVyIG9yIG5vdApzbW9raW5nIGhhcyBhbiBlZmZlY3Qgb24gdGhlIEZFViBvZiBjaGlsZHJlbi4KCk5vdGU6IHRvIGFuYWx5c2UgdGhpcyBkYXRhc2V0IHByb3Blcmx5LCB3ZSB3aWxsIG5lZWQgc29tZQpyZWxhdGl2ZWx5IGFkdmFuY2VkIG1vZGVsaW5nIHRlY2huaXF1ZXMuIEF0IHRoZSBlbmQgb2YgdGhpcwp3ZWVrLCB5b3Ugd2lsbCBoYXZlIHNlZW4gYWxsIHRocmVlIHJlcXVpcmVkIHN0ZXBzIHRvIGFuYWx5c2UKc3VjaCBhIGRhdGFzZXQhIEZvciBub3csIHdlIHdpbGwgbGltaXQgb3Vyc2VsdmVzIHRvIGV4cGxvcmluZwp0aGUgZGF0YS4KCiMgTG9hZCBsaWJyYXJpZXMKCklmIHlvdSBkbyBub3QgaGF2ZSB0aGVzZSBsaWJyYXJpZXMgaW5zdGFsbGVkLCBtYWtlIHN1cmUgdG8gaW5zdGFsbCB0aGVtIGZpcnN0CmJ5IHVzaW5nIHRoZSBgaW5zdGFsbC5wYWNrYWdlcygpYCBmdW5jdGlvbiB3aXRoIG1pc3NpbmcgdGhlIHBhY2thZ2UgbmFtZSBpbnNpZGUKdGhlIHBhcmVudGhlc2VzIChhbmQgdXNpbmcgcXVvdGF0aW9uIG1hcmtzLCBsaWtlIGBpbnN0YWxsLnBhY2thZ2VzKCJjYXIiKWApCgpgYGB7ciwgbWVzc2FnZSA9IEZBTFNFLCB3YXJuaW5nPUZBTFNFfQpsaWJyYXJ5KHJlYWRyKQpsaWJyYXJ5KGRwbHlyKQpsaWJyYXJ5KHRpZHl2ZXJzZSkKbGlicmFyeShnZ3Bsb3QyKQpsaWJyYXJ5KGNhcikKYGBgCgojIEltcG9ydCB0aGUgZGF0YQoKTm90ZTogYGZldi50eHRgIGlzIGEgdGFiLXNlcGFyYXRlZCBmaWxlOiBtYWtlIHN1cmUgdG8gc2VsZWN0IHRoZSBjb3JyZWN0IGByZWFkcmAKZnVuY3Rpb24hCgpgYGB7cn0KZmV2IDwtIHJlYWRfdHN2KCJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vc3RhdE9taWNzL1BTTFMyMS9kYXRhL2Zldi50eHQiKQpoZWFkKGZldikKYGBgCgojIERhdGEgd3JhbmdsaW5nCgpUaGVyZSBhcmUgYSBmZXcgdGhpbmdzIGluIHRoZSBmb3JtYXR0aW5nIG9mIHRoZQpkYXRhIHRoYXQgY2FuIGJlIGltcHJvdmVkOgoKMS4gQm90aCBgZ2VuZGVyYCBhbmQgYHNtb2tpbmdgIGNhbiBiZSB0cmFuc2Zvcm1lZCB0byBmYWN0b3JzLgoKMi4gVGhlIGBoZWlnaHRgIHZhcmlhYmxlIGlzIHdyaXR0ZW4gaW4gaW5jaGVzLiBBc3N1bWluZyB0aGF0CnRoaXMgYXVkaWVuY2UgaXMgbWFpbmx5IFBvcnR1Z3Vlc2UvQmVsZ2lhbiwgaW5jaGVzIGFyZSBoYXJkIHRvCmludGVycHJldC4gTGV0J3MgYWRkIGEgbmV3IGNvbHVtbiwgYGhlaWdodF9jbWAsIHdpdGggdGhlIHZhbHVlcwpjb252ZXJ0ZWQgdG8gY2VudGltZXRlcnMuCgpgYGB7cn0KZmV2IDwtIGZldiAlPiUKICBtdXRhdGUoZ2VuZGVyID0gYXMuZmFjdG9yKGdlbmRlcikpICU+JQogIG11dGF0ZShzbW9raW5nID0gYXMuZmFjdG9yKHNtb2tpbmcpKSAlPiUKICBtdXRhdGUoaGVpZ2h0X2NtID0gaGVpZ2h0ICogMi41NCkKCmhlYWQoZmV2KQpgYGAKClRoYXQncyBiZXR0ZXIhCgojIERhdGEgZXhwbG9yYXRpb24KCk5vdywgbGV0J3MgbWFrZSBhIGZpcnN0IGV4cGxvcmF0aXZlIHBsb3QsIHNob3dpbmcKb25seSB0aGUgRkVWIGZvciBib3RoIHNtb2tpbmcgY2F0ZWdvcmllcy4KCldoaWNoIHR5cGUgb2YgcGxvdCBkbyB5b3Ugc3VnZ2VzdD8KCmBgYHtyfQpmZXYgJT4lCiAgZ2dwbG90KGFlcyh4ID0gc21va2luZywgeSA9IGZldiwgZmlsbCA9IHNtb2tpbmcpKSArCiAgc2NhbGVfZmlsbF9tYW51YWwodmFsdWVzID0gYygiZGltZ3JleSIsICJmaXJlYnJpY2siKSkgKwogIHRoZW1lX2J3KCkgKwogIGdlb21fYm94cGxvdChvdXRsaWVyLnNoYXBlID0gTkEpICsKICBnZW9tX2ppdHRlcih3aWR0aCA9IDAuMiwgc2l6ZSA9IDAuMSkgKwogIGdndGl0bGUoIkJveHBsb3Qgb2YgRkVWIHZlcnN1cyBzbW9raW5nIikgKwogIHlsYWIoIkZFViAobCkiKSArCiAgeGxhYigic21va2luZyBzdGF0dXMiKQpgYGAKCkRpZCB5b3UgZXhwZWN0IHRoZXNlIHJlc3VsdHM/CgpJdCBhcHBlYXJzIHRoYXQgY2hpbGRyZW4gdGhhdCBzbW9rZSBoYXZlIGEgaGlnaGVyCm1lZGlhbiBGRVYgdGhhbiBjaGlsZHJlbiB0aGF0IGRvIG5vdCBzbW9rZS4KCmBgYHtyfQpmZXYgJT4lCiAgZ2dwbG90KGFlcyh4ID0gYWdlLCB5ID0gZmV2LCBjb2xvciA9IHNtb2tpbmcpKSArCiAgICBnZW9tX3BvaW50KCkgKyAKICAgIGdlb21fc21vb3RoKCkKYGBgCgpUaGUgdHJlbmRzIGluIHRoZSBwbG90IHNlZW1zIHRvIG1hdGNoIG11Y2ggbW9yZSB3aXRoIG91ciBleHBlY3RhdGlvbnMuIAoKRmlyc3QsIGl0IHNlZW1zCnRoYXQgd2UgZG8gbm90IGhhdmUgYW55IHNtb2tpbmcgY2hpbGRyZW4gb2YgYWdlcyA2LCA3IG9yIDguClNlY29uZCwgaXQgbm8gbG9uZ2VyIHNlZW1zIHRoYXQgc21va2VycyBoYXZlIGEgaGlnaGVyIEZFVgp0aGFuIG5vbi1zbW9rZXJzOyBvbiB0aGUgY29udHJhcnkgc21va2luZyBzZWVtcyB0byBsZWFkIHRvIGEgbG93ZXIgbHVuZyBjYXBhY2l0eSBmb3IgdGhlIGVsZGVyIHB1cGlscy4KClRoaXMgc2hvd3MgdGhhdCBhY2NvdW50aW5nIGZvciBpbXBvcnRhbnQgY29uZm91bmRlcnMKKGluIHRoaXMgY2FzZSBhZ2UpIGlzIGNydWNpYWwhIElmIHdlIHNpbXBseSBhbmFseXNlZCBiYXNlZCBvbgp0aGUgc21va2luZyBzdGF0dXMgYW5kIEZFViB2YWx1ZXMgb25seSwgd2Ugd291bGQgaGF2ZSBtYWRlIHdyb25nIGNvbmNsdXNpb25zLgoKQ2FuIHdlIHByb3ZpZGUgYWRkaXRpb25hbCBpbnNpZ2h0cyBpbiB0aGUgZGF0YSwgZS5nLiBieSBhY2NvdW50aW5nIGZvciBvdGhlciB1c2VmdWwgZXhwbGFuYXRvcnkgdmFyaWFibGVzPwoKYGBge3J9CmZldiAlPiUKICBnZ3Bsb3QoYWVzKHggPSBhZ2UsIHkgPSBmZXYsIGNvbG9yID0gc21va2luZykpICsKICAgIGdlb21fcG9pbnQoKSArIAogICAgZ2VvbV9zbW9vdGgoKSArCiAgICBmYWNldF9ncmlkKGNvbHMgPSB2YXJzKGdlbmRlcikpCmBgYAoKVGhpcyBwbG90IGhvbGRzIG9uZSBleHRyYSBsZXZlbCBvZiBpbmZvcm1hdGlvbiwgdGhlIGdlbmRlcgpvZiB0aGUgY2hpbGQuIEVzcGVjaWFsbHkgZm9yIGhpZ2hlciBhZ2VzLCB0aGUgRkVWCmlzIGhpZ2hlciBmb3IgbWFsZXMgYXMgY29tcGFyZWQgdG8gZmVtYWxlcy4KClRoZSBvbmx5IHNvdXJjZSBvZiBpbmZvcm1hdGlvbiB0aGF0IGlzIGxhY2tpbmcgaXMgYGhlaWdodGAuCldlIGNvdWxkIHNpbXBseSBtYWtlIGEKc2NhdHRlcnBsb3QgZGlzcGxheWluZyB0aGUgRkVWIGluIGZ1bmN0aW9uIG9mIGEgY2hpbGQncwpoZWlnaHQgKGluIGNtKS4gQWRkaXRpb25hbGx5LCB3ZSBjb3VsZCBjb2xvciB0aGUgZG90cyBiYXNlZApvbiBnZW5kZXIgYW5kIG1ha2luZyB0d28gcGxvdHMgYWNjb3JkaW5nIHRvIHRoZSBzbW9raW5nIHN0YXR1cy4KCmBgYHtyfQpmZXYgJT4lCiAgZ2dwbG90KGFlcyh4ID0gaGVpZ2h0X2NtLCB5ID0gZmV2LCBjb2xvciA9IGdlbmRlcikpICsKICBnZW9tX3BvaW50KCkgKwogIHNjYWxlX2NvbG9yX21hbnVhbCh2YWx1ZXMgPSBjKCJkYXJrb3JjaGlkIiwgIm9saXZlZHJhYjQiKSkgKwogIHRoZW1lX2J3KCkgKwogIGdndGl0bGUoIkJveHBsb3Qgb2YgRkVWIHZlcnN1cyBoZWlnaHQiKSArCiAgeWxhYigiRkVWIChsKSIpICsKICB4bGFiKCJIZWlnaHQgKGNtKSIpICsKICBmYWNldF9ncmlkKGNvbHMgPSB2YXJzKHNtb2tpbmcpKQpgYGAKClRoZXJlIGlzIGEgY2xlYXIgcmVsYXRpb25zaGlwIGJldHdlZW4gaGVpZ2h0IGFuZCBGRVYuCkluIGFkZGl0aW9uLCB3ZSBzZWUgdGhhdCBmb3IgdGhlIGxhcmdlIGhlaWdodCB2YWx1ZXMKKD4xNzVjbSksIHdlIG1haW5seSBmaW5kIG1hbGUgc3ViamVjdHMuCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2UgNC40OiBFeHBsb3JpbmcgdGhlIEZFViBkYXRhc2V0IC0gc29sdXRpb24iCmF1dGhvcjogIkxpZXZlbiBDbGVtZW50LCBKZXJvZW4gR2lsaXMgYW5kIE1pbGFuIE1hbGZhaXQiCmRhdGU6ICJzdGF0T21pY3MsIEdoZW50IFVuaXZlcnNpdHkgKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbykiCi0tLQoKIyBBaW1zIG9mIHRoaXMgZXhlcmNpc2UKCkluIHRoaXMgZXhlcmNpc2UsIHlvdSB3aWxsIGxlYXJuIGhvdyBkYXRhIGV4cGxvcmF0aW9uIGFuZCBwbG90cyBjYW4gaGVscCB5b3UgdG8gZGlzY292ZXIgY29uZm91bmRpbmcgaW4gYSByZWFsIGRhdGFzZXRzLgoKWW91IHdpbGwgYWxzbyBpbXByb3ZlIHlvdXIgZGF0YSB3cmFuZ2xpbmcgc2tpbGxzIGJ5IGltcG9ydGluZywgdGlkeWluZywgd3JhbmdsaW5nIGFuZCB2aXN1YWxpemluZyBkYXRhIHlvdXJzZWxmLgoKCiMgVGhlIEZFViBkYXRhc2V0CgpUaGUgYGZvcmNlZCBleHBpcmF0b3J5IHZvbHVtZWAgKEZFVikKaXMgYSBtZWFzdXJlIG9mIGhvdyBtdWNoIGFpciBhIHBlcnNvbiBjYW4gZXhoYWxlIChpbiBsaXRlcnMpCmR1cmluZyAgYSBmb3JjZWQgYnJlYXRoLiBJbiB0aGlzIGRhdGFzZXQsIHRoZSBGRVYgb2YgNjA2IGNoaWxkcmVuLApiZXR3ZWVuIHRoZSBhZ2VzIG9mIDYgYW5kIDE3LCB3ZXJlIG1lYXN1cmVkLiBUaGUgZGF0YXNldAphbHNvIHByb3ZpZGVzIGFkZGl0aW9uYWwgaW5mb3JtYXRpb24gb24gdGhlc2UgY2hpbGRyZW46CnRoZWlyIGBhZ2VgLCB0aGVpciBgaGVpZ2h0YCwgdGhlaXIgYGdlbmRlcmAgYW5kLCBtb3N0CmltcG9ydGFudGx5LCB3aGV0aGVyIHRoZSBjaGlsZCBpcyBhIHNtb2tlciBvciBhIG5vbi1zbW9rZXIuCgpUaGUgZ29hbCBvZiB0aGlzIGV4cGVyaW1lbnQgd2FzIHRvIGZpbmQgb3V0IHdoZXRoZXIgb3Igbm90CnNtb2tpbmcgaGFzIGFuIGVmZmVjdCBvbiB0aGUgRkVWIG9mIGNoaWxkcmVuLgoKTm90ZTogdG8gYW5hbHlzZSB0aGlzIGRhdGFzZXQgcHJvcGVybHksIHdlIHdpbGwgbmVlZCBzb21lCnJlbGF0aXZlbHkgYWR2YW5jZWQgbW9kZWxpbmcgdGVjaG5pcXVlcy4gQXQgdGhlIGVuZCBvZiB0aGlzCndlZWssIHlvdSB3aWxsIGhhdmUgc2VlbiBhbGwgdGhyZWUgcmVxdWlyZWQgc3RlcHMgdG8gYW5hbHlzZQpzdWNoIGEgZGF0YXNldCEgRm9yIG5vdywgd2Ugd2lsbCBsaW1pdCBvdXJzZWx2ZXMgdG8gZXhwbG9yaW5nCnRoZSBkYXRhLgoKIyBMb2FkIGxpYnJhcmllcwoKSWYgeW91IGRvIG5vdCBoYXZlIHRoZXNlIGxpYnJhcmllcyBpbnN0YWxsZWQsIG1ha2Ugc3VyZSB0byBpbnN0YWxsIHRoZW0gZmlyc3QKYnkgdXNpbmcgdGhlIGBpbnN0YWxsLnBhY2thZ2VzKClgIGZ1bmN0aW9uIHdpdGggbWlzc2luZyB0aGUgcGFja2FnZSBuYW1lIGluc2lkZQp0aGUgcGFyZW50aGVzZXMgKGFuZCB1c2luZyBxdW90YXRpb24gbWFya3MsIGxpa2UgYGluc3RhbGwucGFja2FnZXMoImNhciIpYCkKCmBgYHtyLCBtZXNzYWdlID0gRkFMU0UsIHdhcm5pbmc9RkFMU0V9CmxpYnJhcnkocmVhZHIpCmxpYnJhcnkoZHBseXIpCmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGdncGxvdDIpCmxpYnJhcnkoY2FyKQpgYGAKCiMgSW1wb3J0IHRoZSBkYXRhCgpOb3RlOiBgZmV2LnR4dGAgaXMgYSB0YWItc2VwYXJhdGVkIGZpbGU6IG1ha2Ugc3VyZSB0byBzZWxlY3QgdGhlIGNvcnJlY3QgYHJlYWRyYApmdW5jdGlvbiEKCmBgYHtyfQpmZXYgPC0gcmVhZF90c3YoImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9zdGF0T21pY3MvUFNMUzIxL2RhdGEvZmV2LnR4dCIpCmhlYWQoZmV2KQpgYGAKCiMgRGF0YSB3cmFuZ2xpbmcKClRoZXJlIGFyZSBhIGZldyB0aGluZ3MgaW4gdGhlIGZvcm1hdHRpbmcgb2YgdGhlCmRhdGEgdGhhdCBjYW4gYmUgaW1wcm92ZWQ6CgoxLiBCb3RoIGBnZW5kZXJgIGFuZCBgc21va2luZ2AgY2FuIGJlIHRyYW5zZm9ybWVkIHRvIGZhY3RvcnMuCgoyLiBUaGUgYGhlaWdodGAgdmFyaWFibGUgaXMgd3JpdHRlbiBpbiBpbmNoZXMuIEFzc3VtaW5nIHRoYXQKdGhpcyBhdWRpZW5jZSBpcyBtYWlubHkgUG9ydHVndWVzZS9CZWxnaWFuLCBpbmNoZXMgYXJlIGhhcmQgdG8KaW50ZXJwcmV0LiBMZXQncyBhZGQgYSBuZXcgY29sdW1uLCBgaGVpZ2h0X2NtYCwgd2l0aCB0aGUgdmFsdWVzCmNvbnZlcnRlZCB0byBjZW50aW1ldGVycy4KCmBgYHtyfQpmZXYgPC0gZmV2ICU+JQogIG11dGF0ZShnZW5kZXIgPSBhcy5mYWN0b3IoZ2VuZGVyKSkgJT4lCiAgbXV0YXRlKHNtb2tpbmcgPSBhcy5mYWN0b3Ioc21va2luZykpICU+JQogIG11dGF0ZShoZWlnaHRfY20gPSBoZWlnaHQgKiAyLjU0KQoKaGVhZChmZXYpCmBgYAoKVGhhdCdzIGJldHRlciEKCiMgRGF0YSBleHBsb3JhdGlvbgoKTm93LCBsZXQncyBtYWtlIGEgZmlyc3QgZXhwbG9yYXRpdmUgcGxvdCwgc2hvd2luZwpvbmx5IHRoZSBGRVYgZm9yIGJvdGggc21va2luZyBjYXRlZ29yaWVzLgoKV2hpY2ggdHlwZSBvZiBwbG90IGRvIHlvdSBzdWdnZXN0PwoKYGBge3J9CmZldiAlPiUKICBnZ3Bsb3QoYWVzKHggPSBzbW9raW5nLCB5ID0gZmV2LCBmaWxsID0gc21va2luZykpICsKICBzY2FsZV9maWxsX21hbnVhbCh2YWx1ZXMgPSBjKCJkaW1ncmV5IiwgImZpcmVicmljayIpKSArCiAgdGhlbWVfYncoKSArCiAgZ2VvbV9ib3hwbG90KG91dGxpZXIuc2hhcGUgPSBOQSkgKwogIGdlb21faml0dGVyKHdpZHRoID0gMC4yLCBzaXplID0gMC4xKSArCiAgZ2d0aXRsZSgiQm94cGxvdCBvZiBGRVYgdmVyc3VzIHNtb2tpbmciKSArCiAgeWxhYigiRkVWIChsKSIpICsKICB4bGFiKCJzbW9raW5nIHN0YXR1cyIpCmBgYAoKRGlkIHlvdSBleHBlY3QgdGhlc2UgcmVzdWx0cz8KCkl0IGFwcGVhcnMgdGhhdCBjaGlsZHJlbiB0aGF0IHNtb2tlIGhhdmUgYSBoaWdoZXIKbWVkaWFuIEZFViB0aGFuIGNoaWxkcmVuIHRoYXQgZG8gbm90IHNtb2tlLgoKYGBge3J9CmZldiAlPiUKICBnZ3Bsb3QoYWVzKHggPSBhZ2UsIHkgPSBmZXYsIGNvbG9yID0gc21va2luZykpICsKICAgIGdlb21fcG9pbnQoKSArIAogICAgZ2VvbV9zbW9vdGgoKQpgYGAKClRoZSB0cmVuZHMgaW4gdGhlIHBsb3Qgc2VlbXMgdG8gbWF0Y2ggbXVjaCBtb3JlIHdpdGggb3VyIGV4cGVjdGF0aW9ucy4gCgpGaXJzdCwgaXQgc2VlbXMKdGhhdCB3ZSBkbyBub3QgaGF2ZSBhbnkgc21va2luZyBjaGlsZHJlbiBvZiBhZ2VzIDYsIDcgb3IgOC4KU2Vjb25kLCBpdCBubyBsb25nZXIgc2VlbXMgdGhhdCBzbW9rZXJzIGhhdmUgYSBoaWdoZXIgRkVWCnRoYW4gbm9uLXNtb2tlcnM7IG9uIHRoZSBjb250cmFyeSBzbW9raW5nIHNlZW1zIHRvIGxlYWQgdG8gYSBsb3dlciBsdW5nIGNhcGFjaXR5IGZvciB0aGUgZWxkZXIgcHVwaWxzLgoKVGhpcyBzaG93cyB0aGF0IGFjY291bnRpbmcgZm9yIGltcG9ydGFudCBjb25mb3VuZGVycwooaW4gdGhpcyBjYXNlIGFnZSkgaXMgY3J1Y2lhbCEgSWYgd2Ugc2ltcGx5IGFuYWx5c2VkIGJhc2VkIG9uCnRoZSBzbW9raW5nIHN0YXR1cyBhbmQgRkVWIHZhbHVlcyBvbmx5LCB3ZSB3b3VsZCBoYXZlIG1hZGUgd3JvbmcgY29uY2x1c2lvbnMuCgpDYW4gd2UgcHJvdmlkZSBhZGRpdGlvbmFsIGluc2lnaHRzIGluIHRoZSBkYXRhLCBlLmcuIGJ5IGFjY291bnRpbmcgZm9yIG90aGVyIHVzZWZ1bCBleHBsYW5hdG9yeSB2YXJpYWJsZXM/CgpgYGB7cn0KZmV2ICU+JQogIGdncGxvdChhZXMoeCA9IGFnZSwgeSA9IGZldiwgY29sb3IgPSBzbW9raW5nKSkgKwogICAgZ2VvbV9wb2ludCgpICsgCiAgICBnZW9tX3Ntb290aCgpICsKICAgIGZhY2V0X2dyaWQoY29scyA9IHZhcnMoZ2VuZGVyKSkKYGBgCgpUaGlzIHBsb3QgaG9sZHMgb25lIGV4dHJhIGxldmVsIG9mIGluZm9ybWF0aW9uLCB0aGUgZ2VuZGVyCm9mIHRoZSBjaGlsZC4gRXNwZWNpYWxseSBmb3IgaGlnaGVyIGFnZXMsIHRoZSBGRVYKaXMgaGlnaGVyIGZvciBtYWxlcyBhcyBjb21wYXJlZCB0byBmZW1hbGVzLgoKVGhlIG9ubHkgc291cmNlIG9mIGluZm9ybWF0aW9uIHRoYXQgaXMgbGFja2luZyBpcyBgaGVpZ2h0YC4KV2UgY291bGQgc2ltcGx5IG1ha2UgYQpzY2F0dGVycGxvdCBkaXNwbGF5aW5nIHRoZSBGRVYgaW4gZnVuY3Rpb24gb2YgYSBjaGlsZCdzCmhlaWdodCAoaW4gY20pLiBBZGRpdGlvbmFsbHksIHdlIGNvdWxkIGNvbG9yIHRoZSBkb3RzIGJhc2VkCm9uIGdlbmRlciBhbmQgbWFraW5nIHR3byBwbG90cyBhY2NvcmRpbmcgdG8gdGhlIHNtb2tpbmcgc3RhdHVzLgoKYGBge3J9CmZldiAlPiUKICBnZ3Bsb3QoYWVzKHggPSBoZWlnaHRfY20sIHkgPSBmZXYsIGNvbG9yID0gZ2VuZGVyKSkgKwogIGdlb21fcG9pbnQoKSArCiAgc2NhbGVfY29sb3JfbWFudWFsKHZhbHVlcyA9IGMoImRhcmtvcmNoaWQiLCAib2xpdmVkcmFiNCIpKSArCiAgdGhlbWVfYncoKSArCiAgZ2d0aXRsZSgiQm94cGxvdCBvZiBGRVYgdmVyc3VzIGhlaWdodCIpICsKICB5bGFiKCJGRVYgKGwpIikgKwogIHhsYWIoIkhlaWdodCAoY20pIikgKwogIGZhY2V0X2dyaWQoY29scyA9IHZhcnMoc21va2luZykpCmBgYAoKVGhlcmUgaXMgYSBjbGVhciByZWxhdGlvbnNoaXAgYmV0d2VlbiBoZWlnaHQgYW5kIEZFVi4KSW4gYWRkaXRpb24sIHdlIHNlZSB0aGF0IGZvciB0aGUgbGFyZ2UgaGVpZ2h0IHZhbHVlcwooPjE3NWNtKSwgd2UgbWFpbmx5IGZpbmQgbWFsZSBzdWJqZWN0cy4K</div>
 <div class="footer">
     <hr>
     This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
