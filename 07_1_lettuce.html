@@ -579,7 +579,7 @@ div.tocify {
 <h1><span class="header-section-number">3</span> Data import</h1>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lettuce <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/freshweight_lettuce.txt&quot;</span>)</span></code></pre></div>
 <pre><code>## Rows: 28 Columns: 3
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (1): treatment
 ## dbl (2): id, freshweight
@@ -590,9 +590,9 @@ div.tocify {
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(lettuce)</span></code></pre></div>
 <pre><code>## Rows: 28
 ## Columns: 3
-## $ id          &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
-## $ treatment   &lt;chr&gt; &quot;control&quot;, &quot;control&quot;, &quot;control&quot;, &quot;control&quot;, &quot;control&quot;, &quot;co…
-## $ freshweight &lt;dbl&gt; 38, 34, 41, 43, 43, 29, 38, 59, 64, 57, 56, 50, 64, 62, 38…</code></pre>
+## $ id          &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 1…
+## $ treatment   &lt;chr&gt; &quot;control&quot;, &quot;control&quot;, &quot;control&quot;, &quot;control&quot;, &quot;con…
+## $ freshweight &lt;dbl&gt; 38, 34, 41, 43, 43, 29, 38, 59, 64, 57, 56, 50, …</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## treatment to factor</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>lettuce <span class="ot">&lt;-</span> lettuce <span class="sc">%&gt;%</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">treatment =</span> <span class="fu">as.factor</span>(treatment))</span></code></pre></div>

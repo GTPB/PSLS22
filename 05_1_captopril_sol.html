@@ -14,8 +14,8 @@
 
 <title>Exercise 5.1: Hypothesis testing on the captopril dataset - solution</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -49,6 +49,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -187,6 +188,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -415,7 +419,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -431,7 +435,7 @@ div.tocify {
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-chalkboard-teacher"></span>
      
     Lectures
@@ -487,7 +491,7 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-laptop"></span>
      
     Labs
@@ -534,7 +538,7 @@ div.tocify {
 <div id="header">
 
 <div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
 <ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
@@ -561,17 +565,15 @@ div.tocify {
 <p>First, load the required R libraries:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <div id="import-the-data" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Import the data</h1>
+<h1><span class="header-section-number">1</span> Import the data</h1>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>captopril <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/captopril.txt&quot;</span>)</span></code></pre></div>
-<pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   id = col_double(),
-##   SBPb = col_double(),
-##   DBPb = col_double(),
-##   SBPa = col_double(),
-##   DBPa = col_double()
-## )</code></pre>
+<pre><code>## Rows: 15 Columns: 5
+## ── Column specification ──────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## dbl (5): id, SBPb, DBPb, SBPa, DBPa
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>captopril</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -580,7 +582,7 @@ div.tocify {
 </div>
 </div>
 <div id="data-exploration" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Data exploration</h1>
+<h1><span class="header-section-number">2</span> Data exploration</h1>
 <p>Before we start delving into the data in order to solve our research hypothesis, we have to explore our data. Our dataset looks like this;</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(captopril)</span></code></pre></div>
 <div data-pagedtable="false">
@@ -628,11 +630,11 @@ div.tocify {
 <p>Let’s start of with question 1.</p>
 </div>
 <div id="question-1" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Question 1</h1>
+<h1><span class="header-section-number">3</span> Question 1</h1>
 <p>Is the average baseline (i.e. before treatment) systolic blood pressure (SBP) higher than the threshold for hypertension of 140 mmHg?</p>
 <p>We can test this hypothesis using a <strong>one-sample t-test</strong>, since we’re only interested in a single value (the systolic blood pressure before treatment) from each subject.</p>
 <div id="assess-the-assumptions" class="section level2" number="3.1">
-<h2 number="3.1"><span class="header-section-number">3.1</span> Assess the assumptions</h2>
+<h2><span class="header-section-number">3.1</span> Assess the assumptions</h2>
 <p>Before we can perform a t-test, we must check that the required assumptions are met!</p>
 <ol style="list-style-type: decimal">
 <li>The observations are independent</li>
@@ -661,7 +663,7 @@ div.tocify {
 <p>We can see that all of the data lies nicely around the quantile-quantile line (black line). As such, we may conclude that our data is normally distributed.</p>
 </div>
 <div id="hypothesis-test" class="section level2" number="3.2">
-<h2 number="3.2"><span class="header-section-number">3.2</span> Hypothesis test</h2>
+<h2><span class="header-section-number">3.2</span> Hypothesis test</h2>
 <p>Here, we will test if mean systolic blood pressure at baseline is significantly higher than 140 mmHg. More specifically, we will test the null hypothesis;</p>
 <p><span class="math inline">\(H_0:\)</span> the mean SBPb is equal to 140 mmHg</p>
 <p>versus the alternative hypothesis;</p>
@@ -685,7 +687,7 @@ div.tocify {
 ##  176.9333</code></pre>
 </div>
 <div id="conclusion" class="section level2" number="3.3">
-<h2 number="3.3"><span class="header-section-number">3.3</span> Conclusion</h2>
+<h2><span class="header-section-number">3.3</span> Conclusion</h2>
 <p>When writing a conclusion on your research hypothesis, it is very important to be precise, concise, and complete.</p>
 <p>An example of such a conclusion for our research question is given below:</p>
 <p>We can conclude that the mean systolic baseline blood pressure of patients in the captopril study is extremely significantly higher than the threshold for hypertension of 140 mmHg (p &lt;&lt; 0.001). The mean SBPb equals 176.93 mmHg with a 95% confidence interval of [167.58, 167.58, +<span class="math inline">\(\infty\)</span>]).</p>
@@ -695,7 +697,7 @@ div.tocify {
 </div>
 </div>
 <div id="question-2" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Question 2</h1>
+<h1><span class="header-section-number">4</span> Question 2</h1>
 <p>Is the average SBP before captopril treatment different from the average SBP after captopril treatment?</p>
 <p>As the data are paired, there will be a strong correlation between the BP values before and after treatment of each individual patient. We can show this with a scatterplot.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>captopril <span class="sc">%&gt;%</span></span>
@@ -718,7 +720,7 @@ div.tocify {
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p><img src="05_1_captopril_sol_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <div id="check-the-assumptions" class="section level2" number="4.1">
-<h2 number="4.1"><span class="header-section-number">4.1</span> Check the assumptions</h2>
+<h2><span class="header-section-number">4.1</span> Check the assumptions</h2>
 <p>The paired t-test has 2 assumptions:</p>
 <ol style="list-style-type: decimal">
 <li><p>The blood pressure differences are independent of each other.</p></li>
@@ -734,7 +736,7 @@ div.tocify {
 <p>We can see that all of the data lies nicely around the quantile-quantile line. As such, we may assume that our data are normally distributed. As our assumptions are met we may continue with performing the paired t-test.</p>
 </div>
 <div id="hypothesis-test-1" class="section level2" number="4.2">
-<h2 number="4.2"><span class="header-section-number">4.2</span> Hypothesis test</h2>
+<h2><span class="header-section-number">4.2</span> Hypothesis test</h2>
 <p>We will perform a <strong>paired t-test</strong>.</p>
 <ul>
 <li>The null hypothesis of the test is that the blood pressure before and after the treatment with captopril is on average equal.</li>
@@ -755,12 +757,12 @@ div.tocify {
 ##                18.93333</code></pre>
 </div>
 <div id="conclusion-1" class="section level2" number="4.3">
-<h2 number="4.3"><span class="header-section-number">4.3</span> Conclusion</h2>
+<h2><span class="header-section-number">4.3</span> Conclusion</h2>
 <p>There is on average an extremely significant blood pressure drop upon administering captopril to patients with hypertension (p &lt;&lt; 0.001). The systolic blood pressure decreases on average with 18.9 mmHg upon the treatment with captopril (95% CI [13.9, 23.9]).</p>
 </div>
 </div>
 <div id="alternative-solution-one-sample-t-test-on-the-difference" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> Alternative solution: One-sample t-test on the difference</h1>
+<h1><span class="header-section-number">5</span> Alternative solution: One-sample t-test on the difference</h1>
 <p>Performing a paired t-test is analogous to performing a one-sample t-test on the difference between both groups.</p>
 <p>This can be easily seen from the output of the paired two-sample t-test. The alternative hypothesis <span class="math inline">\(HA\)</span> there states that the “true difference in means is not equal to 0”. So internally, R will actually perform a one-sample t-test on the difference, and check whether or not the true mean difference is equal to 0. We can also set this up manually.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(captopril<span class="sc">$</span>deltaSBP, <span class="at">mu =</span> <span class="dv">0</span>)</span></code></pre></div>

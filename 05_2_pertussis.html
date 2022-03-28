@@ -14,8 +14,8 @@
 
 <title>Exercise 5.2: Hypothesis testing on the pertussis example</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -49,6 +49,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -187,6 +188,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -415,7 +419,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -431,7 +435,7 @@ div.tocify {
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-chalkboard-teacher"></span>
      
     Lectures
@@ -487,7 +491,7 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-laptop"></span>
      
     Labs
@@ -534,7 +538,7 @@ div.tocify {
 <div id="header">
 
 <div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
 <ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
@@ -553,7 +557,7 @@ div.tocify {
 
 
 <div id="aim-of-this-tutorial" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Aim of this tutorial</h1>
+<h1><span class="header-section-number">1</span> Aim of this tutorial</h1>
 <p>Upon this exercise you can</p>
 <ol style="list-style-type: decimal">
 <li>conduct a statistical hypothesis test for a two group comparison in R and to interpret the results.</li>
@@ -563,7 +567,7 @@ div.tocify {
 </ol>
 </div>
 <div id="background" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Background</h1>
+<h1><span class="header-section-number">2</span> Background</h1>
 <p>Researchers wanted to study the immune response on pertussis. They have set up an experiments with 40 rats. 16 rats were infected with pertussis and 24 rats received a control treatment. Researchers measured the white blood cell concentration (WBC) in each rat (count per mm<span class="math inline">\(^3\)</span>.</p>
 <p>De data consists of two variables:</p>
 <ul>
@@ -576,7 +580,7 @@ div.tocify {
 </ul>
 </div>
 <div id="import-the-dataset" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Import the dataset</h1>
+<h1><span class="header-section-number">3</span> Import the dataset</h1>
 <p>Load the libraries</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <p>Data path:</p>
@@ -584,32 +588,32 @@ div.tocify {
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>wbcon <span class="ot">&lt;-</span> ...</span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(...)</span></code></pre></div>
 <div id="aim-of-the-study" class="section level2" number="3.1">
-<h2 number="3.1"><span class="header-section-number">3.1</span> Aim of the study</h2>
+<h2><span class="header-section-number">3.1</span> Aim of the study</h2>
 <p>The overarching goal of this study was to assess if the white blood cell count changes upon pertussis infection. To this end, researchers randomized 40 rats to two treatments: A control treatment and a treatment in which the rat was infected with pertussis.</p>
 </div>
 </div>
 <div id="data-exploration" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Data exploration</h1>
+<h1><span class="header-section-number">4</span> Data exploration</h1>
 <p>A crucial first step in a data analysis is to visualize and to explore the raw data.</p>
 <p>This will allow us to gain insight in the data.</p>
 <p>A secondary goal of the data exploration is to check the assumptions of the test that we will perform.</p>
 <div id="which-test-will-you-perform-to-compare-the-white-blood-cell-count-between-infected-and-control-rats" class="section level2" number="4.1">
-<h2 number="4.1"><span class="header-section-number">4.1</span> Which test will you perform to compare the white blood cell count between infected and control rats?</h2>
+<h2><span class="header-section-number">4.1</span> Which test will you perform to compare the white blood cell count between infected and control rats?</h2>
 </div>
 <div id="what-are-the-assumptions-of-this-test" class="section level2" number="4.2">
-<h2 number="4.2"><span class="header-section-number">4.2</span> What are the assumptions of this test?</h2>
+<h2><span class="header-section-number">4.2</span> What are the assumptions of this test?</h2>
 </div>
 <div id="use-the-appropriate-plots-to-assess-the-assumptions" class="section level2" number="4.3">
-<h2 number="4.3"><span class="header-section-number">4.3</span> Use the appropriate plots to assess the assumptions</h2>
+<h2><span class="header-section-number">4.3</span> Use the appropriate plots to assess the assumptions</h2>
 </div>
 </div>
 <div id="assess-the-research-question-with-the-appropriate-t-test" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> Assess the research question with the appropriate t-test</h1>
+<h1><span class="header-section-number">5</span> Assess the research question with the appropriate t-test</h1>
 <div id="analysis" class="section level2" number="5.1">
-<h2 number="5.1"><span class="header-section-number">5.1</span> Analysis</h2>
+<h2><span class="header-section-number">5.1</span> Analysis</h2>
 </div>
 <div id="conclusion" class="section level2" number="5.2">
-<h2 number="5.2"><span class="header-section-number">5.2</span> Conclusion</h2>
+<h2><span class="header-section-number">5.2</span> Conclusion</h2>
 </div>
 </div>
 

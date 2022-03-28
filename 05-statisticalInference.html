@@ -605,13 +605,20 @@ div.tocify {
   </script>
 </div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(captopril)</span></code></pre></div>
-<pre><code>       id            SBPb            DBPb            SBPa          DBPa      
- Min.   : 1.0   Min.   :146.0   Min.   : 98.0   Min.   :129   Min.   : 82.0  
- 1st Qu.: 4.5   1st Qu.:163.5   1st Qu.:103.0   1st Qu.:146   1st Qu.: 98.0  
- Median : 8.0   Median :174.0   Median :112.0   Median :157   Median :103.0  
- Mean   : 8.0   Mean   :176.9   Mean   :112.3   Mean   :158   Mean   :103.1  
- 3rd Qu.:11.5   3rd Qu.:192.5   3rd Qu.:121.5   3rd Qu.:168   3rd Qu.:108.0  
- Max.   :15.0   Max.   :210.0   Max.   :130.0   Max.   :201   Max.   :125.0  </code></pre>
+<pre><code>       id            SBPb            DBPb            SBPa    
+ Min.   : 1.0   Min.   :146.0   Min.   : 98.0   Min.   :129  
+ 1st Qu.: 4.5   1st Qu.:163.5   1st Qu.:103.0   1st Qu.:146  
+ Median : 8.0   Median :174.0   Median :112.0   Median :157  
+ Mean   : 8.0   Mean   :176.9   Mean   :112.3   Mean   :158  
+ 3rd Qu.:11.5   3rd Qu.:192.5   3rd Qu.:121.5   3rd Qu.:168  
+ Max.   :15.0   Max.   :210.0   Max.   :130.0   Max.   :201  
+      DBPa      
+ Min.   : 82.0  
+ 1st Qu.: 98.0  
+ Median :103.0  
+ Mean   :103.1  
+ 3rd Qu.:108.0  
+ Max.   :125.0  </code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>captopril_tidy <span class="ot">&lt;-</span> captopril <span class="sc">%&gt;%</span> <span class="fu">gather</span>(type, bp, <span class="sc">-</span>id)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>captopril_summary <span class="ot">&lt;-</span> captopril_tidy <span class="sc">%&gt;%</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(type) <span class="sc">%&gt;%</span></span>

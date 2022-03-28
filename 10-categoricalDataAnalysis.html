@@ -782,7 +782,8 @@ Binomiale verdelingen.
     Exact binomial test
 
 data:  boys and n
-number of successes = 3175, number of trials = 6155, p-value = 0.0134
+number of successes = 3175, number of trials = 6155, p-value =
+0.0134
 alternative hypothesis: true probability of success is not equal to 0.5
 95 percent confidence interval:
  0.5032696 0.5283969
@@ -1004,7 +1005,8 @@ McNemar&#39;s chi-squared = 12.5, df = 1, p-value = 0.000407</code></pre>
     Exact binomial test
 
 data:  f and f + g
-number of successes = 17, number of trials = 18, p-value = 0.000145
+number of successes = 17, number of trials = 18, p-value =
+0.000145
 alternative hypothesis: true probability of success is not equal to 0.5
 95 percent confidence interval:
  0.7270564 0.9985944
@@ -1525,15 +1527,15 @@ Multiple Comparisons of Means: Tukey Contrasts
 
 Fit: glm(formula = cancer ~ variant, family = binomial, data = brca)
 
-Quantile = 2.3246
+Quantile = 2.324
 95% family-wise confidence level
  
 
 Linear Hypotheses:
                        Estimate lwr      upr     
-leu/leu - pro/pro == 0  0.21197 -0.22773  0.65167
-pro/leu - pro/pro == 0  0.13802 -0.13101  0.40705
-pro/leu - leu/leu == 0 -0.07395 -0.51381  0.36591</code></pre>
+leu/leu - pro/pro == 0  0.21197 -0.22761  0.65156
+pro/leu - pro/pro == 0  0.13802 -0.13094  0.40698
+pro/leu - leu/leu == 0 -0.07395 -0.51370  0.36580</code></pre>
 <ul>
 <li>With the <code>confint</code> function CI are obtained on the log-odds ratios corrected for multiple testing.</li>
 </ul>
@@ -1544,13 +1546,13 @@ pro/leu - leu/leu == 0 -0.07395 -0.51381  0.36591</code></pre>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>OR <span class="ot">&lt;-</span> <span class="fu">exp</span>(posthocCI<span class="sc">$</span>confint)</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>OR</span></code></pre></div>
 <pre><code>                   Estimate       lwr      upr
-leu/leu - pro/pro 1.2361111 0.7963397 1.918742
-pro/leu - pro/pro 1.1480000 0.8772090 1.502383
-pro/leu - leu/leu 0.9287191 0.5982106 1.441832
+leu/leu - pro/pro 1.2361111 0.7964310 1.918522
+pro/leu - pro/pro 1.1480000 0.8772705 1.502278
+pro/leu - leu/leu 0.9287191 0.5982792 1.441667
 attr(,&quot;conf.level&quot;)
 [1] 0.95
 attr(,&quot;calpha&quot;)
-[1] 2.324649</code></pre>
+[1] 2.324043</code></pre>
 <ul>
 <li><p>De odds ratios that we obtain is exactly equal to the one we calculated based on the contingency table:</p></li>
 <li><p>e.g <span class="math inline">\(\text{OR}_\text{Leu/Leu-Pro/Pro}=89\times 266/(56\times 342)=\)</span> 1.236.</p></li>

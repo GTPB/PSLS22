@@ -747,14 +747,14 @@ H_0: \beta_{c:s}= 0\text{ vs }H_1: \beta_{c:s}\neq 0
 ## Fit: lm(formula = rate ~ log10conc * state, data = Puromycin)
 ## 
 ## Linear Hypotheses:
-##                                         Estimate Std. Error t value Pr(&gt;|t|)
-## log10conc == 0                            62.129      5.020  12.375  &lt; 0.001
-## log10conc + log10conc:statetreated == 0   85.450      4.531  18.858  &lt; 0.001
-## log10conc:statetreated == 0               23.321      6.763   3.448  0.00674
-##                                            
-## log10conc == 0                          ***
-## log10conc + log10conc:statetreated == 0 ***
-## log10conc:statetreated == 0             ** 
+##                                         Estimate Std. Error t value
+## log10conc == 0                            62.129      5.020  12.375
+## log10conc + log10conc:statetreated == 0   85.450      4.531  18.858
+## log10conc:statetreated == 0               23.321      6.763   3.448
+##                                         Pr(&gt;|t|)    
+## log10conc == 0                           &lt; 0.001 ***
+## log10conc + log10conc:statetreated == 0  &lt; 0.001 ***
+## log10conc:statetreated == 0              0.00727 ** 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- single-step method)</code></pre>
@@ -764,19 +764,19 @@ H_0: \beta_{c:s}= 0\text{ vs }H_1: \beta_{c:s}\neq 0
 ## 
 ## Fit: lm(formula = rate ~ log10conc * state, data = Puromycin)
 ## 
-## Quantile = 2.5075
+## Quantile = 2.5098
 ## 95% family-wise confidence level
 ##  
 ## 
 ## Linear Hypotheses:
 ##                                         Estimate lwr     upr    
-## log10conc == 0                          62.1285  49.5397 74.7173
-## log10conc + log10conc:statetreated == 0 85.4499  74.0879 96.8119
-## log10conc:statetreated == 0             23.3214   6.3634 40.2794</code></pre>
+## log10conc == 0                          62.1285  49.5280 74.7290
+## log10conc + log10conc:statetreated == 0 85.4499  74.0774 96.8224
+## log10conc:statetreated == 0             23.3214   6.3477 40.2951</code></pre>
 </div>
 <div id="conclusion" class="section level3" number="4.3.2">
 <h3><span class="header-section-number">4.3.2</span> Conclusion</h3>
-<p>There is an extremely significant effect of the substrate concentration on the reaction rate (p&lt;&lt;0.001). The effect of the substrate concentration on the reaction rate is extremely significant for reactions catalysed with untreated enzymes. A reaction at a substrate concentration that is 10 times higher will have a reaction speed that is on average 62.1 counts/min higher (95% CI [49.5, 74.7] counts/min) (p &lt;&lt; 0.001). The effect of the substrate concentration on the reaction rate is extremely significant for reactions catalysed puromycin treated enzymes (p &lt;&lt; 0.001). A reaction at a substrate concentration that is 10 times higher will have a reaction speed that is on average 85.4 counts/min higher (95% CI [74.1, 96.8] counts/min). The effect of the substrate concentration on the reaction rate is very significantly higher for reactions catalysed with Puromycin treated enzymes than when catalysed with non-treated enzymes (p = 0.007). A reaction at a substrate concentration that is 10 times higher will have a reaction speed that is on average 23.3 counts/min higher for reactions that are catalysed with Puromycin treated enzymes than with untreated enzymes (95% CI [6.3, 40.3] counts/min).</p>
+<p>There is an extremely significant effect of the substrate concentration on the reaction rate (p&lt;&lt;0.001). The effect of the substrate concentration on the reaction rate is extremely significant for reactions catalysed with untreated enzymes. A reaction at a substrate concentration that is 10 times higher will have a reaction speed that is on average 62.1 counts/min higher (95% CI [49.5, 74.7] counts/min) (p &lt;&lt; 0.001). The effect of the substrate concentration on the reaction rate is extremely significant for reactions catalysed puromycin treated enzymes (p &lt;&lt; 0.001). A reaction at a substrate concentration that is 10 times higher will have a reaction speed that is on average 85.4 counts/min higher (95% CI [74.1, 96.8] counts/min). The effect of the substrate concentration on the reaction rate is very significantly higher for reactions catalysed with Puromycin treated enzymes than when catalysed with non-treated enzymes (p = 0.007). A reaction at a substrate concentration that is 10 times higher will have a reaction speed that is on average 23.3 counts/min higher for reactions that are catalysed with Puromycin treated enzymes than with untreated enzymes (95% CI [6.4, 40.3] counts/min).</p>
 </div>
 </div>
 </div>

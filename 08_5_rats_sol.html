@@ -831,18 +831,18 @@ div.tocify {
 ## Fit: lm(formula = weightGain ~ block + protSource * protLevel, data = diet.bc)
 ## 
 ## Linear Hypotheses:
-##                                           Estimate Std. Error t value Pr(&gt;|t|)
-## protSourcec == 0                             1.100      4.319   0.255  0.99235
-## protSourcec + protSourcec:protLevelh == 0  -17.100      4.319  -3.959  0.00211
-## protLevelh == 0                             20.000      4.319   4.630  &lt; 0.001
-## protLevelh + protSourcec:protLevelh == 0     1.800      4.319   0.417  0.96838
-## protSourcec:protLevelh == 0                -18.200      6.109  -2.979  0.02351
-##                                              
-## protSourcec == 0                             
-## protSourcec + protSourcec:protLevelh == 0 ** 
-## protLevelh == 0                           ***
-## protLevelh + protSourcec:protLevelh == 0     
-## protSourcec:protLevelh == 0               *  
+##                                           Estimate Std. Error t value
+## protSourcec == 0                             1.100      4.319   0.255
+## protSourcec + protSourcec:protLevelh == 0  -17.100      4.319  -3.959
+## protLevelh == 0                             20.000      4.319   4.630
+## protLevelh + protSourcec:protLevelh == 0     1.800      4.319   0.417
+## protSourcec:protLevelh == 0                -18.200      6.109  -2.979
+##                                           Pr(&gt;|t|)    
+## protSourcec == 0                           0.99235    
+## protSourcec + protSourcec:protLevelh == 0  0.00211 ** 
+## protLevelh == 0                            &lt; 0.001 ***
+## protLevelh + protSourcec:protLevelh == 0   0.96838    
+## protSourcec:protLevelh == 0                0.02351 *  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- single-step method)</code></pre>

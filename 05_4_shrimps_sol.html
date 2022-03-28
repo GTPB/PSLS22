@@ -14,8 +14,8 @@
 
 <title>Exercise 5.4: Hypothesis testing on the shrimps dataset - solution</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -49,6 +49,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -187,6 +188,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -415,7 +419,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -431,7 +435,7 @@ div.tocify {
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-chalkboard-teacher"></span>
      
     Lectures
@@ -487,7 +491,7 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-laptop"></span>
      
     Labs
@@ -534,7 +538,7 @@ div.tocify {
 <div id="header">
 
 <div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
 <ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
@@ -553,7 +557,7 @@ div.tocify {
 
 
 <div id="aims-of-this-exercise" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Aims of this exercise</h1>
+<h1><span class="header-section-number">1</span> Aims of this exercise</h1>
 <p>This exercise aims to further sharpen your skills in</p>
 <ul>
 <li>translating the research question in a a null and alternative hypothesis of t-tests</li>
@@ -562,39 +566,40 @@ div.tocify {
 </ul>
 </div>
 <div id="the-shrimps-dataset" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> The shrimps dataset</h1>
+<h1><span class="header-section-number">2</span> The shrimps dataset</h1>
 <p>Dataset on the accumulation of PCBs (Polychlorinated biphenyls) in the adipose tissue of shrimps. PCBs are often present in coolants, and are know to accumulate easily in the adipose tissue of shrimps. In this experiment, two groups of 18 samples (each 100 grams) of shrimps each were cultivated in different conditions, one control condition and one condition where the medium was poluted with PCBs. Note that the PCB concentrations were measured in pg/g adipose tissue.</p>
 </div>
 <div id="research-question" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Research question</h1>
+<h1><span class="header-section-number">3</span> Research question</h1>
 <p>Is there an effect of the growth condition on the PCB concentration in the adipose tissue of shrimps?</p>
 <p>Load libraries:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 </div>
 <div id="import-the-data" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Import the data</h1>
+<h1><span class="header-section-number">4</span> Import the data</h1>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>shrimps <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/shrimps.txt&quot;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   PCB.conc = col_double(),
-##   group = col_double()
-## )</code></pre>
+<pre><code>## Rows: 36 Columns: 2
+## ── Column specification ──────────────────────────────────────────────
+## Delimiter: &quot;\t&quot;
+## dbl (2): PCB.conc, group
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(shrimps)</span></code></pre></div>
 <pre><code>## Rows: 36
 ## Columns: 2
-## $ PCB.conc &lt;dbl&gt; 29.7, 24.5, 97.7, 39.1, 22.6, 32.4, 27.7, 100.1, 40.1, 23.3, …
-## $ group    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2…</code></pre>
+## $ PCB.conc &lt;dbl&gt; 29.7, 24.5, 97.7, 39.1, 22.6, 32.4, 27.7, 100.1, 40…
+## $ group    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</code></pre>
 </div>
 <div id="data-tidying" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> Data tidying</h1>
+<h1><span class="header-section-number">5</span> Data tidying</h1>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>shrimps <span class="ot">&lt;-</span> shrimps <span class="sc">%&gt;%</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group =</span> <span class="fu">as.factor</span>(group))</span></code></pre></div>
 </div>
 <div id="data-exploration" class="section level1" number="6">
-<h1 number="6"><span class="header-section-number">6</span> Data exploration</h1>
+<h1><span class="header-section-number">6</span> Data exploration</h1>
 <p>The first step is to explore the data.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>shrimps <span class="sc">%&gt;%</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(group)</span></code></pre></div>
@@ -620,10 +625,10 @@ div.tocify {
 <p>We can see that for group 1 we have four very clear outliers in the data. These values were double-checked (i.e for typing errors), but there was no reason found to believe that these values are incorrect.</p>
 </div>
 <div id="analysis" class="section level1" number="7">
-<h1 number="7"><span class="header-section-number">7</span> Analysis</h1>
+<h1><span class="header-section-number">7</span> Analysis</h1>
 <p>A good way for testing the research hypothesis is to perform an unpaired two-sample t-test to find out whether there is a significant difference in the mean PCB concentrations between both groups of samples. Before we can do this, we must check if all the required assumptions are met.</p>
 <div id="assumptions" class="section level2" number="7.1">
-<h2 number="7.1"><span class="header-section-number">7.1</span> Assumptions</h2>
+<h2><span class="header-section-number">7.1</span> Assumptions</h2>
 <ol style="list-style-type: decimal">
 <li>The observations are independent of each other (in both groups)</li>
 <li>The data (PCB.conc) must be normally distributed (in both groups)</li>

@@ -14,8 +14,8 @@
 
 <title>Exercise 5.3: Hypothesis testing on the cuckoo dataset - solution</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -49,6 +49,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -187,6 +188,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -415,7 +419,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -431,7 +435,7 @@ div.tocify {
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-chalkboard-teacher"></span>
      
     Lectures
@@ -487,7 +491,7 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-laptop"></span>
      
     Labs
@@ -534,7 +538,7 @@ div.tocify {
 <div id="header">
 
 <div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
 <ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
@@ -553,7 +557,7 @@ div.tocify {
 
 
 <div id="aims-of-this-exercise" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Aims of this exercise</h1>
+<h1><span class="header-section-number">1</span> Aims of this exercise</h1>
 <p>In this tutorial you will further sharpen your skills in</p>
 <ul>
 <li>data wrangling</li>
@@ -564,7 +568,7 @@ div.tocify {
 </ul>
 </div>
 <div id="cuckoo-dataset" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Cuckoo dataset</h1>
+<h1><span class="header-section-number">2</span> Cuckoo dataset</h1>
 <p>The common cuckoo does not build its own nest: it prefers to lay its eggs in another birds’ nest. It is known, since 1892, that the type of cuckoo bird eggs are different between different locations. In a study from 1940, it was shown that cuckoos return to the same nesting area each year, and that they always pick the same bird species to be a “foster parent” for their eggs.</p>
 <p>Over the years, this has lead to the development of geographically determined subspecies of cuckoos. These subspecies have evolved in such a way that their eggs look as similar as possible as those of their foster parents.</p>
 <p>The cuckoo dataset contains information on 120 Cuckoo eggs, obtained from randomly selected “foster” nests. For these eggs, researchers have measured the <code>length</code> (in mm) and established the <code>type</code> (species) of foster parent. The type column is coded as follows:</p>
@@ -578,7 +582,7 @@ div.tocify {
 </ul>
 </div>
 <div id="research-question" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Research question</h1>
+<h1><span class="header-section-number">3</span> Research question</h1>
 <p>The researchers want to test if the type of foster parent has an effect on the average length of the cuckoo eggs.</p>
 <p>In practice, they want to study this for all six species. However, a t-test can only be used to study mean differences between two groups. If we want to analyze multiple groups, there are two options.</p>
 <ol style="list-style-type: decimal">
@@ -591,7 +595,7 @@ div.tocify {
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 </div>
 <div id="import-data" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Import data</h1>
+<h1><span class="header-section-number">4</span> Import data</h1>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Cuckoo <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/Cuckoo.txt&quot;</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Cuckoo)</span></code></pre></div>
 <div data-pagedtable="false">
@@ -601,14 +605,14 @@ div.tocify {
 </div>
 </div>
 <div id="tidy-data" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> Tidy data</h1>
+<h1><span class="header-section-number">5</span> Tidy data</h1>
 <p>For this exercise, we only care about the European robin and the Eurasian wren. Therefore, we can remove the observations of the other types. In addition, it seems that the <code>type</code> column rather than a factor. Let’s fix this:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Cuckoo <span class="ot">&lt;-</span> Cuckoo <span class="sc">%&gt;%</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;4&quot;</span>, <span class="st">&quot;6&quot;</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">type =</span> <span class="fu">as.factor</span>(type))</span></code></pre></div>
 </div>
 <div id="data-exploration" class="section level1" number="6">
-<h1 number="6"><span class="header-section-number">6</span> Data exploration</h1>
+<h1><span class="header-section-number">6</span> Data exploration</h1>
 <p>How many birds do we have for each type?</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Cuckoo <span class="sc">%&gt;%</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(type)</span></code></pre></div>
@@ -635,10 +639,10 @@ div.tocify {
 <p>We clearly see that, on average, the eggs laid in the nest of the European robin (type=4) are larger than those laid in the nest of the Eurasian wren. But is this difference <strong>significant</strong>?</p>
 </div>
 <div id="analysis" class="section level1" number="7">
-<h1 number="7"><span class="header-section-number">7</span> Analysis</h1>
+<h1><span class="header-section-number">7</span> Analysis</h1>
 <p>We can test this with an unpaired, two-sample t-test. But before we can start the analysis, we must check if all assumptions to perform a t-test are met.</p>
 <div id="check-the-assumptions" class="section level2" number="7.1">
-<h2 number="7.1"><span class="header-section-number">7.1</span> Check the assumptions</h2>
+<h2><span class="header-section-number">7.1</span> Check the assumptions</h2>
 <ol style="list-style-type: decimal">
 <li><p>The observations are independent of each other (in both groups)</p></li>
 <li><p>The data (length) must be normally distributed (in both groups)</p></li>
@@ -659,7 +663,7 @@ div.tocify {
 <p>The third assumption seems to be met based on our visualization with boxplots. Indeed the interquartile range of the boxes are very comparable. As all assumptions are met, we may proceed with the analysis.</p>
 </div>
 <div id="hypothesis-testing" class="section level2" number="7.2">
-<h2 number="7.2"><span class="header-section-number">7.2</span> Hypothesis testing</h2>
+<h2><span class="header-section-number">7.2</span> Hypothesis testing</h2>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">t.test</span>(length <span class="sc">~</span> type, <span class="at">data =</span> Cuckoo, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>output</span></code></pre></div>
 <pre><code>## 
@@ -675,7 +679,7 @@ div.tocify {
 ##          22.575          21.130</code></pre>
 </div>
 <div id="conclusion" class="section level2" number="7.3">
-<h2 number="7.3"><span class="header-section-number">7.3</span> Conclusion</h2>
+<h2><span class="header-section-number">7.3</span> Conclusion</h2>
 <p>There is an extremely significant difference in mean length of Cuckoo eggs fostered by the European robin and those fostered by the Eurasian wren (p &lt;&lt; 0.001). The eggs fostered by the European wren are on average 1.45 mm longer (95% CI [0.92, 1.97]).</p>
 </div>
 </div>

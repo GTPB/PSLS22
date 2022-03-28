@@ -570,16 +570,16 @@ div.tocify {
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(NHANES[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code></pre></div>
 <pre><code>## Rows: 10,000
 ## Columns: 10
-## $ ID            &lt;dbl&gt; 51624, 51624, 51624, 51625, 51630, 51638, 51646, 51647, …
-## $ SurveyYr      &lt;chr&gt; &quot;2009_10&quot;, &quot;2009_10&quot;, &quot;2009_10&quot;, &quot;2009_10&quot;, &quot;2009_10&quot;, &quot;…
-## $ Gender        &lt;chr&gt; &quot;male&quot;, &quot;male&quot;, &quot;male&quot;, &quot;male&quot;, &quot;female&quot;, &quot;male&quot;, &quot;male&quot;…
-## $ Age           &lt;dbl&gt; 34, 34, 34, 4, 49, 9, 8, 45, 45, 45, 66, 58, 54, 10, 58,…
-## $ AgeDecade     &lt;chr&gt; &quot;30-39&quot;, &quot;30-39&quot;, &quot;30-39&quot;, &quot;0-9&quot;, &quot;40-49&quot;, &quot;0-9&quot;, &quot;0-9&quot;,…
-## $ AgeMonths     &lt;dbl&gt; 409, 409, 409, 49, 596, 115, 101, 541, 541, 541, 795, 70…
-## $ Race1         &lt;chr&gt; &quot;White&quot;, &quot;White&quot;, &quot;White&quot;, &quot;Other&quot;, &quot;White&quot;, &quot;White&quot;, &quot;W…
-## $ Race3         &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-## $ Education     &lt;chr&gt; &quot;High School&quot;, &quot;High School&quot;, &quot;High School&quot;, NA, &quot;Some C…
-## $ MaritalStatus &lt;chr&gt; &quot;Married&quot;, &quot;Married&quot;, &quot;Married&quot;, NA, &quot;LivePartner&quot;, NA, …</code></pre>
+## $ ID            &lt;dbl&gt; 51624, 51624, 51624, 51625, 51630, 51638, 5164…
+## $ SurveyYr      &lt;chr&gt; &quot;2009_10&quot;, &quot;2009_10&quot;, &quot;2009_10&quot;, &quot;2009_10&quot;, &quot;2…
+## $ Gender        &lt;chr&gt; &quot;male&quot;, &quot;male&quot;, &quot;male&quot;, &quot;male&quot;, &quot;female&quot;, &quot;mal…
+## $ Age           &lt;dbl&gt; 34, 34, 34, 4, 49, 9, 8, 45, 45, 45, 66, 58, 5…
+## $ AgeDecade     &lt;chr&gt; &quot;30-39&quot;, &quot;30-39&quot;, &quot;30-39&quot;, &quot;0-9&quot;, &quot;40-49&quot;, &quot;0-…
+## $ AgeMonths     &lt;dbl&gt; 409, 409, 409, 49, 596, 115, 101, 541, 541, 54…
+## $ Race1         &lt;chr&gt; &quot;White&quot;, &quot;White&quot;, &quot;White&quot;, &quot;Other&quot;, &quot;White&quot;, &quot;…
+## $ Race3         &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+## $ Education     &lt;chr&gt; &quot;High School&quot;, &quot;High School&quot;, &quot;High School&quot;, N…
+## $ MaritalStatus &lt;chr&gt; &quot;Married&quot;, &quot;Married&quot;, &quot;Married&quot;, NA, &quot;LivePart…</code></pre>
 </div>
 <div id="data-exploration" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Data Exploration</h1>
@@ -595,8 +595,10 @@ div.tocify {
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">&quot;point&quot;</span>,</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">shape =</span> <span class="dv">5</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>,</span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<pre><code>## Warning: Removed 1763 rows containing non-finite values (stat_boxplot).</code></pre>
-<pre><code>## Warning: Removed 1763 rows containing non-finite values (stat_summary).</code></pre>
+<pre><code>## Warning: Removed 1763 rows containing non-finite values
+## (stat_boxplot).</code></pre>
+<pre><code>## Warning: Removed 1763 rows containing non-finite values
+## (stat_summary).</code></pre>
 <p><img src="07_3_NHANES_sol_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>This plot is not ideal; it would be far more intuitive if the health categories were ordered properly (i.e., Poor –&gt; excellent). In addition, we observe a sixth “category” of NA values.</p>
 <p>To get a more informative and intuitive visualization, you can:</p>
@@ -701,15 +703,15 @@ div.tocify {
 ## 
 ## Linear Hypotheses:
 ##                         Estimate Std. Error t value Pr(&gt;|t|)    
-## Fair - Poor == 0       -0.015828   0.010971  -1.443  0.57584    
-## Good - Poor == 0       -0.036762   0.010351  -3.551  0.00318 ** 
+## Fair - Poor == 0       -0.015828   0.010971  -1.443  0.57594    
+## Good - Poor == 0       -0.036762   0.010351  -3.551  0.00303 ** 
 ## Vgood - Poor == 0      -0.059415   0.010410  -5.708  &lt; 0.001 ***
 ## Excellent - Poor == 0  -0.055476   0.011062  -5.015  &lt; 0.001 ***
 ## Good - Fair == 0       -0.020934   0.005139  -4.074  &lt; 0.001 ***
 ## Vgood - Fair == 0      -0.043587   0.005256  -8.293  &lt; 0.001 ***
 ## Excellent - Fair == 0  -0.039648   0.006452  -6.145  &lt; 0.001 ***
 ## Vgood - Good == 0      -0.022653   0.003797  -5.966  &lt; 0.001 ***
-## Excellent - Good == 0  -0.018714   0.005331  -3.511  0.00352 ** 
+## Excellent - Good == 0  -0.018714   0.005331  -3.511  0.00362 ** 
 ## Excellent - Vgood == 0  0.003938   0.005444   0.723  0.94608    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
@@ -723,22 +725,22 @@ div.tocify {
 ## 
 ## Fit: lm(formula = log(BPSys1) ~ HealthGen, data = NHANES)
 ## 
-## Quantile = 2.683
+## Quantile = 2.6834
 ## 95% family-wise confidence level
 ##  
 ## 
 ## Linear Hypotheses:
 ##                        Estimate  lwr       upr      
-## Fair - Poor == 0       -0.015828 -0.045262  0.013606
-## Good - Poor == 0       -0.036762 -0.064534 -0.008990
-## Vgood - Poor == 0      -0.059415 -0.087344 -0.031485
-## Excellent - Poor == 0  -0.055476 -0.085155 -0.025798
-## Good - Fair == 0       -0.020934 -0.034721 -0.007146
-## Vgood - Fair == 0      -0.043587 -0.057688 -0.029485
-## Excellent - Fair == 0  -0.039648 -0.056958 -0.022338
-## Vgood - Good == 0      -0.022653 -0.032840 -0.012466
-## Excellent - Good == 0  -0.018714 -0.033017 -0.004412
-## Excellent - Vgood == 0  0.003938 -0.010667  0.018544</code></pre>
+## Fair - Poor == 0       -0.015828 -0.045267  0.013610
+## Good - Poor == 0       -0.036762 -0.064538 -0.008986
+## Vgood - Poor == 0      -0.059415 -0.087348 -0.031481
+## Excellent - Poor == 0  -0.055476 -0.085159 -0.025793
+## Good - Fair == 0       -0.020934 -0.034723 -0.007144
+## Vgood - Fair == 0      -0.043587 -0.057690 -0.029483
+## Excellent - Fair == 0  -0.039648 -0.056961 -0.022336
+## Vgood - Good == 0      -0.022653 -0.032841 -0.012464
+## Excellent - Good == 0  -0.018714 -0.033019 -0.004410
+## Excellent - Vgood == 0  0.003938 -0.010669  0.018546</code></pre>
 </div>
 <div id="conclusion" class="section level2" number="5.5">
 <h2><span class="header-section-number">5.5</span> Conclusion</h2>

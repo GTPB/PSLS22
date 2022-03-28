@@ -14,8 +14,8 @@
 
 <title>Exercise 5.1: Hypothesis testing on the diabetes example - solution</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -49,6 +49,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -187,6 +188,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -415,7 +419,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -431,7 +435,7 @@ div.tocify {
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-chalkboard-teacher"></span>
      
     Lectures
@@ -487,7 +491,7 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-laptop"></span>
      
     Labs
@@ -534,7 +538,7 @@ div.tocify {
 <div id="header">
 
 <div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
 <ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
@@ -553,7 +557,7 @@ div.tocify {
 
 
 <div id="aims" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Aims</h1>
+<h1><span class="header-section-number">1</span> Aims</h1>
 <p>In this exercise, you will revisit the basics of statistical hypothesis testing.</p>
 <p>You will acquire the skills</p>
 <ol style="list-style-type: decimal">
@@ -563,7 +567,7 @@ div.tocify {
 </ol>
 </div>
 <div id="the-diabetes-dataset" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> The diabetes dataset</h1>
+<h1><span class="header-section-number">2</span> The diabetes dataset</h1>
 <p>The <code>diabetes dataset</code> holds information on a small experiment with 8 patients that are subjected to a glucose tolerance test.</p>
 <p>Patients had to fast for eight hours before the test. When the patients entered the hospital their baseline glucose level was measured (mmol/l).</p>
 <p>Patients then had to drink 250 ml of a syrupy glucose solution containing 100 grams of sugar. Two hours later, their blood glucose level was measured again.</p>
@@ -574,7 +578,7 @@ div.tocify {
 <li>patient: identifier for the patient</li>
 </ul>
 <div id="research-questions" class="section level2" number="2.1">
-<h2 number="2.1"><span class="header-section-number">2.1</span> Research questions</h2>
+<h2><span class="header-section-number">2.1</span> Research questions</h2>
 <p>The goal is to answer two research questions;</p>
 <ol style="list-style-type: decimal">
 <li><p>Is the average glucose level (i.e. before treatment) of the patients two hours upon the sugar intake higher than 7.8 mmol/L?</p></li>
@@ -582,21 +586,22 @@ div.tocify {
 </ol>
 </div>
 <div id="import-the-data" class="section level2" number="2.2">
-<h2 number="2.2"><span class="header-section-number">2.2</span> Import the data</h2>
+<h2><span class="header-section-number">2.2</span> Import the data</h2>
 <p>First, load the required R libraries:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/diabetes.txt&quot;</span>, <span class="at">delim =</span><span class="st">&quot; &quot;</span>)</span></code></pre></div>
-<pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   before = col_double(),
-##   after = col_double(),
-##   patient = col_character()
-## )</code></pre>
+<pre><code>## Rows: 8 Columns: 3
+## ── Column specification ──────────────────────────────────────────────
+## Delimiter: &quot; &quot;
+## chr (1): patient
+## dbl (2): before, after
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 </div>
 <div id="data-exploration" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Data exploration</h1>
+<h1><span class="header-section-number">3</span> Data exploration</h1>
 <p>We will start with a data exploration. We will assess two hypotheses: the first hypothesis involves comparing the average glucose levels in the blood two hours upon 100g of sugar intake with the threshold for pre-diabetes of 7.8 mmol/l.</p>
 <p>The second measurement involves the comparison of the average glucose concentrations before and after the sugar intake.</p>
 <p>From the previous tutorial on data analysis we know that we have to explore the difference between the glucose concentration after and before the sugar intake when we want to assess a difference in glucose levels before and after sugar intake because the data are paired.</p>
@@ -605,7 +610,7 @@ div.tocify {
 ## Columns: 3
 ## $ before  &lt;dbl&gt; 4.67, 4.97, 5.11, 5.17, 5.33, 6.22, 6.50, 7.00
 ## $ after   &lt;dbl&gt; 5.44, 5.78, 8.49, 6.71, 10.67, 5.67, 10.11, 9.89
-## $ patient &lt;chr&gt; &quot;pat1&quot;, &quot;pat2&quot;, &quot;pat3&quot;, &quot;pat4&quot;, &quot;pat5&quot;, &quot;pat6&quot;, &quot;pat7&quot;, &quot;pat8&quot;</code></pre>
+## $ patient &lt;chr&gt; &quot;pat1&quot;, &quot;pat2&quot;, &quot;pat3&quot;, &quot;pat4&quot;, &quot;pat5&quot;, &quot;pat6&quot;, &quot;pat…</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="ot">&lt;-</span> diabetes <span class="sc">%&gt;%</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">difference=</span>after<span class="sc">-</span>before) </span></code></pre></div>
 <p>We have 8 patients, for which glucose concentrations were measured, before and after sugar intake.</p>
@@ -629,11 +634,11 @@ div.tocify {
 <p>We observe that the variability of the glucose levels are higher after than before the sugar intake. The difference plot also shows that glucose levels in the blood are higher for most of the patients two hours after the sugar intake. Only for one patient the glucose concentration two hours after treatment is lower.</p>
 </div>
 <div id="question-1" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Question 1</h1>
+<h1><span class="header-section-number">4</span> Question 1</h1>
 <p>Is the average glucose level two hours after sugar intake higher than the threshold of 7.8 mmol/l for pre-diabetes?</p>
 <p>We can test this hypothesis using a <strong>one-sample t-test</strong>. Indeed we are interested to compare the average glucose level to a known threshold for pre-diabetes.</p>
 <div id="assess-the-assumptions" class="section level2" number="4.1">
-<h2 number="4.1"><span class="header-section-number">4.1</span> Assess the assumptions</h2>
+<h2><span class="header-section-number">4.1</span> Assess the assumptions</h2>
 <p>Before we can perform a one sample t-test, we must check that the required assumptions are met!</p>
 <ol style="list-style-type: decimal">
 <li>The observations are independent</li>
@@ -650,7 +655,7 @@ div.tocify {
 <p>So we will assume that our data is normally distributed. Note, that there are not many observations to assess normality.</p>
 </div>
 <div id="hypothesis-test" class="section level2" number="4.2">
-<h2 number="4.2"><span class="header-section-number">4.2</span> Hypothesis test</h2>
+<h2><span class="header-section-number">4.2</span> Hypothesis test</h2>
 <p>Here, we will test if mean glucose level 2 hours after sugar intake is significantly higher than the threshold for pre-diabetes of 7.8 mmol/l. More specifically, we will test the null hypothesis;</p>
 <p><span class="math inline">\(H_0:\)</span> the mean glucose level two hours after 100g of sugar intake is equal to 7.8 mmol/l</p>
 <p>versus the alternative hypothesis;</p>
@@ -674,7 +679,7 @@ div.tocify {
 ##     7.845</code></pre>
 </div>
 <div id="conclusion" class="section level2" number="4.3">
-<h2 number="4.3"><span class="header-section-number">4.3</span> Conclusion</h2>
+<h2><span class="header-section-number">4.3</span> Conclusion</h2>
 <p>When writing a conclusion on your research hypothesis, it is very important to be precise, concise, and complete.</p>
 <p>An example of such a conclusion for our research question is given below:</p>
 <p>We can conclude that the mean glucose level of patients two hours after 100g of glucose intake is not significantly higher than the threshold for pre-diabetes of 7.8 mmol/l (p = 0.48). The mean glucose level two hours after the intake of 100g of sugar equals 7.8 mmol/l (95% CI [6.4, ]).</p>
@@ -684,7 +689,7 @@ div.tocify {
 </div>
 </div>
 <div id="question-2" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> Question 2</h1>
+<h1><span class="header-section-number">5</span> Question 2</h1>
 <p>Is the glucose level after 8 hours of fasting on average different from the glucose level two hours after intake of 100g of glucose?</p>
 <p>As the data are paired, we can expect that the measurements before and after the glucose intake are correlated. We can illustrate this with a scatterplot.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="sc">%&gt;%</span></span>
@@ -696,7 +701,7 @@ div.tocify {
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(diabetes<span class="sc">$</span>before,diabetes<span class="sc">$</span>after, <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] 0.5952381</code></pre>
 <div id="check-the-assumptions" class="section level2" number="5.1">
-<h2 number="5.1"><span class="header-section-number">5.1</span> Check the assumptions</h2>
+<h2><span class="header-section-number">5.1</span> Check the assumptions</h2>
 <p>The paired t-test has 2 assumptions:</p>
 <ol style="list-style-type: decimal">
 <li><p>The differences in glucose levels are independent of each other.</p></li>
@@ -712,7 +717,7 @@ div.tocify {
 <p>Based on the QQ-plot, we may assume that our data are normally distributed. As our assumptions are met we may continue with performing the paired t-test.</p>
 </div>
 <div id="hypothesis-test-1" class="section level2" number="5.2">
-<h2 number="5.2"><span class="header-section-number">5.2</span> Hypothesis test</h2>
+<h2><span class="header-section-number">5.2</span> Hypothesis test</h2>
 <p>We will perform a <strong>paired t-test</strong>.</p>
 <ul>
 <li>The null hypothesis of the test is that the glucose levels before and two hours after glucose intake are on average equal.</li>
@@ -733,12 +738,12 @@ div.tocify {
 ##                 2.22375</code></pre>
 </div>
 <div id="conclusion-1" class="section level2" number="5.3">
-<h2 number="5.3"><span class="header-section-number">5.3</span> Conclusion</h2>
+<h2><span class="header-section-number">5.3</span> Conclusion</h2>
 <p>There is on average an significant blood increase in the blood pressure upon administering 100g of sugar to patients (p = 0.01). The glucose levels two hours after administering 100g of glucose are on average 2.2 mmol/l higher than upon 8 hours of fastening (95% CI [0.6, 3.8]mmol/l).</p>
 </div>
 </div>
 <div id="alternative-solution-one-sample-t-test-on-the-difference" class="section level1" number="6">
-<h1 number="6"><span class="header-section-number">6</span> Alternative solution: One-sample t-test on the difference</h1>
+<h1><span class="header-section-number">6</span> Alternative solution: One-sample t-test on the difference</h1>
 <p>Performing a paired t-test is equivalent to performing a one-sample t-test where we assess if the difference between both groups is on average different from 0.</p>
 <p>We can verify this with the analysis below</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(diabetes<span class="sc">$</span>difference)</span></code></pre></div>

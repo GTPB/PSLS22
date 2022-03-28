@@ -580,9 +580,9 @@ div.tocify {
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(lettuce)</span></code></pre></div>
 <pre><code>## Rows: 28
 ## Columns: 3
-## $ id          &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
-## $ treatment   &lt;chr&gt; &quot;control&quot;, &quot;control&quot;, &quot;control&quot;, &quot;control&quot;, &quot;control&quot;, &quot;co…
-## $ freshweight &lt;dbl&gt; 38, 34, 41, 43, 43, 29, 38, 59, 64, 57, 56, 50, 64, 62, 38…</code></pre>
+## $ id          &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 1…
+## $ treatment   &lt;chr&gt; &quot;control&quot;, &quot;control&quot;, &quot;control&quot;, &quot;control&quot;, &quot;con…
+## $ freshweight &lt;dbl&gt; 38, 34, 41, 43, 43, 29, 38, 59, 64, 57, 56, 50, …</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># treatment to factor</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>lettuce <span class="ot">&lt;-</span> lettuce <span class="sc">%&gt;%</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">treatment =</span> <span class="fu">as.factor</span>(treatment))</span></code></pre></div>
@@ -704,23 +704,23 @@ div.tocify {
 <h2><span class="header-section-number">6.2</span> Test</h2>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## initial attempt to perform the analysis</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.wilcox.test</span>(lettuce<span class="sc">$</span>freshweight, lettuce<span class="sc">$</span>treatment)</span></code></pre></div>
-<pre><code>## Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot compute
-## exact p-value with ties
+<pre><code>## Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot
+## compute exact p-value with ties
 
-## Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot compute
-## exact p-value with ties
+## Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot
+## compute exact p-value with ties
 
-## Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot compute
-## exact p-value with ties
+## Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot
+## compute exact p-value with ties
 
-## Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot compute
-## exact p-value with ties
+## Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot
+## compute exact p-value with ties
 
-## Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot compute
-## exact p-value with ties
+## Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot
+## compute exact p-value with ties
 
-## Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot compute
-## exact p-value with ties</code></pre>
+## Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot
+## compute exact p-value with ties</code></pre>
 <pre><code>## 
 ##  Pairwise comparisons using Wilcoxon rank sum test with continuity correction 
 ## 
@@ -757,10 +757,10 @@ div.tocify {
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="do">## link the p-value with the correct pairwise test</span></span>
 <span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pvalues_holm) <span class="ot">&lt;-</span> <span class="fu">combn</span>(<span class="fu">levels</span>(lettuce<span class="sc">$</span>treatment), <span class="dv">2</span>, paste, <span class="at">collapse =</span> <span class="st">&quot;_VS_&quot;</span>)</span>
 <span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>pvalues_holm</span></code></pre></div>
-<pre><code>##    cobc_VS_compost    cobc_VS_control     cobc_VS_refoak compost_VS_control 
-##        0.393939394        0.005244755        0.003496503        0.003496503 
-##  compost_VS_refoak  control_VS_refoak 
-##        0.003496503        0.405594406</code></pre>
+<pre><code>##    cobc_VS_compost    cobc_VS_control     cobc_VS_refoak 
+##        0.393939394        0.005244755        0.003496503 
+## compost_VS_control  compost_VS_refoak  control_VS_refoak 
+##        0.003496503        0.003496503        0.405594406</code></pre>
 <p>The exact p-values do indeed deviate from those calculated with the <code>pairwise.wilcox.test()</code> function. We will proceed with the exact p-values.</p>
 <p>Now we will compute the point estimation for the probabilistic index (for each pairwise comparison). Note that we already did this in the <code>Non_parametric_shrimps.Rmd</code> file for a single comparison.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Count the number of observations per group</span></span>
@@ -776,25 +776,25 @@ div.tocify {
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Compute the probabilistic index</span></span>
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  U1 <span class="sc">/</span> <span class="fu">prod</span>(nGroup[x])</span>
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
-<pre><code>## Warning in wilcox.test.default(x = c(57, 49, 52, 43, 59, 61, 58), y = c(59, :
-## cannot compute exact p-value with ties</code></pre>
-<pre><code>## Warning in wilcox.test.default(x = c(57, 49, 52, 43, 59, 61, 58), y = c(38, :
-## cannot compute exact p-value with ties</code></pre>
-<pre><code>## Warning in wilcox.test.default(x = c(57, 49, 52, 43, 59, 61, 58), y = c(38, :
-## cannot compute exact p-value with ties</code></pre>
-<pre><code>## Warning in wilcox.test.default(x = c(59, 64, 57, 56, 50, 64, 62), y = c(38, :
-## cannot compute exact p-value with ties</code></pre>
-<pre><code>## Warning in wilcox.test.default(x = c(59, 64, 57, 56, 50, 64, 62), y = c(38, :
-## cannot compute exact p-value with ties</code></pre>
-<pre><code>## Warning in wilcox.test.default(x = c(38, 34, 41, 43, 43, 29, 38), y = c(38, :
-## cannot compute exact p-value with ties</code></pre>
+<pre><code>## Warning in wilcox.test.default(x = c(57, 49, 52, 43, 59, 61, 58), y =
+## c(59, : cannot compute exact p-value with ties</code></pre>
+<pre><code>## Warning in wilcox.test.default(x = c(57, 49, 52, 43, 59, 61, 58), y =
+## c(38, : cannot compute exact p-value with ties</code></pre>
+<pre><code>## Warning in wilcox.test.default(x = c(57, 49, 52, 43, 59, 61, 58), y =
+## c(38, : cannot compute exact p-value with ties</code></pre>
+<pre><code>## Warning in wilcox.test.default(x = c(59, 64, 57, 56, 50, 64, 62), y =
+## c(38, : cannot compute exact p-value with ties</code></pre>
+<pre><code>## Warning in wilcox.test.default(x = c(59, 64, 57, 56, 50, 64, 62), y =
+## c(38, : cannot compute exact p-value with ties</code></pre>
+<pre><code>## Warning in wilcox.test.default(x = c(38, 34, 41, 43, 43, 29, 38), y =
+## c(38, : cannot compute exact p-value with ties</code></pre>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## link the probabilistic index with the correct pairwise test</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(probInd) <span class="ot">&lt;-</span> <span class="fu">combn</span>(<span class="fu">levels</span>(lettuce<span class="sc">$</span>treatment), <span class="dv">2</span>, paste, <span class="at">collapse =</span> <span class="st">&quot;_VS_&quot;</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>probInd</span></code></pre></div>
-<pre><code>##    cobc_VS_compost    cobc_VS_control     cobc_VS_refoak compost_VS_control 
-##          0.2857143          0.9795918          1.0000000          1.0000000 
-##  compost_VS_refoak  control_VS_refoak 
-##          1.0000000          0.6428571</code></pre>
+<pre><code>##    cobc_VS_compost    cobc_VS_control     cobc_VS_refoak 
+##          0.2857143          0.9795918          1.0000000 
+## compost_VS_control  compost_VS_refoak  control_VS_refoak 
+##          1.0000000          1.0000000          0.6428571</code></pre>
 <p>We again see the same warning message. Here, this is not a prblem, we are not interested in the p-values (which we already computed), we only care about the probabilistic indices, that are calculated from the U1 statistic. U1 is computed as the number of times an observation of group 1 is larger than or equal to an observation of group 2. This statistic is thus defined even in the case of ties.</p>
 </div>
 </div>

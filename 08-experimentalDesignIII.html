@@ -558,12 +558,12 @@ div.tocify {
 
 <p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ── Attaching packages ───────────────────────────── tidyverse 1.3.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.3.5     ✔ purrr   0.3.4
 ## ✔ tibble  3.1.6     ✔ dplyr   1.0.8
 ## ✔ tidyr   1.2.0     ✔ stringr 1.4.0
 ## ✔ readr   2.1.2     ✔ forcats 0.5.1</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ──────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <div id="randomized-complete-block-designs" class="section level1" number="1">
@@ -614,7 +614,7 @@ div.tocify {
 <h2><span class="header-section-number">3.2</span> Data Exploration</h2>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mouse <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/mouseP16045.txt&quot;</span>)</span></code></pre></div>
 <pre><code>## Rows: 14 Columns: 3
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────
 ## Delimiter: &quot;\t&quot;
 ## chr (2): celltype, mouse
 ## dbl (1): intensity
@@ -998,8 +998,8 @@ div.tocify {
 <span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>deltas <span class="ot">&lt;-</span> lmRCB<span class="sc">$</span>coefficients[<span class="st">&quot;celltypeTreg&quot;</span>]</span>
 <span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> limma<span class="sc">::</span><span class="fu">makeContrasts</span>(<span class="st">&quot;celltypeTreg&quot;</span>, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;(Intercept)&quot;</span>, <span class="st">&quot;celltypeTreg&quot;</span>))</span></code></pre></div>
-<pre><code>## Warning in limma::makeContrasts(&quot;celltypeTreg&quot;, levels = c(&quot;(Intercept)&quot;, :
-## Renaming (Intercept) to Intercept</code></pre>
+<pre><code>## Warning in limma::makeContrasts(&quot;celltypeTreg&quot;, levels =
+## c(&quot;(Intercept)&quot;, : Renaming (Intercept) to Intercept</code></pre>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>powerFast <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow =</span> <span class="fu">length</span>(ns) <span class="sc">*</span> <span class="fu">length</span>(deltas), <span class="at">ncol =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>()</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(powerFast) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;b1&quot;</span>, <span class="st">&quot;n&quot;</span>, <span class="st">&quot;power&quot;</span>)</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1112,11 +1112,11 @@ div.tocify {
 <span id="cb49-42"><a href="#cb49-42" aria-hidden="true" tabindex="-1"></a>    powerFastBlocking[i, ] <span class="ot">&lt;-</span> <span class="fu">c</span>(b1, n, <span class="fu">mean</span>(pvals <span class="sc">&lt;</span> alpha))</span>
 <span id="cb49-43"><a href="#cb49-43" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb49-44"><a href="#cb49-44" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<pre><code>## Warning in limma::makeContrasts(&quot;celltypeTreg&quot;, levels = colnames(design)):
-## Renaming (Intercept) to Intercept
+<pre><code>## Warning in limma::makeContrasts(&quot;celltypeTreg&quot;, levels =
+## colnames(design)): Renaming (Intercept) to Intercept
 
-## Warning in limma::makeContrasts(&quot;celltypeTreg&quot;, levels = colnames(design)):
-## Renaming (Intercept) to Intercept</code></pre>
+## Warning in limma::makeContrasts(&quot;celltypeTreg&quot;, levels =
+## colnames(design)): Renaming (Intercept) to Intercept</code></pre>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>powerFastBlocking</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -1216,11 +1216,11 @@ div.tocify {
 <span id="cb62-50"><a href="#cb62-50" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb62-51"><a href="#cb62-51" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb62-52"><a href="#cb62-52" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<pre><code>## Warning in limma::makeContrasts(&quot;celltypeTreg&quot;, levels = colnames(design)):
-## Renaming (Intercept) to Intercept
+<pre><code>## Warning in limma::makeContrasts(&quot;celltypeTreg&quot;, levels =
+## colnames(design)): Renaming (Intercept) to Intercept
 
-## Warning in limma::makeContrasts(&quot;celltypeTreg&quot;, levels = colnames(design)):
-## Renaming (Intercept) to Intercept</code></pre>
+## Warning in limma::makeContrasts(&quot;celltypeTreg&quot;, levels =
+## colnames(design)): Renaming (Intercept) to Intercept</code></pre>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>powerFastBlockingLow</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -1341,7 +1341,7 @@ div.tocify {
 <h2><span class="header-section-number">6.1</span> Data exploration</h2>
 <div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>franc <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/francisellaA0Q4J5.txt&quot;</span>)</span></code></pre></div>
 <pre><code>## Rows: 18 Columns: 3
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────
 ## Delimiter: &quot;\t&quot;
 ## chr (2): genotype, biorep
 ## dbl (1): intensityLog2
@@ -1379,8 +1379,10 @@ div.tocify {
 ## lm(formula = intensityLog2 ~ -1 + biorep, data = franc)
 ## 
 ## Coefficients:
-## biorepD8_n3  biorepD8_n4  biorepD8_n5  biorepWT_n3  biorepWT_n4  biorepWT_n5  
-##       27.25        27.43        27.39        27.64        27.54        27.57</code></pre>
+## biorepD8_n3  biorepD8_n4  biorepD8_n5  biorepWT_n3  biorepWT_n4  
+##       27.25        27.43        27.39        27.64        27.54  
+## biorepWT_n5  
+##       27.57</code></pre>
 <div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>francSum <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">genotype =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;D8&quot;</span>, <span class="st">&quot;WT&quot;</span>), <span class="at">each =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">as.factor</span>() <span class="sc">%&gt;%</span> <span class="fu">relevel</span>(<span class="st">&quot;WT&quot;</span>), <span class="at">intensityLog2 =</span> lmBiorep<span class="sc">$</span>coef)</span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>francSum</span></code></pre></div>
 <div data-pagedtable="false">
@@ -1395,8 +1397,10 @@ div.tocify {
 ## lm(formula = intensityLog2 ~ genotype, data = francSum)
 ## 
 ## Residuals:
-## biorepD8_n3 biorepD8_n4 biorepD8_n5 biorepWT_n3 biorepWT_n4 biorepWT_n5 
-##    -0.10541     0.07010     0.03531     0.05566    -0.04531    -0.01034 
+## biorepD8_n3 biorepD8_n4 biorepD8_n5 biorepWT_n3 biorepWT_n4 
+##    -0.10541     0.07010     0.03531     0.05566    -0.04531 
+## biorepWT_n5 
+##    -0.01034 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    

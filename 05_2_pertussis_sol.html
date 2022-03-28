@@ -14,8 +14,8 @@
 
 <title>Exercise 5.2: Hypothesis testing on the pertussis example - solution</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -49,6 +49,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -187,6 +188,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -415,7 +419,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -431,7 +435,7 @@ div.tocify {
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-chalkboard-teacher"></span>
      
     Lectures
@@ -487,7 +491,7 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-laptop"></span>
      
     Labs
@@ -534,7 +538,7 @@ div.tocify {
 <div id="header">
 
 <div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
 <ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
@@ -553,7 +557,7 @@ div.tocify {
 
 
 <div id="aim-of-this-tutorial" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Aim of this tutorial</h1>
+<h1><span class="header-section-number">1</span> Aim of this tutorial</h1>
 <p>Upon this exercise you can</p>
 <ol style="list-style-type: decimal">
 <li>conduct a statistical hypothesis test for a two group comparison in R and to interpret the results.</li>
@@ -563,7 +567,7 @@ div.tocify {
 </ol>
 </div>
 <div id="background" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Background</h1>
+<h1><span class="header-section-number">2</span> Background</h1>
 <p>Researchers wanted to study the immune response on pertussis. They have set up an experiments with 40 rats. 16 rats were infected with pertussis and 24 rats received a control treatment. Researchers measured the white blood cell concentration (WBC) in each rat (count per mm<span class="math inline">\(^3\)</span>.</p>
 <p>De data consists of two variables:</p>
 <ul>
@@ -576,36 +580,38 @@ div.tocify {
 </ul>
 </div>
 <div id="import-the-dataset" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Import the dataset</h1>
+<h1><span class="header-section-number">3</span> Import the dataset</h1>
 <p>Load the libraries</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <p>Data path:</p>
 <p><code>https://raw.githubusercontent.com/statOmics/PSLS21/data/wbcon.csv</code></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>wbcon <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/wbcon.csv&quot;</span>)</span></code></pre></div>
-<pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   WBC = col_double(),
-##   trt = col_character()
-## )</code></pre>
+<pre><code>## Rows: 40 Columns: 2
+## ── Column specification ──────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (1): trt
+## dbl (1): WBC
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(wbcon)</span></code></pre></div>
 <div id="aim-of-the-study" class="section level2" number="3.1">
-<h2 number="3.1"><span class="header-section-number">3.1</span> Aim of the study</h2>
+<h2><span class="header-section-number">3.1</span> Aim of the study</h2>
 <p>The overarching goal of this study was to assess if the white blood cell count changes upon pertussis infection. To this end, researchers randomized 40 rats to two treatments: A control treatment and a treatment in which the rat was infected with pertussis.</p>
 </div>
 </div>
 <div id="data-exploration" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Data exploration</h1>
+<h1><span class="header-section-number">4</span> Data exploration</h1>
 <p>A crucial first step in a data analysis is to visualize and to explore the raw data.</p>
 <p>This will allow us to gain insight in the data.</p>
 <p>A secondary goal of the data exploration is to check the assumptions of the test that we will perform.</p>
 <div id="which-test-will-you-perform-to-compare-the-white-blood-cell-count-between-infected-and-control-rats" class="section level2" number="4.1">
-<h2 number="4.1"><span class="header-section-number">4.1</span> Which test will you perform to compare the white blood cell count between infected and control rats?</h2>
+<h2><span class="header-section-number">4.1</span> Which test will you perform to compare the white blood cell count between infected and control rats?</h2>
 <p>40 different rats are assigned at random to a control treatment or a treatment where they are infected with pertussis. The white blood cells of the rats are measured on different animals and we can assume that the data between rats are independent. Note, that this will not be the case if multiple rats are housed in the same cages!</p>
 <p>We will therefore perform a two-sample t-test to assess if the average white blood cell count differs between infected rats and rats that received the control treatment.</p>
 </div>
 <div id="what-are-the-assumptions-of-this-test" class="section level2" number="4.2">
-<h2 number="4.2"><span class="header-section-number">4.2</span> What are the assumptions of this test?</h2>
+<h2><span class="header-section-number">4.2</span> What are the assumptions of this test?</h2>
 <ol style="list-style-type: decimal">
 <li>The data are independent</li>
 <li>The data in both groups have the same variance</li>
@@ -613,7 +619,7 @@ div.tocify {
 </ol>
 </div>
 <div id="boxplots" class="section level2" number="4.3">
-<h2 number="4.3"><span class="header-section-number">4.3</span> Boxplots</h2>
+<h2><span class="header-section-number">4.3</span> Boxplots</h2>
 <p>We can assess the second assumption using boxplots.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>wbcon <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> WBC, <span class="at">fill =</span> trt)) <span class="sc">+</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
@@ -629,7 +635,7 @@ div.tocify {
 <p>Both the mean and variance of the data seems to differ between control rats and rats infected with pertussis. So the second assumption is not valid. If the data are normally distributed we can compare the groups using a Welch modified t-test, which is valid if the data in both groups are exhibiting a different variance.</p>
 </div>
 <div id="qq-plots" class="section level2" number="4.4">
-<h2 number="4.4"><span class="header-section-number">4.4</span> QQ-plots</h2>
+<h2><span class="header-section-number">4.4</span> QQ-plots</h2>
 <p>To assess the assumption that the data are normally distributed in each treatment group, we will use QQ plots.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>wbcon <span class="sc">%&gt;%</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> WBC)) <span class="sc">+</span></span>
@@ -642,9 +648,9 @@ div.tocify {
 </div>
 </div>
 <div id="assess-the-research-question-with-the-appropriate-t-test" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> Assess the research question with the appropriate t-test</h1>
+<h1><span class="header-section-number">5</span> Assess the research question with the appropriate t-test</h1>
 <div id="analysis" class="section level2" number="5.1">
-<h2 number="5.1"><span class="header-section-number">5.1</span> Analysis</h2>
+<h2><span class="header-section-number">5.1</span> Analysis</h2>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">t.test</span>(WBC<span class="sc">~</span> trt, <span class="at">data =</span> wbcon, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>output </span></code></pre></div>
 <pre><code>## 
@@ -660,16 +666,16 @@ div.tocify {
 ##                12215.92                35750.81</code></pre>
 </div>
 <div id="conclusion" class="section level2" number="5.2">
-<h2 number="5.2"><span class="header-section-number">5.2</span> Conclusion</h2>
+<h2><span class="header-section-number">5.2</span> Conclusion</h2>
 <p>The average white blood cell count is extremely different between rats that are infected with pertussis and rads that received a control treatment (p &lt;&lt; 0.001).</p>
 <p>The white blood cell count is on average 23535 blood cells/mm<span class="math inline">\(^3\)</span> higher for rats with pertussis than for rats that received a control treatment (95% CI [14758, 32311]).</p>
 </div>
 </div>
 <div id="addendum-train-yourself-in-checking-the-assumptions" class="section level1" number="6">
-<h1 number="6"><span class="header-section-number">6</span> ADDENDUM: Train yourself in checking the assumptions</h1>
+<h1><span class="header-section-number">6</span> ADDENDUM: Train yourself in checking the assumptions</h1>
 <p>In order for the learners to get more proficient in evaluating the assumptions we will simulate 8 dataset with sample sizes similar to our data for which the assumptions of normality and equal variance do hold. For the QQ-plots we will only plot the one from one of the groups.</p>
 <div id="simulate-data" class="section level2" number="6.1">
-<h2 number="6.1"><span class="header-section-number">6.1</span> Simulate data</h2>
+<h2><span class="header-section-number">6.1</span> Simulate data</h2>
 <p>We simulate 8 datasets with the same sample sizes, means and pooled variance as in the sample.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">21532</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>nSim <span class="ot">&lt;-</span> <span class="dv">8</span></span>
@@ -700,7 +706,7 @@ div.tocify {
 <span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">trt =</span> wbcon<span class="sc">$</span>trt)</span></code></pre></div>
 </div>
 <div id="comparisons-of-variances" class="section level2" number="6.2">
-<h2 number="6.2"><span class="header-section-number">6.2</span> Comparisons of variances</h2>
+<h2><span class="header-section-number">6.2</span> Comparisons of variances</h2>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(normSim)[<span class="dv">1</span><span class="sc">:</span>(nSim<span class="sc">+</span><span class="dv">1</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;orig&quot;</span>,<span class="fu">paste0</span>(<span class="st">&quot;sim&quot;</span>,<span class="dv">1</span><span class="sc">:</span>nSim))</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>normSim <span class="sc">%&gt;%</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(samp, data, <span class="sc">-</span>trt) <span class="sc">%&gt;%</span></span>
@@ -711,9 +717,9 @@ div.tocify {
 <p>We observe that the difference in variability of the original observations (top left plot) is larger than in the each simulations. Indicating that there is indeed evidence that the variances in each group differ.</p>
 </div>
 <div id="evaluation-of-normality" class="section level2" number="6.3">
-<h2 number="6.3"><span class="header-section-number">6.3</span> Evaluation of normality</h2>
+<h2><span class="header-section-number">6.3</span> Evaluation of normality</h2>
 <div id="control-group" class="section level3" number="6.3.1">
-<h3 number="6.3.1"><span class="header-section-number">6.3.1</span> Control group</h3>
+<h3><span class="header-section-number">6.3.1</span> Control group</h3>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>normSim <span class="sc">%&gt;%</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(samp, data, <span class="sc">-</span>trt) <span class="sc">%&gt;%</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trt <span class="sc">==</span> <span class="st">&quot;control&quot;</span>) <span class="sc">%&gt;%</span></span>
@@ -724,7 +730,7 @@ div.tocify {
 <p><img src="05_2_pertussis_sol_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 <div id="pertussis-group" class="section level3" number="6.3.2">
-<h3 number="6.3.2"><span class="header-section-number">6.3.2</span> Pertussis group</h3>
+<h3><span class="header-section-number">6.3.2</span> Pertussis group</h3>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>normSim <span class="sc">%&gt;%</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(samp, data, <span class="sc">-</span>trt) <span class="sc">%&gt;%</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trt <span class="sc">==</span> <span class="st">&quot;pertussis&quot;</span>) <span class="sc">%&gt;%</span></span>
