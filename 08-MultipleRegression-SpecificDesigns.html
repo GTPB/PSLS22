@@ -424,7 +424,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">PSLS</a>
+      <a class="navbar-brand" href="index.html"></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -713,15 +713,15 @@ Fit: lm(formula = 1/time ~ poison + treat, data = rats)
 
 Linear Hypotheses:
                       Estimate Std. Error t value Pr(&gt;|t|)    
-poison: II - I == 0    0.04686    0.01744   2.688  0.07346 .  
-poison: III - I == 0   0.19964    0.01744  11.451  &lt; 0.001 ***
-poison: III - II == 0  0.15278    0.01744   8.763  &lt; 0.001 ***
-treat: B - A == 0     -0.16574    0.02013  -8.233  &lt; 0.001 ***
-treat: C - A == 0     -0.05721    0.02013  -2.842  0.05092 .  
-treat: D - A == 0     -0.13583    0.02013  -6.747  &lt; 0.001 ***
-treat: C - B == 0      0.10853    0.02013   5.391  &lt; 0.001 ***
-treat: D - B == 0      0.02991    0.02013   1.485  0.61546    
-treat: D - C == 0     -0.07862    0.02013  -3.905  0.00277 ** 
+poison: II - I == 0    0.04686    0.01744   2.688   0.0736 .  
+poison: III - I == 0   0.19964    0.01744  11.451   &lt;0.001 ***
+poison: III - II == 0  0.15278    0.01744   8.763   &lt;0.001 ***
+treat: B - A == 0     -0.16574    0.02013  -8.233   &lt;0.001 ***
+treat: C - A == 0     -0.05721    0.02013  -2.842   0.0510 .  
+treat: D - A == 0     -0.13583    0.02013  -6.747   &lt;0.001 ***
+treat: C - B == 0      0.10853    0.02013   5.391   &lt;0.001 ***
+treat: D - B == 0      0.02991    0.02013   1.485   0.6155    
+treat: D - C == 0     -0.07862    0.02013  -3.905   0.0028 ** 
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -734,21 +734,21 @@ Multiple Comparisons of Means: Tukey Contrasts
 
 Fit: lm(formula = 1/time ~ poison + treat, data = rats)
 
-Quantile = 2.8492
+Quantile = 2.8496
 95% family-wise confidence level
  
 
 Linear Hypotheses:
                       Estimate   lwr        upr       
-poison: II - I == 0    0.0468641 -0.0028114  0.0965396
-poison: III - I == 0   0.1996425  0.1499670  0.2493180
-poison: III - II == 0  0.1527784  0.1031029  0.2024538
-treat: B - A == 0     -0.1657402 -0.2231005 -0.1083799
-treat: C - A == 0     -0.0572135 -0.1145738  0.0001468
-treat: D - A == 0     -0.1358338 -0.1931941 -0.0784735
-treat: C - B == 0      0.1085267  0.0511664  0.1658870
-treat: D - B == 0      0.0299064 -0.0274539  0.0872667
-treat: D - C == 0     -0.0786203 -0.1359806 -0.0212600</code></pre>
+poison: II - I == 0    0.0468641 -0.0028196  0.0965479
+poison: III - I == 0   0.1996425  0.1499587  0.2493263
+poison: III - II == 0  0.1527784  0.1030946  0.2024621
+treat: B - A == 0     -0.1657402 -0.2231101 -0.1083704
+treat: C - A == 0     -0.0572135 -0.1145834  0.0001563
+treat: D - A == 0     -0.1358338 -0.1932037 -0.0784640
+treat: C - B == 0      0.1085267  0.0511568  0.1658966
+treat: D - B == 0      0.0299064 -0.0274635  0.0872763
+treat: D - C == 0     -0.0786203 -0.1359901 -0.0212504</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(comparisons, <span class="at">yaxt =</span> <span class="st">&quot;none&quot;</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>contrastNames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;II-I&quot;</span>, <span class="st">&quot;III-I&quot;</span>, <span class="st">&quot;III-II&quot;</span>, <span class="st">&quot;B-A&quot;</span>, <span class="st">&quot;C-A&quot;</span>, <span class="st">&quot;D-A&quot;</span>, <span class="st">&quot;C-B&quot;</span>, <span class="st">&quot;D-B&quot;</span>, <span class="st">&quot;D-C&quot;</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">at =</span> <span class="fu">c</span>(<span class="fu">length</span>(contrastNames)<span class="sc">:</span><span class="dv">1</span>), <span class="at">labels =</span> contrastNames, <span class="at">las =</span> <span class="dv">2</span>)</span></code></pre></div>

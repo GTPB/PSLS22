@@ -14,8 +14,8 @@
 
 <title>5. Statistical Inference</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -51,6 +51,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -189,6 +190,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -417,12 +421,12 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">PSLS</a>
+      <a class="navbar-brand" href="index.html"></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -433,7 +437,7 @@ div.tocify {
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-chalkboard-teacher"></span>
      
     Lectures
@@ -489,7 +493,7 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-laptop"></span>
      
     Labs
@@ -536,7 +540,7 @@ div.tocify {
 <div id="header">
 
 <div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
 <ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
@@ -556,9 +560,9 @@ div.tocify {
 
 <p><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a></p>
 <div id="introduction" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Introduction</h1>
+<h1><span class="header-section-number">1</span> Introduction</h1>
 <div id="population" class="section level2" number="1.1">
-<h2 number="1.1"><span class="header-section-number">1.1</span> Population</h2>
+<h2><span class="header-section-number">1.1</span> Population</h2>
 <ul>
 <li><p>The aim of a scientific study is to draw conclusions on the general population.</p></li>
 <li><p>Here, we study the effect of captopril on the blood pressure of patients with hypertension.</p></li>
@@ -570,7 +574,7 @@ div.tocify {
 <hr />
 </div>
 <div id="overview" class="section level2" number="1.2">
-<h2 number="1.2"><span class="header-section-number">1.2</span> Overview</h2>
+<h2><span class="header-section-number">1.2</span> Overview</h2>
 <ul>
 <li>Experimental Design &amp; Data Exploration</li>
 <li>Point estimators (Estimation)</li>
@@ -581,7 +585,7 @@ div.tocify {
 </div>
 </div>
 <div id="experimental-design" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Experimental Design</h1>
+<h1><span class="header-section-number">2</span> Experimental Design</h1>
 <ul>
 <li>15 patients were drawn at random from the population of patients with hypertension</li>
 <li>pre-test/post-test design: the systolic and diasystolic blood pressure are measured before and after administering captopril</li>
@@ -592,7 +596,7 @@ div.tocify {
 <hr />
 </div>
 <div id="data-exploration-and-descriptive-statistics" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Data exploration and Descriptive Statistics</h1>
+<h1><span class="header-section-number">3</span> Data exploration and Descriptive Statistics</h1>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>captopril <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/GTPB/PSLS20/master/data/captopril.txt&quot;</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(captopril)</span></code></pre></div>
 <div data-pagedtable="false">
@@ -601,13 +605,20 @@ div.tocify {
   </script>
 </div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(captopril)</span></code></pre></div>
-<pre><code>       id            SBPb            DBPb            SBPa          DBPa      
- Min.   : 1.0   Min.   :146.0   Min.   : 98.0   Min.   :129   Min.   : 82.0  
- 1st Qu.: 4.5   1st Qu.:163.5   1st Qu.:103.0   1st Qu.:146   1st Qu.: 98.0  
- Median : 8.0   Median :174.0   Median :112.0   Median :157   Median :103.0  
- Mean   : 8.0   Mean   :176.9   Mean   :112.3   Mean   :158   Mean   :103.1  
- 3rd Qu.:11.5   3rd Qu.:192.5   3rd Qu.:121.5   3rd Qu.:168   3rd Qu.:108.0  
- Max.   :15.0   Max.   :210.0   Max.   :130.0   Max.   :201   Max.   :125.0  </code></pre>
+<pre><code>       id            SBPb            DBPb            SBPa    
+ Min.   : 1.0   Min.   :146.0   Min.   : 98.0   Min.   :129  
+ 1st Qu.: 4.5   1st Qu.:163.5   1st Qu.:103.0   1st Qu.:146  
+ Median : 8.0   Median :174.0   Median :112.0   Median :157  
+ Mean   : 8.0   Mean   :176.9   Mean   :112.3   Mean   :158  
+ 3rd Qu.:11.5   3rd Qu.:192.5   3rd Qu.:121.5   3rd Qu.:168  
+ Max.   :15.0   Max.   :210.0   Max.   :130.0   Max.   :201  
+      DBPa      
+ Min.   : 82.0  
+ 1st Qu.: 98.0  
+ Median :103.0  
+ Mean   :103.1  
+ 3rd Qu.:108.0  
+ Max.   :125.0  </code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>captopril_tidy <span class="ot">&lt;-</span> captopril <span class="sc">%&gt;%</span> <span class="fu">gather</span>(type, bp, <span class="sc">-</span>id)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>captopril_summary <span class="ot">&lt;-</span> captopril_tidy <span class="sc">%&gt;%</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(type) <span class="sc">%&gt;%</span></span>
@@ -687,7 +698,7 @@ div.tocify {
 <hr />
 </div>
 <div id="estimation" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Estimation</h1>
+<h1><span class="header-section-number">4</span> Estimation</h1>
 <ul>
 <li><p>No substantial deviations from normality</p></li>
 <li><p>We can assume that the differences <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span>.</p></li>
@@ -699,7 +710,7 @@ div.tocify {
 <li><p>How are the estimators <span class="math inline">\(\bar X\)</span> and <span class="math inline">\(S\)</span> distributed?</p></li>
 </ul>
 <div id="point-estimator-the-sample-mean" class="section level2" number="4.1">
-<h2 number="4.1"><span class="header-section-number">4.1</span> Point estimator the sample mean</h2>
+<h2><span class="header-section-number">4.1</span> Point estimator the sample mean</h2>
 <ul>
 <li><p>Suppose that <span class="math inline">\(X\)</span> is a random sample from the population and assume that <span class="math inline">\(X \sim N(\mu,\sigma^2)\)</span></p></li>
 <li><p>Estimate <span class="math inline">\(\mu\)</span> based on sample <span class="math inline">\(X_1,...,X_n\)</span>, using the sample mean <span class="math display">\[\bar X = \frac{X_1+ X_2+ ... + X_n}{n} = \frac{\sum_{i=1}^{n} X_i}{n}\]</span> of random variables <span class="math inline">\(X_1,X_2, ..., X_n\)</span>.</p></li>
@@ -712,7 +723,7 @@ div.tocify {
 </ul>
 <hr />
 <div id="overview-1" class="section level3" number="4.1.1">
-<h3 number="4.1.1"><span class="header-section-number">4.1.1</span> Overview</h3>
+<h3><span class="header-section-number">4.1.1</span> Overview</h3>
 <ol style="list-style-type: decimal">
 <li>The sample mean is unbiased</li>
 <li>Precision of sample mean</li>
@@ -721,7 +732,7 @@ div.tocify {
 <hr />
 </div>
 <div id="the-sample-mean-is-unbiased" class="section level3" number="4.1.2">
-<h3 number="4.1.2"><span class="header-section-number">4.1.2</span> The sample mean is unbiased</h3>
+<h3><span class="header-section-number">4.1.2</span> The sample mean is unbiased</h3>
 <ul>
 <li><p>We can generalize our observations based on the sample towards the population if the estimate is good approximation of the population value.</p></li>
 <li><p>A representative sample is required to generalize the results from the sample towards the population</p></li>
@@ -752,7 +763,7 @@ E(\bar X) &amp;=&amp; E \left(\frac{X_1+ X_2+ ... + X_n}{n}\right) \\
 <hr />
 </div>
 <div id="imprecisionstandard-error" class="section level3" number="4.1.3">
-<h3 number="4.1.3"><span class="header-section-number">4.1.3</span> Imprecision/standard error</h3>
+<h3><span class="header-section-number">4.1.3</span> Imprecision/standard error</h3>
 <ul>
 <li><p>Also for representative samples the results are imprecise. </p></li>
 <li><p>Different samples from the same population give different results.</p></li>
@@ -806,7 +817,7 @@ E(\bar X) &amp;=&amp; E \left(\frac{X_1+ X_2+ ... + X_n}{n}\right) \\
 <hr />
 </div>
 <div id="how-to-do-this-based-on-a-single-sample" class="section level3" number="4.1.4">
-<h3 number="4.1.4"><span class="header-section-number">4.1.4</span> How to do this based on a single sample?</h3>
+<h3><span class="header-section-number">4.1.4</span> How to do this based on a single sample?</h3>
 <ul>
 <li><p>Insight in how close we can expect <span class="math inline">\(\bar X\)</span> to <span class="math inline">\(\mu\)</span>?</p></li>
 <li><p>How varies <span class="math inline">\(\bar X\)</span> from sample to sample?</p></li>
@@ -823,7 +834,7 @@ E(\bar X) &amp;=&amp; E \left(\frac{X_1+ X_2+ ... + X_n}{n}\right) \\
 <hr />
 </div>
 <div id="variance-estimator-for-bar-x" class="section level3" number="4.1.5">
-<h3 number="4.1.5"><span class="header-section-number">4.1.5</span> Variance estimator for <span class="math inline">\(\bar X\)</span></h3>
+<h3><span class="header-section-number">4.1.5</span> Variance estimator for <span class="math inline">\(\bar X\)</span></h3>
 <p><span class="math display">\[\sigma^2_{\bar X}=\frac{\sigma^2}{n}\]</span></p>
 <ul>
 <li><p>The standard deviation of <span class="math inline">\(\bar X\)</span> around <span class="math inline">\(\mu\)</span> is <span class="math inline">\(\sqrt{n}\)</span> times smaller that the deviation around the original observations <span class="math inline">\(X\)</span>.</p></li>
@@ -854,7 +865,7 @@ Click to see proof
 <hr />
 </div>
 <div id="captopril-example" class="section level3" number="4.1.6">
-<h3 number="4.1.6"><span class="header-section-number">4.1.6</span> Captopril example</h3>
+<h3><span class="header-section-number">4.1.6</span> Captopril example</h3>
 <ul>
 <li><p><span class="math inline">\(n = 15\)</span> differences in systolic blood pressure</p></li>
 <li><p>Suppose that the standard deviation of the blood pressure differences in the population is <span class="math inline">\(\sigma = 9.0\)</span> mmHg</p></li>
@@ -877,9 +888,9 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 <hr />
 </div>
 <div id="standard-deviation-vs-standard-error" class="section level3" number="4.1.7">
-<h3 number="4.1.7"><span class="header-section-number">4.1.7</span> Standard deviation vs standard error</h3>
+<h3><span class="header-section-number">4.1.7</span> Standard deviation vs standard error</h3>
 <div id="illustrate-via-repeated-sampling" class="section level4" number="4.1.7.1">
-<h4 number="4.1.7.1"><span class="header-section-number">4.1.7.1</span> Illustrate via repeated sampling</h4>
+<h4><span class="header-section-number">4.1.7.1</span> Illustrate via repeated sampling</h4>
 <ul>
 <li><p>Different sample sizes: 10, 50, 100</p></li>
 <li><p>Draw 1000 samples per sample size from the NHANES study, for each sample we calculate</p>
@@ -966,7 +977,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 </div>
 </div>
 <div id="normally-distributed-data" class="section level3" number="4.1.8">
-<h3 number="4.1.8"><span class="header-section-number">4.1.8</span> Normally distributed data</h3>
+<h3><span class="header-section-number">4.1.8</span> Normally distributed data</h3>
 <ul>
 <li><p>For normally distributed data we have multiple estimators for the population mean <span class="math inline">\(\mu\)</span> e.g mean and median.</p></li>
 <li><p>But, <span class="math inline">\(\bar{X}\)</span> is the unbiased estimator of <span class="math inline">\(\mu\)</span> with the smallest standard error</p></li>
@@ -994,7 +1005,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 <p><img src="05-statisticalInference_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 </div>
 <div id="distribution-of-sample-mean" class="section level3" number="4.1.9">
-<h3 number="4.1.9"><span class="header-section-number">4.1.9</span> Distribution of sample mean</h3>
+<h3><span class="header-section-number">4.1.9</span> Distribution of sample mean</h3>
 <ul>
 <li>How varies <span class="math inline">\(\bar X\)</span> from sample to sample?</li>
 <li>Distribution of <span class="math inline">\(\bar X\)</span>?</li>
@@ -1004,7 +1015,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 <p><span class="math display">\[X_i \sim N(\mu,\sigma^2) \rightarrow  \bar X \sim N(\mu,  \sigma^2/n)\]</span></p>
 <hr />
 <div id="nhanes-cholesterol" class="section level4" number="4.1.9.1">
-<h4 number="4.1.9.1"><span class="header-section-number">4.1.9.1</span> NHANES: cholesterol</h4>
+<h4><span class="header-section-number">4.1.9.1</span> NHANES: cholesterol</h4>
 <p>We illustrate this again with simulation using the NHANES study. The log2 cholesterol levels were normally distributed.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fem <span class="sc">%&gt;%</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> DirectChol <span class="sc">%&gt;%</span> <span class="fu">log2</span>())) <span class="sc">+</span></span>
@@ -1095,7 +1106,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 </div>
 </div>
 <div id="captopril-study" class="section level4" number="4.1.9.2">
-<h4 number="4.1.9.2"><span class="header-section-number">4.1.9.2</span> Captopril study</h4>
+<h4><span class="header-section-number">4.1.9.2</span> Captopril study</h4>
 <ul>
 <li><p>For Captopril study the systolic blood pressure differences are approximatively normally distributed.</p></li>
 <li><p>s.e.= 2.32 mm Hg</p></li>
@@ -1105,7 +1116,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 </div>
 </div>
 <div id="non-normally-distributed-data" class="section level3" number="4.1.10">
-<h3 number="4.1.10"><span class="header-section-number">4.1.10</span> Non-normally distributed data</h3>
+<h3><span class="header-section-number">4.1.10</span> Non-normally distributed data</h3>
 <ul>
 <li><p>When individual observations do not have a normal distribution, <span class="math inline">\(\bar X\)</span> is still  Normally distributed when the number observations are large enough.</p></li>
 <li><p>How large does the sample needs to be for the Normal approximation to work?</p></li>
@@ -1190,18 +1201,18 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 </div>
 </div>
 <div id="central-limit-theorem" class="section level3" number="4.1.11">
-<h3 number="4.1.11"><span class="header-section-number">4.1.11</span> Central Limit Theorem</h3>
+<h3><span class="header-section-number">4.1.11</span> Central Limit Theorem</h3>
 <p>Let <span class="math inline">\(X_1, \ldots, X_n\)</span> are sequence of random variables that are drawn independently from the same distribution (population). As long as the sample size n is sufficiently large, the sample mean <span class="math inline">\(\bar X\)</span> is approximately normally distributed, irrespective of the distribution of the observations <span class="math inline">\(X_i\)</span>.</p>
 </div>
 <div id="overview-on-the-distribution-of-the-mean" class="section level3" number="4.1.12">
-<h3 number="4.1.12"><span class="header-section-number">4.1.12</span> Overview on the distribution of the mean</h3>
+<h3><span class="header-section-number">4.1.12</span> Overview on the distribution of the mean</h3>
 <p><a href="https://www.nature.com/articles/nmeth.2613.pdf" class="uri">https://www.nature.com/articles/nmeth.2613.pdf</a></p>
 <hr />
 </div>
 </div>
 </div>
 <div id="interval-estimators" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> Interval estimators</h1>
+<h1><span class="header-section-number">5</span> Interval estimators</h1>
 <ul>
 <li><p><span class="math inline">\(\bar X\)</span> varies around <span class="math inline">\(\mu\)</span></p></li>
 <li><p>Here we will develop an interval around <span class="math inline">\(\bar X\)</span> that will contain the value of <span class="math inline">\(\mu\)</span> with a probability of 95% for a random sample.</p></li>
@@ -1209,7 +1220,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 </ul>
 <hr />
 <div id="normally-distributed-data-with-known-variance" class="section level2" number="5.1">
-<h2 number="5.1"><span class="header-section-number">5.1</span> Normally distributed data with known variance</h2>
+<h2><span class="header-section-number">5.1</span> Normally distributed data with known variance</h2>
 <ul>
 <li><p><span class="math inline">\(X\sim N(\mu,\sigma^2) \rightarrow \bar X\sim N\left(\mu,\frac{\sigma^2}{n}\right)\)</span></p></li>
 <li><p>95% reference-interval for sample mean</p></li>
@@ -1249,9 +1260,9 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 </ul>
 <hr />
 <div id="nhanes-log2-cholesterol-example" class="section level3" number="5.1.1">
-<h3 number="5.1.1"><span class="header-section-number">5.1.1</span> NHANES log2 cholesterol example</h3>
+<h3><span class="header-section-number">5.1.1</span> NHANES log2 cholesterol example</h3>
 <div id="one-sample" class="section level4" number="5.1.1.1">
-<h4 number="5.1.1.1"><span class="header-section-number">5.1.1.1</span> One sample</h4>
+<h4><span class="header-section-number">5.1.1.1</span> One sample</h4>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>samp50 <span class="ot">&lt;-</span> <span class="fu">sample</span>(fem<span class="sc">$</span>DirectChol, <span class="dv">50</span>)</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>ll <span class="ot">&lt;-</span> <span class="fu">mean</span>(samp50 <span class="sc">%&gt;%</span> <span class="fu">log2</span>()) <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> <span class="fu">sd</span>(samp50 <span class="sc">%&gt;%</span> <span class="fu">log2</span>()) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">50</span>)</span>
@@ -1263,7 +1274,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 0.3992544 0.5866900 0.5142563 </code></pre>
 </div>
 <div id="repeated-sampling" class="section level4" number="5.1.1.2">
-<h4 number="5.1.1.2"><span class="header-section-number">5.1.1.2</span> Repeated sampling</h4>
+<h4><span class="header-section-number">5.1.1.2</span> Repeated sampling</h4>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>res<span class="sc">$</span>ll <span class="ot">&lt;-</span> res<span class="sc">$</span>mean <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> res<span class="sc">$</span>se</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>res<span class="sc">$</span>ul <span class="ot">&lt;-</span> res<span class="sc">$</span>mean <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> res<span class="sc">$</span>se</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> fem<span class="sc">$</span>DirectChol <span class="sc">%&gt;%</span></span>
@@ -1325,7 +1336,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 </div>
 </div>
 <div id="other-confidence-levels" class="section level3" number="5.1.2">
-<h3 number="5.1.2"><span class="header-section-number">5.1.2</span> Other confidence levels</h3>
+<h3><span class="header-section-number">5.1.2</span> Other confidence levels</h3>
 <ul>
 <li><p>We can replace the <span class="math inline">\(z_{2.5\%}=1.96\)</span> by another quantile of the normal distribution <span class="math inline">\(z_{\alpha/2}\)</span> to obtain an interval with another confidence level <span class="math inline">\(1-\alpha\)</span>.</p></li>
 <li><p>Confidence intervals are not only used for the mean but also for other population parameters.</p></li>
@@ -1334,7 +1345,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 </div>
 </div>
 <div id="unknown-variance" class="section level2" number="5.2">
-<h2 number="5.2"><span class="header-section-number">5.2</span> Unknown variance</h2>
+<h2><span class="header-section-number">5.2</span> Unknown variance</h2>
 <p>In real examples <span class="math inline">\(\sigma\)</span> is unknown and estimated based on the sample using the sample standard deviation <span class="math inline">\(S\)</span>.</p>
 <ul>
 <li><p>The previous intervals were a bit to small because they did not account for the uncertainty on the estimation of <span class="math inline">\(S\)</span>.</p></li>
@@ -1342,7 +1353,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 <li><p>Hence, <span class="math inline">\({(\bar{X} - \mu)}/{(S/\sqrt{n}) }\)</span> is approximately standard normal and <span class="math display">\[\begin{equation*}
 \left[\bar{X} - z_{\alpha/2} \ \frac{S}{\sqrt{n}} , \bar{X} + z_{\alpha/2} \
 \frac{S}{\sqrt{n}}\right]
-\end{equation*}\]</span> is an approximate <span class="math inline">\((1- \alpha)100\%\)</span> CI for <span class="math inline">\(\mu\)</span>.</p></li>
+\end{equation*}\]</span>n}}] \end{equation*} is an approximate <span class="math inline">\((1- \alpha)100\%\)</span> CI for <span class="math inline">\(\mu\)</span>.</p></li>
 <li><p>For small samples this no longer holds (e.g. n=10)</p></li>
 </ul>
 <p>The estimation of <span class="math inline">\(S\)</span> introduces additional uncertainty in the standardized value <span class="math inline">\({(\bar{X} - \mu)}/{(S/\sqrt{n})}\)</span>. Its distribution</p>
@@ -1353,7 +1364,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 </ul>
 <hr />
 <div id="t-distribution" class="section level3" number="5.2.1">
-<h3 number="5.2.1"><span class="header-section-number">5.2.1</span> T-distribution</h3>
+<h3><span class="header-section-number">5.2.1</span> T-distribution</h3>
 <p>More formally: Let <span class="math inline">\(X_1, X_2, ..., X_n\)</span> be an independent random sample from a Normal distribution <span class="math inline">\(N(\mu, \sigma^2)\)</span>, then <span class="math inline">\((\bar{X} - \mu)/(S/\sqrt{n})\)</span> follows a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n-1\)</span> degrees of freedom.</p>
 <p>The density of a t-distribution can be calculated in R using the function <code>dt</code>. It has arguments <code>x</code> for the quantile and <code>df</code> for the degrees of freedom.</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>, .<span class="dv">1</span>)</span>
@@ -1383,7 +1394,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 <hr />
 </div>
 <div id="confidence-interval-based-on-the-t-distribution" class="section level3" number="5.2.2">
-<h3 number="5.2.2"><span class="header-section-number">5.2.2</span> Confidence interval based on the t-distribution</h3>
+<h3><span class="header-section-number">5.2.2</span> Confidence interval based on the t-distribution</h3>
 <p>The <span class="math inline">\(100\% (1-\alpha)\)</span> CI for the mean <span class="math inline">\(\mu\)</span> of a Normal distributed random variable <span class="math inline">\(X\)</span> with unknown variance is</p>
 <p><span class="math display">\[\begin{equation*}
 \left[\bar{X} - t_{n-1, \alpha/2} \frac{s}{\sqrt{n}} , \bar{X} + t_{n-1,
@@ -1393,7 +1404,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 <li>We simply replace the <span class="math inline">\((1-\alpha/2)100\%\)</span> quantile of the Normal distribution by that of the t-distribution with <span class="math inline">\(n-1\)</span> degrees of freedom.</li>
 </ul>
 <div id="captopril-example-1" class="section level4" number="5.2.2.1">
-<h4 number="5.2.2.1"><span class="header-section-number">5.2.2.1</span> Captopril example</h4>
+<h4><span class="header-section-number">5.2.2.1</span> Captopril example</h4>
 <p>95% CI for the average blood pressure change becomes</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(captopril<span class="sc">$</span>deltaSBP) <span class="sc">-</span> <span class="fu">qt</span>(.<span class="dv">975</span>, <span class="at">df =</span> <span class="dv">14</span>) <span class="sc">*</span> <span class="fu">sd</span>(captopril<span class="sc">$</span>deltaSBP) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">15</span>)</span></code></pre></div>
 <pre><code>[1] -23.93258</code></pre>
@@ -1409,7 +1420,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 </div>
 </div>
 <div id="interpretation-of-the-confidence-interval" class="section level3" number="5.2.3">
-<h3 number="5.2.3"><span class="header-section-number">5.2.3</span> Interpretation of the confidence interval</h3>
+<h3><span class="header-section-number">5.2.3</span> Interpretation of the confidence interval</h3>
 <ul>
 <li>We will revisit the results for sampling log2 cholesterol levels from the large NHANES study. We first focus on the repeated experiments with sample size 10.</li>
 </ul>
@@ -1446,7 +1457,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 </div>
 </div>
 <div id="reporting" class="section level2" number="5.3">
-<h2 number="5.3"><span class="header-section-number">5.3</span> Reporting?</h2>
+<h2><span class="header-section-number">5.3</span> Reporting?</h2>
 <ul>
 <li><p>Always report the uncertainty on the results!</p></li>
 <li><p>Conclusions based on a point estimate can be very misleading.</p></li>
@@ -1456,16 +1467,16 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 <li><p>We conclude that the population parameter lays in the interval and know that this statement holds with a probability of 95% for random samples.</p></li>
 </ul>
 <div id="captopril-example-2" class="section level3" number="5.3.1">
-<h3 number="5.3.1"><span class="header-section-number">5.3.1</span> Captopril example</h3>
+<h3><span class="header-section-number">5.3.1</span> Captopril example</h3>
 <p>We conclude that the blood pressure decreases on average with 18.9mmHg upon administering captopril (95% CI [-23.9,-13.9]mmHg).</p>
 <p>Based on these results it is obvious that the treatment causes a strong blood pressure drop for patients with hypertension.</p>
 </div>
 </div>
 </div>
 <div id="hypothesis-tests" class="section level1" number="6">
-<h1 number="6"><span class="header-section-number">6</span> Hypothesis tests</h1>
+<h1><span class="header-section-number">6</span> Hypothesis tests</h1>
 <div id="captopril-example-3" class="section level2" number="6.1">
-<h2 number="6.1"><span class="header-section-number">6.1</span> Captopril Example:</h2>
+<h2><span class="header-section-number">6.1</span> Captopril Example:</h2>
 <p>Researchers want to assess if the drug captopril decreases the blood pressure for patients with hypertension.</p>
 <ul>
 <li><p>Is there no/an effect of administering captopril on the systolic blood pressure?</p></li>
@@ -1499,7 +1510,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 </ul>
 <hr />
 <div id="hypothesis-tests-1" class="section level3" number="6.1.1">
-<h3 number="6.1.1"><span class="header-section-number">6.1.1</span> Hypothesis tests</h3>
+<h3><span class="header-section-number">6.1.1</span> Hypothesis tests</h3>
 <ul>
 <li><p>For this purpose statistical hypothesis tests have been developed</p></li>
 <li><p>They give a black/white answer</p></li>
@@ -1511,7 +1522,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 </ul></li>
 </ul>
 <div id="captopril" class="section level4" number="6.1.1.1">
-<h4 number="6.1.1.1"><span class="header-section-number">6.1.1.1</span> Captopril</h4>
+<h4><span class="header-section-number">6.1.1.1</span> Captopril</h4>
 <ul>
 <li><p>Based on the sample we cannot prove that there is an effect of administering captopril (<span class="math inline">\(H_1\)</span> , alternative hypothesis).</p></li>
 <li><p>We therefore suppose that there is no effect of captopril.</p>
@@ -1524,7 +1535,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 <hr />
 </div>
 <div id="permutation-test" class="section level4" number="6.1.1.2">
-<h4 number="6.1.1.2"><span class="header-section-number">6.1.1.2</span> Permutation test</h4>
+<h4><span class="header-section-number">6.1.1.2</span> Permutation test</h4>
 <ul>
 <li><p>Under <span class="math inline">\(H_0\)</span> the blood pressure measurements before and after administering captopril are two base line blood pressure measurements for a patient</p></li>
 <li><p>Under H<span class="math inline">\(_0\)</span> we can shuffle (permute) the blood pressure measurements for each patient.</p></li>
@@ -1602,7 +1613,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 </div>
 </div>
 <div id="pivot" class="section level3" number="6.1.2">
-<h3 number="6.1.2"><span class="header-section-number">6.1.2</span> Pivot</h3>
+<h3><span class="header-section-number">6.1.2</span> Pivot</h3>
 <ul>
 <li><p>In practice we always use statistics that balance the effect size (average difference) to the noise (standard error)</p></li>
 <li><p>When we falsify the null hypothesis, we standardize the mean around <span class="math inline">\(\mu_0=0\)</span> the mean under <span class="math inline">\(H_0\)</span></p></li>
@@ -1636,7 +1647,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 <hr />
 </div>
 <div id="how-do-we-decide" class="section level3" number="6.1.3">
-<h3 number="6.1.3"><span class="header-section-number">6.1.3</span> How do we decide?</h3>
+<h3><span class="header-section-number">6.1.3</span> How do we decide?</h3>
 <p>When is the p-value sufficiently small to conclude that there is strong evidence against the null hypothesis?</p>
 <ul>
 <li><p>We typically work at a significance level of <span class="math inline">\(\alpha=0.05\)</span></p></li>
@@ -1645,7 +1656,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 <hr />
 </div>
 <div id="permutation-tests-are-computationally-demanding" class="section level3" number="6.1.4">
-<h3 number="6.1.4"><span class="header-section-number">6.1.4</span> Permutation tests are computationally demanding</h3>
+<h3><span class="header-section-number">6.1.4</span> Permutation tests are computationally demanding</h3>
 <ul>
 <li><p>Can we assess how extreme the blood pressure drop was without permutation?</p></li>
 <li><p>We know that the blood pressure differences are approximately Normally distributed, so</p></li>
@@ -1667,7 +1678,7 @@ SE= \frac{9.0}{\sqrt{15}}=2.32\text{mmHg.}
 </div>
 </div>
 <div id="hypotheses" class="section level2" number="6.2">
-<h2 number="6.2"><span class="header-section-number">6.2</span> Hypotheses</h2>
+<h2><span class="header-section-number">6.2</span> Hypotheses</h2>
 <details>
 <summary>
 Click to see more formal details
@@ -1682,7 +1693,7 @@ Click to see more formal details
 </p>
 </details>
 <div id="captopril-example-4" class="section level3" number="6.2.1">
-<h3 number="6.2.1"><span class="header-section-number">6.2.1</span> Captopril example</h3>
+<h3><span class="header-section-number">6.2.1</span> Captopril example</h3>
 <details>
 <summary>
 Click to see more formal details
@@ -1706,7 +1717,7 @@ Click to see more formal details
 </div>
 </div>
 <div id="test-statistic" class="section level2" number="6.3">
-<h2 number="6.3"><span class="header-section-number">6.3</span> Test-statistic</h2>
+<h2><span class="header-section-number">6.3</span> Test-statistic</h2>
 <details>
 <summary>
 Click to see more formal details
@@ -1723,7 +1734,7 @@ Click to see more formal details
 </p>
 </details>
 <div id="captopril-example-5" class="section level3" number="6.3.1">
-<h3 number="6.3.1"><span class="header-section-number">6.3.1</span> Captopril example</h3>
+<h3><span class="header-section-number">6.3.1</span> Captopril example</h3>
 <details>
 <summary>
 Click to see more formal details
@@ -1744,7 +1755,7 @@ Click to see more formal details
 </div>
 </div>
 <div id="p-value" class="section level2" number="6.4">
-<h2 number="6.4"><span class="header-section-number">6.4</span> p-value</h2>
+<h2><span class="header-section-number">6.4</span> p-value</h2>
 <p>The p-value is the probability to balance between <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_1\)</span>.</p>
 <p>The way how we calculate it is context dependent</p>
 <ul>
@@ -1755,7 +1766,7 @@ Click to see more formal details
 <p>It gives the probability to observe a test statistic <span class="math inline">\(T\)</span> lower or equal to the value observed in the current sample in a random sample under <span class="math inline">\(H_0\)</span></p>
 <pre><code>- i.e. a test statistic $T$ in the random sample under $H_0$ with a value that is more extreme, more in the direction of $H_1$ then the one observed in the current sample.</code></pre>
 <div id="captopril-example-6" class="section level3" number="6.4.1">
-<h3 number="6.4.1"><span class="header-section-number">6.4.1</span> Captopril example</h3>
+<h3><span class="header-section-number">6.4.1</span> Captopril example</h3>
 <details>
 <summary>
 Click to see more formal details
@@ -1801,7 +1812,7 @@ mean of x
 <hr />
 </div>
 <div id="definition-of-the-p-value" class="section level3" number="6.4.2">
-<h3 number="6.4.2"><span class="header-section-number">6.4.2</span> Definition of the p-value</h3>
+<h3><span class="header-section-number">6.4.2</span> Definition of the p-value</h3>
 <p>The <strong>p-value</strong> (also referred to as the <strong>observed significance level</strong>) is the probability to observe a test statistic in a random sample under the null hypothesis that is as or more extreme then the test statistic observed in the current sample.</p>
 <ul>
 <li><p>The smaller the probability the more evidence against <span class="math inline">\(H_0\)</span>.</p></li>
@@ -1824,12 +1835,12 @@ mean of x
 </div>
 </div>
 <div id="critical-value" class="section level2" number="6.5">
-<h2 number="6.5"><span class="header-section-number">6.5</span> Critical value</h2>
+<h2><span class="header-section-number">6.5</span> Critical value</h2>
 <p><img src="05-statisticalInference_files/figure-html/unnamed-chunk-43-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <hr />
 </div>
 <div id="decision-errors" class="section level2" number="6.6">
-<h2 number="6.6"><span class="header-section-number">6.6</span> Decision Errors</h2>
+<h2><span class="header-section-number">6.6</span> Decision Errors</h2>
 <p>The decision to accept or reject <span class="math inline">\(H_0\)</span> is made based on a single sample. A wrong decision could have been made.</p>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
@@ -1885,7 +1896,7 @@ OK
 <li><p>Decision is also stochastic! See first chapter of the course</p></li>
 </ul>
 <div id="captopril-example-7" class="section level3" number="6.6.1">
-<h3 number="6.6.1"><span class="header-section-number">6.6.1</span> Captopril Example</h3>
+<h3><span class="header-section-number">6.6.1</span> Captopril Example</h3>
 <ul>
 <li><p><span class="math inline">\(H_0\)</span>: administering captopril has no effect on the systolic blood pressure</p></li>
 <li><p><span class="math inline">\(H_1\)</span>: administering captopril an average leads to a decrease in blood pressure</p></li>
@@ -1895,7 +1906,7 @@ OK
 <hr />
 </div>
 <div id="type-i-error-is-controlled" class="section level3" number="6.6.2">
-<h3 number="6.6.2"><span class="header-section-number">6.6.2</span> Type I error is controlled</h3>
+<h3><span class="header-section-number">6.6.2</span> Type I error is controlled</h3>
 <p>The type I error is controlled by the construction of the statistical test.</p>
 <p><span class="math display">\[\text{P}\left[\text{type I error}\right]=\text{P}\left[\text{reject }H_0 \mid H_0\right] = \text{P}_0\left[T&lt;t_{n-1;1-\alpha}\right]=\alpha \]</span></p>
 <ul>
@@ -1938,7 +1949,7 @@ OK
 <hr />
 </div>
 <div id="type-ii-error" class="section level3" number="6.6.3">
-<h3 number="6.6.3"><span class="header-section-number">6.6.3</span> Type II error</h3>
+<h3><span class="header-section-number">6.6.3</span> Type II error</h3>
 <ul>
 <li><p>Determine the type II error is less evident.</p></li>
 <li><p>We have to reason under <span class="math inline">\(H_1\)</span></p></li>
@@ -2005,7 +2016,7 @@ OK
 <hr />
 </div>
 <div id="interpretation" class="section level3" number="6.6.4">
-<h3 number="6.6.4"><span class="header-section-number">6.6.4</span> Interpretation</h3>
+<h3><span class="header-section-number">6.6.4</span> Interpretation</h3>
 <p>Suppose that given a particular sample <span class="math inline">\(p&lt;\alpha\)</span>, i.e. reject <span class="math inline">\(H_0\)</span></p>
 <ul>
 <li><p>Two possibilities</p>
@@ -2046,7 +2057,7 @@ OK
 </div>
 </div>
 <div id="conclusions-captopril-example" class="section level2" number="6.7">
-<h2 number="6.7"><span class="header-section-number">6.7</span> Conclusions captopril example</h2>
+<h2><span class="header-section-number">6.7</span> Conclusions captopril example</h2>
 <p>The test we have performed is referred to as</p>
 <ul>
 <li><p>the <strong>one sample t-test</strong> on the difference or</p></li>
@@ -2080,7 +2091,7 @@ mean of the differences
               -18.93333 </code></pre>
 <hr />
 <div id="conclusion" class="section level3" number="6.7.1">
-<h3 number="6.7.1"><span class="header-section-number">6.7.1</span> Conclusion</h3>
+<h3><span class="header-section-number">6.7.1</span> Conclusion</h3>
 <p>There is on average an extremely significant blood pressure drop upon administering captopril to patients with hypertension. The systolic blood pressure decreases on average with 18.9 mmHg upon the treatment with captopril (95% CI [<span class="math inline">\(-\infty,-14.82\)</span>] mmHg).</p>
 <p>Note that</p>
 <ol style="list-style-type: decimal">
@@ -2091,7 +2102,7 @@ mean of the differences
 </div>
 </div>
 <div id="one-sided-or-two-side-testing" class="section level2" number="6.8">
-<h2 number="6.8"><span class="header-section-number">6.8</span> One-sided or two-side testing?</h2>
+<h2><span class="header-section-number">6.8</span> One-sided or two-side testing?</h2>
 <p>De test in the captopril example was a one-sided test. We only aim to detect if the captopril treatment on average reduces the blood pressure.</p>
 <p>Suppose that we defined the blood pressure difference as <span class="math inline">\(X_{i}^\prime=Y_{i}^\text{before}-Y_{i}^\text{after}\)</span></p>
 <ul>
@@ -2117,7 +2128,7 @@ mean of x
 <p>Of course we obtain the same results. Only the sign is swapped.</p>
 <hr />
 <div id="two-sided-test" class="section level3" number="6.8.1">
-<h3 number="6.8.1"><span class="header-section-number">6.8.1</span> Two-sided test</h3>
+<h3><span class="header-section-number">6.8.1</span> Two-sided test</h3>
 <p>Suppose that researchers wanted to assess the mode of action of the new drug captopril in the design phase and suppose that healthy subjects were used in an early phase of the drug development.</p>
 <p>In this case it would have been interesting to observe blood pressure drops as well as gains.</p>
 <p>Then we would require a two-sided test strategy</p>
@@ -2153,7 +2164,7 @@ mean of x
 <hr />
 </div>
 <div id="one-sided-or-two-sided-test" class="section level3" number="6.8.2">
-<h3 number="6.8.2"><span class="header-section-number">6.8.2</span> One-sided or two-sided test?</h3>
+<h3><span class="header-section-number">6.8.2</span> One-sided or two-sided test?</h3>
 <p>With a one-sided test we can more easily reject <span class="math inline">\(H_0\)</span> on condition that <span class="math inline">\(H_1\)</span> is true than with a two-sided test.</p>
 <ul>
 <li><p>All information is used to test into one direction</p></li>
@@ -2200,7 +2211,7 @@ mean of x
 </div>
 </div>
 <div id="nature-column-on-testing" class="section level1" number="7">
-<h1 number="7"><span class="header-section-number">7</span> Nature column on testing</h1>
+<h1><span class="header-section-number">7</span> Nature column on testing</h1>
 <p><a href="https://www.nature.com/articles/nmeth.2698.pdf" class="uri">https://www.nature.com/articles/nmeth.2698.pdf</a></p>
 </div>
 

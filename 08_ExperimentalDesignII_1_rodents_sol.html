@@ -424,7 +424,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">PSLS</a>
+      <a class="navbar-brand" href="index.html"></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -691,8 +691,8 @@ y_i = \beta_0 + \beta_1 x_{t,i} +
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="fu">simFast</span>(form, rodents, betas, sd, <span class="at">contrasts =</span> contrast, <span class="at">alpha =</span> alpha, <span class="at">nSim =</span> nSim)</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>power</span></code></pre></div>
-<pre><code>## [1] 0.2292</code></pre>
-<p>We observe that the experiment is severly underpowered. We only have a power of 22.9% to pick up the treatment effect.</p>
+<pre><code>## [1] 0.2257</code></pre>
+<p>We observe that the experiment is severly underpowered. We only have a power of 22.6% to pick up the treatment effect.</p>
 </div>
 </div>
 <div id="power-for-a-balanced-design" class="section level1" number="5">
@@ -709,7 +709,7 @@ y_i = \beta_0 + \beta_1 x_{t,i} +
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>powerBalanced <span class="ot">&lt;-</span> <span class="fu">simFast</span>(form, predictorData, betas, sd, <span class="at">contrasts =</span> contrast, <span class="at">alpha =</span> alpha, <span class="at">nSim =</span> nSim)</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>powerBalanced</span></code></pre></div>
-<pre><code>## [1] 0.24</code></pre>
+<pre><code>## [1] 0.2528</code></pre>
 <p>We observe that the power is larger for the balanced design. We could also have known this from formula of the standard error from the two-sample t-test.</p>
 <p><span class="math display">\[
 SE = \hat \sigma \sqrt{1/n1 + 1/n2}

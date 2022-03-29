@@ -424,7 +424,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">PSLS</a>
+      <a class="navbar-brand" href="index.html"></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -1527,15 +1527,15 @@ Multiple Comparisons of Means: Tukey Contrasts
 
 Fit: glm(formula = cancer ~ variant, family = binomial, data = brca)
 
-Quantile = 2.324
+Quantile = 2.3263
 95% family-wise confidence level
  
 
 Linear Hypotheses:
                        Estimate lwr      upr     
-leu/leu - pro/pro == 0  0.21197 -0.22761  0.65156
-pro/leu - pro/pro == 0  0.13802 -0.13094  0.40698
-pro/leu - leu/leu == 0 -0.07395 -0.51370  0.36580</code></pre>
+leu/leu - pro/pro == 0  0.21197 -0.22805  0.65199
+pro/leu - pro/pro == 0  0.13802 -0.13121  0.40725
+pro/leu - leu/leu == 0 -0.07395 -0.51413  0.36623</code></pre>
 <ul>
 <li>With the <code>confint</code> function CI are obtained on the log-odds ratios corrected for multiple testing.</li>
 </ul>
@@ -1546,13 +1546,13 @@ pro/leu - leu/leu == 0 -0.07395 -0.51370  0.36580</code></pre>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>OR <span class="ot">&lt;-</span> <span class="fu">exp</span>(posthocCI<span class="sc">$</span>confint)</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>OR</span></code></pre></div>
 <pre><code>                   Estimate       lwr      upr
-leu/leu - pro/pro 1.2361111 0.7964310 1.918522
-pro/leu - pro/pro 1.1480000 0.8772705 1.502278
-pro/leu - leu/leu 0.9287191 0.5982792 1.441667
+leu/leu - pro/pro 1.2361111 0.7960856 1.919355
+pro/leu - pro/pro 1.1480000 0.8770377 1.502677
+pro/leu - leu/leu 0.9287191 0.5980196 1.442292
 attr(,&quot;conf.level&quot;)
 [1] 0.95
 attr(,&quot;calpha&quot;)
-[1] 2.324043</code></pre>
+[1] 2.326336</code></pre>
 <ul>
 <li><p>De odds ratios that we obtain is exactly equal to the one we calculated based on the contingency table:</p></li>
 <li><p>e.g <span class="math inline">\(\text{OR}_\text{Leu/Leu-Pro/Pro}=89\times 266/(56\times 342)=\)</span> 1.236.</p></li>

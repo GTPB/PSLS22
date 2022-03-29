@@ -424,7 +424,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">PSLS</a>
+      <a class="navbar-brand" href="index.html"></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -693,11 +693,11 @@ div.tocify {
 ## 
 ## Linear Hypotheses:
 ##                            Estimate Std. Error t value Pr(&gt;|t|)    
-## grade3 == 0                  1.6675     0.1827   9.127  &lt; 0.001 ***
-## grade3 + grade3:node1 == 0   0.8928     0.1827   4.886  &lt; 0.001 ***
-## node1 == 0                   0.6577     0.1827   3.600  0.00693 ** 
-## node1 + grade3:node1 == 0   -0.1170     0.1827  -0.640  0.89812    
-## grade3:node1 == 0           -0.7748     0.2584  -2.998  0.02670 *  
+## grade3 == 0                  1.6675     0.1827   9.127   &lt;0.001 ***
+## grade3 + grade3:node1 == 0   0.8928     0.1827   4.886   &lt;0.001 ***
+## node1 == 0                   0.6577     0.1827   3.600   0.0071 ** 
+## node1 + grade3:node1 == 0   -0.1170     0.1827  -0.640   0.8982    
+## grade3:node1 == 0           -0.7748     0.2584  -2.998   0.0268 *  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- single-step method)</code></pre>
@@ -750,7 +750,7 @@ div.tocify {
 <span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>power1 <span class="ot">&lt;-</span> <span class="fu">simFastMultipleContrasts</span>(form, kpna2, betas, sd, contrasts, <span class="at">nSim =</span> nSim)</span>
 <span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>power1</span></code></pre></div>
 <pre><code>##     graden0     graden1      nodeg1      nodeg3 interaction 
-##     1.00000     0.99025     0.84215     0.08385     0.69610</code></pre>
+##     1.00000     0.98920     0.83870     0.08755     0.70155</code></pre>
 <p>We observe large powers for all contrasts, exept for contrast nodeg3, which has a small effect size.</p>
 </div>
 <div id="power-for-increasing-sample-size" class="section level2" number="3.3">
@@ -789,15 +789,15 @@ div.tocify {
 <span id="cb34-32"><a href="#cb34-32" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a>powers</span></code></pre></div>
 <pre><code>##        n graden0 graden1  nodeg1  nodeg3 interaction
-##  [1,]  2 0.69940 0.26625 0.14840 0.03330     0.11365
-##  [2,]  3 0.99235 0.64600 0.37760 0.04310     0.27835
-##  [3,]  4 1.00000 0.87090 0.58500 0.05775     0.44950
-##  [4,]  5 1.00000 0.96340 0.73890 0.07190     0.58520
-##  [5,]  6 1.00000 0.98985 0.84230 0.08585     0.70215
-##  [6,]  7 1.00000 0.99685 0.90650 0.09845     0.78710
-##  [7,]  8 1.00000 0.99940 0.94440 0.10705     0.85245
-##  [8,]  9 1.00000 0.99955 0.97000 0.11540     0.89865
-##  [9,] 10 1.00000 0.99995 0.98235 0.12365     0.92950</code></pre>
+##  [1,]  2 0.69980 0.26005 0.15040 0.03340     0.11355
+##  [2,]  3 0.99200 0.64440 0.37955 0.04405     0.27865
+##  [3,]  4 0.99995 0.87220 0.58460 0.05885     0.44610
+##  [4,]  5 1.00000 0.96225 0.74020 0.07195     0.58600
+##  [5,]  6 1.00000 0.99070 0.84200 0.08575     0.70290
+##  [6,]  7 1.00000 0.99795 0.90785 0.09580     0.79240
+##  [7,]  8 1.00000 0.99920 0.94575 0.11060     0.85415
+##  [8,]  9 1.00000 0.99990 0.96880 0.12070     0.89320
+##  [9,] 10 1.00000 1.00000 0.98340 0.12155     0.93175</code></pre>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>powers <span class="sc">%&gt;%</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(contrast, power, <span class="sc">-</span>n) <span class="sc">%&gt;%</span></span>
@@ -826,7 +826,7 @@ div.tocify {
 <span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>power3 <span class="ot">&lt;-</span> <span class="fu">simFastMultipleContrasts</span>(form, kpna2, betas2, sd, contrasts, <span class="at">nSim =</span> nSim)</span>
 <span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>power3</span></code></pre></div>
 <pre><code>##     graden0     graden1      nodeg1      nodeg3 interaction 
-##     0.68280     0.10210     0.78650     0.05940     0.62285</code></pre>
+##     0.68930     0.10130     0.78885     0.06060     0.62475</code></pre>
 <p>We observe a drop in the power for all the contrasts!?</p>
 <p>We only would expect to loose power for the contrasts assessing the grade effect because both fold changes have been decreased.</p>
 <p>The reason why all powers are affected is because we also do multiple testing and the multiple testing using the pvalue correction using Holm’s method for a particular contrast is also depending on the order of significance of the tests within each simulation.</p>
@@ -835,10 +835,10 @@ div.tocify {
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>power3None <span class="ot">&lt;-</span> <span class="fu">simFastMultipleContrasts</span>(form, kpna2, betas2, sd, contrasts, <span class="at">nSim =</span> nSim, <span class="at">adjust =</span> <span class="st">&quot;none&quot;</span>)</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>power1None</span></code></pre></div>
 <pre><code>##     graden0     graden1      nodeg1      nodeg3 interaction 
-##     1.00000     0.99600     0.92930     0.09445     0.81175</code></pre>
+##     1.00000     0.99620     0.92695     0.09295     0.81135</code></pre>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>power3None</span></code></pre></div>
 <pre><code>##     graden0     graden1      nodeg1      nodeg3 interaction 
-##     0.86140     0.16960     0.93065     0.09475     0.81900</code></pre>
+##     0.86000     0.16795     0.92705     0.09715     0.81220</code></pre>
 </div>
 </div>
 
