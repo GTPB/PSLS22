@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Lieven Clement and Jeroen Gilis" />
+
+
+<title>Exercise 5.2: Hypothesis testing on the armpit dataset - solution</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Lectures
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="01-intro.html">1. Introduction</a>
+    </li>
+    <li>
+      <a href="02-concepts.html">2. Concepts</a>
+    </li>
+    <li>
+      <a href="03-experimentalDesign.html">3. Experimental Design I</a>
+    </li>
+    <li>
+      <a href="04-dataExploration.html">4. Data Exploration</a>
+    </li>
+    <li>
+      <a href="05-statisticalInference.html">5.1 Statistical Inference 1</a>
+    </li>
+    <li>
+      <a href="05-statisticalInference-twosampleT.html">5.2 Statistical Inference 2</a>
+    </li>
+    <li>
+      <a href="06-linearRegression.html">6. Linear Regression</a>
+    </li>
+    <li>
+      <a href="07-Anova.html">7. Analysis of Variance</a>
+    </li>
+    <li>
+      <a href="08-MultipleRegression.html">8. Multiple Regression</a>
+    </li>
+    <li>
+      <a href="08-MultipleRegression-SpecificDesigns.html">8.2 Multiple Regression: Factorial Designs</a>
+    </li>
+    <li>
+      <a href="08-experimentalDesignII.html">8.3. Experimental Design II</a>
+    </li>
+    <li>
+      <a href="08-experimentalDesignIII.html">8.4. Experimental Design II</a>
+    </li>
+    <li>
+      <a href="09-NonparametericStatistics-WilcoxonMannWithney.html">9.1. Nonparametric Statistics 1</a>
+    </li>
+    <li>
+      <a href="09-NonparametericStatistics-KruskalWallis.html">9.2. Nonparametric Statistics 2</a>
+    </li>
+    <li>
+      <a href="10-categoricalDataAnalysis.html">10. Categorical Data Analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="04_exercises.html">4. Data Exploration</a>
+    </li>
+    <li>
+      <a href="05_exercises.html">5. Statistical inference</a>
+    </li>
+    <li>
+      <a href="06_exercises.html">6. Simple linear regression</a>
+    </li>
+    <li>
+      <a href="07_exercises.html">7. ANOVA</a>
+    </li>
+    <li>
+      <a href="08_exercises.html">8. Multiple linear regression</a>
+    </li>
+    <li>
+      <a href="09_exercises.html">9. Non-parametric statistics</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/PSLS">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Exercise 5.2: Hypothesis testing on the armpit dataset - solution</h1>
+<h4 class="author">Lieven Clement and Jeroen Gilis</h4>
+<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+
+</div>
+
+
+<div id="smelly-armpit-dataset" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Smelly armpit dataset</h1>
+<p>Smelly armpits are not caused by sweat, itself. The smell is caused by specific micro-organisms belonging to the group of <em>Corynebacterium spp.</em> that metabolise sweat. Another group of abundant bacteria are the <em>Staphylococcus spp.</em>, these bacteria do not metabolise sweat in smelly compounds.</p>
+<p>The CMET-group at Ghent University does research to on transplanting the armpit microbiome to save people with smelly armpits.</p>
+<ul>
+<li><p>Proposed Therapy:</p>
+<ol style="list-style-type: decimal">
+<li>Remove armpit-microbiome with antibiotics</li>
+<li>Influence armpit microbiome with microbial transplant, see this 2 minute talk on <a href="https://youtu.be/9RIFyqLXdVw">youtube</a></li>
+</ol></li>
+<li><p>Experiment:</p>
+<ul>
+<li>20 students with smelly armpits are attributed to one of two treatment groups</li>
+<li>placebo (only antibiotics)</li>
+<li>transplant (antibiotica followed by microbial transplant).</li>
+<li>The microbiome is sampled 6 weeks upon the treatment</li>
+<li>The relative abundance of <em>Staphylococcus spp.</em> on <em>Corynebacterium spp.</em> + <em>Staphylococcus spp.</em> in the microbiome is measured via DGGE (<em>Denaturing Gradient Gel Electrophoresis</em>).</li>
+</ul></li>
+</ul>
+</div>
+<div id="goal" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Goal</h1>
+<p>The overarching goal of this research was to assess if the relative abundance <em>Staphylococcus spp.</em> in the microbiome of the armpit is affected by transplanting the microbiome. To this end the researchers randomized patients to two treatment: A treatment with antibiotics only and a treatment with antibiotics and a microbial transplant.</p>
+<p>In the tutorial on hypotheses testing we will use a formal statistical test to generalize the results from the sample to that of the population.</p>
+</div>
+<div id="import-the-dataset" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Import the dataset</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load the libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<p>Import the data</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ap <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/armpit.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## Rows: 20 Columns: 2
+## ── Column specification ──────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (1): trt
+## dbl (1): rel
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(ap)</span></code></pre></div>
+<pre><code>## Rows: 20
+## Columns: 2
+## $ trt &lt;chr&gt; &quot;placebo&quot;, &quot;placebo&quot;, &quot;placebo&quot;, &quot;placebo&quot;, &quot;placebo&quot;, &quot;…
+## $ rel &lt;dbl&gt; 54.99208, 31.84466, 41.09948, 59.52064, 63.57341, 41.486…</code></pre>
+</div>
+<div id="data-exploration" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Data Exploration</h1>
+<p>A crucial first step in a data analysis is to visualize and to explore the raw data.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ap <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>trt,<span class="at">y=</span>rel,<span class="at">fill=</span>trt)) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">position=</span><span class="st">&quot;jitter&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;relative abundance (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;treatment group&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.y=</span>mean, <span class="at">geom=</span><span class="st">&quot;point&quot;</span>, <span class="at">shape=</span><span class="dv">5</span>, <span class="at">size=</span><span class="dv">3</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&quot;black&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: `fun.y` is deprecated. Use `fun` instead.</code></pre>
+<p><img src="05_armpit_example_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>We clearly see that, on average, the subjects who had a microbial transplant have a higher relative abundance of Staphylococcus spp. But is this difference statistically <em>significant</em> so that we can generalized what we observe in the sample to the population?</p>
+<p>We can test this with an unpaired, two-sample t-test, which falsifies the null hypothesis that there is on average no difference in relative abundance of <em>Staphylococcus</em> in the armpit microbiome between the transplant and the placebo group against the alternative hypothesis that there is a difference in average abundance of <em>Staphyloccocus</em> in the armpit microbiome between the transplant and placebo treatment.</p>
+<p>But, before we can start the analysis, we must check if all assumptions to perform a t-test are met.</p>
+</div>
+<div id="analysis" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Analysis</h1>
+<div id="check-the-assumptions" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Check the assumptions</h2>
+<ol style="list-style-type: decimal">
+<li><p>The observations are independent. This has to be guaranteed by the design.</p></li>
+<li><p>The data (rel) are normally distributed in each of the groups</p></li>
+<li><p>The variability within both groups is similar.</p></li>
+</ol>
+<p>To check the normality assumption, we will use QQ plots.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ap <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample=</span>rel)) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>() <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(trt))</span></code></pre></div>
+<p><img src="05_armpit_example_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>We can see that all of the data lies nicely around the quantile-quantile line (black line). As such, we may assume that our data are normally distributed.</p>
+<p>For the third assumption, we must compare the within-group variability of both groups. We can do this visually:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ap <span class="sc">%&gt;%</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>trt,<span class="at">y=</span>rel)) <span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape=</span><span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">position=</span><span class="st">&quot;jitter&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;relative abundance (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;treatment group&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.y=</span>mean, <span class="at">geom=</span><span class="st">&quot;point&quot;</span>, <span class="at">shape=</span><span class="dv">5</span>, <span class="at">size=</span><span class="dv">3</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&quot;black&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: `fun.y` is deprecated. Use `fun` instead.</code></pre>
+<p><img src="05_armpit_example_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Here we can see that the interquartile range is approximately equal for groups.</p>
+<p>As all three assumptions are met we may continue with performing the unpaired two-sample t-test.</p>
+</div>
+<div id="hypothesis-test" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Hypothesis test</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>placebo_rel <span class="ot">&lt;-</span> ap <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trt<span class="sc">==</span><span class="st">&quot;placebo&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(rel)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>transplant_rel <span class="ot">&lt;-</span> ap <span class="sc">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trt<span class="sc">==</span><span class="st">&quot;transplant&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(rel)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">t.test</span>(placebo_rel,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>                 transplant_rel,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">conf.level =</span> <span class="fl">0.95</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>output</span></code></pre></div>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  placebo_rel and transplant_rel
+## t = -5.0334, df = 18, p-value = 8.638e-05
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -31.53191 -12.96072
+## sample estimates:
+## mean of x mean of y 
+##  44.15496  66.40127</code></pre>
+</div>
+<div id="conclusion" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> Conclusion</h2>
+<p>On average the relative abundance of <em>Staphylococcus spp.</em> in the microbiome of the armpit in the transplant group is extremely significantly different from that in the placebo group (<span class="math inline">\(p&lt;&lt;0.001\)</span>). The relative abundance of <em>Staphylococcus spp.</em> is on average 22.2% larger in the transplant group than in the placebo group (95% CI [13.0,31.5]%).</p>
+</div>
+</div>
+<div id="addendum-train-yourself-in-checking-the-assumptions" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> ADDENDUM: Train yourself in checking the assumptions</h1>
+<p>In order for the learners to get more proficient in evaluating the assumptions we will simulate 9 dataset with sample sizes similar to our data for which the assumptions of normality and equal variance do hold. For the QQ-plots we will only plot the one from one of the groups.</p>
+<div id="simulate-data" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Simulate data</h2>
+<p>We simulate 9 datasets with the same sample sizes, means and pooled variance as in the sample.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ap <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/armpit.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## Rows: 20 Columns: 2
+## ── Column specification ──────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (1): trt
+## dbl (1): rel
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>nSamp <span class="ot">&lt;-</span> <span class="dv">9</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="do">## descriptive statistics</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>apRelSum<span class="ot">&lt;-</span>ap <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trt)<span class="sc">%&gt;%</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize_at</span>(<span class="st">&quot;rel&quot;</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>               <span class="fu">list</span>(<span class="at">mean=</span><span class="sc">~</span><span class="fu">mean</span>(.,<span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sd=</span><span class="sc">~</span><span class="fu">sd</span>(.,<span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n=</span><span class="cf">function</span>(x) x<span class="sc">%&gt;%</span>is.na<span class="sc">%&gt;%</span><span class="st">`</span><span class="at">!</span><span class="st">`</span><span class="sc">%&gt;%</span>sum)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">se=</span>sd<span class="sc">/</span><span class="fu">sqrt</span>(n))</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(apRelSum<span class="sc">$</span>sd<span class="sc">^</span><span class="dv">2</span><span class="sc">*</span>(apRelSum<span class="sc">$</span>n<span class="dv">-1</span>))<span class="sc">/</span>(<span class="fu">sum</span>(apRelSum<span class="sc">$</span>n)<span class="sc">-</span><span class="dv">2</span>))</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>normSim <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="fu">sum</span>(apRelSum<span class="sc">$</span>n)<span class="sc">*</span>nSamp,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">mean=</span><span class="fu">c</span>(<span class="fu">rep</span>(apRelSum<span class="sc">$</span>mean[<span class="dv">1</span>],apRelSum<span class="sc">$</span>n[<span class="dv">1</span>]),</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">rep</span>(apRelSum<span class="sc">$</span>mean[<span class="dv">2</span>],apRelSum<span class="sc">$</span>n[<span class="dv">2</span>])),</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>                     <span class="at">sd=</span>sigma),<span class="at">nrow=</span><span class="fu">sum</span>(apRelSum<span class="sc">$</span>n)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  as.data.frame <span class="sc">%&gt;%</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">trt=</span>ap<span class="sc">$</span>trt)</span></code></pre></div>
+</div>
+<div id="comparisons-of-variances" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Comparisons of variances</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>normSim <span class="sc">%&gt;%</span> <span class="fu">gather</span>(samp,data,<span class="sc">-</span>trt) <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>trt,<span class="at">y=</span>data)) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>samp)</span></code></pre></div>
+<p><img src="05_armpit_example_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="evaluation-of-normality" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Evaluation of normality</h2>
+<div id="placebo-group" class="section level3" number="6.3.1">
+<h3><span class="header-section-number">6.3.1</span> Placebo group</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>normSim <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(samp,data,<span class="sc">-</span>trt) <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trt<span class="sc">==</span><span class="st">&quot;placebo&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample=</span>data)) <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>() <span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>samp)</span></code></pre></div>
+<p><img src="05_armpit_example_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="transplant-group" class="section level3" number="6.3.2">
+<h3><span class="header-section-number">6.3.2</span> Transplant group</h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>normSim <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(samp,data,<span class="sc">-</span>trt) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(trt<span class="sc">==</span><span class="st">&quot;transplant&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample=</span>data)) <span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>() <span class="sc">+</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>samp)</span></code></pre></div>
+<p><img src="05_armpit_example_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2UgNS4yOiBIeXBvdGhlc2lzIHRlc3Rpbmcgb24gdGhlIGFybXBpdCBkYXRhc2V0IC0gc29sdXRpb24iCmF1dGhvcjogIkxpZXZlbiBDbGVtZW50IGFuZCBKZXJvZW4gR2lsaXMiCmRhdGU6ICJzdGF0T21pY3MsIEdoZW50IFVuaXZlcnNpdHkgKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbykiCi0tLQoKIyBTbWVsbHkgYXJtcGl0IGRhdGFzZXQKClNtZWxseSBhcm1waXRzIGFyZSBub3QgY2F1c2VkIGJ5IHN3ZWF0LCBpdHNlbGYuIFRoZSBzbWVsbCBpcyBjYXVzZWQKYnkgc3BlY2lmaWMgbWljcm8tb3JnYW5pc21zIGJlbG9uZ2luZyB0byB0aGUgZ3JvdXAgb2YKKkNvcnluZWJhY3Rlcml1bSBzcHAuKiB0aGF0IG1ldGFib2xpc2Ugc3dlYXQuIEFub3RoZXIgZ3JvdXAgb2YgYWJ1bmRhbnQgYmFjdGVyaWEKYXJlIHRoZSAqU3RhcGh5bG9jb2NjdXMgc3BwLiosIHRoZXNlIGJhY3RlcmlhIGRvIG5vdCBtZXRhYm9saXNlIHN3ZWF0IGluIHNtZWxseQpjb21wb3VuZHMuCgpUaGUgQ01FVC1ncm91cCBhdCBHaGVudCBVbml2ZXJzaXR5IGRvZXMgcmVzZWFyY2ggdG8gb24gdHJhbnNwbGFudGluZyB0aGUgYXJtcGl0Cm1pY3JvYmlvbWUgdG8gc2F2ZSBwZW9wbGUgd2l0aCBzbWVsbHkgYXJtcGl0cy4KCi0gUHJvcG9zZWQgVGhlcmFweToKICAJMS4gUmVtb3ZlIGFybXBpdC1taWNyb2Jpb21lIHdpdGggYW50aWJpb3RpY3MKICAgIDIuIEluZmx1ZW5jZSBhcm1waXQgbWljcm9iaW9tZSB3aXRoIG1pY3JvYmlhbCB0cmFuc3BsYW50LCBzZWUgdGhpcyAyIG1pbnV0ZQogICAgICAgdGFsayBvbiBbeW91dHViZV0oaHR0cHM6Ly95b3V0dS5iZS85UklGeXFMWGRWdykKCi0gRXhwZXJpbWVudDoKCiAgICAtIDIwIHN0dWRlbnRzIHdpdGggc21lbGx5IGFybXBpdHMgYXJlIGF0dHJpYnV0ZWQgdG8gb25lIG9mCiAgICAgIHR3byB0cmVhdG1lbnQgZ3JvdXBzCiAgICAtIHBsYWNlYm8gKG9ubHkgYW50aWJpb3RpY3MpCiAgICAtIHRyYW5zcGxhbnQgKGFudGliaW90aWNhIGZvbGxvd2VkIGJ5IG1pY3JvYmlhbCB0cmFuc3BsYW50KS4KICAgIC0gVGhlIG1pY3JvYmlvbWUgaXMgc2FtcGxlZCA2IHdlZWtzIHVwb24gdGhlIHRyZWF0bWVudAogICAgLSBUaGUgcmVsYXRpdmUgYWJ1bmRhbmNlIG9mICpTdGFwaHlsb2NvY2N1cyBzcHAuKiBvbgogICAgICAqQ29yeW5lYmFjdGVyaXVtIHNwcC4qICsgKlN0YXBoeWxvY29jY3VzIHNwcC4qIGluIHRoZQogICAgICBtaWNyb2Jpb21lIGlzIG1lYXN1cmVkIHZpYSBER0dFICgqRGVuYXR1cmluZyBHcmFkaWVudCBHZWwKICAgICAgRWxlY3Ryb3Bob3Jlc2lzKikuCgojIEdvYWwKClRoZSBvdmVyYXJjaGluZyBnb2FsIG9mIHRoaXMgcmVzZWFyY2ggd2FzIHRvIGFzc2VzcyBpZiB0aGUgcmVsYXRpdmUgYWJ1bmRhbmNlCipTdGFwaHlsb2NvY2N1cyBzcHAuKgppbiB0aGUgbWljcm9iaW9tZSBvZiB0aGUgYXJtcGl0IGlzIGFmZmVjdGVkIGJ5IHRyYW5zcGxhbnRpbmcgdGhlIG1pY3JvYmlvbWUuClRvIHRoaXMgZW5kIHRoZSByZXNlYXJjaGVycyByYW5kb21pemVkIHBhdGllbnRzIHRvIHR3byB0cmVhdG1lbnQ6CkEgdHJlYXRtZW50IHdpdGggYW50aWJpb3RpY3Mgb25seSBhbmQgYSB0cmVhdG1lbnQgd2l0aAphbnRpYmlvdGljcyBhbmQgYSBtaWNyb2JpYWwgdHJhbnNwbGFudC4KCkluIHRoZSB0dXRvcmlhbCBvbiBoeXBvdGhlc2VzIHRlc3Rpbmcgd2Ugd2lsbCB1c2UgYSBmb3JtYWwgc3RhdGlzdGljYWwgdGVzdCB0bwpnZW5lcmFsaXplIHRoZSByZXN1bHRzIGZyb20gdGhlIHNhbXBsZSB0byB0aGF0IG9mIHRoZSBwb3B1bGF0aW9uLgoKIyBJbXBvcnQgdGhlIGRhdGFzZXQKCmBgYHtyLCBtZXNzYWdlPUZBTFNFfQojTG9hZCB0aGUgbGlicmFyaWVzCmxpYnJhcnkodGlkeXZlcnNlKQpgYGAKCkltcG9ydCB0aGUgZGF0YQoKYGBge3J9CmFwIDwtIHJlYWRfY3N2KCJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vc3RhdE9taWNzL1BTTFMyMS9kYXRhL2FybXBpdC5jc3YiKQpgYGAKCmBgYHtyfQpnbGltcHNlKGFwKQpgYGAKCiMgRGF0YSBFeHBsb3JhdGlvbgoKQSBjcnVjaWFsIGZpcnN0IHN0ZXAgaW4gYSBkYXRhIGFuYWx5c2lzIGlzIHRvIHZpc3VhbGl6ZSBhbmQgdG8gZXhwbG9yZSB0aGUgcmF3CmRhdGEuCgpgYGB7cn0KYXAgJT4lIGdncGxvdChhZXMoeD10cnQseT1yZWwsZmlsbD10cnQpKSArCiAgZ2VvbV9ib3hwbG90KG91dGxpZXIuc2hhcGU9TkEpICsKICBnZW9tX3BvaW50KHBvc2l0aW9uPSJqaXR0ZXIiKSArCiAgeWxhYigicmVsYXRpdmUgYWJ1bmRhbmNlICglKSIpICsKICB4bGFiKCJ0cmVhdG1lbnQgZ3JvdXAiKSArCiAgc3RhdF9zdW1tYXJ5KGZ1bi55PW1lYW4sIGdlb209InBvaW50Iiwgc2hhcGU9NSwgc2l6ZT0zLCBjb2xvcj0iYmxhY2siLCBmaWxsPSJibGFjayIpCmBgYAoKV2UgY2xlYXJseSBzZWUgdGhhdCwgb24gYXZlcmFnZSwgdGhlIHN1YmplY3RzIHdobyBoYWQgYQptaWNyb2JpYWwgdHJhbnNwbGFudCBoYXZlIGEgaGlnaGVyIHJlbGF0aXZlIGFidW5kYW5jZSBvZgpTdGFwaHlsb2NvY2N1cyBzcHAuIEJ1dCBpcyB0aGlzIGRpZmZlcmVuY2Ugc3RhdGlzdGljYWxseQoqc2lnbmlmaWNhbnQqIHNvIHRoYXQgd2UgY2FuIGdlbmVyYWxpemVkIHdoYXQgd2Ugb2JzZXJ2ZQppbiB0aGUgc2FtcGxlIHRvIHRoZSBwb3B1bGF0aW9uPwoKV2UgY2FuIHRlc3QgdGhpcyB3aXRoIGFuIHVucGFpcmVkLCB0d28tc2FtcGxlIHQtdGVzdCwgd2hpY2ggZmFsc2lmaWVzIHRoZSBudWxsCmh5cG90aGVzaXMgdGhhdCB0aGVyZSBpcyBvbiBhdmVyYWdlIG5vIGRpZmZlcmVuY2UgaW4gcmVsYXRpdmUgYWJ1bmRhbmNlIG9mCipTdGFwaHlsb2NvY2N1cyogaW4gdGhlIGFybXBpdCBtaWNyb2Jpb21lIGJldHdlZW4gdGhlIHRyYW5zcGxhbnQgYW5kIHRoZQpwbGFjZWJvIGdyb3VwIGFnYWluc3QgdGhlIGFsdGVybmF0aXZlIGh5cG90aGVzaXMgdGhhdCB0aGVyZSBpcyBhIGRpZmZlcmVuY2UKaW4gYXZlcmFnZSBhYnVuZGFuY2Ugb2YgKlN0YXBoeWxvY2NvY3VzKiBpbiB0aGUgYXJtcGl0IG1pY3JvYmlvbWUgYmV0d2Vlbgp0aGUgdHJhbnNwbGFudCBhbmQgcGxhY2VibyB0cmVhdG1lbnQuCgpCdXQsIGJlZm9yZSB3ZSBjYW4gc3RhcnQgdGhlIGFuYWx5c2lzLCB3ZSBtdXN0IGNoZWNrIGlmIGFsbCBhc3N1bXB0aW9ucyB0bwpwZXJmb3JtIGEgdC10ZXN0IGFyZSBtZXQuCgojIEFuYWx5c2lzCgojIyBDaGVjayB0aGUgYXNzdW1wdGlvbnMKCjEuIFRoZSBvYnNlcnZhdGlvbnMgYXJlIGluZGVwZW5kZW50LiBUaGlzIGhhcyB0byBiZQpndWFyYW50ZWVkIGJ5IHRoZSBkZXNpZ24uCgoyLiBUaGUgZGF0YSAocmVsKSBhcmUgbm9ybWFsbHkgZGlzdHJpYnV0ZWQgaW4gZWFjaCBvZiB0aGUgZ3JvdXBzCgozLiBUaGUgdmFyaWFiaWxpdHkgd2l0aGluIGJvdGggZ3JvdXBzIGlzIHNpbWlsYXIuCgpUbyBjaGVjayB0aGUgbm9ybWFsaXR5IGFzc3VtcHRpb24sIHdlIHdpbGwgdXNlIFFRIHBsb3RzLgoKYGBge3J9CmFwICU+JQogIGdncGxvdChhZXMoc2FtcGxlPXJlbCkpICsKICBnZW9tX3FxKCkgKwogIGdlb21fcXFfbGluZSgpICsKICBmYWNldF9ncmlkKGNvbHMgPSB2YXJzKHRydCkpCmBgYAoKV2UgY2FuIHNlZSB0aGF0IGFsbCBvZiB0aGUgZGF0YSBsaWVzIG5pY2VseSBhcm91bmQgdGhlIHF1YW50aWxlLXF1YW50aWxlCmxpbmUgKGJsYWNrIGxpbmUpLiBBcyBzdWNoLCB3ZSBtYXkgYXNzdW1lIHRoYXQgb3VyIGRhdGEgYXJlIG5vcm1hbGx5IGRpc3RyaWJ1dGVkLgoKRm9yIHRoZSB0aGlyZCBhc3N1bXB0aW9uLCB3ZSBtdXN0IGNvbXBhcmUgdGhlIHdpdGhpbi1ncm91cAp2YXJpYWJpbGl0eSBvZiBib3RoIGdyb3Vwcy4gV2UgY2FuIGRvIHRoaXMgdmlzdWFsbHk6CgpgYGB7cn0KYXAgJT4lICBnZ3Bsb3QoYWVzKHg9dHJ0LHk9cmVsKSkgKwogIGdlb21fYm94cGxvdChvdXRsaWVyLnNoYXBlPU5BKSArCiAgZ2VvbV9wb2ludChwb3NpdGlvbj0iaml0dGVyIikgKwogIHlsYWIoInJlbGF0aXZlIGFidW5kYW5jZSAoJSkiKSArCiAgeGxhYigidHJlYXRtZW50IGdyb3VwIikgKwogIHN0YXRfc3VtbWFyeShmdW4ueT1tZWFuLCBnZW9tPSJwb2ludCIsIHNoYXBlPTUsIHNpemU9MywgY29sb3I9ImJsYWNrIiwgZmlsbD0iYmxhY2siKQpgYGAKCkhlcmUgd2UgY2FuIHNlZSB0aGF0IHRoZSBpbnRlcnF1YXJ0aWxlIHJhbmdlIGlzIGFwcHJveGltYXRlbHkgZXF1YWwgZm9yIGdyb3Vwcy4KCkFzIGFsbCB0aHJlZSBhc3N1bXB0aW9ucyBhcmUgbWV0IHdlIG1heSBjb250aW51ZSB3aXRoCnBlcmZvcm1pbmcgdGhlIHVucGFpcmVkIHR3by1zYW1wbGUgdC10ZXN0LgoKIyMgSHlwb3RoZXNpcyB0ZXN0CgpgYGB7cn0KcGxhY2Vib19yZWwgPC0gYXAgJT4lCiAgZmlsdGVyKHRydD09InBsYWNlYm8iKSAlPiUKICBwdWxsKHJlbCkKCnRyYW5zcGxhbnRfcmVsIDwtIGFwICU+JQogIGZpbHRlcih0cnQ9PSJ0cmFuc3BsYW50IikgJT4lCiAgcHVsbChyZWwpCgpvdXRwdXQgPC0gdC50ZXN0KHBsYWNlYm9fcmVsLAogICAgICAgICAgICAgICAgIHRyYW5zcGxhbnRfcmVsLAogICAgICAgICAgICAgICAgIGNvbmYubGV2ZWwgPSAwLjk1LAogICAgICAgICAgICAgICAgIHZhci5lcXVhbCA9IFRSVUUpCm91dHB1dApgYGAKCiMjIENvbmNsdXNpb24KCk9uIGF2ZXJhZ2UgdGhlIHJlbGF0aXZlIGFidW5kYW5jZSBvZiAqU3RhcGh5bG9jb2NjdXMgc3BwLiogaW4gdGhlIG1pY3JvYmlvbWUgb2YgdGhlIGFybXBpdCBpbiB0aGUgdHJhbnNwbGFudCBncm91cCBpcyBleHRyZW1lbHkgc2lnbmlmaWNhbnRseSBkaWZmZXJlbnQgZnJvbSB0aGF0IGluIHRoZSBwbGFjZWJvIGdyb3VwICgkcDw8MC4wMDEkKS4gVGhlIHJlbGF0aXZlIGFidW5kYW5jZSBvZiAqU3RhcGh5bG9jb2NjdXMgc3BwLiogaXMgb24gYXZlcmFnZSBgciByb3VuZChkaWZmKHQudGVzdChyZWx+dHJ0LGRhdGE9YXAsdmFyLmVxdWFsPVRSVUUpJGVzdGltYXRlKSwxKWAlIGxhcmdlciBpbiB0aGUgdHJhbnNwbGFudCBncm91cCB0aGFuIGluIHRoZSBwbGFjZWJvIGdyb3VwICg5NVwlIENJIFtgciBwYXN0ZShmb3JtYXQoLXQudGVzdChyZWx+dHJ0LGRhdGE9YXAsdmFyLmVxdWFsPVRSVUUpJGNvbmYuaW50WzI6MV0sZGlnaXRzPTIsbnNtYWxsPTEpLGNvbGxhcHNlPSIsIilgXSUpLgoKIyBBRERFTkRVTTogVHJhaW4geW91cnNlbGYgaW4gY2hlY2tpbmcgdGhlIGFzc3VtcHRpb25zCgpJbiBvcmRlciBmb3IgdGhlIGxlYXJuZXJzIHRvIGdldCBtb3JlIHByb2ZpY2llbnQgaW4gZXZhbHVhdGluZyB0aGUgYXNzdW1wdGlvbnMgd2Ugd2lsbCBzaW11bGF0ZSA5IGRhdGFzZXQgd2l0aCBzYW1wbGUgc2l6ZXMgc2ltaWxhciB0byBvdXIgZGF0YSBmb3Igd2hpY2ggdGhlIGFzc3VtcHRpb25zIG9mIG5vcm1hbGl0eSBhbmQgZXF1YWwgdmFyaWFuY2UgZG8gaG9sZC4gRm9yIHRoZSBRUS1wbG90cyB3ZSB3aWxsIG9ubHkgcGxvdCB0aGUgb25lIGZyb20gb25lIG9mIHRoZSBncm91cHMuCgojIyBTaW11bGF0ZSBkYXRhCgpXZSBzaW11bGF0ZSA5IGRhdGFzZXRzIHdpdGggdGhlIHNhbWUgc2FtcGxlIHNpemVzLCBtZWFucyBhbmQgcG9vbGVkIHZhcmlhbmNlIGFzIGluIHRoZSBzYW1wbGUuCgpgYGB7cn0KYXAgPC0gcmVhZF9jc3YoImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9zdGF0T21pY3MvUFNMUzIxL2RhdGEvYXJtcGl0LmNzdiIpCgpuU2FtcCA8LSA5CiMjIGRlc2NyaXB0aXZlIHN0YXRpc3RpY3MKYXBSZWxTdW08LWFwICU+JQogIGdyb3VwX2J5KHRydCklPiUKICBzdW1tYXJpemVfYXQoInJlbCIsCiAgICAgICAgICAgICAgIGxpc3QobWVhbj1+bWVhbiguLG5hLnJtPVRSVUUpLAogICAgICAgICAgICAgICAgICAgIHNkPX5zZCguLG5hLnJtPVRSVUUpLAogICAgICAgICAgICAgICAgICAgIG49ZnVuY3Rpb24oeCkgeCU+JWlzLm5hJT4lYCFgJT4lc3VtKSkgJT4lCiAgbXV0YXRlKHNlPXNkL3NxcnQobikpCgpzaWdtYSA8LSBzcXJ0KHN1bShhcFJlbFN1bSRzZF4yKihhcFJlbFN1bSRuLTEpKS8oc3VtKGFwUmVsU3VtJG4pLTIpKQoKbm9ybVNpbSA8LSBtYXRyaXgocm5vcm0oc3VtKGFwUmVsU3VtJG4pKm5TYW1wLAogICAgICAgICAgICAgIG1lYW49YyhyZXAoYXBSZWxTdW0kbWVhblsxXSxhcFJlbFN1bSRuWzFdKSwKICAgICAgICAgICAgICAgICAgICAgcmVwKGFwUmVsU3VtJG1lYW5bMl0sYXBSZWxTdW0kblsyXSkpLAogICAgICAgICAgICAgICAgICAgICBzZD1zaWdtYSksbnJvdz1zdW0oYXBSZWxTdW0kbikpICU+JQogIGFzLmRhdGEuZnJhbWUgJT4lCiAgbXV0YXRlKHRydD1hcCR0cnQpCmBgYAoKIyMgQ29tcGFyaXNvbnMgb2YgdmFyaWFuY2VzCgpgYGB7cn0Kbm9ybVNpbSAlPiUgZ2F0aGVyKHNhbXAsZGF0YSwtdHJ0KSAlPiUKICBnZ3Bsb3QoYWVzKHg9dHJ0LHk9ZGF0YSkpICsKICBnZW9tX2JveHBsb3QoKSArCiAgZmFjZXRfd3JhcCh+c2FtcCkKYGBgCgojIyBFdmFsdWF0aW9uIG9mIG5vcm1hbGl0eQoKIyMjIFBsYWNlYm8gZ3JvdXAKCmBgYHtyfQpub3JtU2ltICU+JQogIGdhdGhlcihzYW1wLGRhdGEsLXRydCkgJT4lCiAgZmlsdGVyKHRydD09InBsYWNlYm8iKSAlPiUKICBnZ3Bsb3QoYWVzKHNhbXBsZT1kYXRhKSkgKwogIGdlb21fcXEoKSArCiAgZ2VvbV9xcV9saW5lKCkgKwogIGZhY2V0X3dyYXAofnNhbXApCmBgYAoKIyMjIFRyYW5zcGxhbnQgZ3JvdXAKCmBgYHtyfQpub3JtU2ltICU+JQogIGdhdGhlcihzYW1wLGRhdGEsLXRydCkgJT4lCiAgZmlsdGVyKHRydD09InRyYW5zcGxhbnQiKSAlPiUKICBnZ3Bsb3QoYWVzKHNhbXBsZT1kYXRhKSkgKwogIGdlb21fcXEoKSArCiAgZ2VvbV9xcV9saW5lKCkgKwogIGZhY2V0X3dyYXAofnNhbXApCmBgYAo=</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("05_armpit_example.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
