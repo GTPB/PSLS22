@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Lieven Clement" />
+
+
+<title>Breast cancer example</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Lectures
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="01-intro.html">1. Introduction</a>
+    </li>
+    <li>
+      <a href="02-concepts.html">2. Concepts</a>
+    </li>
+    <li>
+      <a href="03-experimentalDesign.html">3. Experimental Design I</a>
+    </li>
+    <li>
+      <a href="04-dataExploration.html">4. Data Exploration</a>
+    </li>
+    <li>
+      <a href="05-statisticalInference.html">5.1 Statistical Inference 1</a>
+    </li>
+    <li>
+      <a href="05-statisticalInference-twosampleT.html">5.2 Statistical Inference 2</a>
+    </li>
+    <li>
+      <a href="06-linearRegression.html">6. Linear Regression</a>
+    </li>
+    <li>
+      <a href="07-Anova.html">7. Analysis of Variance</a>
+    </li>
+    <li>
+      <a href="08-MultipleRegression.html">8. Multiple Regression</a>
+    </li>
+    <li>
+      <a href="08-MultipleRegression-SpecificDesigns.html">8.2 Multiple Regression: Factorial Designs</a>
+    </li>
+    <li>
+      <a href="08-experimentalDesignII.html">8.3. Experimental Design II</a>
+    </li>
+    <li>
+      <a href="08-experimentalDesignIII.html">8.4. Experimental Design II</a>
+    </li>
+    <li>
+      <a href="09-NonparametericStatistics-WilcoxonMannWithney.html">9.1. Nonparametric Statistics 1</a>
+    </li>
+    <li>
+      <a href="09-NonparametericStatistics-KruskalWallis.html">9.2. Nonparametric Statistics 2</a>
+    </li>
+    <li>
+      <a href="10-categoricalDataAnalysis.html">10. Categorical Data Analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="04_exercises.html">4. Data Exploration</a>
+    </li>
+    <li>
+      <a href="05_exercises.html">5. Statistical inference</a>
+    </li>
+    <li>
+      <a href="06_exercises.html">6. Simple linear regression</a>
+    </li>
+    <li>
+      <a href="07_exercises.html">7. ANOVA</a>
+    </li>
+    <li>
+      <a href="08_exercises.html">8. Multiple linear regression</a>
+    </li>
+    <li>
+      <a href="09_exercises.html">9. Non-parametric statistics</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/PSLS">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Breast cancer example</h1>
+<h4 class="author">Lieven Clement</h4>
+<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+
+</div>
+
+
+<div id="breast-cancer-dataset" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Breast cancer dataset</h1>
+<ul>
+<li><p>Subset of study <a href="https://doi.org/10.1093/jnci/djj052" class="uri">https://doi.org/10.1093/jnci/djj052</a></p></li>
+<li><p>32 breast cancer patients with estrogen receptor positive tumour that had tamoxifen chemotherapy. Variables:</p>
+<ul>
+<li>grade: histological grade of tumour (grade 1 vs 3),</li>
+<li>node: lymph node status (0: not affected, 1: lymph nodes affected and removed),</li>
+<li>size: tumour size in cm,</li>
+<li>ESR1 and S100A8 gene expression in tumour biopsy (microarray technology)</li>
+</ul></li>
+<li><p>ESR1 in active in <span class="math inline">\(\pm\)</span> 75% of breast cancer tumours.</p></li>
+<li><p>Expression of ER gene positive for treatment: tumour responds to hormone therapy</p>
+<ul>
+<li>Tamoxifen interacts with ER and modulates gene expression.</li>
+</ul></li>
+<li><p>Proteins of S100 family often dysregulated in cancer</p>
+<pre><code>- S100A8 expression represses immune system in tumour en creates an environment of inflammation that promotes tumour growth.</code></pre></li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rmisc)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>brca <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/GTPB/PSLS20/master/data/breastcancer.csv&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>brca</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["sample_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["filename"],"name":[2],"type":["chr"],"align":["left"]},{"label":["treatment"],"name":[3],"type":["chr"],"align":["left"]},{"label":["er"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["grade"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["node"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["size"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["age"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["ESR1"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["S100A8"],"name":[10],"type":["dbl"],"align":["right"]}],"data":[{"1":"OXFT_209","2":"gsm65344.cel.gz","3":"tamoxifen","4":"1","5":"3","6":"1","7":"2.5","8":"66","9":"1939.1990","10":"207.19682"},{"1":"OXFT_1769","2":"gsm65345.cel.gz","3":"tamoxifen","4":"1","5":"1","6":"1","7":"3.5","8":"86","9":"2751.9521","10":"36.98611"},{"1":"OXFT_2093","2":"gsm65347.cel.gz","3":"tamoxifen","4":"1","5":"1","6":"1","7":"2.2","8":"74","9":"379.1951","10":"2364.18306"},{"1":"OXFT_1770","2":"gsm65348.cel.gz","3":"tamoxifen","4":"1","5":"1","6":"1","7":"1.7","8":"69","9":"2531.7473","10":"23.61504"},{"1":"OXFT_1342","2":"gsm65350.cel.gz","3":"tamoxifen","4":"1","5":"3","6":"0","7":"2.5","8":"62","9":"141.0508","10":"3218.74109"},{"1":"OXFT_2338","2":"gsm65352.cel.gz","3":"tamoxifen","4":"1","5":"3","6":"1","7":"1.4","8":"63","9":"1495.4213","10":"107.56868"},{"1":"OXFT_2341","2":"gsm65353.cel.gz","3":"tamoxifen","4":"1","5":"1","6":"1","7":"3.3","8":"76","9":"3405.7294","10":"13.99662"},{"1":"OXFT_1902","2":"gsm65354.cel.gz","3":"tamoxifen","4":"1","5":"3","6":"0","7":"2.4","8":"61","9":"2812.8034","10":"68.38262"},{"1":"OXFT_1982","2":"gsm65355.cel.gz","3":"tamoxifen","4":"1","5":"1","6":"0","7":"1.7","8":"62","9":"949.9327","10":"74.18828"},{"1":"OXFT_5210","2":"gsm65356.cel.gz","3":"tamoxifen","4":"1","5":"3","6":"0","7":"3.5","8":"65","9":"1052.9142","10":"182.32133"},{"1":"OXFT_2027","2":"gsm65357.cel.gz","3":"tamoxifen","4":"1","5":"3","6":"0","7":"1.4","8":"63","9":"1838.7705","10":"27.51279"},{"1":"OXFT_1133","2":"gsm65358.cel.gz","3":"tamoxifen","4":"1","5":"1","6":"0","7":"2.0","8":"70","9":"3707.8010","10":"26.70991"},{"1":"OXFT_1441","2":"gsm65359.cel.gz","3":"tamoxifen","4":"1","5":"3","6":"0","7":"3.2","8":"78","9":"2240.4095","10":"26.28934"},{"1":"OXFT_1432","2":"gsm65360.cel.gz","3":"tamoxifen","4":"1","5":"1","6":"0","7":"2.0","8":"71","9":"2698.5507","10":"56.30524"},{"1":"OXFT_1125","2":"gsm65361.cel.gz","3":"tamoxifen","4":"1","5":"1","6":"0","7":"1.6","8":"68","9":"2459.7793","10":"14.17095"},{"1":"OXFT_1070","2":"gsm65362.cel.gz","3":"tamoxifen","4":"1","5":"1","6":"0","7":"0.2","8":"45","9":"689.2472","10":"282.68343"},{"1":"OXFT_700","2":"gsm65363.cel.gz","3":"tamoxifen","4":"1","5":"1","6":"0","7":"3.5","8":"57","9":"2625.8917","10":"18.67950"},{"1":"OXFT_742","2":"gsm65364.cel.gz","3":"tamoxifen","4":"1","5":"3","6":"1","7":"1.7","8":"67","9":"1665.5595","10":"18.11686"},{"1":"OXFT_738","2":"gsm65365.cel.gz","3":"tamoxifen","4":"1","5":"1","6":"1","7":"1.8","8":"74","9":"3336.0416","10":"26.00373"},{"1":"OXFT_669","2":"gsm65366.cel.gz","3":"tamoxifen","4":"1","5":"3","6":"0","7":"4.0","8":"60","9":"3057.5784","10":"22.59829"},{"1":"OXFT_3597","2":"gsm65367.cel.gz","3":"tamoxifen","4":"1","5":"3","6":"0","7":"1.1","8":"60","9":"164.2995","10":"6225.02863"},{"1":"OXFT_638","2":"gsm65368.cel.gz","3":"tamoxifen","4":"1","5":"1","6":"1","7":"2.3","8":"63","9":"2909.6771","10":"78.53095"},{"1":"OXFT_2188","2":"gsm65369.cel.gz","3":"tamoxifen","4":"1","5":"3","6":"0","7":"3.3","8":"69","9":"1925.8788","10":"82.15699"},{"1":"OXFT_2069","2":"gsm65370.cel.gz","3":"tamoxifen","4":"1","5":"3","6":"1","7":"2.3","8":"66","9":"1864.3941","10":"65.50852"},{"1":"OXFT_596","2":"gsm65371.cel.gz","3":"tamoxifen","4":"1","5":"3","6":"0","7":"3.0","8":"66","9":"3037.2311","10":"21.68372"},{"1":"OXFT_619","2":"gsm65372.cel.gz","3":"tamoxifen","4":"1","5":"3","6":"0","7":"1.9","8":"49","9":"1449.9249","10":"27.11254"},{"1":"OXFT_680","2":"gsm65373.cel.gz","3":"tamoxifen","4":"1","5":"1","6":"1","7":"4.5","8":"61","9":"3967.2038","10":"26.73890"},{"1":"OXFT_443","2":"gsm65374.cel.gz","3":"tamoxifen","4":"1","5":"3","6":"0","7":"2.1","8":"45","9":"396.0846","10":"219.23261"},{"1":"OXFT_1579","2":"gsm65376.cel.gz","3":"tamoxifen","4":"1","5":"1","6":"0","7":"2.0","8":"40","9":"976.9015","10":"116.66995"},{"1":"OXFT_4904","2":"gsm65377.cel.gz","3":"tamoxifen","4":"1","5":"1","6":"1","7":"5.0","8":"69","9":"2036.9399","10":"102.14641"},{"1":"OXFT_511","2":"gsm65378.cel.gz","3":"tamoxifen","4":"1","5":"3","6":"1","7":"5.5","8":"64","9":"1004.3520","10":"294.16364"},{"1":"OXFT_736","2":"gsm65379.cel.gz","3":"tamoxifen","4":"1","5":"1","6":"0","7":"1.4","8":"48","9":"2163.5382","10":"45.28436"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="research-question" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Research question</h1>
+<p>Is the expression of the S100A8 gene associated with that of that of the ESR1 gene?</p>
+</div>
+<div id="data-exploration" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Data exploration</h1>
+<p>There are many variables in the data, we will plot all variables in a scatterplot matrix using the GGally package.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(brca[, <span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)])</span></code></pre></div>
+<p><img src="breastcancerExample_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>We now focus on the association between S100A8 expression and the ESR1 expression.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>brca <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ESR1, <span class="at">y =</span> S100A8)) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">col =</span> <span class="st">&quot;grey&quot;</span>) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="breastcancerExample_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The association of S100A and ESR1 does not appear to be linear.</p>
+<ul>
+<li>Concentration measurements are often skewed.</li>
+<li>We will log2 transform the data.</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>brca <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log2</span>(ESR1), <span class="at">y =</span> <span class="fu">log2</span>(S100A8))) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">col =</span> <span class="st">&quot;grey&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="breastcancerExample_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Upon log transformation the data are showing a linear association. Is this association strong enough to be able to conclude that the S100A8 gene expression is associated to the ESR1 gene expression?</p>
+</div>
+<div id="descriptive-statistics" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Descriptive statistics</h1>
+<p>We first calculate the Pearson and Spearman correlation based on the original data and the log2 transformed data</p>
+<p>Pearson correlation</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>brca <span class="ot">&lt;-</span> brca <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">S100A8_log2 =</span> <span class="fu">log2</span>(S100A8), <span class="at">ESR1_log2 =</span> <span class="fu">log2</span>(ESR1))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>brca <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(S100A8_log2, ESR1_log2) <span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>()</span></code></pre></div>
+<pre><code>            S100A8_log2 ESR1_log2
+S100A8_log2    1.000000 -0.891199
+ESR1_log2     -0.891199  1.000000</code></pre>
+<p>Spearman correlation</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>brca <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(S100A8_log2, ESR1_log2) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>(<span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
+<pre><code>            S100A8_log2 ESR1_log2
+S100A8_log2    1.000000 -0.733871
+ESR1_log2     -0.733871  1.000000</code></pre>
+<p>Both the Pearson and Spearman correlation are negative. Note, that the Spearman correlation is much larger in absolute value than the Pearson correlation on the original expression measurements. Indeed, the Pearson correlation is affected by the non linear association at the original scale.</p>
+<p>On the log scale the Pearson correlation is much higher. The spearman correlation, however, remains because it is based on rank transformed data.</p>
+</div>
+<div id="model" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Model</h1>
+<p>We will model the data on the log2 scale and we assume the following statistical model:</p>
+<p><span class="math display">\[Y_i\vert X_i\sim N(\beta_0+\beta_1X_i,\sigma^2)\]</span></p>
+<p>with <span class="math inline">\(Y_i\)</span> the log2 transformed S100A8 gene expression and <span class="math inline">\(X_i\)</span> the log2 transformed ESR1 gene expression.</p>
+<div id="model-fitting" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Model fitting</h2>
+<p>We fit the model to the data using the lm function and we first assess the assumptions. Because the subjects were selected at random from the population they are independent. We still have to check the following assumptions.</p>
+<ol style="list-style-type: decimal">
+<li>Linearity</li>
+<li>Equality of the variance</li>
+<li>The residuals are normally distribution.</li>
+</ol>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>lm2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(S100A8_log2 <span class="sc">~</span> ESR1_log2, <span class="at">data =</span> brca)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lm2)</span></code></pre></div>
+<p><img src="breastcancerExample_files/figure-html/unnamed-chunk-7-1.png" width="672" /><img src="breastcancerExample_files/figure-html/unnamed-chunk-7-2.png" width="672" /><img src="breastcancerExample_files/figure-html/unnamed-chunk-7-3.png" width="672" /><img src="breastcancerExample_files/figure-html/unnamed-chunk-7-4.png" width="672" /></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm2)</span></code></pre></div>
+<pre><code>
+Call:
+lm(formula = S100A8_log2 ~ ESR1_log2, data = brca)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.94279 -0.66537  0.08124  0.68468  1.92714 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   23.401      1.603   14.60 3.57e-15 ***
+ESR1_log2     -1.615      0.150  -10.76 8.07e-12 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 1.026 on 30 degrees of freedom
+Multiple R-squared:  0.7942,    Adjusted R-squared:  0.7874 
+F-statistic: 115.8 on 1 and 30 DF,  p-value: 8.07e-12</code></pre>
+<p>In the residuals vs fitted values plot we observe that the residuals are nicely spread around zero with more or less the same variance and we do not observed a trend in the residuals so there is no indication on deviations from linearity and homoscedasticity.</p>
+<p>The QQ-plot further shows no substantial deviations from normality. So the assumptions hold.</p>
+<p>We can now assess a formal hypothesis test to for the linear association between the S100A8 gene and the ESR1 gene expression at the log2 scale.</p>
+<p>We can translate the hypothesis that there is an association between the S100A8 and ESR1 gene expression in terms of the slope of the model, so under the alternative hypothesis <span class="math inline">\(\beta_1\)</span> is different from zero. <span class="math display">\[H_1: \beta_1 \neq 0\]</span></p>
+<p>With data we can never prove a hypothesis, so we therefore falsify the opposite: the null hypothesis the there is no association between the expression of both genes:</p>
+<p><span class="math display">\[H_0: \beta_0 = 0\]</span> We can do this by adopting a t-test on the slope and by using confidence intervals on the slope.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm2)</span></code></pre></div>
+<pre><code>
+Call:
+lm(formula = S100A8_log2 ~ ESR1_log2, data = brca)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.94279 -0.66537  0.08124  0.68468  1.92714 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   23.401      1.603   14.60 3.57e-15 ***
+ESR1_log2     -1.615      0.150  -10.76 8.07e-12 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 1.026 on 30 degrees of freedom
+Multiple R-squared:  0.7942,    Adjusted R-squared:  0.7874 
+F-statistic: 115.8 on 1 and 30 DF,  p-value: 8.07e-12</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lm2)</span></code></pre></div>
+<pre><code>                2.5 %    97.5 %
+(Intercept) 20.128645 26.674023
+ESR1_log2   -1.921047 -1.308185</code></pre>
+<p>Both the t-test and the confidence interval indicate that association is extremely significant. The interval moreover shows that the association is biologically relevant.</p>
+<p>We will transform slope and the confidence interval back to the original scale to interpret the results in terms of fold changes.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span>(<span class="fu">coef</span>(lm2))</span></code></pre></div>
+<pre><code> (Intercept)    ESR1_log2 
+1.107908e+07 3.265519e-01 </code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="fu">confint</span>(lm2)</span></code></pre></div>
+<pre><code>                   2.5 %       97.5 %
+(Intercept) 1.146373e+06 1.070733e+08
+ESR1_log2   2.640628e-01 4.038287e-01</code></pre>
+</div>
+</div>
+<div id="conclusion" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Conclusion</h1>
+<p>There is an extremely significant negative association between the S100A8 gene expression and that of ESR1 (<span class="math inline">\(p&lt;&lt;0.001\)</span>).</p>
+<p>A patient with an ESR1 expression that is 2 times the expression of that of another patient will on average have an S100A8 expression that is 3.06 times lower (95% CI [2.48,3.79]).</p>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQnJlYXN0IGNhbmNlciBleGFtcGxlIgphdXRob3I6ICJMaWV2ZW4gQ2xlbWVudCIKZGF0ZTogInN0YXRPbWljcywgR2hlbnQgVW5pdmVyc2l0eSAoaHR0cHM6Ly9zdGF0b21pY3MuZ2l0aHViLmlvKSIKb3V0cHV0OgogICAgaHRtbF9kb2N1bWVudDoKICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQogICAgICB0aGVtZTogY29zbW8KICAgICAgdG9jOiB0cnVlCiAgICAgIHRvY19mbG9hdDogdHJ1ZQogICAgICBoaWdobGlnaHQ6IHRhbmdvCiAgICAgIG51bWJlcl9zZWN0aW9uczogdHJ1ZQotLS0KCmBgYHtyIHNldHVwLCBpbmNsdWRlPUZBTFNFfQprbml0cjo6b3B0c19jaHVuayRzZXQoaW5jbHVkZSA9IFRSVUUsIGNvbW1lbnQgPSBOQSwgZWNobyA9IFRSVUUsCiAgICAgICAgICAgICAgICAgICAgICBtZXNzYWdlID0gRkFMU0UsIHdhcm5pbmcgPSBGQUxTRSkKYGBgCgoKIyBCcmVhc3QgY2FuY2VyIGRhdGFzZXQKLSBTdWJzZXQgb2Ygc3R1ZHkgaHR0cHM6Ly9kb2kub3JnLzEwLjEwOTMvam5jaS9kamowNTIKCi0gMzIgYnJlYXN0IGNhbmNlciBwYXRpZW50cyB3aXRoIGVzdHJvZ2VuIHJlY2VwdG9yIHBvc2l0aXZlIHR1bW91ciB0aGF0IGhhZCB0YW1veGlmZW4gY2hlbW90aGVyYXB5LiBWYXJpYWJsZXM6CgogICAgLSBncmFkZTogaGlzdG9sb2dpY2FsIGdyYWRlIG9mIHR1bW91ciAoZ3JhZGUgMSB2cyAzKSwKICAgIC0gbm9kZTogbHltcGggbm9kZSBzdGF0dXMgICgwOiBub3QgYWZmZWN0ZWQsIDE6IGx5bXBoIG5vZGVzIGFmZmVjdGVkIGFuZCByZW1vdmVkKSwKICAgIC0gc2l6ZTogdHVtb3VyIHNpemUgaW4gY20sCiAgICAtIEVTUjEgYW5kIFMxMDBBOCBnZW5lIGV4cHJlc3Npb24gaW4gdHVtb3VyIGJpb3BzeSAobWljcm9hcnJheSB0ZWNobm9sb2d5KQoKCi0gRVNSMSBpbiBhY3RpdmUgaW4gJFxwbSQgNzUlIG9mIGJyZWFzdCBjYW5jZXIgdHVtb3Vycy4KCi0gRXhwcmVzc2lvbiBvZiBFUiBnZW5lIHBvc2l0aXZlIGZvciB0cmVhdG1lbnQ6IHR1bW91ciByZXNwb25kcyB0byBob3Jtb25lIHRoZXJhcHkKICAgIC0gVGFtb3hpZmVuIGludGVyYWN0cyB3aXRoIEVSIGFuZCBtb2R1bGF0ZXMgZ2VuZSBleHByZXNzaW9uLgoKLSBQcm90ZWlucyBvZiBTMTAwIGZhbWlseSBvZnRlbiBkeXNyZWd1bGF0ZWQgaW4gY2FuY2VyCgogICAgICAtIFMxMDBBOCBleHByZXNzaW9uIHJlcHJlc3NlcyBpbW11bmUgc3lzdGVtIGluIHR1bW91ciBlbiBjcmVhdGVzIGFuIGVudmlyb25tZW50IG9mIGluZmxhbW1hdGlvbiB0aGF0IHByb21vdGVzIHR1bW91ciBncm93dGguCgoKYGBge3IgbGlicmFyaWVzLCBtZXNzYWdlPUZBTFNFfQpsaWJyYXJ5KFJtaXNjKQpsaWJyYXJ5KHRpZHl2ZXJzZSkKbGlicmFyeShHR2FsbHkpCmBgYAoKYGBge3J9CmJyY2EgPC0gcmVhZF9jc3YoImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9HVFBCL1BTTFMyMC9tYXN0ZXIvZGF0YS9icmVhc3RjYW5jZXIuY3N2IikKYnJjYQpgYGAKCgojIFJlc2VhcmNoIHF1ZXN0aW9uCgpJcyB0aGUgZXhwcmVzc2lvbiBvZiB0aGUgUzEwMEE4IGdlbmUgYXNzb2NpYXRlZCB3aXRoIHRoYXQgb2YgdGhhdCBvZiB0aGUgRVNSMSBnZW5lPwoKIyBEYXRhIGV4cGxvcmF0aW9uCgpUaGVyZSBhcmUgbWFueSB2YXJpYWJsZXMgaW4gdGhlIGRhdGEsIHdlIHdpbGwgcGxvdCBhbGwgdmFyaWFibGVzIGluIGEgc2NhdHRlcnBsb3QgbWF0cml4IHVzaW5nIHRoZSBHR2FsbHkgcGFja2FnZS4KCmBgYHtyfQpnZ3BhaXJzKGJyY2FbLCAtKDE6NCldKQpgYGAKCldlIG5vdyBmb2N1cyBvbiB0aGUgYXNzb2NpYXRpb24gYmV0d2VlbiBTMTAwQTggZXhwcmVzc2lvbiBhbmQgdGhlIEVTUjEgZXhwcmVzc2lvbi4KCmBgYHtyIGZpZy5hbGlnbj0nY2VudGVyJ30KYnJjYSAlPiUKICBnZ3Bsb3QoYWVzKHggPSBFU1IxLCB5ID0gUzEwMEE4KSkgKwogIGdlb21fcG9pbnQoKSArCiAgZ2VvbV9zbW9vdGgoc2UgPSBGQUxTRSwgY29sID0gImdyZXkiKSArCiAgZ2VvbV9zbW9vdGgobWV0aG9kID0gImxtIiwgc2UgPSBGQUxTRSkKYGBgCgpUaGUgYXNzb2NpYXRpb24gb2YgUzEwMEEgYW5kIEVTUjEgZG9lcyBub3QgYXBwZWFyIHRvIGJlIGxpbmVhci4KCi0gQ29uY2VudHJhdGlvbiBtZWFzdXJlbWVudHMgYXJlIG9mdGVuIHNrZXdlZC4KLSBXZSB3aWxsIGxvZzIgdHJhbnNmb3JtIHRoZSBkYXRhLgoKYGBge3IgZmlnLmFsaWduPSdjZW50ZXInfQpicmNhICU+JQogIGdncGxvdChhZXMoeCA9IGxvZzIoRVNSMSksIHkgPSBsb2cyKFMxMDBBOCkpKSArCiAgZ2VvbV9wb2ludCgpICsKICBnZW9tX3Ntb290aChzZSA9IEZBTFNFLCBjb2wgPSAiZ3JleSIpICsKICBnZW9tX3Ntb290aChtZXRob2QgPSAibG0iLCBzZSA9IEZBTFNFKQpgYGAKClVwb24gbG9nIHRyYW5zZm9ybWF0aW9uIHRoZSBkYXRhIGFyZSBzaG93aW5nIGEgbGluZWFyIGFzc29jaWF0aW9uLiBJcyB0aGlzIGFzc29jaWF0aW9uIHN0cm9uZyBlbm91Z2ggdG8gYmUgYWJsZSB0byBjb25jbHVkZSB0aGF0IHRoZSBTMTAwQTggZ2VuZSBleHByZXNzaW9uIGlzIGFzc29jaWF0ZWQgdG8gdGhlIEVTUjEgZ2VuZSBleHByZXNzaW9uPwoKIyBEZXNjcmlwdGl2ZSBzdGF0aXN0aWNzCgpXZSBmaXJzdCBjYWxjdWxhdGUgdGhlIFBlYXJzb24gYW5kIFNwZWFybWFuIGNvcnJlbGF0aW9uIGJhc2VkIG9uIHRoZSBvcmlnaW5hbCBkYXRhIGFuZCB0aGUgbG9nMiB0cmFuc2Zvcm1lZCBkYXRhCgpQZWFyc29uICBjb3JyZWxhdGlvbgpgYGB7cn0KYnJjYSA8LSBicmNhICU+JQogIG11dGF0ZShTMTAwQThfbG9nMiA9IGxvZzIoUzEwMEE4KSwgRVNSMV9sb2cyID0gbG9nMihFU1IxKSkKCmJyY2EgJT4lCiAgc2VsZWN0KFMxMDBBOF9sb2cyLCBFU1IxX2xvZzIpICU+JQogIGNvcigpCmBgYAoKU3BlYXJtYW4gY29ycmVsYXRpb24KYGBge3J9CmJyY2EgJT4lCiAgc2VsZWN0KFMxMDBBOF9sb2cyLCBFU1IxX2xvZzIpICU+JQogIGNvcihtZXRob2QgPSAic3BlYXJtYW4iKQpgYGAKCkJvdGggdGhlIFBlYXJzb24gYW5kIFNwZWFybWFuIGNvcnJlbGF0aW9uIGFyZSBuZWdhdGl2ZS4gTm90ZSwgdGhhdCB0aGUgU3BlYXJtYW4gY29ycmVsYXRpb24gaXMgbXVjaCBsYXJnZXIgaW4gYWJzb2x1dGUgdmFsdWUgdGhhbiB0aGUgUGVhcnNvbiBjb3JyZWxhdGlvbiBvbiB0aGUgb3JpZ2luYWwgZXhwcmVzc2lvbiBtZWFzdXJlbWVudHMuIEluZGVlZCwgdGhlIFBlYXJzb24gY29ycmVsYXRpb24gaXMgYWZmZWN0ZWQgYnkgdGhlIG5vbiBsaW5lYXIgYXNzb2NpYXRpb24gYXQgdGhlIG9yaWdpbmFsIHNjYWxlLgoKT24gdGhlIGxvZyBzY2FsZSB0aGUgUGVhcnNvbiBjb3JyZWxhdGlvbiBpcyBtdWNoIGhpZ2hlci4KVGhlIHNwZWFybWFuIGNvcnJlbGF0aW9uLCBob3dldmVyLCByZW1haW5zIGJlY2F1c2UgaXQgaXMgYmFzZWQgb24gcmFuayB0cmFuc2Zvcm1lZCBkYXRhLgoKIyBNb2RlbAoKV2Ugd2lsbCBtb2RlbCB0aGUgZGF0YSBvbiB0aGUgbG9nMiBzY2FsZSBhbmQgd2UgYXNzdW1lIHRoZSBmb2xsb3dpbmcgc3RhdGlzdGljYWwgbW9kZWw6CgokJFlfaVx2ZXJ0IFhfaVxzaW0gTihcYmV0YV8wK1xiZXRhXzFYX2ksXHNpZ21hXjIpJCQKCndpdGggJFlfaSQgdGhlIGxvZzIgdHJhbnNmb3JtZWQgUzEwMEE4IGdlbmUgZXhwcmVzc2lvbiBhbmQgJFhfaSQgdGhlIGxvZzIgdHJhbnNmb3JtZWQgRVNSMSBnZW5lIGV4cHJlc3Npb24uCgojIyBNb2RlbCBmaXR0aW5nCgpXZSBmaXQgdGhlIG1vZGVsIHRvIHRoZSBkYXRhIHVzaW5nIHRoZSBsbSBmdW5jdGlvbiBhbmQgd2UgZmlyc3QgYXNzZXNzIHRoZSBhc3N1bXB0aW9ucy4gQmVjYXVzZSB0aGUgc3ViamVjdHMgd2VyZSBzZWxlY3RlZCBhdCByYW5kb20gZnJvbSB0aGUgcG9wdWxhdGlvbiB0aGV5IGFyZSBpbmRlcGVuZGVudC4gV2Ugc3RpbGwgaGF2ZSB0byBjaGVjayB0aGUgZm9sbG93aW5nIGFzc3VtcHRpb25zLgoKMS4gTGluZWFyaXR5CjIuIEVxdWFsaXR5IG9mIHRoZSB2YXJpYW5jZQozLiBUaGUgcmVzaWR1YWxzIGFyZSBub3JtYWxseSBkaXN0cmlidXRpb24uCgpgYGB7cn0KbG0yIDwtIGxtKFMxMDBBOF9sb2cyIH4gRVNSMV9sb2cyLCBkYXRhID0gYnJjYSkKcGxvdChsbTIpCnN1bW1hcnkobG0yKQpgYGAKCkluIHRoZSByZXNpZHVhbHMgdnMgZml0dGVkIHZhbHVlcyBwbG90IHdlIG9ic2VydmUgdGhhdCB0aGUgcmVzaWR1YWxzIGFyZSBuaWNlbHkgc3ByZWFkIGFyb3VuZCB6ZXJvIHdpdGggbW9yZSBvciBsZXNzIHRoZSBzYW1lIHZhcmlhbmNlIGFuZCB3ZSBkbyBub3Qgb2JzZXJ2ZWQgYSB0cmVuZCBpbiB0aGUgcmVzaWR1YWxzIHNvIHRoZXJlIGlzIG5vIGluZGljYXRpb24gb24gZGV2aWF0aW9ucyBmcm9tIGxpbmVhcml0eSBhbmQgaG9tb3NjZWRhc3RpY2l0eS4KClRoZSBRUS1wbG90IGZ1cnRoZXIgc2hvd3Mgbm8gc3Vic3RhbnRpYWwgZGV2aWF0aW9ucyBmcm9tIG5vcm1hbGl0eS4gU28gdGhlIGFzc3VtcHRpb25zIGhvbGQuCgpXZSBjYW4gbm93IGFzc2VzcyBhIGZvcm1hbCBoeXBvdGhlc2lzIHRlc3QgdG8gZm9yIHRoZSBsaW5lYXIgYXNzb2NpYXRpb24gYmV0d2VlbiB0aGUgUzEwMEE4IGdlbmUgYW5kIHRoZSBFU1IxIGdlbmUgZXhwcmVzc2lvbiBhdCB0aGUgbG9nMiBzY2FsZS4KCldlIGNhbiB0cmFuc2xhdGUgdGhlIGh5cG90aGVzaXMgdGhhdCB0aGVyZSBpcyBhbiBhc3NvY2lhdGlvbiBiZXR3ZWVuIHRoZSBTMTAwQTggYW5kIEVTUjEgZ2VuZSBleHByZXNzaW9uIGluIHRlcm1zIG9mIHRoZSBzbG9wZSBvZiB0aGUgbW9kZWwsIHNvIHVuZGVyIHRoZSBhbHRlcm5hdGl2ZSBoeXBvdGhlc2lzICRcYmV0YV8xJCBpcyBkaWZmZXJlbnQgZnJvbSB6ZXJvLgokJEhfMTogXGJldGFfMSBcbmVxIDAkJAoKV2l0aCBkYXRhIHdlIGNhbiBuZXZlciBwcm92ZSBhIGh5cG90aGVzaXMsIHNvIHdlIHRoZXJlZm9yZSBmYWxzaWZ5IHRoZSBvcHBvc2l0ZTogdGhlIG51bGwgaHlwb3RoZXNpcyB0aGUgdGhlcmUgaXMgbm8gYXNzb2NpYXRpb24gYmV0d2VlbiB0aGUgZXhwcmVzc2lvbiBvZiBib3RoIGdlbmVzOgoKJCRIXzA6IFxiZXRhXzAgPSAwJCQKV2UgY2FuIGRvIHRoaXMgYnkgYWRvcHRpbmcgYSB0LXRlc3Qgb24gdGhlIHNsb3BlIGFuZCBieSB1c2luZyBjb25maWRlbmNlIGludGVydmFscyBvbiB0aGUgc2xvcGUuCgpgYGB7cn0Kc3VtbWFyeShsbTIpCmNvbmZpbnQobG0yKQpgYGAKCkJvdGggdGhlIHQtdGVzdCBhbmQgdGhlIGNvbmZpZGVuY2UgaW50ZXJ2YWwgaW5kaWNhdGUgdGhhdCBhc3NvY2lhdGlvbiBpcyBleHRyZW1lbHkgc2lnbmlmaWNhbnQuClRoZSBpbnRlcnZhbCBtb3Jlb3ZlciBzaG93cyB0aGF0IHRoZSBhc3NvY2lhdGlvbiBpcyBiaW9sb2dpY2FsbHkgcmVsZXZhbnQuCgpXZSB3aWxsIHRyYW5zZm9ybSBzbG9wZSBhbmQgdGhlIGNvbmZpZGVuY2UgaW50ZXJ2YWwgYmFjayB0byB0aGUgb3JpZ2luYWwgc2NhbGUgdG8gaW50ZXJwcmV0IHRoZSByZXN1bHRzIGluIHRlcm1zIG9mIGZvbGQgY2hhbmdlcy4KCmBgYHtyfQoyXihjb2VmKGxtMikpCmBgYAoKYGBge3J9CjJeY29uZmludChsbTIpCmBgYAoKCiMgQ29uY2x1c2lvbgoKVGhlcmUgaXMgYW4gZXh0cmVtZWx5IHNpZ25pZmljYW50IG5lZ2F0aXZlIGFzc29jaWF0aW9uIGJldHdlZW4gdGhlIFMxMDBBOCBnZW5lIGV4cHJlc3Npb24gYW5kIHRoYXQgb2YgRVNSMSAoJHA8PDAuMDAxJCkuCgpBIHBhdGllbnQgd2l0aCBhbiBFU1IxIGV4cHJlc3Npb24gdGhhdCBpcyAyIHRpbWVzIHRoZSBleHByZXNzaW9uIG9mIHRoYXQgb2YgYW5vdGhlciBwYXRpZW50IHdpbGwgb24gYXZlcmFnZSBoYXZlIGFuICBTMTAwQTggZXhwcmVzc2lvbiB0aGF0IGlzIGByIHJvdW5kKDJeLWxtMiRjb2VmWzJdCiwyKWAgdGltZXMgbG93ZXIgKDk1XCUgQ0kgW2ByIHBhc3RlKHNvcnQocm91bmQoMl4tY29uZmludChsbTIpWzIsXSwyKSksY29sbGFwc2U9IiwiKWBdKS4K</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("breastcancerExample.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Lieven Clement, Jeroen Gilis and Milan Malfait" />
+
+
+<title>Exercise 6.1: Linear regression on the fish tank dataset - solution</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Lectures
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="01-intro.html">1. Introduction</a>
+    </li>
+    <li>
+      <a href="02-concepts.html">2. Concepts</a>
+    </li>
+    <li>
+      <a href="03-experimentalDesign.html">3. Experimental Design I</a>
+    </li>
+    <li>
+      <a href="04-dataExploration.html">4. Data Exploration</a>
+    </li>
+    <li>
+      <a href="05-statisticalInference.html">5.1 Statistical Inference 1</a>
+    </li>
+    <li>
+      <a href="05-statisticalInference-twosampleT.html">5.2 Statistical Inference 2</a>
+    </li>
+    <li>
+      <a href="06-linearRegression.html">6. Linear Regression</a>
+    </li>
+    <li>
+      <a href="07-Anova.html">7. Analysis of Variance</a>
+    </li>
+    <li>
+      <a href="08-MultipleRegression.html">8. Multiple Regression</a>
+    </li>
+    <li>
+      <a href="08-MultipleRegression-SpecificDesigns.html">8.2 Multiple Regression: Factorial Designs</a>
+    </li>
+    <li>
+      <a href="08-experimentalDesignII.html">8.3. Experimental Design II</a>
+    </li>
+    <li>
+      <a href="08-experimentalDesignIII.html">8.4. Experimental Design II</a>
+    </li>
+    <li>
+      <a href="09-NonparametericStatistics-WilcoxonMannWithney.html">9.1. Nonparametric Statistics 1</a>
+    </li>
+    <li>
+      <a href="09-NonparametericStatistics-KruskalWallis.html">9.2. Nonparametric Statistics 2</a>
+    </li>
+    <li>
+      <a href="10-categoricalDataAnalysis.html">10. Categorical Data Analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="04_exercises.html">4. Data Exploration</a>
+    </li>
+    <li>
+      <a href="05_exercises.html">5. Statistical inference</a>
+    </li>
+    <li>
+      <a href="06_exercises.html">6. Simple linear regression</a>
+    </li>
+    <li>
+      <a href="07_exercises.html">7. ANOVA</a>
+    </li>
+    <li>
+      <a href="08_exercises.html">8. Multiple linear regression</a>
+    </li>
+    <li>
+      <a href="09_exercises.html">9. Non-parametric statistics</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/PSLS">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Exercise 6.1: Linear regression on the fish tank dataset - solution</h1>
+<h4 class="author">Lieven Clement, Jeroen Gilis and Milan Malfait</h4>
+<h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
+
+</div>
+
+
+<div id="fish-tank-dataset" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Fish tank dataset</h1>
+<p>In this experiment, 96 fish (dojofish, goldfish and zebrafish) were placed separately in a tank with two liters of water and a certain dose (in mg) of the poison EI-43,064. The resistance of the fish against the poison was measured as the amount of minutes the fish survived after being exposed to the poison (<code>Surv_time</code>, in minutes). Additionally, the weight of each fish was measured.</p>
+</div>
+<div id="goal" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Goal</h1>
+<p>The research goal is to study the association between the dose of the poison that was administered to the fish and their survival time.</p>
+<p>Load the required libraries</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+</div>
+<div id="import-the-data" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Import the data</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>poison <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/poison.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(poison)</span></code></pre></div>
+<pre><code>## Rows: 96
+## Columns: 4
+## $ species   &lt;dbl&gt; 0, 2, 1, 2, 0, 0, 2, 1, 0, 1, 0, 1, 0, 0, 2, 0, 0,…
+## $ Weight    &lt;dbl&gt; 1.884359, 1.732261, 2.830895, 1.748562, 2.114166, …
+## $ Dose      &lt;dbl&gt; 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, …
+## $ Surv_time &lt;dbl&gt; 3.461493, 2.110417, 11.419131, 1.821191, 3.277619,…</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(poison)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["species"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Weight"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Dose"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Surv_time"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"0","2":"1.884359","3":"1.0","4":"3.461493"},{"1":"2","2":"1.732261","3":"1.1","4":"2.110417"},{"1":"1","2":"2.830895","3":"1.2","4":"11.419131"},{"1":"2","2":"1.748562","3":"1.3","4":"1.821191"},{"1":"0","2":"2.114166","3":"1.4","4":"3.277619"},{"1":"0","2":"1.854602","3":"1.5","4":"2.955556"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="data-tidying" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Data tidying</h1>
+<p>We can see a couple of things in the data that can be improved:</p>
+<ol style="list-style-type: decimal">
+<li><p>Capitalise the fist column name. <em>Hint</em>: use the <code>rename</code> function.</p></li>
+<li><p>Set the Species column as a factor. <em>Hint</em>: use the <code>mutate</code> and <code>as.factor</code> functions.</p></li>
+<li><p>Change the species factor levels from 0, 1 and 2 to Dojofish, Goldfish and Zebrafish. <em>Hint</em>: use the <code>fct_recode</code> function inside the <code>mutate</code> function.</p></li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>poison <span class="ot">&lt;-</span> poison <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;Species&quot;</span> <span class="ot">=</span> <span class="st">&quot;species&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Species =</span> <span class="fu">as.factor</span>(Species)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Species =</span> <span class="fu">fct_recode</span>(Species,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">Dojofish =</span> <span class="st">&quot;0&quot;</span>, <span class="at">Goldfish =</span> <span class="st">&quot;1&quot;</span>, <span class="at">Zebrafish =</span> <span class="st">&quot;2&quot;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>poison</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Species"],"name":[1],"type":["fct"],"align":["left"]},{"label":["Weight"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Dose"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Surv_time"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Dojofish","2":"1.884359","3":"1.0","4":"3.461493"},{"1":"Zebrafish","2":"1.732261","3":"1.1","4":"2.110417"},{"1":"Goldfish","2":"2.830895","3":"1.2","4":"11.419131"},{"1":"Zebrafish","2":"1.748562","3":"1.3","4":"1.821191"},{"1":"Dojofish","2":"2.114166","3":"1.4","4":"3.277619"},{"1":"Dojofish","2":"1.854602","3":"1.5","4":"2.955556"},{"1":"Zebrafish","2":"1.215184","3":"1.6","4":"1.848889"},{"1":"Goldfish","2":"2.054411","3":"1.7","4":"8.054869"},{"1":"Dojofish","2":"1.801606","3":"1.8","4":"1.654597"},{"1":"Goldfish","2":"2.501205","3":"1.9","4":"7.952420"},{"1":"Dojofish","2":"1.912098","3":"2.0","4":"2.694585"},{"1":"Goldfish","2":"1.782304","3":"2.1","4":"2.864928"},{"1":"Dojofish","2":"2.032760","3":"1.0","4":"6.056393"},{"1":"Dojofish","2":"2.263284","3":"1.1","4":"3.508306"},{"1":"Zebrafish","2":"1.819726","3":"1.2","4":"2.792692"},{"1":"Dojofish","2":"1.924464","3":"1.3","4":"3.463380"},{"1":"Dojofish","2":"2.153471","3":"1.4","4":"3.183236"},{"1":"Dojofish","2":"2.171603","3":"1.5","4":"3.990290"},{"1":"Zebrafish","2":"1.543050","3":"1.6","4":"3.102191"},{"1":"Dojofish","2":"2.023775","3":"1.7","4":"2.323233"},{"1":"Goldfish","2":"2.158629","3":"1.8","4":"3.334428"},{"1":"Goldfish","2":"2.337289","3":"1.9","4":"5.406935"},{"1":"Goldfish","2":"1.900762","3":"2.0","4":"2.665815"},{"1":"Dojofish","2":"2.028244","3":"2.1","4":"2.477966"},{"1":"Goldfish","2":"2.159808","3":"1.0","4":"7.783093"},{"1":"Dojofish","2":"1.819958","3":"1.1","4":"2.868702"},{"1":"Goldfish","2":"1.999414","3":"1.2","4":"5.477190"},{"1":"Goldfish","2":"2.073964","3":"1.3","4":"6.509285"},{"1":"Goldfish","2":"2.058199","3":"1.4","4":"5.698655"},{"1":"Zebrafish","2":"1.826108","3":"1.5","4":"2.377967"},{"1":"Zebrafish","2":"1.715282","3":"1.6","4":"2.080905"},{"1":"Goldfish","2":"2.482385","3":"1.7","4":"8.188797"},{"1":"Goldfish","2":"2.224457","3":"1.8","4":"6.967697"},{"1":"Dojofish","2":"2.780534","3":"1.9","4":"3.829233"},{"1":"Dojofish","2":"1.874389","3":"2.0","4":"1.473436"},{"1":"Dojofish","2":"2.405112","3":"2.1","4":"2.651495"},{"1":"Goldfish","2":"2.252743","3":"1.0","4":"9.527555"},{"1":"Dojofish","2":"2.183263","3":"1.1","4":"3.498417"},{"1":"Goldfish","2":"2.454223","3":"1.2","4":"10.899650"},{"1":"Dojofish","2":"2.529784","3":"1.3","4":"3.284117"},{"1":"Zebrafish","2":"1.404543","3":"1.4","4":"2.529689"},{"1":"Goldfish","2":"1.919328","3":"1.5","4":"3.801973"},{"1":"Dojofish","2":"2.180245","3":"1.6","4":"2.471836"},{"1":"Goldfish","2":"2.208250","3":"1.7","4":"4.271475"},{"1":"Dojofish","2":"1.935201","3":"1.8","4":"1.913753"},{"1":"Goldfish","2":"2.069835","3":"1.9","4":"5.345919"},{"1":"Dojofish","2":"2.461620","3":"2.0","4":"2.103600"},{"1":"Zebrafish","2":"2.062654","3":"2.1","4":"1.350661"},{"1":"Dojofish","2":"2.339549","3":"1.0","4":"9.358027"},{"1":"Zebrafish","2":"1.812377","3":"1.1","4":"4.241644"},{"1":"Goldfish","2":"2.254900","3":"1.2","4":"6.206211"},{"1":"Dojofish","2":"2.068002","3":"1.3","4":"2.323421"},{"1":"Goldfish","2":"2.389707","3":"1.4","4":"7.915151"},{"1":"Goldfish","2":"2.497137","3":"1.5","4":"10.996561"},{"1":"Goldfish","2":"2.307549","3":"1.6","4":"4.541743"},{"1":"Dojofish","2":"2.089716","3":"1.7","4":"2.041679"},{"1":"Dojofish","2":"2.060077","3":"1.8","4":"3.513445"},{"1":"Goldfish","2":"2.558311","3":"1.9","4":"6.198538"},{"1":"Dojofish","2":"2.075058","3":"2.0","4":"1.634059"},{"1":"Goldfish","2":"1.840242","3":"2.1","4":"3.059981"},{"1":"Dojofish","2":"1.585098","3":"1.0","4":"2.955830"},{"1":"Goldfish","2":"2.389859","3":"1.1","4":"6.426726"},{"1":"Dojofish","2":"2.384177","3":"1.2","4":"7.252887"},{"1":"Goldfish","2":"2.464393","3":"1.3","4":"6.813678"},{"1":"Dojofish","2":"2.255311","3":"1.4","4":"2.578759"},{"1":"Goldfish","2":"2.257577","3":"1.5","4":"4.862047"},{"1":"Goldfish","2":"1.931530","3":"1.6","4":"3.484681"},{"1":"Zebrafish","2":"1.585569","3":"1.7","4":"1.314428"},{"1":"Dojofish","2":"2.290878","3":"1.8","4":"3.014636"},{"1":"Goldfish","2":"2.475834","3":"1.9","4":"7.739927"},{"1":"Zebrafish","2":"1.658319","3":"2.0","4":"1.549716"},{"1":"Zebrafish","2":"1.777013","3":"2.1","4":"1.995267"},{"1":"Zebrafish","2":"1.802350","3":"1.0","4":"1.565724"},{"1":"Dojofish","2":"2.220584","3":"1.1","4":"5.277624"},{"1":"Goldfish","2":"2.391795","3":"1.2","4":"13.259962"},{"1":"Dojofish","2":"2.066648","3":"1.3","4":"2.707082"},{"1":"Dojofish","2":"1.976426","3":"1.4","4":"2.735774"},{"1":"Dojofish","2":"1.994567","3":"1.5","4":"4.475603"},{"1":"Goldfish","2":"2.094764","3":"1.6","4":"3.803040"},{"1":"Zebrafish","2":"1.531822","3":"1.7","4":"1.855402"},{"1":"Goldfish","2":"2.292861","3":"1.8","4":"3.182463"},{"1":"Dojofish","2":"2.078708","3":"1.9","4":"3.204668"},{"1":"Goldfish","2":"2.605055","3":"2.0","4":"5.228839"},{"1":"Goldfish","2":"2.458649","3":"2.1","4":"4.807160"},{"1":"Zebrafish","2":"1.892714","3":"1.0","4":"4.262905"},{"1":"Zebrafish","2":"1.428462","3":"1.1","4":"3.757364"},{"1":"Dojofish","2":"2.582141","3":"1.2","4":"4.924012"},{"1":"Goldfish","2":"1.874957","3":"1.3","4":"2.577720"},{"1":"Goldfish","2":"2.655126","3":"1.4","4":"7.699280"},{"1":"Goldfish","2":"1.881216","3":"1.5","4":"3.537592"},{"1":"Dojofish","2":"2.331042","3":"1.6","4":"4.565026"},{"1":"Dojofish","2":"2.360538","3":"1.7","4":"5.659547"},{"1":"Zebrafish","2":"1.763365","3":"1.8","4":"2.769239"},{"1":"Goldfish","2":"2.492774","3":"1.9","4":"5.176632"},{"1":"Dojofish","2":"2.027935","3":"2.0","4":"2.715960"},{"1":"Zebrafish","2":"1.890602","3":"2.1","4":"2.134797"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="data-exploration" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Data exploration</h1>
+<p>How many fish do we have per species?</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>poison <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Species)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Species"],"name":[1],"type":["fct"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Dojofish","2":"39"},{"1":"Goldfish","2":"38"},{"1":"Zebrafish","2":"19"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Make a suitable visualization of the association between the dose and the survival time. Additionally, add the fish species as a color to the plot.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>poison <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Dose, <span class="at">y =</span> Surv_time)) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Survival time (min)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Dose (mg)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">col =</span> Species)) <span class="sc">+</span> <span class="do">## not necessary, additional layer of information</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;darkgoldenrod&quot;</span>, <span class="st">&quot;black&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;
+## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="06_2_poison_sol_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>The linear regression line (black) is a good approximation of the best fitting smooth line (blue) through the data. Based on this figure, it seems realistic to suggest a linear relationship between dose and survival, where higher doses have lower survival times (as expected). However, before we start with the regression analysis we must check if all required assumptions are met.</p>
+</div>
+<div id="important-note-on-the-dataset" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Important note on the dataset</h1>
+<p>In this dataset, there are multiple variables that can have an effect on the survival time of the fish. The most obvious one is the dose of poison that was administered (as displayed above). However, we could also imagine that heavier fish are less prone to the poison than light fish. Additionally, one fish species may be more resistant to the poison than the other.</p>
+<p>As such, not taking into account species into the analysis will introduce problems regarding the assumption of <em>independence</em> of the data. The assumption of <em>independence</em> entails that knowing the response value of one observation (fish) does not learn us anything about the response values for another variable. This will not be the case here; the response values (survival times) of fish of the same species will be much more alike compared to those of fish from another species.</p>
+<p>Thus, in order to correctly analyze this data, fish <code>species</code> and <code>weight</code> should be taken into consideration. <strong>For now, we will “avoid” taking into</strong> <strong>account the effect of species into the analysis by only performing an</strong> <strong>analysis for the dojofish</strong>. As such, we will filter the dataset so that it only contains observations for the Dojofish.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter the data so it only contains dojofish</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>poison_dojo <span class="ot">&lt;-</span> poison <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Species <span class="sc">==</span> <span class="st">&quot;Dojofish&quot;</span>)</span></code></pre></div>
+<p>Later in the course, we will come back to this dataset and perform a analysis that allows us to assess the different research hypotheses for all fish species at once!</p>
+<p>The second predictor variable, <code>Weight</code>, still may influence our analysis; fish with higher weight are expected to be more resistant to the poison. <strong>If</strong> there would be a systematic bias in the experiment, e.g. if all lighter fish obtained a low dose of poison and heavier fish obtained a high dose of poison (so, if the dose was not correctly randomized accros the different weights), then we would not be able to correctly estimate the linear association between <code>Dose</code> and <code>survival</code>; indeed, this relationship would be confounded by the effect of weight.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>poison_dojo <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Dose, <span class="at">y =</span> Weight)) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Association between dose and weight&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">&quot;point&quot;</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">shape =</span> <span class="dv">24</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;red&quot;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="06_2_poison_sol_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>In our dataset, there seems to be <strong>no systematic bias</strong>, i.e., no clear trend in the association between <code>Dose</code> and <code>Weight</code>. However, we do notice that the fish weights are not perfectly uniformly distributed across the different doses; we don’t see a clear trend, but we do see some fluctuations. To check if fluctuations of the size that we observe here could happen by random change if we carefully randomise, we may use simulations where we simulate the allocation of the fish to the different doses.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;gridExtra&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     combine</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1351</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> <span class="fu">lapply</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x) {</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    poison_dojo <span class="sc">%&gt;%</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">Dose =</span> <span class="fu">sample</span>(Dose)) <span class="sc">%&gt;%</span> <span class="co"># randomization</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Dose, <span class="at">y =</span> Weight)) <span class="sc">+</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stat_summary</span>(</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">geom =</span> <span class="st">&quot;point&quot;</span>,</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">fun =</span> <span class="st">&quot;mean&quot;</span>,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">size =</span> <span class="dv">2</span>,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">shape =</span> <span class="dv">24</span>,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> <span class="st">&quot;red&quot;</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="fu">do.call</span>(gridExtra<span class="sc">::</span>grid.arrange, plots)</span></code></pre></div>
+<p><img src="06_2_poison_sol_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>In the above simulation, we randomly assigned the different fish to different poison doses. Even though we did this randomly, we still see that by random chance there can be fluctuations as large as the ones observed in our real dataset. As such, we may conclude that there is indeed <strong>no systematic bias</strong>, i.e., no clear trend in the association between <code>Dose</code> and <code>Weight</code>.</p>
+</div>
+<div id="linear-regression-analysis" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Linear regression analysis</h1>
+<div id="assumptions-of-linear-regression" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> Assumptions of linear regression</h2>
+<p>List assumptions:</p>
+<ol style="list-style-type: decimal">
+<li>The observations are independent of each other</li>
+<li>Linearity between the response and predictor variable</li>
+<li>The residues of the model must be normally distributed</li>
+<li>Homoskedasticity of the data</li>
+</ol>
+<p>The first assumption is met based on the experimental design. In the data exploration phase, we saw that there is no clear trend in the association between <code>Dose</code> and <code>Weight</code>. With respect to species, we have “avoided” taking into account the effect of species into the analysis by only performing an analysis for the dojofish.</p>
+<p>We will check the other assumptions by first fitting the linear model and plotting the output. As such, we will get all the required diagnostic plots.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit a linear regression model with &#39;Surv_time&#39; as response variable and</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># &#39;Dose&#39; as predictor variabele</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Surv_time <span class="sc">~</span> Dose, <span class="at">data =</span> poison_dojo)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="do">## display the diagnostic plots of the model</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model)</span></code></pre></div>
+<p><img src="06_2_poison_sol_files/figure-html/unnamed-chunk-11-1.png" width="672" /><img src="06_2_poison_sol_files/figure-html/unnamed-chunk-11-2.png" width="672" /><img src="06_2_poison_sol_files/figure-html/unnamed-chunk-11-3.png" width="672" /><img src="06_2_poison_sol_files/figure-html/unnamed-chunk-11-4.png" width="672" /></p>
+<p>We have four diagnostic plots:</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Linearity with the Residuals vs fitted plot</li>
+</ol>
+<ul>
+<li>predictor of predictions <span class="math inline">\(\hat\beta_0+\hat\beta_1 x\)</span> on <span class="math inline">\(X\)</span>-axis</li>
+<li><em>residuals</em> on <span class="math inline">\(Y\)</span>-as <span class="math display">\[e_i=y_i-\hat{g}(x_i)=y_i-\hat\beta_0-\hat\beta_1\times x_i,\]</span></li>
+</ul>
+<p>If there would be a linear relationship in the data, the residuals are expected to be scattered at random around y=0 for the entire range of predicted values. This is clearly the case: the assumption of linearity is met.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Normal Q-Q</li>
+</ol>
+<ul>
+<li>QQ-plot of the residuals <span class="math inline">\(e_i\)</span>.</li>
+</ul>
+<p>The residuals of the linear regression model should be normally distributed. Given the second diagnostic plot, this seems not to be the case. In stead, we observe a short left tail and a long right tail. The assumption of normal residues is <strong>not met.</strong></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Homoscedasticity</li>
+</ol>
+<ul>
+<li>Square-root of the absolute value of standardized residuals in function of the fitted values</li>
+</ul>
+<p>To meet the third assumption of linear regression, the variance on the <em>Square-root of the absolute value of standardized residuals</em> must be similar over the entire range of fitted values. The smoother in the plot helps us with looking at this; it should be nicely horizontal over the entire range of fitted values. This seems not to be the case: for larger fitted values, the variance increase slightly. The assumption of homoscedasticity is <strong>not met.</strong></p>
+<p>Multiple assumptions are not met, so we may not continue by performing a linear regression.</p>
+<p>We can try to remediate these deviations by log-transforming the data. Indeed, data with heavy right tails can often be normalized by applying this strategy.</p>
+<p>Fit a (log-)linear model by log-transforming the response.Generate diagnostic plots and assess the assumptions.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>log.model <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log10</span>(Surv_time) <span class="sc">~</span> Dose, <span class="at">data =</span> poison_dojo)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(log.model)</span></code></pre></div>
+<p><img src="06_2_poison_sol_files/figure-html/unnamed-chunk-12-1.png" width="672" /><img src="06_2_poison_sol_files/figure-html/unnamed-chunk-12-2.png" width="672" /><img src="06_2_poison_sol_files/figure-html/unnamed-chunk-12-3.png" width="672" /><img src="06_2_poison_sol_files/figure-html/unnamed-chunk-12-4.png" width="672" /></p>
+<p>Arguably, there might be some deviation from normality in the left tail of the distribution. However, when we would simulate data under the normality assumption, it seems that deviations of this size may be expected when normality is met:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1406</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>nobs <span class="ot">&lt;-</span> <span class="fu">nrow</span>(poison_dojo)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">c</span>(log.model<span class="sc">$</span>res, <span class="fu">rnorm</span>(nobs <span class="sc">*</span> <span class="dv">8</span>, <span class="at">sd =</span> <span class="fu">sigma</span>(log.model))),</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;orig&quot;</span>, <span class="fu">paste0</span>(<span class="st">&quot;sim&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>)), <span class="at">each =</span> nobs)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> y)) <span class="sc">+</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>() <span class="sc">+</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>label)</span></code></pre></div>
+<p><img src="06_2_poison_sol_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<ol style="list-style-type: decimal">
+<li>The independence assumption is met.</li>
+<li>Upon log-transformation, the linearity assumption is still met.</li>
+<li>Upon log-transformation, the normality assumption is also met.</li>
+<li>Upon log-transformation, the homoscedasticity assumption is also met.</li>
+</ol>
+<p>Look at the output of the log-linear model:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(log.model)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = log10(Surv_time) ~ Dose, data = poison_dojo)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.2074 -0.1145 -0.0324  0.1039  0.3268 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.91722    0.10423   8.800 1.33e-10 ***
+## Dose        -0.27282    0.06648  -4.104 0.000215 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1453 on 37 degrees of freedom
+## Multiple R-squared:  0.3128, Adjusted R-squared:  0.2942 
+## F-statistic: 16.84 on 1 and 37 DF,  p-value: 0.0002146</code></pre>
+<p>Compute the 95% confidence interval on the model parameters:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(log.model)</span></code></pre></div>
+<pre><code>##                  2.5 %     97.5 %
+## (Intercept)  0.7060342  1.1284104
+## Dose        -0.4075255 -0.1381159</code></pre>
+</div>
+<div id="interpretation-on-the-log-scale" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> Interpretation on the log scale</h2>
+<p>Currently, all the outcomes should be interpreted on the log-scale. Indeed, since we are now modelling <em>the log<span class="math inline">\(_{10}\)</span> of survival time</em>, we don’t have direct inference on survival time.</p>
+<p>As such, we may interpret the output as follows:</p>
+<ul>
+<li>The slope:</li>
+</ul>
+<p>Dojofish that are exposed to a higher dose of the poison will have a <span class="math inline">\(log_{10}\)</span> survival time that is on average 0.27 lower per gram of poison that was administered additionally (95% CI [0.71, 0.41, 1.13, 0.14]). This decrease in survival time is significant on the 5% significance level (p&lt;0.001).</p>
+<p>Note, that the study is an experimental study so we can conclude that there is a causal effect of the poison dose and the survival time.</p>
+<ul>
+<li>The intercept:</li>
+</ul>
+<p>The average of the log10 of survival time for fish that were given a dose of 0 mg is 0.92.</p>
+</div>
+<div id="interpretation-on-the-original-scale" class="section level2" number="7.3">
+<h2><span class="header-section-number">7.3</span> Interpretation on the original scale</h2>
+<p>The interpretation the log-scale is quite difficult. To ease the interpretation, we will backtransform the results to the original scale (time in minutes). This we can do by</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span><span class="sc">^</span>(<span class="fu">summary</span>(log.model)<span class="sc">$</span>coefficients[, <span class="st">&quot;Estimate&quot;</span>])</span></code></pre></div>
+<pre><code>## (Intercept)        Dose 
+##   8.2646094   0.5335551</code></pre>
+<p>and of their confidence intervals:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span><span class="sc">^</span>(<span class="fu">confint</span>(log.model))</span></code></pre></div>
+<pre><code>##                 2.5 %     97.5 %
+## (Intercept) 5.0819949 13.4403459
+## Dose        0.3912681  0.7275855</code></pre>
+<p>Now, we can interpret the results in terms of the geometric mean:</p>
+<ul>
+<li>The slope:</li>
+</ul>
+<p>Dojo fish that are exposed to a higher dose of the poison will have a geometric mean of the survival time that is factor 0.53 (95% CI [0.39, 0.73]) per gram of poison that they received more than fish exposed to a lower dose. This decrease is very significant on the 5% significance level (p&lt;0.001).</p>
+<ul>
+<li>The intercept:</li>
+</ul>
+<p>The geometric mean of the survival time for fish that were given a dose of 0 mg is 8.26 minutes.</p>
+<p>In other words, our analysis seems to suggest that fish in uncontaminated water would only survive for about 8 minutes! This seems a little bit <em>fishy</em>…</p>
+<p>Note, that this interpretation is not biologically relevant and is induced because we extrapolated considerably because all fish in the experiment were exposed to poison.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Extract slope and intercept from the model</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>dojo_intercept <span class="ot">&lt;-</span> <span class="fu">coef</span>(log.model)[<span class="dv">1</span>]</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>dojo_slope <span class="ot">&lt;-</span> <span class="fu">coef</span>(log.model)[<span class="dv">2</span>]</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(poison_dojo, <span class="fu">aes</span>(Dose, <span class="fu">log10</span>(Surv_time))) <span class="sc">+</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">slope =</span> dojo_slope, <span class="at">intercept =</span> dojo_intercept,</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">size =</span> <span class="fl">1.2</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="06_2_poison_sol_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>We can see that the dose value of 0 mg does not fall within the same range as our data. The model is only valid in the range of data that we use to build the model on!</p>
+<p>However, in most applications we will never test for the intercept term.</p>
+</div>
+</div>
+<div id="conclusion" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> Conclusion</h1>
+<p>There is a very significant effect of the poison on survival of Dojofish (p&lt; 0.001). Dojofish that are exposed to a higher dose of the poison will have a survival time that decrease on average with a factor 1.87 per gram of poison that is added (95% CI [2.56, 1.37]).</p>
+<p>In the tutorial of multiple regression, we will revisit this exercise. More specifically, we will there study the association between dose and survival for all the species in the dataset.</p>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2UgNi4xOiBMaW5lYXIgcmVncmVzc2lvbiBvbiB0aGUgZmlzaCB0YW5rIGRhdGFzZXQgLSBzb2x1dGlvbiIKYXV0aG9yOiAiTGlldmVuIENsZW1lbnQsIEplcm9lbiBHaWxpcyBhbmQgTWlsYW4gTWFsZmFpdCIKZGF0ZTogInN0YXRPbWljcywgR2hlbnQgVW5pdmVyc2l0eSAoaHR0cHM6Ly9zdGF0b21pY3MuZ2l0aHViLmlvKSIKLS0tCgojIEZpc2ggdGFuayBkYXRhc2V0CgpJbiB0aGlzIGV4cGVyaW1lbnQsIDk2IGZpc2ggKGRvam9maXNoLCBnb2xkZmlzaCBhbmQgemVicmFmaXNoKQp3ZXJlIHBsYWNlZCBzZXBhcmF0ZWx5IGluIGEgdGFuayB3aXRoIHR3byBsaXRlcnMgb2Ygd2F0ZXIgYW5kCmEgY2VydGFpbiBkb3NlIChpbiBtZykgb2YgdGhlIHBvaXNvbiBFSS00MywwNjQuIFRoZSByZXNpc3RhbmNlCm9mIHRoZSBmaXNoIGFnYWluc3QgdGhlIHBvaXNvbiB3YXMgbWVhc3VyZWQgYXMgdGhlIGFtb3VudCBvZgptaW51dGVzIHRoZSBmaXNoIHN1cnZpdmVkIGFmdGVyIGJlaW5nIGV4cG9zZWQgdG8gdGhlIHBvaXNvbiAoYFN1cnZfdGltZWAsIGluCm1pbnV0ZXMpLiBBZGRpdGlvbmFsbHksIHRoZSB3ZWlnaHQgb2YgZWFjaCBmaXNoIHdhcyBtZWFzdXJlZC4KCiMgR29hbAoKVGhlIHJlc2VhcmNoIGdvYWwgaXMgdG8gc3R1ZHkgdGhlIGFzc29jaWF0aW9uIGJldHdlZW4gdGhlIGRvc2Ugb2YKdGhlIHBvaXNvbiB0aGF0IHdhcyBhZG1pbmlzdGVyZWQgdG8gdGhlIGZpc2ggYW5kIHRoZWlyCnN1cnZpdmFsIHRpbWUuCgpMb2FkIHRoZSByZXF1aXJlZCBsaWJyYXJpZXMKCmBgYHtyLCBtZXNzYWdlID0gRkFMU0V9CmxpYnJhcnkodGlkeXZlcnNlKQpgYGAKCiMgSW1wb3J0IHRoZSBkYXRhCgpgYGB7ciwgbWVzc2FnZT1GQUxTRX0KcG9pc29uIDwtIHJlYWRfY3N2KCJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vc3RhdE9taWNzL1BTTFMyMS9kYXRhL3BvaXNvbi5jc3YiKQpgYGAKCmBgYHtyfQpnbGltcHNlKHBvaXNvbikKaGVhZChwb2lzb24pCmBgYAoKIyBEYXRhIHRpZHlpbmcKCldlIGNhbiBzZWUgYSBjb3VwbGUgb2YgdGhpbmdzIGluIHRoZSBkYXRhIHRoYXQgY2FuIGJlIGltcHJvdmVkOgoKMS4gQ2FwaXRhbGlzZSB0aGUgZmlzdCBjb2x1bW4gbmFtZS4gKkhpbnQqOiB1c2UgdGhlIGByZW5hbWVgIGZ1bmN0aW9uLgoKMi4gU2V0IHRoZSBTcGVjaWVzIGNvbHVtbiBhcyBhIGZhY3Rvci4gKkhpbnQqOiB1c2UgdGhlIGBtdXRhdGVgIGFuZCBgYXMuZmFjdG9yYApmdW5jdGlvbnMuCgozLiBDaGFuZ2UgdGhlIHNwZWNpZXMgZmFjdG9yIGxldmVscyBmcm9tIDAsIDEgYW5kIDIgdG8KRG9qb2Zpc2gsIEdvbGRmaXNoIGFuZCBaZWJyYWZpc2guICpIaW50KjogdXNlIHRoZSBgZmN0X3JlY29kZWAgZnVuY3Rpb24gaW5zaWRlCnRoZSBgbXV0YXRlYCBmdW5jdGlvbi4KCmBgYHtyfQpwb2lzb24gPC0gcG9pc29uICU+JQogIHJlbmFtZSgiU3BlY2llcyIgPSAic3BlY2llcyIpICU+JQogIG11dGF0ZShTcGVjaWVzID0gYXMuZmFjdG9yKFNwZWNpZXMpKSAlPiUKICBtdXRhdGUoCiAgICBTcGVjaWVzID0gZmN0X3JlY29kZShTcGVjaWVzLAogICAgICBEb2pvZmlzaCA9ICIwIiwgR29sZGZpc2ggPSAiMSIsIFplYnJhZmlzaCA9ICIyIgogICAgKQogICkKCnBvaXNvbgpgYGAKCiMgRGF0YSBleHBsb3JhdGlvbgoKSG93IG1hbnkgZmlzaCBkbyB3ZSBoYXZlIHBlciBzcGVjaWVzPwoKYGBge3J9CnBvaXNvbiAlPiUKICBjb3VudChTcGVjaWVzKQpgYGAKCk1ha2UgYSBzdWl0YWJsZSB2aXN1YWxpemF0aW9uIG9mIHRoZSBhc3NvY2lhdGlvbiBiZXR3ZWVuCnRoZSBkb3NlIGFuZCB0aGUgc3Vydml2YWwgdGltZS4gQWRkaXRpb25hbGx5LCBhZGQgdGhlIGZpc2ggc3BlY2llcwphcyBhIGNvbG9yIHRvIHRoZSBwbG90LgoKYGBge3J9CnBvaXNvbiAlPiUKICBnZ3Bsb3QoYWVzKHggPSBEb3NlLCB5ID0gU3Vydl90aW1lKSkgKwogIGdlb21fcG9pbnQoKSArCiAgc3RhdF9zbW9vdGgobWV0aG9kID0gImxvZXNzIikgKwogIGdlb21fc21vb3RoKG1ldGhvZCA9ICJsbSIsIGNvbCA9ICJibGFjayIpICsKICB5bGFiKCJTdXJ2aXZhbCB0aW1lIChtaW4pIikgKwogIHhsYWIoIkRvc2UgKG1nKSIpICsKICBnZW9tX3BvaW50KGFlcyhjb2wgPSBTcGVjaWVzKSkgKyAjIyBub3QgbmVjZXNzYXJ5LCBhZGRpdGlvbmFsIGxheWVyIG9mIGluZm9ybWF0aW9uCiAgc2NhbGVfY29sb3JfbWFudWFsKHZhbHVlcyA9IGMoInJlZCIsICJkYXJrZ29sZGVucm9kIiwgImJsYWNrIikpICsKICB0aGVtZV9idygpCmBgYAoKVGhlIGxpbmVhciByZWdyZXNzaW9uIGxpbmUgKGJsYWNrKSBpcyBhIGdvb2QgYXBwcm94aW1hdGlvbgpvZiB0aGUgYmVzdCBmaXR0aW5nIHNtb290aCBsaW5lIChibHVlKSB0aHJvdWdoIHRoZSBkYXRhLgpCYXNlZCBvbiB0aGlzIGZpZ3VyZSwgaXQgc2VlbXMgcmVhbGlzdGljIHRvIHN1Z2dlc3QgYSBsaW5lYXIKcmVsYXRpb25zaGlwIGJldHdlZW4gZG9zZSBhbmQgc3Vydml2YWwsIHdoZXJlIGhpZ2hlciBkb3NlcwpoYXZlIGxvd2VyIHN1cnZpdmFsIHRpbWVzIChhcyBleHBlY3RlZCkuIEhvd2V2ZXIsIGJlZm9yZSB3ZQpzdGFydCB3aXRoIHRoZSByZWdyZXNzaW9uIGFuYWx5c2lzIHdlIG11c3QgY2hlY2sgaWYgYWxsIHJlcXVpcmVkCmFzc3VtcHRpb25zIGFyZSBtZXQuCgojIEltcG9ydGFudCBub3RlIG9uIHRoZSBkYXRhc2V0CgpJbiB0aGlzIGRhdGFzZXQsIHRoZXJlIGFyZSBtdWx0aXBsZSB2YXJpYWJsZXMgdGhhdCBjYW4gaGF2ZSBhbiBlZmZlY3Qgb24gdGhlCnN1cnZpdmFsIHRpbWUgb2YgdGhlIGZpc2guIFRoZSBtb3N0IG9idmlvdXMgb25lIGlzIHRoZSBkb3NlIG9mIHBvaXNvbiB0aGF0IHdhcwphZG1pbmlzdGVyZWQgKGFzIGRpc3BsYXllZCBhYm92ZSkuIEhvd2V2ZXIsIHdlIGNvdWxkIGFsc28gaW1hZ2luZSB0aGF0IGhlYXZpZXIKZmlzaCBhcmUgbGVzcyBwcm9uZSB0byB0aGUgcG9pc29uIHRoYW4gbGlnaHQgZmlzaC4gQWRkaXRpb25hbGx5LCBvbmUgZmlzaApzcGVjaWVzIG1heSBiZSBtb3JlIHJlc2lzdGFudCB0byB0aGUgcG9pc29uIHRoYW4gdGhlIG90aGVyLgoKQXMgc3VjaCwgbm90IHRha2luZyBpbnRvIGFjY291bnQgc3BlY2llcyBpbnRvIHRoZSBhbmFseXNpcyB3aWxsIGludHJvZHVjZQpwcm9ibGVtcyByZWdhcmRpbmcgdGhlIGFzc3VtcHRpb24gb2YgKmluZGVwZW5kZW5jZSogb2YgdGhlIGRhdGEuIFRoZSBhc3N1bXB0aW9uCm9mICppbmRlcGVuZGVuY2UqIGVudGFpbHMgdGhhdCBrbm93aW5nIHRoZSByZXNwb25zZSB2YWx1ZSBvZiBvbmUgb2JzZXJ2YXRpb24KKGZpc2gpIGRvZXMgbm90IGxlYXJuIHVzIGFueXRoaW5nIGFib3V0IHRoZSByZXNwb25zZSB2YWx1ZXMgZm9yIGFub3RoZXIKdmFyaWFibGUuIFRoaXMgd2lsbCBub3QgYmUgdGhlIGNhc2UgaGVyZTsgdGhlIHJlc3BvbnNlIHZhbHVlcyAoc3Vydml2YWwgdGltZXMpCm9mIGZpc2ggb2YgdGhlIHNhbWUgc3BlY2llcyB3aWxsIGJlIG11Y2ggbW9yZSBhbGlrZSBjb21wYXJlZCB0byB0aG9zZSBvZiBmaXNoCmZyb20gYW5vdGhlciBzcGVjaWVzLgoKVGh1cywgaW4gb3JkZXIgdG8gY29ycmVjdGx5IGFuYWx5emUgdGhpcyBkYXRhLCBmaXNoIGBzcGVjaWVzYCBhbmQgYHdlaWdodGAKc2hvdWxkIGJlIHRha2VuIGludG8gY29uc2lkZXJhdGlvbi4gKipGb3Igbm93LCB3ZSB3aWxsICJhdm9pZCIgdGFraW5nIGludG8qKgoqKmFjY291bnQgdGhlIGVmZmVjdCBvZiBzcGVjaWVzIGludG8gdGhlIGFuYWx5c2lzIGJ5IG9ubHkgcGVyZm9ybWluZyBhbioqCioqYW5hbHlzaXMgZm9yIHRoZSBkb2pvZmlzaCoqLiBBcyBzdWNoLCB3ZSB3aWxsIGZpbHRlciB0aGUgZGF0YXNldCBzbyB0aGF0Cml0IG9ubHkgY29udGFpbnMgb2JzZXJ2YXRpb25zIGZvciB0aGUgRG9qb2Zpc2guCgpgYGB7cn0KIyBmaWx0ZXIgdGhlIGRhdGEgc28gaXQgb25seSBjb250YWlucyBkb2pvZmlzaApwb2lzb25fZG9qbyA8LSBwb2lzb24gJT4lCiAgZmlsdGVyKFNwZWNpZXMgPT0gIkRvam9maXNoIikKYGBgCgpMYXRlciBpbiB0aGUgY291cnNlLCB3ZSB3aWxsIGNvbWUgYmFjayB0byB0aGlzIGRhdGFzZXQgYW5kIHBlcmZvcm0gYSBhbmFseXNpcwp0aGF0IGFsbG93cyB1cyB0byBhc3Nlc3MgdGhlIGRpZmZlcmVudCByZXNlYXJjaCBoeXBvdGhlc2VzIGZvciBhbGwgZmlzaCBzcGVjaWVzCmF0IG9uY2UhCgpUaGUgc2Vjb25kIHByZWRpY3RvciB2YXJpYWJsZSwgYFdlaWdodGAsIHN0aWxsIG1heSBpbmZsdWVuY2Ugb3VyIGFuYWx5c2lzOyBmaXNoCndpdGggaGlnaGVyIHdlaWdodCBhcmUgZXhwZWN0ZWQgdG8gYmUgbW9yZSByZXNpc3RhbnQgdG8gdGhlIHBvaXNvbi4gKipJZioqIHRoZXJlCndvdWxkIGJlIGEgc3lzdGVtYXRpYyBiaWFzIGluIHRoZSBleHBlcmltZW50LCBlLmcuIGlmIGFsbCBsaWdodGVyIGZpc2ggb2J0YWluZWQKYSBsb3cgZG9zZSAgb2YgcG9pc29uIGFuZCBoZWF2aWVyIGZpc2ggb2J0YWluZWQgYSBoaWdoIGRvc2Ugb2YgcG9pc29uCihzbywgaWYgdGhlIGRvc2Ugd2FzIG5vdCBjb3JyZWN0bHkgcmFuZG9taXplZCBhY2Nyb3MgdGhlIGRpZmZlcmVudCB3ZWlnaHRzKSwKdGhlbiB3ZSB3b3VsZCBub3QgYmUgYWJsZSB0byBjb3JyZWN0bHkgZXN0aW1hdGUgdGhlIGxpbmVhciBhc3NvY2lhdGlvbiBiZXR3ZWVuCmBEb3NlYCBhbmQgYHN1cnZpdmFsYDsgaW5kZWVkLCB0aGlzIHJlbGF0aW9uc2hpcCB3b3VsZCBiZSBjb25mb3VuZGVkIGJ5IHRoZQplZmZlY3Qgb2Ygd2VpZ2h0LgoKYGBge3IsIG1lc3NhZ2U9RkFMU0V9CnBvaXNvbl9kb2pvICU+JQogIGdncGxvdChhZXMoeCA9IERvc2UsIHkgPSBXZWlnaHQpKSArCiAgZ2VvbV9wb2ludCgpICsKICBnZ3RpdGxlKCJBc3NvY2lhdGlvbiBiZXR3ZWVuIGRvc2UgYW5kIHdlaWdodCIpICsKICB0aGVtZV9idygpICsKICBzdGF0X3N1bW1hcnkoCiAgICBmdW4gPSBtZWFuLCBnZW9tID0gInBvaW50IiwKICAgIGNvbCA9ICJibGFjayIsIHNpemUgPSA0LCBzaGFwZSA9IDI0LAogICAgZmlsbCA9ICJyZWQiCiAgKQpgYGAKCkluIG91ciBkYXRhc2V0LCB0aGVyZSBzZWVtcyB0byBiZSAqKm5vIHN5c3RlbWF0aWMgYmlhcyoqLCBpLmUuLCBubyBjbGVhciB0cmVuZAppbiB0aGUgYXNzb2NpYXRpb24gYmV0d2VlbiBgRG9zZWAgYW5kIGBXZWlnaHRgLiBIb3dldmVyLCB3ZSBkbyBub3RpY2UgdGhhdCB0aGUKZmlzaCB3ZWlnaHRzIGFyZSBub3QgcGVyZmVjdGx5IHVuaWZvcm1seSBkaXN0cmlidXRlZCBhY3Jvc3MgdGhlIGRpZmZlcmVudCBkb3NlczsKd2UgZG9uJ3Qgc2VlIGEgY2xlYXIgdHJlbmQsIGJ1dCB3ZSBkbyBzZWUgc29tZSBmbHVjdHVhdGlvbnMuIFRvIGNoZWNrIGlmCmZsdWN0dWF0aW9ucyBvZiB0aGUgc2l6ZSB0aGF0IHdlIG9ic2VydmUgaGVyZSBjb3VsZCBoYXBwZW4gYnkgcmFuZG9tIGNoYW5nZSBpZgp3ZSBjYXJlZnVsbHkgcmFuZG9taXNlLCB3ZSBtYXkgdXNlIHNpbXVsYXRpb25zIHdoZXJlIHdlIHNpbXVsYXRlIHRoZSBhbGxvY2F0aW9uCm9mIHRoZSBmaXNoIHRvIHRoZSBkaWZmZXJlbnQgZG9zZXMuCgpgYGB7cn0KbGlicmFyeShncmlkRXh0cmEpCmBgYAoKYGBge3J9CnNldC5zZWVkKDEzNTEpCgpwbG90cyA8LSBsYXBwbHkoCiAgMTo5LAogIGZ1bmN0aW9uKHgpIHsKICAgIHBvaXNvbl9kb2pvICU+JQogICAgICBtdXRhdGUoRG9zZSA9IHNhbXBsZShEb3NlKSkgJT4lICMgcmFuZG9taXphdGlvbgogICAgICBnZ3Bsb3QoYWVzKHggPSBEb3NlLCB5ID0gV2VpZ2h0KSkgKwogICAgICBnZW9tX3BvaW50KCkgKwogICAgICB0aGVtZV9idygpICsKICAgICAgc3RhdF9zdW1tYXJ5KAogICAgICAgIGdlb20gPSAicG9pbnQiLAogICAgICAgIGZ1biA9ICJtZWFuIiwKICAgICAgICBjb2wgPSAiYmxhY2siLAogICAgICAgIHNpemUgPSAyLAogICAgICAgIHNoYXBlID0gMjQsCiAgICAgICAgZmlsbCA9ICJyZWQiCiAgICAgICkKICB9CikKZG8uY2FsbChncmlkRXh0cmE6OmdyaWQuYXJyYW5nZSwgcGxvdHMpCmBgYAoKSW4gdGhlIGFib3ZlIHNpbXVsYXRpb24sIHdlIHJhbmRvbWx5IGFzc2lnbmVkIHRoZSBkaWZmZXJlbnQgZmlzaCB0byBkaWZmZXJlbnQKcG9pc29uIGRvc2VzLiBFdmVuIHRob3VnaCB3ZSBkaWQgdGhpcyByYW5kb21seSwgd2Ugc3RpbGwgc2VlIHRoYXQgYnkgcmFuZG9tCmNoYW5jZSB0aGVyZSBjYW4gYmUgZmx1Y3R1YXRpb25zIGFzIGxhcmdlIGFzIHRoZSBvbmVzIG9ic2VydmVkIGluIG91ciByZWFsCmRhdGFzZXQuIEFzIHN1Y2gsIHdlIG1heSBjb25jbHVkZSB0aGF0IHRoZXJlIGlzIGluZGVlZCAqKm5vIHN5c3RlbWF0aWMgYmlhcyoqLAppLmUuLCBubyBjbGVhciB0cmVuZCBpbiB0aGUgYXNzb2NpYXRpb24gYmV0d2VlbiBgRG9zZWAgYW5kIGBXZWlnaHRgLgoKIyBMaW5lYXIgcmVncmVzc2lvbiBhbmFseXNpcwoKIyMgQXNzdW1wdGlvbnMgb2YgbGluZWFyIHJlZ3Jlc3Npb24KCkxpc3QgYXNzdW1wdGlvbnM6CgoxLiBUaGUgb2JzZXJ2YXRpb25zIGFyZSBpbmRlcGVuZGVudCBvZiBlYWNoIG90aGVyCjIuIExpbmVhcml0eSBiZXR3ZWVuIHRoZSByZXNwb25zZSBhbmQgcHJlZGljdG9yIHZhcmlhYmxlCjMuIFRoZSByZXNpZHVlcyBvZiB0aGUgbW9kZWwgbXVzdCBiZSBub3JtYWxseSBkaXN0cmlidXRlZAo0LiBIb21vc2tlZGFzdGljaXR5IG9mIHRoZSBkYXRhCgpUaGUgZmlyc3QgYXNzdW1wdGlvbiBpcyBtZXQgYmFzZWQgb24gdGhlIGV4cGVyaW1lbnRhbCBkZXNpZ24uIEluIHRoZQpkYXRhIGV4cGxvcmF0aW9uIHBoYXNlLCB3ZSBzYXcgdGhhdCB0aGVyZSBpcyBubyBjbGVhciB0cmVuZCBpbiB0aGUgYXNzb2NpYXRpb24KYmV0d2VlbiBgRG9zZWAgYW5kIGBXZWlnaHRgLiBXaXRoIHJlc3BlY3QgdG8gc3BlY2llcywgd2UgaGF2ZSAiYXZvaWRlZCIgdGFraW5nCmludG8gYWNjb3VudCB0aGUgZWZmZWN0IG9mIHNwZWNpZXMgaW50byB0aGUgYW5hbHlzaXMgYnkgb25seSBwZXJmb3JtaW5nIGFuCmFuYWx5c2lzIGZvciB0aGUgZG9qb2Zpc2guCgpXZSB3aWxsIGNoZWNrIHRoZSBvdGhlciBhc3N1bXB0aW9ucyBieSBmaXJzdCBmaXR0aW5nIHRoZSBsaW5lYXIKbW9kZWwgYW5kIHBsb3R0aW5nIHRoZSBvdXRwdXQuIEFzIHN1Y2gsIHdlIHdpbGwgZ2V0IGFsbCB0aGUKcmVxdWlyZWQgZGlhZ25vc3RpYyBwbG90cy4KCmBgYHtyfQojIGZpdCBhIGxpbmVhciByZWdyZXNzaW9uIG1vZGVsIHdpdGggJ1N1cnZfdGltZScgYXMgcmVzcG9uc2UgdmFyaWFibGUgYW5kCiMgJ0Rvc2UnIGFzIHByZWRpY3RvciB2YXJpYWJlbGUKbW9kZWwgPC0gbG0oU3Vydl90aW1lIH4gRG9zZSwgZGF0YSA9IHBvaXNvbl9kb2pvKQoKIyMgZGlzcGxheSB0aGUgZGlhZ25vc3RpYyBwbG90cyBvZiB0aGUgbW9kZWwKcGxvdChtb2RlbCkKYGBgCgpXZSBoYXZlIGZvdXIgZGlhZ25vc3RpYyBwbG90czoKCjIuIExpbmVhcml0eSB3aXRoIHRoZSBSZXNpZHVhbHMgdnMgZml0dGVkIHBsb3QKCi0gcHJlZGljdG9yIG9mIHByZWRpY3Rpb25zICRcaGF0XGJldGFfMCtcaGF0XGJldGFfMSB4JCBvbiAkWCQtYXhpcwotICpyZXNpZHVhbHMqIG9uICRZJC1hcwokJGVfaT15X2ktXGhhdHtnfSh4X2kpPXlfaS1caGF0XGJldGFfMC1caGF0XGJldGFfMVx0aW1lcyB4X2ksJCQKCklmIHRoZXJlIHdvdWxkIGJlIGEgbGluZWFyIHJlbGF0aW9uc2hpcCBpbiB0aGUgZGF0YSwKdGhlIHJlc2lkdWFscyBhcmUgZXhwZWN0ZWQgdG8gYmUgc2NhdHRlcmVkIGF0IHJhbmRvbSBhcm91bmQgeT0wIGZvcgp0aGUgZW50aXJlIHJhbmdlIG9mIHByZWRpY3RlZCB2YWx1ZXMuIFRoaXMgaXMgY2xlYXJseQp0aGUgY2FzZTogdGhlIGFzc3VtcHRpb24gb2YgbGluZWFyaXR5IGlzIG1ldC4KCjMuIE5vcm1hbCBRLVEKCi0gUVEtcGxvdCBvZiB0aGUgcmVzaWR1YWxzICRlX2kkLgoKVGhlIHJlc2lkdWFscyBvZiB0aGUgbGluZWFyIHJlZ3Jlc3Npb24gbW9kZWwgc2hvdWxkIGJlIG5vcm1hbGx5CmRpc3RyaWJ1dGVkLiBHaXZlbiB0aGUgc2Vjb25kIGRpYWdub3N0aWMgcGxvdCwgdGhpcyBzZWVtcyBub3QKdG8gYmUgdGhlIGNhc2UuIEluIHN0ZWFkLCB3ZSBvYnNlcnZlIGEgc2hvcnQgbGVmdCB0YWlsIGFuZCBhCmxvbmcgcmlnaHQgdGFpbC4gVGhlIGFzc3VtcHRpb24gb2Ygbm9ybWFsIHJlc2lkdWVzIGlzICoqbm90IG1ldC4qKgoKNC4gSG9tb3NjZWRhc3RpY2l0eQoKLSBTcXVhcmUtcm9vdCBvZiB0aGUgYWJzb2x1dGUgdmFsdWUgb2Ygc3RhbmRhcmRpemVkIHJlc2lkdWFscwppbiBmdW5jdGlvbiBvZiB0aGUgZml0dGVkIHZhbHVlcwoKVG8gbWVldCB0aGUgdGhpcmQgYXNzdW1wdGlvbiBvZiBsaW5lYXIgcmVncmVzc2lvbiwgdGhlIHZhcmlhbmNlCm9uIHRoZSBfU3F1YXJlLXJvb3Qgb2YgdGhlIGFic29sdXRlIHZhbHVlIG9mIHN0YW5kYXJkaXplZCByZXNpZHVhbHNfCm11c3QgYmUgc2ltaWxhciBvdmVyIHRoZSBlbnRpcmUgcmFuZ2Ugb2YgZml0dGVkIHZhbHVlcy4gVGhlIHNtb290aGVyCmluIHRoZSBwbG90IGhlbHBzIHVzIHdpdGggbG9va2luZyBhdCB0aGlzOyBpdCBzaG91bGQgYmUgbmljZWx5Cmhvcml6b250YWwgb3ZlciB0aGUgZW50aXJlIHJhbmdlIG9mIGZpdHRlZCB2YWx1ZXMuIFRoaXMgc2VlbXMgbm90CnRvIGJlIHRoZSBjYXNlOiBmb3IgbGFyZ2VyIGZpdHRlZCB2YWx1ZXMsIHRoZSB2YXJpYW5jZSBpbmNyZWFzZSBzbGlnaHRseS4KVGhlIGFzc3VtcHRpb24gb2YgaG9tb3NjZWRhc3RpY2l0eSBpcyAqKm5vdCBtZXQuKioKCk11bHRpcGxlIGFzc3VtcHRpb25zIGFyZSBub3QgbWV0LCBzbyB3ZSBtYXkgbm90IGNvbnRpbnVlIGJ5IHBlcmZvcm1pbmcKYSBsaW5lYXIgcmVncmVzc2lvbi4KCldlIGNhbiB0cnkgdG8gcmVtZWRpYXRlIHRoZXNlIGRldmlhdGlvbnMgYnkgbG9nLXRyYW5zZm9ybWluZyB0aGUgZGF0YS4gSW5kZWVkLApkYXRhIHdpdGggaGVhdnkgcmlnaHQgdGFpbHMgY2FuIG9mdGVuIGJlIG5vcm1hbGl6ZWQgYnkgYXBwbHlpbmcgdGhpcyBzdHJhdGVneS4KCkZpdCBhIChsb2ctKWxpbmVhciBtb2RlbCBieSBsb2ctdHJhbnNmb3JtaW5nIHRoZSByZXNwb25zZS5HZW5lcmF0ZSBkaWFnbm9zdGljCnBsb3RzIGFuZCBhc3Nlc3MgdGhlIGFzc3VtcHRpb25zLgoKYGBge3J9CmxvZy5tb2RlbCA8LSBsbShsb2cxMChTdXJ2X3RpbWUpIH4gRG9zZSwgZGF0YSA9IHBvaXNvbl9kb2pvKQpwbG90KGxvZy5tb2RlbCkKYGBgCgpBcmd1YWJseSwgdGhlcmUgbWlnaHQgYmUgc29tZSBkZXZpYXRpb24gZnJvbSBub3JtYWxpdHkgaW4gdGhlIGxlZnQgdGFpbCBvZiB0aGUKZGlzdHJpYnV0aW9uLiBIb3dldmVyLCB3aGVuIHdlIHdvdWxkIHNpbXVsYXRlIGRhdGEgdW5kZXIgdGhlIG5vcm1hbGl0eQphc3N1bXB0aW9uLCBpdCBzZWVtcyB0aGF0IGRldmlhdGlvbnMgb2YgdGhpcyBzaXplIG1heSBiZSBleHBlY3RlZCB3aGVuCm5vcm1hbGl0eSBpcyBtZXQ6CgpgYGB7cn0Kc2V0LnNlZWQoMTQwNikKbm9icyA8LSBucm93KHBvaXNvbl9kb2pvKQoKZGF0YS5mcmFtZSgKICB5ID0gYyhsb2cubW9kZWwkcmVzLCBybm9ybShub2JzICogOCwgc2QgPSBzaWdtYShsb2cubW9kZWwpKSksCiAgbGFiZWwgPSByZXAoYygib3JpZyIsIHBhc3RlMCgic2ltIiwgMTo4KSksIGVhY2ggPSBub2JzKQopICU+JQogIGdncGxvdChhZXMoc2FtcGxlID0geSkpICsKICBnZW9tX3FxKCkgKwogIGdlb21fcXFfbGluZSgpICsKICBmYWNldF93cmFwKH5sYWJlbCkKYGBgCgoxLiBUaGUgaW5kZXBlbmRlbmNlIGFzc3VtcHRpb24gaXMgbWV0LgoyLiBVcG9uIGxvZy10cmFuc2Zvcm1hdGlvbiwgdGhlIGxpbmVhcml0eSBhc3N1bXB0aW9uIGlzIHN0aWxsIG1ldC4KMy4gVXBvbiBsb2ctdHJhbnNmb3JtYXRpb24sIHRoZSBub3JtYWxpdHkgYXNzdW1wdGlvbiBpcyBhbHNvIG1ldC4KNC4gVXBvbiBsb2ctdHJhbnNmb3JtYXRpb24sIHRoZSBob21vc2NlZGFzdGljaXR5IGFzc3VtcHRpb24gaXMgYWxzbyBtZXQuCgpMb29rIGF0IHRoZSBvdXRwdXQgb2YgdGhlIGxvZy1saW5lYXIgbW9kZWw6CgpgYGB7cn0Kc3VtbWFyeShsb2cubW9kZWwpCmBgYAoKQ29tcHV0ZSB0aGUgOTUlIGNvbmZpZGVuY2UgaW50ZXJ2YWwgb24gdGhlIG1vZGVsIHBhcmFtZXRlcnM6CgpgYGB7cn0KY29uZmludChsb2cubW9kZWwpCmBgYAoKIyMgSW50ZXJwcmV0YXRpb24gb24gdGhlIGxvZyBzY2FsZQoKQ3VycmVudGx5LCBhbGwgdGhlIG91dGNvbWVzIHNob3VsZCBiZSBpbnRlcnByZXRlZCBvbiB0aGUgbG9nLXNjYWxlLgpJbmRlZWQsIHNpbmNlIHdlIGFyZSBub3cgbW9kZWxsaW5nICBfdGhlIGxvZyRfezEwfSQgb2Ygc3Vydml2YWwgdGltZV8sIHdlCmRvbid0IGhhdmUgZGlyZWN0IGluZmVyZW5jZSBvbiBzdXJ2aXZhbCB0aW1lLgoKQXMgc3VjaCwgd2UgbWF5IGludGVycHJldCB0aGUgb3V0cHV0IGFzIGZvbGxvd3M6CgotIFRoZSBzbG9wZToKCkRvam9maXNoIHRoYXQgYXJlIGV4cG9zZWQgdG8gYSBoaWdoZXIgZG9zZSBvZiB0aGUgcG9pc29uIHdpbGwgaGF2ZSBhICRsb2dfezEwfSQKc3Vydml2YWwgdGltZSB0aGF0IGlzIG9uIGF2ZXJhZ2UgYHIgbG9nLm1vZGVsJGNvZWZbMl0gJT4lIGFicyAlPiUgcm91bmQoLiwyKWAKbG93ZXIgcGVyIGdyYW0gb2YgcG9pc29uIHRoYXQgd2FzIGFkbWluaXN0ZXJlZCBhZGRpdGlvbmFsbHkKKDk1JSBDSSBbYHIgY29uZmludChsb2cubW9kZWwpICU+JSBhYnMgJT4lIHJvdW5kKC4sMilgXSkuIFRoaXMgZGVjcmVhc2UgaW4Kc3Vydml2YWwgdGltZSBpcyBzaWduaWZpY2FudCBvbiB0aGUgNSUgc2lnbmlmaWNhbmNlIGxldmVsIChwPDAuMDAxKS4KCk5vdGUsIHRoYXQgdGhlIHN0dWR5IGlzIGFuIGV4cGVyaW1lbnRhbCBzdHVkeSBzbyB3ZSBjYW4gY29uY2x1ZGUgdGhhdCB0aGVyZSBpcwphIGNhdXNhbCBlZmZlY3Qgb2YgdGhlIHBvaXNvbiBkb3NlIGFuZCB0aGUgc3Vydml2YWwgdGltZS4KCi0gVGhlIGludGVyY2VwdDoKClRoZSBhdmVyYWdlIG9mIHRoZSBsb2cxMCBvZiBzdXJ2aXZhbCB0aW1lIGZvciBmaXNoIHRoYXQKd2VyZSBnaXZlbiBhIGRvc2Ugb2YgMCBtZyBpcyBgciBsb2cubW9kZWwkY29lZlsxXSAlPiUgYWJzICU+JSByb3VuZCguLDIpYC4KCiMjIEludGVycHJldGF0aW9uIG9uIHRoZSBvcmlnaW5hbCBzY2FsZQoKVGhlIGludGVycHJldGF0aW9uIHRoZSBsb2ctc2NhbGUgaXMgcXVpdGUgZGlmZmljdWx0LiBUbyBlYXNlCnRoZSBpbnRlcnByZXRhdGlvbiwgd2Ugd2lsbCBiYWNrdHJhbnNmb3JtIHRoZSByZXN1bHRzIHRvIHRoZSBvcmlnaW5hbApzY2FsZSAodGltZSBpbiBtaW51dGVzKS4gVGhpcyB3ZSBjYW4gZG8gYnkKCmBgYHtyfQoxMF4oc3VtbWFyeShsb2cubW9kZWwpJGNvZWZmaWNpZW50c1ssICJFc3RpbWF0ZSJdKQpgYGAKCmFuZCBvZiB0aGVpciBjb25maWRlbmNlIGludGVydmFsczoKCmBgYHtyfQoxMF4oY29uZmludChsb2cubW9kZWwpKQpgYGAKCk5vdywgd2UgY2FuIGludGVycHJldCB0aGUgcmVzdWx0cyBpbiB0ZXJtcyBvZiB0aGUgZ2VvbWV0cmljIG1lYW46CgotIFRoZSBzbG9wZToKCkRvam8gZmlzaCB0aGF0IGFyZSBleHBvc2VkIHRvIGEgaGlnaGVyIGRvc2Ugb2YgdGhlIHBvaXNvbiB3aWxsIGhhdmUgYSBnZW9tZXRyaWMKbWVhbiBvZiB0aGUgc3Vydml2YWwgdGltZSB0aGF0IGlzIGZhY3RvciBgciByb3VuZCgxMF5sb2cubW9kZWwkY29lZlsyXSwyKWAKKDk1JSBDSSBbYHIgcm91bmQoMTBeKGNvbmZpbnQobG9nLm1vZGVsKVsyLF0pLDIpYF0pIHBlciBncmFtIG9mIHBvaXNvbiB0aGF0IHRoZXkKcmVjZWl2ZWQgbW9yZSB0aGFuIGZpc2ggZXhwb3NlZCB0byBhIGxvd2VyIGRvc2UuIFRoaXMgZGVjcmVhc2UgaXMgdmVyeQpzaWduaWZpY2FudCBvbiB0aGUgNSUgc2lnbmlmaWNhbmNlIGxldmVsIChwPDAuMDAxKS4KCi0gVGhlIGludGVyY2VwdDoKClRoZSBnZW9tZXRyaWMgbWVhbiBvZiB0aGUgc3Vydml2YWwgdGltZSBmb3IgZmlzaCB0aGF0IHdlcmUgZ2l2ZW4gYQpkb3NlIG9mIDAgbWcgaXMgYHIgcm91bmQoMTBebG9nLm1vZGVsJGNvZWZbMV0sMilgIG1pbnV0ZXMuCgpJbiBvdGhlciB3b3Jkcywgb3VyIGFuYWx5c2lzIHNlZW1zIHRvIHN1Z2dlc3QgdGhhdCBmaXNoIGluIHVuY29udGFtaW5hdGVkIHdhdGVyCndvdWxkIG9ubHkgc3Vydml2ZSBmb3IgYWJvdXQgOCBtaW51dGVzISBUaGlzIHNlZW1zIGEgbGl0dGxlIGJpdCBfZmlzaHlfLi4uCgpOb3RlLCB0aGF0IHRoaXMgaW50ZXJwcmV0YXRpb24gaXMgbm90IGJpb2xvZ2ljYWxseSByZWxldmFudCBhbmQgaXMgaW5kdWNlZApiZWNhdXNlIHdlIGV4dHJhcG9sYXRlZCBjb25zaWRlcmFibHkgYmVjYXVzZSBhbGwgZmlzaCBpbiB0aGUgZXhwZXJpbWVudCB3ZXJlCmV4cG9zZWQgdG8gcG9pc29uLgoKYGBge3J9CiMjIEV4dHJhY3Qgc2xvcGUgYW5kIGludGVyY2VwdCBmcm9tIHRoZSBtb2RlbApkb2pvX2ludGVyY2VwdCA8LSBjb2VmKGxvZy5tb2RlbClbMV0KZG9qb19zbG9wZSA8LSBjb2VmKGxvZy5tb2RlbClbMl0KCmdncGxvdChwb2lzb25fZG9qbywgYWVzKERvc2UsIGxvZzEwKFN1cnZfdGltZSkpKSArCiAgZ2VvbV9wb2ludCgpICsKICBnZW9tX2FibGluZSgKICAgIHNsb3BlID0gZG9qb19zbG9wZSwgaW50ZXJjZXB0ID0gZG9qb19pbnRlcmNlcHQsCiAgICBjb2xvciA9ICJzdGVlbGJsdWUiLCBzaXplID0gMS4yCiAgKQpgYGAKCldlIGNhbiBzZWUgdGhhdCB0aGUgZG9zZSB2YWx1ZSBvZiAwIG1nIGRvZXMgbm90IGZhbGwgd2l0aGluCnRoZSBzYW1lIHJhbmdlIGFzIG91ciBkYXRhLiBUaGUgbW9kZWwgaXMgb25seSB2YWxpZCBpbiB0aGUgcmFuZ2Ugb2YKZGF0YSB0aGF0IHdlIHVzZSB0byBidWlsZCB0aGUgbW9kZWwgb24hCgpIb3dldmVyLCBpbiBtb3N0IGFwcGxpY2F0aW9ucyB3ZSB3aWxsIG5ldmVyIHRlc3QgZm9yIHRoZSBpbnRlcmNlcHQgdGVybS4KCiMgQ29uY2x1c2lvbgoKVGhlcmUgaXMgYSB2ZXJ5IHNpZ25pZmljYW50IGVmZmVjdCBvZiB0aGUgcG9pc29uIG9uIHN1cnZpdmFsIG9mIERvam9maXNoCihwPCAwLjAwMSkuIERvam9maXNoIHRoYXQgYXJlIGV4cG9zZWQgdG8gYSBoaWdoZXIgZG9zZSBvZiB0aGUgcG9pc29uIHdpbGwKaGF2ZSBhIHN1cnZpdmFsIHRpbWUgdGhhdCBkZWNyZWFzZSBvbiBhdmVyYWdlIHdpdGggYSBmYWN0b3IKYHIgbG9nLm1vZGVsJGNvZWZbMl0gJT4lIGFicyAlPiUgMTBeLiAlPiUgcm91bmQoLiwyKWAgcGVyIGdyYW0gb2YgcG9pc29uIHRoYXQKaXMgYWRkZWQgKDk1JSBDSSBbYHIgY29uZmludChsb2cubW9kZWwpWzIsXSAlPiUgYWJzICU+JSAxMF4uICU+JSByb3VuZCguLDIpYF0pLgoKSW4gdGhlIHR1dG9yaWFsIG9mIG11bHRpcGxlIHJlZ3Jlc3Npb24sIHdlIHdpbGwgcmV2aXNpdCB0aGlzIGV4ZXJjaXNlLgpNb3JlIHNwZWNpZmljYWxseSwgd2Ugd2lsbCB0aGVyZSBzdHVkeSB0aGUgYXNzb2NpYXRpb24gYmV0d2VlbiBkb3NlIGFuZCBzdXJ2aXZhbApmb3IgYWxsIHRoZSBzcGVjaWVzIGluIHRoZSBkYXRhc2V0Lgo=</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("06_2_poison_sol.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
