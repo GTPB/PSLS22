@@ -568,21 +568,21 @@ div.tocify {
 </div>
 <div id="the-diabetes-dataset" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> The diabetes dataset</h1>
-<p>The <code>diabetes dataset</code> holds information on a small experiment with 8 patients that are subjected to a glucose tolerance test.</p>
+<p>The <code>diabetes</code> dataset holds information on a small experiment with 8 patients that are subjected to a glucose tolerance test.</p>
 <p>Patients had to fast for eight hours before the test. When the patients entered the hospital their baseline glucose level was measured (mmol/l).</p>
 <p>Patients then had to drink 250 ml of a syrupy glucose solution containing 100 grams of sugar. Two hours later, their blood glucose level was measured again.</p>
 <p>The data consist of three variables:</p>
 <ul>
-<li>before: glucose concentration upon 8 hours of fasting (mmol/l)</li>
-<li>after: glucose concentration 2 hours after drinking glucose solution (mmol/l).</li>
-<li>patient: identifier for the patient</li>
+<li><code>before</code>: glucose concentration upon 8 hours of fasting (mmol/l)</li>
+<li><code>after</code>: glucose concentration 2 hours after drinking glucose solution (mmol/l).</li>
+<li><code>patient</code>: identifier for the patient</li>
 </ul>
 <div id="research-questions" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Research questions</h2>
 <p>The goal is to answer two research questions;</p>
 <ol style="list-style-type: decimal">
-<li><p>Is the average glucose level (i.e. before treatment) of the patients two hours upon the sugar intake higher than 7.8 mmol/L?</p></li>
 <li><p>Is the average glucose level after the sugar intake different from the average glucose level before sugar intake?</p></li>
+<li><p>Is the average glucose level of the patients two hours after the sugar intake higher than 7.8 mmol/L?</p></li>
 </ol>
 </div>
 <div id="import-the-data" class="section level2" number="2.2">
@@ -593,70 +593,76 @@ div.tocify {
 </div>
 <div id="data-exploration" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Data exploration</h1>
-<p>We will start with a data exploration. We will assess two hypotheses: the first hypothesis involves comparing the average glucose levels in the blood two hours upon 100g of sugar intake with the threshold for pre-diabetes of 7.8 mmol/l.</p>
-<p>The second measurement involves the comparison of the average glucose concentrations before and after the sugar intake.</p>
-<p>From the previous tutorial on data analysis we know that we have to explore the difference between the glucose concentration after and before the sugar intake when we want to assess a difference in glucose levels before and after sugar intake because the data are paired.</p>
+<p>We will start with a data exploration. Have a first look at the raw data. How is the data structured? Is this data <em>tidy</em>?</p>
 </div>
 <div id="question-1" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Question 1</h1>
+<p>Is the glucose level after 8 hours of fasting on average different from the glucose level two hours after intake of 100g of glucose?</p>
+<p>As the data are paired, we can expect that the measurements before and after the glucose intake are correlated. We can illustrate this with a scatterplot.</p>
+<div id="check-the-assumptions" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Check the assumptions</h2>
+<p>State the assumptions that you have to check and include the diagnostic plots to assess the assumption.</p>
+</div>
+<div id="hypothesis-test" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Hypothesis test</h2>
+<p>If all assumptions are met, we may continue with performing the paired two-sample t-test.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>paired_t <span class="ot">&lt;-</span> <span class="fu">t.test</span>(... <span class="sc">~</span> ..., <span class="at">data =</span> ..., <span class="at">paired =</span> ...)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>paired_t</span></code></pre></div>
+</div>
+<div id="conclusion" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Conclusion</h2>
+<p>Formulate a conclusion based on the output.</p>
+</div>
+</div>
+<div id="alternative-solution-one-sample-t-test-on-the-difference" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Alternative solution: One-sample t-test on the difference</h1>
+<p>Since the data is paired, we can also simply calculate the differences in glucose level before and after sugar intake for each patient. We can then perform a one-sample t-test on these differences, testing whether they are significantly different from zero. This is equivalent to the paired t-test we performed above.</p>
+<p>We can verify this with the analysis below</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(... <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> ..., <span class="at">mu =</span> ...)</span></code></pre></div>
+<hr />
+</div>
+<div id="question-2" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Question 2</h1>
 <p>Is the average glucose level two hours after sugar intake higher than the threshold of 7.8 mmol/l for pre-diabetes?</p>
 <p>We can test this hypothesis using a <strong>one-sample t-test</strong>. Indeed we are interested to compare the average glucose level to a known threshold for pre-diabetes.</p>
-<div id="assess-the-assumptions" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Assess the assumptions</h2>
+<div id="assess-the-assumptions" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Assess the assumptions</h2>
 <p>Before we can perform a one sample t-test, we must check that the required assumptions are met!</p>
 <ol style="list-style-type: decimal">
 <li>The observations are independent</li>
 <li>The glucose levels two hours after the treatment are normally distributed</li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>... <span class="sc">%&gt;%</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">...</span>() <span class="sc">+</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>()</span></code></pre></div>
-<p>What do you observe</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## First filter the data on the desired group</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>diabetes_after <span class="ot">&lt;-</span> ... <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(... <span class="sc">==</span> <span class="st">&quot;...&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>... <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">...</span>() <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>()</span></code></pre></div>
+<p>What do you observe?</p>
 </div>
-<div id="hypothesis-test" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Hypothesis test</h2>
+<div id="hypothesis-test-1" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Hypothesis test</h2>
 <p>Here, we will test if mean glucose level 2 hours after sugar intake is significantly higher than the threshold for pre-diabetes of 7.8 mmol/l. More specifically, we will test the null hypothesis;</p>
 <p><span class="math inline">\(H_0:\)</span> …</p>
 <p>versus the alternative hypothesis;</p>
 <p><span class="math inline">\(H_1:\)</span> …</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>output1 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(..., <span class="at">mu =</span> ..., <span class="at">alternative =</span> ..., <span class="at">conf.level =</span> ..., <span class="at">data =</span> ...)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>output1</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>t_test_after <span class="ot">&lt;-</span> <span class="fu">t.test</span>(... <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> ...,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mu =</span> ...,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">alternative =</span> <span class="st">&quot;...&quot;</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">conf.level =</span> ...</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>t_test_after</span></code></pre></div>
 </div>
-<div id="conclusion" class="section level2" number="4.3">
-<h2><span class="header-section-number">4.3</span> Conclusion</h2>
+<div id="conclusion-1" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Conclusion</h2>
 <p>When writing a conclusion on your research hypothesis, it is very important to be precise, concise, and complete.</p>
 <p>…</p>
 </div>
 </div>
-<div id="question-2" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> Question 2</h1>
-<p>Is the glucose level after 8 hours of fasting on average different from the glucose level two hours after intake of 100g of glucose?</p>
-<p>As the data are paired, we can expect that the measurements before and after the glucose intake are correlated. We can illustrate this with a scatterplot.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#create scatterplot</span></span></code></pre></div>
-<div id="check-the-assumptions" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Check the assumptions</h2>
-<p>State the assumptions that you have to check and include the diagnostic plots to assess the assumption.</p>
-</div>
-<div id="hypothesis-test-1" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Hypothesis test</h2>
-<p>If all assumptions are met, we may continue with performing the paired two-sample t-test.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>output2 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(..., ..., <span class="at">paired =</span> ..., <span class="at">data =</span> )</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>output2</span></code></pre></div>
-</div>
-<div id="conclusion-1" class="section level2" number="5.3">
-<h2><span class="header-section-number">5.3</span> Conclusion</h2>
-<p>Formulate a conclusion based on the output.</p>
-</div>
-</div>
-<div id="alternative-solution-one-sample-t-test-on-the-difference" class="section level1" number="6">
-<h1><span class="header-section-number">6</span> Alternative solution: One-sample t-test on the difference</h1>
-<p>Performing a paired t-test is equivalent to performing a one-sample t-test where we assess if the difference between both groups is on average different from 0.</p>
-<p>We can verify this with the analysis below</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(...)</span></code></pre></div>
-</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2UgNS4xOiBIeXBvdGhlc2lzIHRlc3Rpbmcgb24gdGhlIGRpYWJldGVzIGV4YW1wbGUiCmF1dGhvcjogIkxpZXZlbiBDbGVtZW50LCBKZXJvZW4gR2lsaXMgYW5kIE1pbGFuIE1hbGZhaXQiCmRhdGU6ICJzdGF0T21pY3MsIEdoZW50IFVuaXZlcnNpdHkgKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbykiCi0tLQoKIyBBaW1zCgpJbiB0aGlzIGV4ZXJjaXNlLCB5b3Ugd2lsbCByZXZpc2l0IHRoZSBiYXNpY3Mgb2Ygc3RhdGlzdGljYWwgIGh5cG90aGVzaXMgdGVzdGluZy4gCgpZb3Ugd2lsbCBhY3F1aXJlIHRoZSBza2lsbHMgCgoxLiB0byBhc3Nlc3MgdGhlIGFzc3VtcHRpb25zIG9mIGEgb25lLXNhbXBsZSBhbmQgYSBwYWlyZWQgdC10ZXN0IGluIGEgZGF0YSBleHBsb3JhdGlvbi4gCjIuIHRvIGNvbmR1Y3QgYSBvbmUtc2FtcGxlIHQtdGVzdCBpbiBSIGFuZCB0byBpbnRlcnByZXQgdGhlIHJlc3VsdHMuCjMuIHRvIGNvbmR1Y3QgYSBwYWlyZWQgdC10ZXN0IGluIFIgYW5kIHRvIGludGVycHJldCB0aGUgcmVzdWx0cy4KCiMgVGhlIGRpYWJldGVzIGRhdGFzZXQKClRoZSBgZGlhYmV0ZXMgZGF0YXNldGAgaG9sZHMgaW5mb3JtYXRpb24gb24gYSBzbWFsbCBleHBlcmltZW50IHdpdGgKOCBwYXRpZW50cyB0aGF0IGFyZSBzdWJqZWN0ZWQgdG8gIGEgZ2x1Y29zZSB0b2xlcmFuY2UgdGVzdC4KCgpQYXRpZW50cyBoYWQgdG8gZmFzdCBmb3IgZWlnaHQgaG91cnMgYmVmb3JlIHRoZSB0ZXN0LiAKV2hlbiB0aGUgcGF0aWVudHMgZW50ZXJlZCB0aGUgaG9zcGl0YWwgdGhlaXIgYmFzZWxpbmUgZ2x1Y29zZSBsZXZlbCB3YXMgbWVhc3VyZWQgKG1tb2wvbCkuIAoKUGF0aWVudHMgdGhlbiAgaGFkIHRvIGRyaW5rIDI1MCBtbCBvZiBhIHN5cnVweSBnbHVjb3NlIHNvbHV0aW9uIGNvbnRhaW5pbmcgMTAwIGdyYW1zIG9mIHN1Z2FyLiAKVHdvIGhvdXJzIGxhdGVyLCB0aGVpciBibG9vZCBnbHVjb3NlIGxldmVsIHdhcyBtZWFzdXJlZCBhZ2Fpbi4gCgpUaGUgZGF0YSBjb25zaXN0IG9mIHRocmVlIHZhcmlhYmxlczoKCi0gYmVmb3JlOiBnbHVjb3NlIGNvbmNlbnRyYXRpb24gdXBvbiA4IGhvdXJzIG9mIGZhc3RpbmcgKG1tb2wvbCkKLSBhZnRlcjogZ2x1Y29zZSBjb25jZW50cmF0aW9uIDIgaG91cnMgYWZ0ZXIgZHJpbmtpbmcgZ2x1Y29zZSBzb2x1dGlvbiAobW1vbC9sKS4KLSBwYXRpZW50OiBpZGVudGlmaWVyIGZvciB0aGUgcGF0aWVudAoKIyMgUmVzZWFyY2ggcXVlc3Rpb25zCgpUaGUgZ29hbCBpcyB0byBhbnN3ZXIgdHdvIHJlc2VhcmNoIHF1ZXN0aW9uczsKCjEuIElzIHRoZSBhdmVyYWdlIGdsdWNvc2UgbGV2ZWwgKGkuZS4gYmVmb3JlIHRyZWF0bWVudCkgb2YKdGhlIHBhdGllbnRzIHR3byBob3VycyB1cG9uIHRoZSBzdWdhciBpbnRha2UgaGlnaGVyIHRoYW4gNy44IG1tb2wvTD8KCjIuIElzIHRoZSBhdmVyYWdlIGdsdWNvc2UgbGV2ZWwgYWZ0ZXIgdGhlIHN1Z2FyIGludGFrZSBkaWZmZXJlbnQgZnJvbSB0aGUgYXZlcmFnZSBnbHVjb3NlIGxldmVsIGJlZm9yZSBzdWdhciBpbnRha2U/CgoKIyMgSW1wb3J0IHRoZSBkYXRhCgpGaXJzdCwgbG9hZCB0aGUgcmVxdWlyZWQgUiBsaWJyYXJpZXM6CgpgYGB7ciwgbWVzc2FnZT1GQUxTRSwgd2FybmluZz1GQUxTRX0KbGlicmFyeSh0aWR5dmVyc2UpCmBgYAoKYGBge3IsIGV2YWw9RkFMU0V9CgpgYGAKCiMgRGF0YSBleHBsb3JhdGlvbgoKV2Ugd2lsbCBzdGFydCB3aXRoIGEgZGF0YSBleHBsb3JhdGlvbi4gCldlIHdpbGwgYXNzZXNzIHR3byBoeXBvdGhlc2VzOiAKdGhlIGZpcnN0IGh5cG90aGVzaXMgaW52b2x2ZXMgY29tcGFyaW5nIHRoZSBhdmVyYWdlIGdsdWNvc2UgbGV2ZWxzIGluIHRoZSBibG9vZCB0d28gaG91cnMgdXBvbiAxMDBnIG9mIHN1Z2FyIGludGFrZSB3aXRoIHRoZSB0aHJlc2hvbGQgZm9yIHByZS1kaWFiZXRlcyBvZiA3LjggbW1vbC9sLiAKClRoZSBzZWNvbmQgbWVhc3VyZW1lbnQgaW52b2x2ZXMgdGhlIGNvbXBhcmlzb24gb2YgdGhlIGF2ZXJhZ2UgZ2x1Y29zZSBjb25jZW50cmF0aW9ucyBiZWZvcmUgYW5kIGFmdGVyIHRoZSBzdWdhciBpbnRha2UuIAoKRnJvbSB0aGUgcHJldmlvdXMgdHV0b3JpYWwgb24gZGF0YSBhbmFseXNpcyB3ZSBrbm93IHRoYXQgd2UgaGF2ZSB0byBleHBsb3JlIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIGdsdWNvc2UgY29uY2VudHJhdGlvbiBhZnRlciBhbmQgYmVmb3JlIHRoZSBzdWdhciBpbnRha2Ugd2hlbiB3ZSB3YW50IHRvIGFzc2VzcyBhIGRpZmZlcmVuY2UgaW4gZ2x1Y29zZSBsZXZlbHMgYmVmb3JlIGFuZCBhZnRlciBzdWdhciBpbnRha2UgYmVjYXVzZSB0aGUgZGF0YSBhcmUgcGFpcmVkLiAKCmBgYHtyLCBldmFsPUZBTFNFfQoKYGBgCgoKCiMgUXVlc3Rpb24gMQoKSXMgdGhlIGF2ZXJhZ2UgZ2x1Y29zZSBsZXZlbCB0d28gaG91cnMgYWZ0ZXIgc3VnYXIgaW50YWtlCmhpZ2hlciB0aGFuIHRoZSB0aHJlc2hvbGQgb2YgNy44IG1tb2wvbCBmb3IgcHJlLWRpYWJldGVzPwoKV2UgY2FuIHRlc3QgdGhpcyBoeXBvdGhlc2lzIHVzaW5nIGEgKipvbmUtc2FtcGxlIHQtdGVzdCoqLgpJbmRlZWQgd2UgYXJlIGludGVyZXN0ZWQgdG8gY29tcGFyZSB0aGUgYXZlcmFnZSBnbHVjb3NlIGxldmVsIHRvIGEga25vd24gdGhyZXNob2xkIGZvciBwcmUtZGlhYmV0ZXMuIAoKIyMgQXNzZXNzIHRoZSBhc3N1bXB0aW9ucwoKQmVmb3JlIHdlIGNhbiBwZXJmb3JtIGEgb25lIHNhbXBsZSB0LXRlc3QsIHdlIG11c3QgY2hlY2sgdGhhdCB0aGUgcmVxdWlyZWQKYXNzdW1wdGlvbnMgYXJlIG1ldCEKCjEuIFRoZSBvYnNlcnZhdGlvbnMgYXJlIGluZGVwZW5kZW50CjIuIFRoZSBnbHVjb3NlIGxldmVscyB0d28gaG91cnMgYWZ0ZXIgdGhlIHRyZWF0bWVudCBhcmUgbm9ybWFsbHkgZGlzdHJpYnV0ZWQKCmBgYHtyLCBldmFsPUZBTFNFfQouLi4gJT4lCiAgLi4uKCkgKwogIGdlb21fcXEoKSArCiAgZ2VvbV9xcV9saW5lKCkKYGBgCgpXaGF0IGRvIHlvdSBvYnNlcnZlCgojIyBIeXBvdGhlc2lzIHRlc3QKCkhlcmUsIHdlIHdpbGwgdGVzdCBpZiBtZWFuIGdsdWNvc2UgbGV2ZWwgMiBob3VycyBhZnRlciBzdWdhciBpbnRha2UgaXMgc2lnbmlmaWNhbnRseQpoaWdoZXIgdGhhbiB0aGUgdGhyZXNob2xkIGZvciBwcmUtZGlhYmV0ZXMgb2YgNy44IG1tb2wvbC4gTW9yZSBzcGVjaWZpY2FsbHksIHdlIHdpbGwgdGVzdCB0aGUgbnVsbCBoeXBvdGhlc2lzOwoKJEhfMDokIC4uLgoKdmVyc3VzIHRoZSBhbHRlcm5hdGl2ZSBoeXBvdGhlc2lzOwoKJEhfMTokIC4uLgoKYGBge3IsIGV2YWw9RkFMU0V9Cm91dHB1dDEgPC0gdC50ZXN0KC4uLiwgbXUgPSAuLi4sIGFsdGVybmF0aXZlID0gLi4uLCBjb25mLmxldmVsID0gLi4uLCBkYXRhID0gLi4uKQpvdXRwdXQxCmBgYAoKIyMgQ29uY2x1c2lvbgoKV2hlbiB3cml0aW5nIGEgY29uY2x1c2lvbiBvbiB5b3VyIHJlc2VhcmNoIGh5cG90aGVzaXMsCml0IGlzIHZlcnkgaW1wb3J0YW50IHRvIGJlIHByZWNpc2UsIGNvbmNpc2UsIGFuZCBjb21wbGV0ZS4KCi4uLgoKIyBRdWVzdGlvbiAyCgpJcyB0aGUgZ2x1Y29zZSBsZXZlbCBhZnRlciA4IGhvdXJzIG9mIGZhc3Rpbmcgb24gYXZlcmFnZSBkaWZmZXJlbnQgZnJvbSB0aGUgZ2x1Y29zZSBsZXZlbCB0d28gaG91cnMgYWZ0ZXIgaW50YWtlIG9mIDEwMGcgb2YgZ2x1Y29zZT8KCkFzIHRoZSBkYXRhIGFyZSBwYWlyZWQsIHdlIGNhbiBleHBlY3QgdGhhdCB0aGUgbWVhc3VyZW1lbnRzIGJlZm9yZSBhbmQgYWZ0ZXIgdGhlIGdsdWNvc2UgaW50YWtlIGFyZSBjb3JyZWxhdGVkLiAKV2UgY2FuIGlsbHVzdHJhdGUgdGhpcyB3aXRoIGEgc2NhdHRlcnBsb3QuCgpgYGB7ciwgZXZhbD1GQUxTRX0KI2NyZWF0ZSBzY2F0dGVycGxvdApgYGAKCgojIyBDaGVjayB0aGUgYXNzdW1wdGlvbnMKClN0YXRlIHRoZSBhc3N1bXB0aW9ucyB0aGF0IHlvdSBoYXZlIHRvIGNoZWNrIGFuZCBpbmNsdWRlIHRoZSBkaWFnbm9zdGljIHBsb3RzIHRvCmFzc2VzcyB0aGUgYXNzdW1wdGlvbi4KCiMjIEh5cG90aGVzaXMgdGVzdAoKSWYgYWxsIGFzc3VtcHRpb25zIGFyZSBtZXQsIHdlIG1heSBjb250aW51ZSB3aXRoCnBlcmZvcm1pbmcgdGhlIHBhaXJlZCB0d28tc2FtcGxlIHQtdGVzdC4KCmBgYHtyLCBldmFsPUZBTFNFfQpvdXRwdXQyIDwtIHQudGVzdCguLi4sIC4uLiwgcGFpcmVkID0gLi4uLCBkYXRhID0gKQpvdXRwdXQyCmBgYAoKCiMjIENvbmNsdXNpb24KCkZvcm11bGF0ZSBhIGNvbmNsdXNpb24gYmFzZWQgb24gdGhlIG91dHB1dC4KCiMgQWx0ZXJuYXRpdmUgc29sdXRpb246IE9uZS1zYW1wbGUgdC10ZXN0IG9uIHRoZSBkaWZmZXJlbmNlCgpQZXJmb3JtaW5nIGEgcGFpcmVkIHQtdGVzdCBpcyBlcXVpdmFsZW50IHRvIHBlcmZvcm1pbmcgYSBvbmUtc2FtcGxlIHQtdGVzdCB3aGVyZSB3ZSBhc3Nlc3MgaWYgdGhlCmRpZmZlcmVuY2UgYmV0d2VlbiBib3RoIGdyb3VwcyBpcyBvbiBhdmVyYWdlIGRpZmZlcmVudCBmcm9tIDAuCgpXZSBjYW4gdmVyaWZ5IHRoaXMgd2l0aCB0aGUgYW5hbHlzaXMgYmVsb3cKCmBgYHtyLCBldmFsPUZBTFNFfQp0LnRlc3QoLi4uKQpgYGAK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2UgNS4xOiBIeXBvdGhlc2lzIHRlc3Rpbmcgb24gdGhlIGRpYWJldGVzIGV4YW1wbGUiCmF1dGhvcjogIkxpZXZlbiBDbGVtZW50LCBKZXJvZW4gR2lsaXMgYW5kIE1pbGFuIE1hbGZhaXQiCmRhdGU6ICJzdGF0T21pY3MsIEdoZW50IFVuaXZlcnNpdHkgKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbykiCi0tLQoKIyBBaW1zCgpJbiB0aGlzIGV4ZXJjaXNlLCB5b3Ugd2lsbCByZXZpc2l0IHRoZSBiYXNpY3Mgb2Ygc3RhdGlzdGljYWwgIGh5cG90aGVzaXMgdGVzdGluZy4KCllvdSB3aWxsIGFjcXVpcmUgdGhlIHNraWxscwoKMS4gdG8gYXNzZXNzIHRoZSBhc3N1bXB0aW9ucyBvZiBhIG9uZS1zYW1wbGUgYW5kIGEgcGFpcmVkIHQtdGVzdCBpbiBhIGRhdGEgZXhwbG9yYXRpb24uCjIuIHRvIGNvbmR1Y3QgYSBvbmUtc2FtcGxlIHQtdGVzdCBpbiBSIGFuZCB0byBpbnRlcnByZXQgdGhlIHJlc3VsdHMuCjMuIHRvIGNvbmR1Y3QgYSBwYWlyZWQgdC10ZXN0IGluIFIgYW5kIHRvIGludGVycHJldCB0aGUgcmVzdWx0cy4KCiMgVGhlIGRpYWJldGVzIGRhdGFzZXQKClRoZSBgZGlhYmV0ZXNgICBkYXRhc2V0IGhvbGRzIGluZm9ybWF0aW9uIG9uIGEgc21hbGwgZXhwZXJpbWVudCB3aXRoCjggcGF0aWVudHMgdGhhdCBhcmUgc3ViamVjdGVkIHRvIGEgZ2x1Y29zZSB0b2xlcmFuY2UgdGVzdC4KClBhdGllbnRzIGhhZCB0byBmYXN0IGZvciBlaWdodCBob3VycyBiZWZvcmUgdGhlIHRlc3QuCldoZW4gdGhlIHBhdGllbnRzIGVudGVyZWQgdGhlIGhvc3BpdGFsIHRoZWlyIGJhc2VsaW5lIGdsdWNvc2UgbGV2ZWwgd2FzIG1lYXN1cmVkIChtbW9sL2wpLgoKUGF0aWVudHMgdGhlbiBoYWQgdG8gZHJpbmsgMjUwIG1sIG9mIGEgc3lydXB5IGdsdWNvc2Ugc29sdXRpb24gY29udGFpbmluZyAxMDAKZ3JhbXMgb2Ygc3VnYXIuIFR3byBob3VycyBsYXRlciwgdGhlaXIgYmxvb2QgZ2x1Y29zZSBsZXZlbCB3YXMgbWVhc3VyZWQgYWdhaW4uCgpUaGUgZGF0YSBjb25zaXN0IG9mIHRocmVlIHZhcmlhYmxlczoKCi0gYGJlZm9yZWA6IGdsdWNvc2UgY29uY2VudHJhdGlvbiB1cG9uIDggaG91cnMgb2YgZmFzdGluZyAobW1vbC9sKQotIGBhZnRlcmA6IGdsdWNvc2UgY29uY2VudHJhdGlvbiAyIGhvdXJzIGFmdGVyIGRyaW5raW5nIGdsdWNvc2Ugc29sdXRpb24gKG1tb2wvbCkuCi0gYHBhdGllbnRgOiBpZGVudGlmaWVyIGZvciB0aGUgcGF0aWVudAoKIyMgUmVzZWFyY2ggcXVlc3Rpb25zCgpUaGUgZ29hbCBpcyB0byBhbnN3ZXIgdHdvIHJlc2VhcmNoIHF1ZXN0aW9uczsKCjEuIElzIHRoZSBhdmVyYWdlIGdsdWNvc2UgbGV2ZWwgYWZ0ZXIgdGhlIHN1Z2FyIGludGFrZSBkaWZmZXJlbnQgZnJvbSB0aGUgYXZlcmFnZSBnbHVjb3NlIGxldmVsIGJlZm9yZSBzdWdhciBpbnRha2U/CgoyLiBJcyB0aGUgYXZlcmFnZSBnbHVjb3NlIGxldmVsIG9mIHRoZSBwYXRpZW50cyB0d28gaG91cnMgYWZ0ZXIgdGhlIHN1Z2FyIGludGFrZSBoaWdoZXIgdGhhbiA3LjggbW1vbC9MPwoKIyMgSW1wb3J0IHRoZSBkYXRhCgpGaXJzdCwgbG9hZCB0aGUgcmVxdWlyZWQgUiBsaWJyYXJpZXM6CgpgYGB7ciwgbWVzc2FnZT1GQUxTRSwgd2FybmluZz1GQUxTRX0KbGlicmFyeSh0aWR5dmVyc2UpCmBgYAoKYGBge3IsIGV2YWw9RkFMU0V9CgpgYGAKCiMgRGF0YSBleHBsb3JhdGlvbgoKV2Ugd2lsbCBzdGFydCB3aXRoIGEgZGF0YSBleHBsb3JhdGlvbi4KSGF2ZSBhIGZpcnN0IGxvb2sgYXQgdGhlIHJhdyBkYXRhLiBIb3cgaXMgdGhlIGRhdGEgc3RydWN0dXJlZD8KSXMgdGhpcyBkYXRhICp0aWR5Kj8KCmBgYHtyLCBldmFsPUZBTFNFfQoKYGBgCgojIFF1ZXN0aW9uIDEKCklzIHRoZSBnbHVjb3NlIGxldmVsIGFmdGVyIDggaG91cnMgb2YgZmFzdGluZyBvbiBhdmVyYWdlIGRpZmZlcmVudCBmcm9tIHRoZSBnbHVjb3NlIGxldmVsIHR3byBob3VycyBhZnRlciBpbnRha2Ugb2YgMTAwZyBvZiBnbHVjb3NlPwoKQXMgdGhlIGRhdGEgYXJlIHBhaXJlZCwgd2UgY2FuIGV4cGVjdCB0aGF0IHRoZSBtZWFzdXJlbWVudHMgYmVmb3JlIGFuZCBhZnRlciB0aGUgZ2x1Y29zZSBpbnRha2UgYXJlIGNvcnJlbGF0ZWQuCldlIGNhbiBpbGx1c3RyYXRlIHRoaXMgd2l0aCBhIHNjYXR0ZXJwbG90LgoKYGBge3IsIGV2YWw9RkFMU0V9CgpgYGAKCgojIyBDaGVjayB0aGUgYXNzdW1wdGlvbnMKClN0YXRlIHRoZSBhc3N1bXB0aW9ucyB0aGF0IHlvdSBoYXZlIHRvIGNoZWNrIGFuZCBpbmNsdWRlIHRoZSBkaWFnbm9zdGljIHBsb3RzIHRvCmFzc2VzcyB0aGUgYXNzdW1wdGlvbi4KCiMjIEh5cG90aGVzaXMgdGVzdAoKSWYgYWxsIGFzc3VtcHRpb25zIGFyZSBtZXQsIHdlIG1heSBjb250aW51ZSB3aXRoCnBlcmZvcm1pbmcgdGhlIHBhaXJlZCB0d28tc2FtcGxlIHQtdGVzdC4KCmBgYHtyLCBldmFsPUZBTFNFfQpwYWlyZWRfdCA8LSB0LnRlc3QoLi4uIH4gLi4uLCBkYXRhID0gLi4uLCBwYWlyZWQgPSAuLi4pCnBhaXJlZF90CmBgYAoKCiMjIENvbmNsdXNpb24KCkZvcm11bGF0ZSBhIGNvbmNsdXNpb24gYmFzZWQgb24gdGhlIG91dHB1dC4KCiMgQWx0ZXJuYXRpdmUgc29sdXRpb246IE9uZS1zYW1wbGUgdC10ZXN0IG9uIHRoZSBkaWZmZXJlbmNlCgpTaW5jZSB0aGUgZGF0YSBpcyBwYWlyZWQsIHdlIGNhbiBhbHNvIHNpbXBseSBjYWxjdWxhdGUgdGhlIGRpZmZlcmVuY2VzIGluCmdsdWNvc2UgbGV2ZWwgYmVmb3JlIGFuZCBhZnRlciBzdWdhciBpbnRha2UgZm9yIGVhY2ggcGF0aWVudC4gV2UgY2FuIHRoZW4KcGVyZm9ybSBhIG9uZS1zYW1wbGUgdC10ZXN0IG9uIHRoZXNlIGRpZmZlcmVuY2VzLCB0ZXN0aW5nIHdoZXRoZXIgdGhleSBhcmUKc2lnbmlmaWNhbnRseSBkaWZmZXJlbnQgZnJvbSB6ZXJvLiBUaGlzIGlzIGVxdWl2YWxlbnQgdG8gdGhlIHBhaXJlZCB0LXRlc3Qgd2UKcGVyZm9ybWVkIGFib3ZlLgoKV2UgY2FuIHZlcmlmeSB0aGlzIHdpdGggdGhlIGFuYWx5c2lzIGJlbG93CgpgYGB7ciwgZXZhbD1GQUxTRX0KdC50ZXN0KC4uLiB+IDEsIGRhdGEgPSAuLi4sIG11ID0gLi4uKQpgYGAKCioqKgoKIyBRdWVzdGlvbiAyCgpJcyB0aGUgYXZlcmFnZSBnbHVjb3NlIGxldmVsIHR3byBob3VycyBhZnRlciBzdWdhciBpbnRha2UKaGlnaGVyIHRoYW4gdGhlIHRocmVzaG9sZCBvZiA3LjggbW1vbC9sIGZvciBwcmUtZGlhYmV0ZXM/CgpXZSBjYW4gdGVzdCB0aGlzIGh5cG90aGVzaXMgdXNpbmcgYSAqKm9uZS1zYW1wbGUgdC10ZXN0KiouCkluZGVlZCB3ZSBhcmUgaW50ZXJlc3RlZCB0byBjb21wYXJlIHRoZSBhdmVyYWdlIGdsdWNvc2UgbGV2ZWwgdG8gYSBrbm93biB0aHJlc2hvbGQgZm9yIHByZS1kaWFiZXRlcy4KCiMjIEFzc2VzcyB0aGUgYXNzdW1wdGlvbnMKCkJlZm9yZSB3ZSBjYW4gcGVyZm9ybSBhIG9uZSBzYW1wbGUgdC10ZXN0LCB3ZSBtdXN0IGNoZWNrIHRoYXQgdGhlIHJlcXVpcmVkCmFzc3VtcHRpb25zIGFyZSBtZXQhCgoxLiBUaGUgb2JzZXJ2YXRpb25zIGFyZSBpbmRlcGVuZGVudAoyLiBUaGUgZ2x1Y29zZSBsZXZlbHMgdHdvIGhvdXJzIGFmdGVyIHRoZSB0cmVhdG1lbnQgYXJlIG5vcm1hbGx5IGRpc3RyaWJ1dGVkCgpgYGB7ciwgZXZhbD1GQUxTRX0KIyMgRmlyc3QgZmlsdGVyIHRoZSBkYXRhIG9uIHRoZSBkZXNpcmVkIGdyb3VwCmRpYWJldGVzX2FmdGVyIDwtIC4uLiAlPiUKICBmaWx0ZXIoLi4uID09ICIuLi4iKQpgYGAKCmBgYHtyLCBldmFsPUZBTFNFfQouLi4gJT4lCiAgLi4uKCkgKwogIGdlb21fcXEoKSArCiAgZ2VvbV9xcV9saW5lKCkKYGBgCgpXaGF0IGRvIHlvdSBvYnNlcnZlPwoKIyMgSHlwb3RoZXNpcyB0ZXN0CgpIZXJlLCB3ZSB3aWxsIHRlc3QgaWYgbWVhbiBnbHVjb3NlIGxldmVsIDIgaG91cnMgYWZ0ZXIgc3VnYXIgaW50YWtlIGlzIHNpZ25pZmljYW50bHkKaGlnaGVyIHRoYW4gdGhlIHRocmVzaG9sZCBmb3IgcHJlLWRpYWJldGVzIG9mIDcuOCBtbW9sL2wuIE1vcmUgc3BlY2lmaWNhbGx5LCB3ZSB3aWxsIHRlc3QgdGhlIG51bGwgaHlwb3RoZXNpczsKCiRIXzA6JCAuLi4KCnZlcnN1cyB0aGUgYWx0ZXJuYXRpdmUgaHlwb3RoZXNpczsKCiRIXzE6JCAuLi4KCmBgYHtyLCBldmFsPUZBTFNFfQp0X3Rlc3RfYWZ0ZXIgPC0gdC50ZXN0KC4uLiB+IDEsCiAgZGF0YSA9IC4uLiwKICBtdSA9IC4uLiwKICBhbHRlcm5hdGl2ZSA9ICIuLi4iLAogIGNvbmYubGV2ZWwgPSAuLi4KKQp0X3Rlc3RfYWZ0ZXIKYGBgCgojIyBDb25jbHVzaW9uCgpXaGVuIHdyaXRpbmcgYSBjb25jbHVzaW9uIG9uIHlvdXIgcmVzZWFyY2ggaHlwb3RoZXNpcywKaXQgaXMgdmVyeSBpbXBvcnRhbnQgdG8gYmUgcHJlY2lzZSwgY29uY2lzZSwgYW5kIGNvbXBsZXRlLgoKLi4uCg==</div>
 <div class="footer">
     <hr>
     This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">

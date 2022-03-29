@@ -568,28 +568,28 @@ div.tocify {
 </div>
 <div id="the-diabetes-dataset" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> The diabetes dataset</h1>
-<p>The <code>diabetes dataset</code> holds information on a small experiment with 8 patients that are subjected to a glucose tolerance test.</p>
+<p>The <code>diabetes</code> dataset holds information on a small experiment with 8 patients that are subjected to a glucose tolerance test.</p>
 <p>Patients had to fast for eight hours before the test. When the patients entered the hospital their baseline glucose level was measured (mmol/l).</p>
 <p>Patients then had to drink 250 ml of a syrupy glucose solution containing 100 grams of sugar. Two hours later, their blood glucose level was measured again.</p>
 <p>The data consist of three variables:</p>
 <ul>
-<li>before: glucose concentration upon 8 hours of fasting (mmol/l)</li>
-<li>after: glucose concentration 2 hours after drinking glucose solution (mmol/l).</li>
-<li>patient: identifier for the patient</li>
+<li><code>before</code>: glucose concentration upon 8 hours of fasting (mmol/l)</li>
+<li><code>after</code>: glucose concentration 2 hours after drinking glucose solution (mmol/l).</li>
+<li><code>patient</code>: identifier for the patient</li>
 </ul>
 <div id="research-questions" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Research questions</h2>
 <p>The goal is to answer two research questions;</p>
 <ol style="list-style-type: decimal">
-<li><p>Is the average glucose level (i.e. before treatment) of the patients two hours upon the sugar intake higher than 7.8 mmol/L?</p></li>
 <li><p>Is the average glucose level after the sugar intake different from the average glucose level before sugar intake?</p></li>
+<li><p>Is the average glucose level of the patients two hours after the sugar intake higher than 7.8 mmol/L?</p></li>
 </ol>
 </div>
 <div id="import-the-data" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Import the data</h2>
 <p>First, load the required R libraries:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/diabetes.txt&quot;</span>, <span class="at">delim =</span><span class="st">&quot; &quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">&quot;https://raw.githubusercontent.com/statOmics/PSLS21/data/diabetes.txt&quot;</span>, <span class="at">delim =</span> <span class="st">&quot; &quot;</span>)</span></code></pre></div>
 <pre><code>## Rows: 8 Columns: 3
 ## ── Column specification ──────────────────────────────────────────────
 ## Delimiter: &quot; &quot;
@@ -602,106 +602,82 @@ div.tocify {
 </div>
 <div id="data-exploration" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Data exploration</h1>
-<p>We will start with a data exploration. We will assess two hypotheses: the first hypothesis involves comparing the average glucose levels in the blood two hours upon 100g of sugar intake with the threshold for pre-diabetes of 7.8 mmol/l.</p>
-<p>The second measurement involves the comparison of the average glucose concentrations before and after the sugar intake.</p>
-<p>From the previous tutorial on data analysis we know that we have to explore the difference between the glucose concentration after and before the sugar intake when we want to assess a difference in glucose levels before and after sugar intake because the data are paired.</p>
+<p>We will start with a data exploration. Have a first look at the raw data. How is the data structured? Is this data <em>tidy</em>?</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(diabetes)</span></code></pre></div>
 <pre><code>## Rows: 8
 ## Columns: 3
 ## $ before  &lt;dbl&gt; 4.67, 4.97, 5.11, 5.17, 5.33, 6.22, 6.50, 7.00
 ## $ after   &lt;dbl&gt; 5.44, 5.78, 8.49, 6.71, 10.67, 5.67, 10.11, 9.89
 ## $ patient &lt;chr&gt; &quot;pat1&quot;, &quot;pat2&quot;, &quot;pat3&quot;, &quot;pat4&quot;, &quot;pat5&quot;, &quot;pat6&quot;, &quot;pat…</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="ot">&lt;-</span> diabetes <span class="sc">%&gt;%</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">difference=</span>after<span class="sc">-</span>before) </span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(diabetes)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["before"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["after"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["patient"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"4.67","2":"5.44","3":"pat1"},{"1":"4.97","2":"5.78","3":"pat2"},{"1":"5.11","2":"8.49","3":"pat3"},{"1":"5.17","2":"6.71","3":"pat4"},{"1":"5.33","2":"10.67","3":"pat5"},{"1":"6.22","2":"5.67","3":"pat6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 <p>We have 8 patients, for which glucose concentrations were measured, before and after sugar intake.</p>
-<p>Note, that the dataset is not in the tidy format. We could tidy the data using the following code.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>diabetes_long <span class="ot">&lt;-</span> diabetes <span class="sc">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(time, concentration, <span class="sc">-</span>patient)</span></code></pre></div>
-<p>We can visualize the data using boxplots. Note, that the data are paired so the boxplots are not useful to compare the location of the distributions of the measurements before and after the sugar intake. We can immediately assess the impact of the sugar treatment on the glucose level for each patient by calculating the difference.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>diabetes_long <span class="sc">%&gt;%</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> concentration, <span class="at">fill =</span> time)) <span class="sc">+</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;RdGy&quot;</span>) <span class="sc">+</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">&quot;point&quot;</span>,</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> <span class="dv">5</span>, <span class="at">size =</span> <span class="dv">3</span>,</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;black&quot;</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Concentration (mmol/l)&quot;</span>)</span></code></pre></div>
-<p><img src="05_1_diabetes_sol_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Note, that the dataset is not in the tidy format. The glucose concentration variable is spread around 2 columns: <code>before</code> and <code>after</code>, while the “time” variable is encoded in the column names instead of in a dedicated column. Data in this form is also called <em>wide</em> data. Instead, we want to transform the data to a <em>long</em> format.</p>
+<p>To tidy the data, we can use the <code>gather()</code> function to <a href="https://r4ds.had.co.nz/tidy-data.html#pivoting">pivot</a> the data. In this case, we want to “gather” the <code>time</code> (encoded in the column names <code>before</code> and <code>after</code>) and <code>concentration</code> variables (which is encoded in the actual values). The <code>patient</code> column should stay the same. We can specify this with the following syntax.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>diabetes_tidy <span class="ot">&lt;-</span> diabetes <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="at">key =</span> <span class="st">&quot;time&quot;</span>, <span class="at">value =</span> <span class="st">&quot;concentration&quot;</span>, <span class="sc">-</span>patient)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Take a look at the new data</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(diabetes_tidy)</span></code></pre></div>
+<pre><code>## Rows: 16
+## Columns: 3
+## $ patient       &lt;chr&gt; &quot;pat1&quot;, &quot;pat2&quot;, &quot;pat3&quot;, &quot;pat4&quot;, &quot;pat5&quot;, &quot;pat6&quot;…
+## $ time          &lt;chr&gt; &quot;before&quot;, &quot;before&quot;, &quot;before&quot;, &quot;before&quot;, &quot;befor…
+## $ concentration &lt;dbl&gt; 4.67, 4.97, 5.11, 5.17, 5.33, 6.22, 6.50, 7.00…</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>diabetes_tidy</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["patient"],"name":[1],"type":["chr"],"align":["left"]},{"label":["time"],"name":[2],"type":["chr"],"align":["left"]},{"label":["concentration"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"pat1","2":"before","3":"4.67"},{"1":"pat2","2":"before","3":"4.97"},{"1":"pat3","2":"before","3":"5.11"},{"1":"pat4","2":"before","3":"5.17"},{"1":"pat5","2":"before","3":"5.33"},{"1":"pat6","2":"before","3":"6.22"},{"1":"pat7","2":"before","3":"6.50"},{"1":"pat8","2":"before","3":"7.00"},{"1":"pat1","2":"after","3":"5.44"},{"1":"pat2","2":"after","3":"5.78"},{"1":"pat3","2":"after","3":"8.49"},{"1":"pat4","2":"after","3":"6.71"},{"1":"pat5","2":"after","3":"10.67"},{"1":"pat6","2":"after","3":"5.67"},{"1":"pat7","2":"after","3":"10.11"},{"1":"pat8","2":"after","3":"9.89"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>To improve the visualizations below, we can also sligthly recode the <code>time</code> variable, so that the “before” level is the first one. We can do this by converting <code>time</code> to a factor.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>diabetes_tidy <span class="ot">&lt;-</span> diabetes_tidy <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> <span class="fu">as.factor</span>(time),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> <span class="fu">relevel</span>(time, <span class="at">ref =</span> <span class="st">&quot;before&quot;</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<p>We could visualize the data using boxplots. Note, however, that we lose the paired characteristic of the data with this visualization. Nevertheless, it is still a useful visualization to assess any differences in mean and variance between the two time points.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>boxplot <span class="ot">&lt;-</span> diabetes_tidy <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> concentration, <span class="at">fill =</span> time)) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">&quot;point&quot;</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> <span class="dv">5</span>, <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;black&quot;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Concentration (mmol/l)&quot;</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>boxplot</span></code></pre></div>
+<p><img src="05_1_diabetes_sol_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>We observe that the variability of the glucose levels are higher after than before the sugar intake. The difference plot also shows that glucose levels in the blood are higher for most of the patients two hours after the sugar intake. Only for one patient the glucose concentration two hours after treatment is lower.</p>
+<p>To visualize the paired nature of the data, we can use a <strong>line plot</strong>, connecting the <code>before</code> and <code>after</code> points for each patient.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>diabetes_tidy <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(time, concentration)) <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> patient))</span></code></pre></div>
+<p><img src="05_1_diabetes_sol_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 <div id="question-1" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Question 1</h1>
-<p>Is the average glucose level two hours after sugar intake higher than the threshold of 7.8 mmol/l for pre-diabetes?</p>
-<p>We can test this hypothesis using a <strong>one-sample t-test</strong>. Indeed we are interested to compare the average glucose level to a known threshold for pre-diabetes.</p>
-<div id="assess-the-assumptions" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Assess the assumptions</h2>
-<p>Before we can perform a one sample t-test, we must check that the required assumptions are met!</p>
-<ol style="list-style-type: decimal">
-<li>The observations are independent</li>
-<li>The glucose levels two hours after the treatment are normally distributed</li>
-</ol>
-<p>The first assumption requires us to think about how the data were collected. Are there dependences in the data? The 8 glucose levels upon sugar intake are collected on 8 random patients so we can assume that the glucose levels 2 hours after sugar intake are independent.</p>
-<p>We can assess the second assumption with a quantile-quantile plot.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="sc">%&gt;%</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> after)) <span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>()</span></code></pre></div>
-<p><img src="05_1_diabetes_sol_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<p>The data seem to be nicely scattered around the quantile-quantile line (black line). We also do not observe large deviations in the plot.</p>
-<p>So we will assume that our data is normally distributed. Note, that there are not many observations to assess normality.</p>
-</div>
-<div id="hypothesis-test" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Hypothesis test</h2>
-<p>Here, we will test if mean glucose level 2 hours after sugar intake is significantly higher than the threshold for pre-diabetes of 7.8 mmol/l. More specifically, we will test the null hypothesis;</p>
-<p><span class="math inline">\(H_0:\)</span> the mean glucose level two hours after 100g of sugar intake is equal to 7.8 mmol/l</p>
-<p>versus the alternative hypothesis;</p>
-<p><span class="math inline">\(H_1:\)</span> the mean glucose level two hours after 100g of sugar intake is greater than 7.8 mmol/l</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>output1 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(diabetes<span class="sc">$</span>after,</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mu =</span> <span class="fl">7.8</span>,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>,</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">conf.level =</span> <span class="fl">0.95</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>output1</span></code></pre></div>
-<pre><code>## 
-##  One Sample t-test
-## 
-## data:  diabetes$after
-## t = 0.057943, df = 7, p-value = 0.4777
-## alternative hypothesis: true mean is greater than 7.8
-## 95 percent confidence interval:
-##  6.373627      Inf
-## sample estimates:
-## mean of x 
-##     7.845</code></pre>
-</div>
-<div id="conclusion" class="section level2" number="4.3">
-<h2><span class="header-section-number">4.3</span> Conclusion</h2>
-<p>When writing a conclusion on your research hypothesis, it is very important to be precise, concise, and complete.</p>
-<p>An example of such a conclusion for our research question is given below:</p>
-<p>We can conclude that the mean glucose level of patients two hours after 100g of glucose intake is not significantly higher than the threshold for pre-diabetes of 7.8 mmol/l (p = 0.48). The mean glucose level two hours after the intake of 100g of sugar equals 7.8 mmol/l (95% CI [6.4, ]).</p>
-<p>As we have seen in the theory class, the 95% confidence interval can be interpreted as;</p>
-<p>With 95% confidence we can conclude that the true average of glucose level of the patients in the population is above 6.37.</p>
-<p>Note, that we only report a one sided confidence interval because we only test against the alternative hypothesis that the glucose level two hours after sugar intake is on average larger than the threshold for pre-diabetes of 7.8 mmol/l.</p>
-</div>
-</div>
-<div id="question-2" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> Question 2</h1>
 <p>Is the glucose level after 8 hours of fasting on average different from the glucose level two hours after intake of 100g of glucose?</p>
 <p>As the data are paired, we can expect that the measurements before and after the glucose intake are correlated. We can illustrate this with a scatterplot.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="sc">%&gt;%</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> before, <span class="at">y =</span> after)) <span class="sc">+</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;before (mmol/l)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;after (mmol/l)&quot;</span>)</span></code></pre></div>
+<p>Note that in this case, the non-tidy data is actually a more suitable format to visualize.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> before, <span class="at">y =</span> after)) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;before (mmol/l)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;after (mmol/l)&quot;</span>)</span></code></pre></div>
 <p><img src="05_1_diabetes_sol_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(diabetes<span class="sc">$</span>before,diabetes<span class="sc">$</span>after, <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(diabetes<span class="sc">$</span>before, diabetes<span class="sc">$</span>after, <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] 0.5952381</code></pre>
-<div id="check-the-assumptions" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Check the assumptions</h2>
+<div id="check-the-assumptions" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Check the assumptions</h2>
 <p>The paired t-test has 2 assumptions:</p>
 <ol style="list-style-type: decimal">
 <li><p>The differences in glucose levels are independent of each other.</p></li>
@@ -709,48 +685,58 @@ div.tocify {
 </ol>
 <p>The first assumption is met given the experimental design. Upon differencing the measurements before and after the glucose intake, we obtained one difference for each patient. As the patients were sampled at random from the population we can expect them to be independent.</p>
 <p>Secondly, we assess if the differences are normally distributed.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>diabetes <span class="sc">%&gt;%</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> difference)) <span class="sc">+</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>()</span></code></pre></div>
-<p><img src="05_1_diabetes_sol_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>We can calculate the differences for each patient using a <code>group_by()</code> + <code>summarize()</code> combination on the tidy data.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>diabetes_diff <span class="ot">&lt;-</span> diabetes_tidy <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(patient) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">difference =</span> <span class="fu">diff</span>(concentration))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>diabetes_diff</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["patient"],"name":[1],"type":["chr"],"align":["left"]},{"label":["difference"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"pat1","2":"0.77"},{"1":"pat2","2":"0.81"},{"1":"pat3","2":"3.38"},{"1":"pat4","2":"1.54"},{"1":"pat5","2":"5.34"},{"1":"pat6","2":"-0.55"},{"1":"pat7","2":"3.61"},{"1":"pat8","2":"2.89"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>diabetes_diff <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> difference)) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>()</span></code></pre></div>
+<p><img src="05_1_diabetes_sol_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>Based on the QQ-plot, we may assume that our data are normally distributed. As our assumptions are met we may continue with performing the paired t-test.</p>
 </div>
-<div id="hypothesis-test-1" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Hypothesis test</h2>
+<div id="hypothesis-test" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Hypothesis test</h2>
 <p>We will perform a <strong>paired t-test</strong>.</p>
 <ul>
 <li>The null hypothesis of the test is that the glucose levels before and two hours after glucose intake are on average equal.</li>
 <li>Which will be tested against the alternative hypothesis that the glucose levels before and two hours after the glucose intake are on average different.</li>
 </ul>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>output2 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(diabetes<span class="sc">$</span>after,diabetes<span class="sc">$</span>before, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>output2</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>paired_t <span class="ot">&lt;-</span> <span class="fu">t.test</span>(concentration <span class="sc">~</span> time, <span class="at">data =</span> diabetes_tidy, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>paired_t</span></code></pre></div>
 <pre><code>## 
 ##  Paired t-test
 ## 
-## data:  diabetes$after and diabetes$before
-## t = 3.2834, df = 7, p-value = 0.01342
+## data:  concentration by time
+## t = -3.2834, df = 7, p-value = 0.01342
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  0.6222645 3.8252355
+##  -3.8252355 -0.6222645
 ## sample estimates:
 ## mean of the differences 
-##                 2.22375</code></pre>
+##                -2.22375</code></pre>
 </div>
-<div id="conclusion-1" class="section level2" number="5.3">
-<h2><span class="header-section-number">5.3</span> Conclusion</h2>
-<p>There is on average an significant blood increase in the blood pressure upon administering 100g of sugar to patients (p = 0.01). The glucose levels two hours after administering 100g of glucose are on average 2.2 mmol/l higher than upon 8 hours of fastening (95% CI [0.6, 3.8]mmol/l).</p>
+<div id="conclusion" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Conclusion</h2>
+<p>There is on average an significant blood increase in the blood pressure upon administering 100g of sugar to patients (p = 0.01). The glucose levels two hours after administering 100g of glucose are on average -2.2 mmol/l higher than upon 8 hours of fastening (95% CI [-3.8, -0.6]mmol/l).</p>
 </div>
 </div>
-<div id="alternative-solution-one-sample-t-test-on-the-difference" class="section level1" number="6">
-<h1><span class="header-section-number">6</span> Alternative solution: One-sample t-test on the difference</h1>
-<p>Performing a paired t-test is equivalent to performing a one-sample t-test where we assess if the difference between both groups is on average different from 0.</p>
+<div id="alternative-solution-one-sample-t-test-on-the-difference" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Alternative solution: One-sample t-test on the difference</h1>
+<p>Since the data is paired, we can also simply calculate the differences in glucose level before and after sugar intake for each patient. We can then perform a one-sample t-test on these differences, testing whether they are significantly different from zero. This is equivalent to the paired t-test we performed above.</p>
 <p>We can verify this with the analysis below</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(diabetes<span class="sc">$</span>difference)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(difference <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> diabetes_diff, <span class="at">mu =</span> <span class="dv">0</span>)</span></code></pre></div>
 <pre><code>## 
 ##  One Sample t-test
 ## 
-## data:  diabetes$difference
+## data:  difference
 ## t = 3.2834, df = 7, p-value = 0.01342
 ## alternative hypothesis: true mean is not equal to 0
 ## 95 percent confidence interval:
@@ -759,9 +745,68 @@ div.tocify {
 ## mean of x 
 ##   2.22375</code></pre>
 <p>Indeed, the output is equivalent to that of the paired t-test.</p>
+<hr />
+</div>
+<div id="question-2" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Question 2</h1>
+<p>Is the average glucose level two hours after sugar intake higher than the threshold of 7.8 mmol/l for pre-diabetes?</p>
+<p>We can test this hypothesis using a <strong>one-sample t-test</strong>. Indeed we are interested to compare the average glucose level to a known threshold for pre-diabetes.</p>
+<div id="assess-the-assumptions" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Assess the assumptions</h2>
+<p>Before we can perform a one sample t-test, we must check that the required assumptions are met!</p>
+<ol style="list-style-type: decimal">
+<li>The observations are independent</li>
+<li>The glucose levels two hours after the treatment are normally distributed</li>
+</ol>
+<p>The first assumption requires us to think about how the data were collected. Are there dependences in the data? The 8 glucose levels upon sugar intake are collected on 8 random patients so we can assume that the glucose levels 2 hours after sugar intake are independent.</p>
+<p>We can assess the second assumption with a quantile-quantile plot. First we need to filter the data, so we only retain the values for the <code>time == "after"</code> level</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>diabetes_after <span class="ot">&lt;-</span> diabetes_tidy <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time <span class="sc">==</span> <span class="st">&quot;after&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>diabetes_after <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample =</span> concentration)) <span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>()</span></code></pre></div>
+<p><img src="05_1_diabetes_sol_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>The data seem to be nicely scattered around the quantile-quantile line (black line). We also do not observe large deviations in the plot.</p>
+<p>So we will assume that our data is normally distributed. Note, that there are not many observations to assess normality.</p>
+</div>
+<div id="hypothesis-test-1" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Hypothesis test</h2>
+<p>Here, we will test if mean glucose level 2 hours after sugar intake is significantly higher than the threshold for pre-diabetes of 7.8 mmol/l. More specifically, we will test the null hypothesis;</p>
+<p><span class="math inline">\(H_0:\)</span> the mean glucose level two hours after 100g of sugar intake is equal to 7.8 mmol/l</p>
+<p>versus the alternative hypothesis;</p>
+<p><span class="math inline">\(H_1:\)</span> the mean glucose level two hours after 100g of sugar intake is greater than 7.8 mmol/l</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>t_test_after <span class="ot">&lt;-</span> <span class="fu">t.test</span>(concentration <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> diabetes_after,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mu =</span> <span class="fl">7.8</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">conf.level =</span> <span class="fl">0.95</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>t_test_after</span></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  concentration
+## t = 0.057943, df = 7, p-value = 0.4777
+## alternative hypothesis: true mean is greater than 7.8
+## 95 percent confidence interval:
+##  6.373627      Inf
+## sample estimates:
+## mean of x 
+##     7.845</code></pre>
+</div>
+<div id="conclusion-1" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Conclusion</h2>
+<p>When writing a conclusion on your research hypothesis, it is very important to be precise, concise, and complete.</p>
+<p>An example of such a conclusion for our research question is given below:</p>
+<p>We can conclude that the mean glucose level of patients two hours after 100g of glucose intake is not significantly higher than the threshold for pre-diabetes of 7.8 mmol/l (p = 0.48). The mean glucose level two hours after the intake of 100g of sugar equals 7.8 mmol/l (95% CI [6.4, ]).</p>
+<p>As we have seen in the theory class, the 95% confidence interval can be interpreted as;</p>
+<p>With 95% confidence we can conclude that the true average of glucose level of the patients in the population is above 6.37.</p>
+<p>Note, that we only report a one sided confidence interval because we only test against the alternative hypothesis that the glucose level two hours after sugar intake is on average larger than the threshold for pre-diabetes of 7.8 mmol/l.</p>
+</div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2UgNS4xOiBIeXBvdGhlc2lzIHRlc3Rpbmcgb24gdGhlIGRpYWJldGVzIGV4YW1wbGUgLSBzb2x1dGlvbiIKYXV0aG9yOiAiTGlldmVuIENsZW1lbnQsIEplcm9lbiBHaWxpcyBhbmQgTWlsYW4gTWFsZmFpdCIKZGF0ZTogInN0YXRPbWljcywgR2hlbnQgVW5pdmVyc2l0eSAoaHR0cHM6Ly9zdGF0b21pY3MuZ2l0aHViLmlvKSIKLS0tCgojIEFpbXMKCkluIHRoaXMgZXhlcmNpc2UsIHlvdSB3aWxsIHJldmlzaXQgdGhlIGJhc2ljcyBvZiBzdGF0aXN0aWNhbCAgaHlwb3RoZXNpcyB0ZXN0aW5nLiAKCllvdSB3aWxsIGFjcXVpcmUgdGhlIHNraWxscyAKCjEuIHRvIGFzc2VzcyB0aGUgYXNzdW1wdGlvbnMgb2YgYSBvbmUtc2FtcGxlIGFuZCBhIHBhaXJlZCB0LXRlc3QgaW4gIGRhdGEgZXhwbG9yYXRpb24uIAoyLiB0byBjb25kdWN0IGEgb25lLXNhbXBsZSB0LXRlc3QgaW4gUiBhbmQgdG8gaW50ZXJwcmV0IHRoZSByZXN1bHRzLgozLiB0byBjb25kdWN0IGEgcGFpcmVkIHQtdGVzdCBpbiBSIGFuZCB0byBpbnRlcnByZXQgdGhlIHJlc3VsdHMuCgojIFRoZSBkaWFiZXRlcyBkYXRhc2V0CgpUaGUgYGRpYWJldGVzIGRhdGFzZXRgIGhvbGRzIGluZm9ybWF0aW9uIG9uIGEgc21hbGwgZXhwZXJpbWVudCB3aXRoCjggcGF0aWVudHMgdGhhdCBhcmUgc3ViamVjdGVkIHRvICBhIGdsdWNvc2UgdG9sZXJhbmNlIHRlc3QuCgoKUGF0aWVudHMgaGFkIHRvIGZhc3QgZm9yIGVpZ2h0IGhvdXJzIGJlZm9yZSB0aGUgdGVzdC4gCldoZW4gdGhlIHBhdGllbnRzIGVudGVyZWQgdGhlIGhvc3BpdGFsIHRoZWlyIGJhc2VsaW5lIGdsdWNvc2UgbGV2ZWwgd2FzIG1lYXN1cmVkIChtbW9sL2wpLiAKClBhdGllbnRzIHRoZW4gIGhhZCB0byBkcmluayAyNTAgbWwgb2YgYSBzeXJ1cHkgZ2x1Y29zZSBzb2x1dGlvbiBjb250YWluaW5nIDEwMCBncmFtcyBvZiBzdWdhci4gClR3byBob3VycyBsYXRlciwgdGhlaXIgYmxvb2QgZ2x1Y29zZSBsZXZlbCB3YXMgbWVhc3VyZWQgYWdhaW4uIAoKVGhlIGRhdGEgY29uc2lzdCBvZiB0aHJlZSB2YXJpYWJsZXM6CgotIGJlZm9yZTogZ2x1Y29zZSBjb25jZW50cmF0aW9uIHVwb24gOCBob3VycyBvZiBmYXN0aW5nIChtbW9sL2wpCi0gYWZ0ZXI6IGdsdWNvc2UgY29uY2VudHJhdGlvbiAyIGhvdXJzIGFmdGVyIGRyaW5raW5nIGdsdWNvc2Ugc29sdXRpb24gKG1tb2wvbCkuCi0gcGF0aWVudDogaWRlbnRpZmllciBmb3IgdGhlIHBhdGllbnQKCiMjIFJlc2VhcmNoIHF1ZXN0aW9ucwoKVGhlIGdvYWwgaXMgdG8gYW5zd2VyIHR3byByZXNlYXJjaCBxdWVzdGlvbnM7CgoxLiBJcyB0aGUgYXZlcmFnZSBnbHVjb3NlIGxldmVsIChpLmUuIGJlZm9yZSB0cmVhdG1lbnQpIG9mCnRoZSBwYXRpZW50cyB0d28gaG91cnMgdXBvbiB0aGUgc3VnYXIgaW50YWtlIGhpZ2hlciB0aGFuIDcuOCBtbW9sL0w/CgoyLiBJcyB0aGUgYXZlcmFnZSBnbHVjb3NlIGxldmVsIGFmdGVyIHRoZSBzdWdhciBpbnRha2UgZGlmZmVyZW50IGZyb20gdGhlIGF2ZXJhZ2UgZ2x1Y29zZSBsZXZlbCBiZWZvcmUgc3VnYXIgaW50YWtlPwoKCiMjIEltcG9ydCB0aGUgZGF0YQoKRmlyc3QsIGxvYWQgdGhlIHJlcXVpcmVkIFIgbGlicmFyaWVzOgoKYGBge3IsIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9CmxpYnJhcnkodGlkeXZlcnNlKQpgYGAKCmBgYHtyfQpkaWFiZXRlcyA8LSByZWFkX2RlbGltKCJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vc3RhdE9taWNzL1BTTFMyMS9kYXRhL2RpYWJldGVzLnR4dCIsIGRlbGltID0iICIpCmBgYAoKIyBEYXRhIGV4cGxvcmF0aW9uCgpXZSB3aWxsIHN0YXJ0IHdpdGggYSBkYXRhIGV4cGxvcmF0aW9uLiAKV2Ugd2lsbCBhc3Nlc3MgdHdvIGh5cG90aGVzZXM6IAp0aGUgZmlyc3QgaHlwb3RoZXNpcyBpbnZvbHZlcyBjb21wYXJpbmcgdGhlIGF2ZXJhZ2UgZ2x1Y29zZSBsZXZlbHMgaW4gdGhlIGJsb29kIHR3byBob3VycyB1cG9uIDEwMGcgb2Ygc3VnYXIgaW50YWtlIHdpdGggdGhlIHRocmVzaG9sZCBmb3IgcHJlLWRpYWJldGVzIG9mIDcuOCBtbW9sL2wuIAoKVGhlIHNlY29uZCBtZWFzdXJlbWVudCBpbnZvbHZlcyB0aGUgY29tcGFyaXNvbiBvZiB0aGUgYXZlcmFnZSBnbHVjb3NlIGNvbmNlbnRyYXRpb25zIGJlZm9yZSBhbmQgYWZ0ZXIgdGhlIHN1Z2FyIGludGFrZS4gCgpGcm9tIHRoZSBwcmV2aW91cyB0dXRvcmlhbCBvbiBkYXRhIGFuYWx5c2lzIHdlIGtub3cgdGhhdCB3ZSBoYXZlIHRvIGV4cGxvcmUgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgZ2x1Y29zZSBjb25jZW50cmF0aW9uIGFmdGVyIGFuZCBiZWZvcmUgdGhlIHN1Z2FyIGludGFrZSB3aGVuIHdlIHdhbnQgdG8gYXNzZXNzIGEgZGlmZmVyZW5jZSBpbiBnbHVjb3NlIGxldmVscyBiZWZvcmUgYW5kIGFmdGVyIHN1Z2FyIGludGFrZSBiZWNhdXNlIHRoZSBkYXRhIGFyZSBwYWlyZWQuIAoKYGBge3J9CmdsaW1wc2UoZGlhYmV0ZXMpCmRpYWJldGVzIDwtIGRpYWJldGVzICU+JSAKICBtdXRhdGUoZGlmZmVyZW5jZT1hZnRlci1iZWZvcmUpIApgYGAKCldlIGhhdmUgOCBwYXRpZW50cywgZm9yIHdoaWNoIGdsdWNvc2UgY29uY2VudHJhdGlvbnMgd2VyZSBtZWFzdXJlZCwgYmVmb3JlIGFuZCBhZnRlciBzdWdhciBpbnRha2UuCgpOb3RlLCB0aGF0IHRoZSBkYXRhc2V0IGlzIG5vdCBpbiB0aGUgdGlkeSBmb3JtYXQuIFdlIGNvdWxkIHRpZHkgdGhlIGRhdGEgdXNpbmcgdGhlIGZvbGxvd2luZyBjb2RlLgoKYGBge3J9CmRpYWJldGVzX2xvbmcgPC0gZGlhYmV0ZXMgJT4lCiAgZ2F0aGVyKHRpbWUsIGNvbmNlbnRyYXRpb24sIC1wYXRpZW50KQpgYGAKCldlIGNhbiB2aXN1YWxpemUgdGhlIGRhdGEgdXNpbmcgYm94cGxvdHMuIApOb3RlLCB0aGF0IHRoZSBkYXRhIGFyZSBwYWlyZWQgc28gdGhlIGJveHBsb3RzIGFyZSBub3QgdXNlZnVsIHRvIGNvbXBhcmUgdGhlIGxvY2F0aW9uIG9mIHRoZSBkaXN0cmlidXRpb25zIG9mIHRoZSBtZWFzdXJlbWVudHMgYmVmb3JlIGFuZCBhZnRlciB0aGUgc3VnYXIgaW50YWtlLiAKV2UgY2FuIGltbWVkaWF0ZWx5IGFzc2VzcyB0aGUgaW1wYWN0IG9mIHRoZSBzdWdhciB0cmVhdG1lbnQgb24gdGhlIGdsdWNvc2UgbGV2ZWwgZm9yIGVhY2ggcGF0aWVudCBieSBjYWxjdWxhdGluZyB0aGUgZGlmZmVyZW5jZS4gCgpgYGB7cn0KZGlhYmV0ZXNfbG9uZyAlPiUKICBnZ3Bsb3QoYWVzKHggPSB0aW1lLCB5ID0gY29uY2VudHJhdGlvbiwgZmlsbCA9IHRpbWUpKSArCiAgc2NhbGVfZmlsbF9icmV3ZXIocGFsZXR0ZSA9ICJSZEd5IikgKwogIHRoZW1lX2J3KCkgKwogIGdlb21fYm94cGxvdChvdXRsaWVyLnNoYXBlID0gTkEpICsKICBnZW9tX2ppdHRlcih3aWR0aCA9IDAuMikgKwogIHN0YXRfc3VtbWFyeSgKICAgIGZ1biA9IG1lYW4sIGdlb20gPSAicG9pbnQiLAogICAgc2hhcGUgPSA1LCBzaXplID0gMywKICAgIGNvbG9yID0gImJsYWNrIgogICkgKwogIHlsYWIoIkNvbmNlbnRyYXRpb24gKG1tb2wvbCkiKQpgYGAKCldlIG9ic2VydmUgdGhhdCB0aGUgdmFyaWFiaWxpdHkgb2YgdGhlIGdsdWNvc2UgbGV2ZWxzIGFyZSBoaWdoZXIgYWZ0ZXIgdGhhbiBiZWZvcmUgdGhlIHN1Z2FyIGludGFrZS4gClRoZSBkaWZmZXJlbmNlIHBsb3QgYWxzbyBzaG93cyB0aGF0IGdsdWNvc2UgbGV2ZWxzIGluIHRoZSBibG9vZCBhcmUgaGlnaGVyIGZvciBtb3N0IG9mIHRoZSBwYXRpZW50cyB0d28gaG91cnMgYWZ0ZXIgdGhlIHN1Z2FyIGludGFrZS4gT25seSBmb3Igb25lIHBhdGllbnQgdGhlIGdsdWNvc2UgY29uY2VudHJhdGlvbiB0d28gaG91cnMgYWZ0ZXIgdHJlYXRtZW50IGlzIGxvd2VyLiAKCiMgUXVlc3Rpb24gMQoKSXMgdGhlIGF2ZXJhZ2UgZ2x1Y29zZSBsZXZlbCB0d28gaG91cnMgYWZ0ZXIgc3VnYXIgaW50YWtlCmhpZ2hlciB0aGFuIHRoZSB0aHJlc2hvbGQgb2YgNy44IG1tb2wvbCBmb3IgcHJlLWRpYWJldGVzPwoKV2UgY2FuIHRlc3QgdGhpcyBoeXBvdGhlc2lzIHVzaW5nIGEgKipvbmUtc2FtcGxlIHQtdGVzdCoqLgpJbmRlZWQgd2UgYXJlIGludGVyZXN0ZWQgdG8gY29tcGFyZSB0aGUgYXZlcmFnZSBnbHVjb3NlIGxldmVsIHRvIGEga25vd24gdGhyZXNob2xkIGZvciBwcmUtZGlhYmV0ZXMuIAoKIyMgQXNzZXNzIHRoZSBhc3N1bXB0aW9ucwoKQmVmb3JlIHdlIGNhbiBwZXJmb3JtIGEgb25lIHNhbXBsZSB0LXRlc3QsIHdlIG11c3QgY2hlY2sgdGhhdCB0aGUgcmVxdWlyZWQKYXNzdW1wdGlvbnMgYXJlIG1ldCEKCjEuIFRoZSBvYnNlcnZhdGlvbnMgYXJlIGluZGVwZW5kZW50CjIuIFRoZSBnbHVjb3NlIGxldmVscyB0d28gaG91cnMgYWZ0ZXIgdGhlIHRyZWF0bWVudCBhcmUgbm9ybWFsbHkgZGlzdHJpYnV0ZWQKClRoZSBmaXJzdCBhc3N1bXB0aW9uIHJlcXVpcmVzIHVzIHRvIHRoaW5rIGFib3V0IGhvdyB0aGUgZGF0YSB3ZXJlIGNvbGxlY3RlZC4KQXJlIHRoZXJlIGRlcGVuZGVuY2VzIGluIHRoZSBkYXRhPyAKVGhlIDggZ2x1Y29zZSBsZXZlbHMgdXBvbiBzdWdhciBpbnRha2UgYXJlIGNvbGxlY3RlZCBvbiA4IHJhbmRvbSBwYXRpZW50cyBzbyB3ZSBjYW4gYXNzdW1lIHRoYXQgdGhlIGdsdWNvc2UgbGV2ZWxzIDIgaG91cnMgYWZ0ZXIgc3VnYXIgaW50YWtlIGFyZSBpbmRlcGVuZGVudC4KCldlIGNhbiBhc3Nlc3MgdGhlIHNlY29uZCBhc3N1bXB0aW9uIHdpdGggYSBxdWFudGlsZS1xdWFudGlsZSBwbG90LgoKYGBge3J9CmRpYWJldGVzICU+JQogIGdncGxvdChhZXMoc2FtcGxlID0gYWZ0ZXIpKSArCiAgZ2VvbV9xcSgpICsKICBnZW9tX3FxX2xpbmUoKQpgYGAKClRoZSBkYXRhIHNlZW0gdG8gYmUgbmljZWx5IHNjYXR0ZXJlZCBhcm91bmQgdGhlIHF1YW50aWxlLXF1YW50aWxlCmxpbmUgKGJsYWNrIGxpbmUpLiAKV2UgYWxzbyBkbyBub3Qgb2JzZXJ2ZSBsYXJnZSBkZXZpYXRpb25zIGluIHRoZSBwbG90LiAKIApTbyB3ZSB3aWxsIGFzc3VtZSB0aGF0IG91ciBkYXRhIGlzIG5vcm1hbGx5CmRpc3RyaWJ1dGVkLgpOb3RlLCB0aGF0IHRoZXJlIGFyZSBub3QgbWFueSBvYnNlcnZhdGlvbnMgdG8gYXNzZXNzIG5vcm1hbGl0eS4KCiMjIEh5cG90aGVzaXMgdGVzdAoKSGVyZSwgd2Ugd2lsbCB0ZXN0IGlmIG1lYW4gZ2x1Y29zZSBsZXZlbCAyIGhvdXJzIGFmdGVyIHN1Z2FyIGludGFrZSBpcyBzaWduaWZpY2FudGx5CmhpZ2hlciB0aGFuIHRoZSB0aHJlc2hvbGQgZm9yIHByZS1kaWFiZXRlcyBvZiA3LjggbW1vbC9sLiBNb3JlIHNwZWNpZmljYWxseSwgd2Ugd2lsbCB0ZXN0IHRoZSBudWxsIGh5cG90aGVzaXM7CgokSF8wOiQgdGhlIG1lYW4gZ2x1Y29zZSBsZXZlbCB0d28gaG91cnMgYWZ0ZXIgMTAwZyBvZiBzdWdhciBpbnRha2UgaXMgZXF1YWwgdG8gNy44IG1tb2wvbAoKdmVyc3VzIHRoZSBhbHRlcm5hdGl2ZSBoeXBvdGhlc2lzOwoKJEhfMTokIHRoZSBtZWFuIGdsdWNvc2UgbGV2ZWwgdHdvIGhvdXJzIGFmdGVyIDEwMGcgb2Ygc3VnYXIgaW50YWtlIGlzIGdyZWF0ZXIgdGhhbiA3LjggbW1vbC9sCgpgYGB7cn0Kb3V0cHV0MSA8LSB0LnRlc3QoZGlhYmV0ZXMkYWZ0ZXIsCiAgbXUgPSA3LjgsCiAgYWx0ZXJuYXRpdmUgPSAiZ3JlYXRlciIsCiAgY29uZi5sZXZlbCA9IDAuOTUKKQpvdXRwdXQxCmBgYAoKIyMgQ29uY2x1c2lvbgoKV2hlbiB3cml0aW5nIGEgY29uY2x1c2lvbiBvbiB5b3VyIHJlc2VhcmNoIGh5cG90aGVzaXMsCml0IGlzIHZlcnkgaW1wb3J0YW50IHRvIGJlIHByZWNpc2UsIGNvbmNpc2UsIGFuZCBjb21wbGV0ZS4KCkFuIGV4YW1wbGUgb2Ygc3VjaCBhIGNvbmNsdXNpb24gZm9yIG91ciByZXNlYXJjaCBxdWVzdGlvbgppcyBnaXZlbiBiZWxvdzoKCldlIGNhbiBjb25jbHVkZSB0aGF0IHRoZSBtZWFuIGdsdWNvc2UgbGV2ZWwgb2YgcGF0aWVudHMgdHdvIGhvdXJzIGFmdGVyIDEwMGcgb2YgZ2x1Y29zZSBpbnRha2UgaXMgbm90IHNpZ25pZmljYW50bHkgaGlnaGVyIHRoYW4gdGhlIHRocmVzaG9sZCAgZm9yIHByZS1kaWFiZXRlcyBvZiA3LjggbW1vbC9sIChwID0gYHIgcm91bmQob3V0cHV0MSRwLnZhbHVlLDIpYCkuClRoZSBtZWFuIGdsdWNvc2UgbGV2ZWwgdHdvIGhvdXJzIGFmdGVyIHRoZSBpbnRha2Ugb2YgMTAwZyBvZiBzdWdhciBlcXVhbHMgYHIgcm91bmQob3V0cHV0MSRlc3RpbWF0ZSwxKWAgbW1vbC9sICg5NSUgQ0kgW2ByIHJvdW5kKG91dHB1dDEkY29uZi5pbnQsMSlgXSkuCgpBcyB3ZSBoYXZlIHNlZW4gaW4gdGhlIHRoZW9yeSBjbGFzcywgdGhlIDk1JSBjb25maWRlbmNlCmludGVydmFsIGNhbiBiZSBpbnRlcnByZXRlZCBhczsKCldpdGggOTUlIGNvbmZpZGVuY2Ugd2UgY2FuIGNvbmNsdWRlIHRoYXQgdGhlIHRydWUgYXZlcmFnZSBvZiBnbHVjb3NlIGxldmVsIG9mIHRoZSBwYXRpZW50cyBpbiB0aGUgcG9wdWxhdGlvbiBpcyBhYm92ZSBgciByb3VuZChvdXRwdXQxJGNvbmYuaW50WzFdLDIpYC4KCk5vdGUsIHRoYXQgd2Ugb25seSByZXBvcnQgYSBvbmUgc2lkZWQgY29uZmlkZW5jZSBpbnRlcnZhbCBiZWNhdXNlIHdlIG9ubHkgdGVzdCBhZ2FpbnN0IHRoZSBhbHRlcm5hdGl2ZSBoeXBvdGhlc2lzIHRoYXQgdGhlIGdsdWNvc2UgbGV2ZWwgdHdvIGhvdXJzIGFmdGVyIHN1Z2FyIGludGFrZSBpcyBvbiBhdmVyYWdlIGxhcmdlciB0aGFuIHRoZSB0aHJlc2hvbGQgZm9yIHByZS1kaWFiZXRlcyBvZiA3LjggbW1vbC9sLgoKIyBRdWVzdGlvbiAyCgpJcyB0aGUgZ2x1Y29zZSBsZXZlbCBhZnRlciA4IGhvdXJzIG9mIGZhc3Rpbmcgb24gYXZlcmFnZSBkaWZmZXJlbnQgZnJvbSB0aGUgZ2x1Y29zZSBsZXZlbCB0d28gaG91cnMgYWZ0ZXIgaW50YWtlIG9mIDEwMGcgb2YgZ2x1Y29zZT8KCkFzIHRoZSBkYXRhIGFyZSBwYWlyZWQsIHdlIGNhbiBleHBlY3QgdGhhdCB0aGUgbWVhc3VyZW1lbnRzIGJlZm9yZSBhbmQgYWZ0ZXIgdGhlIGdsdWNvc2UgaW50YWtlIGFyZSBjb3JyZWxhdGVkLiAKV2UgY2FuIGlsbHVzdHJhdGUgdGhpcyB3aXRoIGEgc2NhdHRlcnBsb3QuCgpgYGB7cn0KZGlhYmV0ZXMgJT4lCiAgZ2dwbG90KGFlcyh4ID0gYmVmb3JlLCB5ID0gYWZ0ZXIpKSArCiAgZ2VvbV9wb2ludCgpICsKICB5bGFiKCJiZWZvcmUgKG1tb2wvbCkiKSArCiAgeGxhYigiYWZ0ZXIgKG1tb2wvbCkiKQpgYGAKCmBgYHtyfQpjb3IoZGlhYmV0ZXMkYmVmb3JlLGRpYWJldGVzJGFmdGVyLCBtZXRob2QgPSAic3BlYXJtYW4iKQpgYGAKCiMjIENoZWNrIHRoZSBhc3N1bXB0aW9ucwoKVGhlIHBhaXJlZCB0LXRlc3QgaGFzIDIgYXNzdW1wdGlvbnM6CgoxLiBUaGUgZGlmZmVyZW5jZXMgaW4gZ2x1Y29zZSBsZXZlbHMgYXJlIGluZGVwZW5kZW50IG9mIGVhY2ggb3RoZXIuCgoyLiBUaGUgZGlmZmVyZW5jZXMgaW4gZ2x1Y29zZSBsZXZlbHMgYXJlIG5vcm1hbGx5IGRpc3RyaWJ1dGVkLgoKVGhlIGZpcnN0IGFzc3VtcHRpb24gaXMgbWV0IGdpdmVuIHRoZSBleHBlcmltZW50YWwgZGVzaWduLgpVcG9uIGRpZmZlcmVuY2luZyB0aGUgbWVhc3VyZW1lbnRzIGJlZm9yZSBhbmQgYWZ0ZXIgdGhlIGdsdWNvc2UgaW50YWtlLCB3ZSBvYnRhaW5lZCBvbmUgZGlmZmVyZW5jZSBmb3IgZWFjaCBwYXRpZW50LiBBcyB0aGUgcGF0aWVudHMgd2VyZSBzYW1wbGVkIGF0IHJhbmRvbSBmcm9tIHRoZSBwb3B1bGF0aW9uIHdlIGNhbiBleHBlY3QgdGhlbSB0byBiZSBpbmRlcGVuZGVudC4gCgpTZWNvbmRseSwgd2UgYXNzZXNzIGlmIHRoZSBkaWZmZXJlbmNlcyBhcmUgbm9ybWFsbHkgZGlzdHJpYnV0ZWQuCgpgYGB7cn0KZGlhYmV0ZXMgJT4lCiAgZ2dwbG90KGFlcyhzYW1wbGUgPSBkaWZmZXJlbmNlKSkgKwogIGdlb21fcXEoKSArCiAgZ2VvbV9xcV9saW5lKCkKYGBgCgpCYXNlZCBvbiB0aGUgUVEtcGxvdCwgd2UgbWF5IGFzc3VtZSB0aGF0IG91ciBkYXRhIGFyZSBub3JtYWxseSBkaXN0cmlidXRlZC4KQXMgb3VyIGFzc3VtcHRpb25zIGFyZSBtZXQgd2UgbWF5IGNvbnRpbnVlIHdpdGggcGVyZm9ybWluZyB0aGUgcGFpcmVkIHQtdGVzdC4KCiMjIEh5cG90aGVzaXMgdGVzdAoKV2Ugd2lsbCBwZXJmb3JtIGEgKipwYWlyZWQgdC10ZXN0KiouCgotIFRoZSBudWxsIGh5cG90aGVzaXMgb2YgdGhlIHRlc3QgaXMgdGhhdCB0aGUgZ2x1Y29zZSBsZXZlbHMgYmVmb3JlIGFuZCB0d28gaG91cnMgYWZ0ZXIKZ2x1Y29zZSBpbnRha2UgYXJlIG9uIGF2ZXJhZ2UgZXF1YWwuCi0gV2hpY2ggd2lsbCBiZSB0ZXN0ZWQgYWdhaW5zdCB0aGUgYWx0ZXJuYXRpdmUgaHlwb3RoZXNpcyB0aGF0IHRoZSBnbHVjb3NlIGxldmVscyBiZWZvcmUgYW5kIHR3byBob3VycyBhZnRlciB0aGUgZ2x1Y29zZSBpbnRha2UgYXJlIG9uIGF2ZXJhZ2UgZGlmZmVyZW50LgoKYGBge3J9Cm91dHB1dDIgPC0gdC50ZXN0KGRpYWJldGVzJGFmdGVyLGRpYWJldGVzJGJlZm9yZSwgcGFpcmVkID0gVFJVRSkKb3V0cHV0MgpgYGAKCgojIyBDb25jbHVzaW9uCgpUaGVyZSBpcyBvbiBhdmVyYWdlIGFuIHNpZ25pZmljYW50IGJsb29kIGluY3JlYXNlIGluIHRoZSBibG9vZCBwcmVzc3VyZSB1cG9uCmFkbWluaXN0ZXJpbmcgMTAwZyBvZiBzdWdhciB0byBwYXRpZW50cyAocCA9IGByIHJvdW5kKG91dHB1dDIkcC52YWx1ZSwgMilgKS4gClRoZSBnbHVjb3NlIGxldmVscyB0d28gaG91cnMgYWZ0ZXIgYWRtaW5pc3RlcmluZyAxMDBnIG9mIGdsdWNvc2UgYXJlIG9uIGF2ZXJhZ2UgYHIgcm91bmQob3V0cHV0MiRlc3RpbWF0ZSwxKWAgbW1vbC9sIGhpZ2hlciB0aGFuIHVwb24gOCBob3VycyBvZiBmYXN0ZW5pbmcgCig5NSUgQ0kgW2ByIHJvdW5kKG91dHB1dDIkY29uZi5pbnQsMSlgXW1tb2wvbCkuCgojIEFsdGVybmF0aXZlIHNvbHV0aW9uOiBPbmUtc2FtcGxlIHQtdGVzdCBvbiB0aGUgZGlmZmVyZW5jZQoKUGVyZm9ybWluZyBhIHBhaXJlZCB0LXRlc3QgaXMgZXF1aXZhbGVudCB0byBwZXJmb3JtaW5nIGEgb25lLXNhbXBsZSB0LXRlc3Qgd2hlcmUgd2UgYXNzZXNzIGlmIHRoZQpkaWZmZXJlbmNlIGJldHdlZW4gYm90aCBncm91cHMgaXMgb24gYXZlcmFnZSBkaWZmZXJlbnQgZnJvbSAwLgoKV2UgY2FuIHZlcmlmeSB0aGlzIHdpdGggdGhlIGFuYWx5c2lzIGJlbG93CgpgYGB7cn0KdC50ZXN0KGRpYWJldGVzJGRpZmZlcmVuY2UpCmBgYAoKSW5kZWVkLCB0aGUgb3V0cHV0IGlzIGVxdWl2YWxlbnQgdG8gdGhhdCBvZiB0aGUgcGFpcmVkIHQtdGVzdC4K</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2UgNS4xOiBIeXBvdGhlc2lzIHRlc3Rpbmcgb24gdGhlIGRpYWJldGVzIGV4YW1wbGUgLSBzb2x1dGlvbiIKYXV0aG9yOiAiTGlldmVuIENsZW1lbnQsIEplcm9lbiBHaWxpcyBhbmQgTWlsYW4gTWFsZmFpdCIKZGF0ZTogInN0YXRPbWljcywgR2hlbnQgVW5pdmVyc2l0eSAoaHR0cHM6Ly9zdGF0b21pY3MuZ2l0aHViLmlvKSIKLS0tCgojIEFpbXMKCkluIHRoaXMgZXhlcmNpc2UsIHlvdSB3aWxsIHJldmlzaXQgdGhlIGJhc2ljcyBvZiBzdGF0aXN0aWNhbCBoeXBvdGhlc2lzIHRlc3RpbmcuCgpZb3Ugd2lsbCBhY3F1aXJlIHRoZSBza2lsbHMKCjEuIHRvIGFzc2VzcyB0aGUgYXNzdW1wdGlvbnMgb2YgYSBvbmUtc2FtcGxlIGFuZCBhIHBhaXJlZCB0LXRlc3QgaW4gIGRhdGEgZXhwbG9yYXRpb24uCjIuIHRvIGNvbmR1Y3QgYSBvbmUtc2FtcGxlIHQtdGVzdCBpbiBSIGFuZCB0byBpbnRlcnByZXQgdGhlIHJlc3VsdHMuCjMuIHRvIGNvbmR1Y3QgYSBwYWlyZWQgdC10ZXN0IGluIFIgYW5kIHRvIGludGVycHJldCB0aGUgcmVzdWx0cy4KCiMgVGhlIGRpYWJldGVzIGRhdGFzZXQKClRoZSBgZGlhYmV0ZXNgICBkYXRhc2V0IGhvbGRzIGluZm9ybWF0aW9uIG9uIGEgc21hbGwgZXhwZXJpbWVudCB3aXRoCjggcGF0aWVudHMgdGhhdCBhcmUgc3ViamVjdGVkIHRvIGEgZ2x1Y29zZSB0b2xlcmFuY2UgdGVzdC4KClBhdGllbnRzIGhhZCB0byBmYXN0IGZvciBlaWdodCBob3VycyBiZWZvcmUgdGhlIHRlc3QuCldoZW4gdGhlIHBhdGllbnRzIGVudGVyZWQgdGhlIGhvc3BpdGFsIHRoZWlyIGJhc2VsaW5lIGdsdWNvc2UgbGV2ZWwgd2FzIG1lYXN1cmVkIChtbW9sL2wpLgoKUGF0aWVudHMgdGhlbiAgaGFkIHRvIGRyaW5rIDI1MCBtbCBvZiBhIHN5cnVweSBnbHVjb3NlIHNvbHV0aW9uIGNvbnRhaW5pbmcgMTAwCmdyYW1zIG9mIHN1Z2FyLiAgVHdvIGhvdXJzIGxhdGVyLCB0aGVpciBibG9vZCBnbHVjb3NlIGxldmVsIHdhcyBtZWFzdXJlZCBhZ2Fpbi4KClRoZSBkYXRhIGNvbnNpc3Qgb2YgdGhyZWUgdmFyaWFibGVzOgoKLSBgYmVmb3JlYDogZ2x1Y29zZSBjb25jZW50cmF0aW9uIHVwb24gOCBob3VycyBvZiBmYXN0aW5nIChtbW9sL2wpCi0gYGFmdGVyYDogZ2x1Y29zZSBjb25jZW50cmF0aW9uIDIgaG91cnMgYWZ0ZXIgZHJpbmtpbmcgZ2x1Y29zZSBzb2x1dGlvbiAobW1vbC9sKS4KLSBgcGF0aWVudGA6IGlkZW50aWZpZXIgZm9yIHRoZSBwYXRpZW50CgojIyBSZXNlYXJjaCBxdWVzdGlvbnMKClRoZSBnb2FsIGlzIHRvIGFuc3dlciB0d28gcmVzZWFyY2ggcXVlc3Rpb25zOwoKMS4gSXMgdGhlIGF2ZXJhZ2UgZ2x1Y29zZSBsZXZlbCBhZnRlciB0aGUgc3VnYXIgaW50YWtlIGRpZmZlcmVudCBmcm9tIHRoZSBhdmVyYWdlIGdsdWNvc2UgbGV2ZWwgYmVmb3JlIHN1Z2FyIGludGFrZT8KCjIuIElzIHRoZSBhdmVyYWdlIGdsdWNvc2UgbGV2ZWwgb2YgdGhlIHBhdGllbnRzIHR3byBob3VycyBhZnRlciB0aGUgc3VnYXIgaW50YWtlIGhpZ2hlciB0aGFuIDcuOCBtbW9sL0w/CgojIyBJbXBvcnQgdGhlIGRhdGEKCkZpcnN0LCBsb2FkIHRoZSByZXF1aXJlZCBSIGxpYnJhcmllczoKCmBgYHtyLCBtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFfQpsaWJyYXJ5KHRpZHl2ZXJzZSkKYGBgCgpgYGB7cn0KZGlhYmV0ZXMgPC0gcmVhZF9kZWxpbSgiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3N0YXRPbWljcy9QU0xTMjEvZGF0YS9kaWFiZXRlcy50eHQiLCBkZWxpbSA9ICIgIikKYGBgCgojIERhdGEgZXhwbG9yYXRpb24KCldlIHdpbGwgc3RhcnQgd2l0aCBhIGRhdGEgZXhwbG9yYXRpb24uCkhhdmUgYSBmaXJzdCBsb29rIGF0IHRoZSByYXcgZGF0YS4gSG93IGlzIHRoZSBkYXRhIHN0cnVjdHVyZWQ/CklzIHRoaXMgZGF0YSAqdGlkeSo/CgpgYGB7cn0KZ2xpbXBzZShkaWFiZXRlcykKaGVhZChkaWFiZXRlcykKYGBgCgpXZSBoYXZlIDggcGF0aWVudHMsIGZvciB3aGljaCBnbHVjb3NlIGNvbmNlbnRyYXRpb25zIHdlcmUgbWVhc3VyZWQsIGJlZm9yZSBhbmQgYWZ0ZXIgc3VnYXIgaW50YWtlLgoKTm90ZSwgdGhhdCB0aGUgZGF0YXNldCBpcyBub3QgaW4gdGhlIHRpZHkgZm9ybWF0LiBUaGUgZ2x1Y29zZSBjb25jZW50cmF0aW9uCnZhcmlhYmxlIGlzIHNwcmVhZCBhcm91bmQgMiBjb2x1bW5zOiBgYmVmb3JlYCBhbmQgYGFmdGVyYCwgd2hpbGUgdGhlICJ0aW1lIgp2YXJpYWJsZSBpcyBlbmNvZGVkIGluIHRoZSBjb2x1bW4gbmFtZXMgaW5zdGVhZCBvZiBpbiBhIGRlZGljYXRlZCBjb2x1bW4uIERhdGEKaW4gdGhpcyBmb3JtIGlzIGFsc28gY2FsbGVkICp3aWRlKiBkYXRhLiBJbnN0ZWFkLCB3ZSB3YW50IHRvIHRyYW5zZm9ybSB0aGUgZGF0YQp0byBhICpsb25nKiBmb3JtYXQuCgpUbyB0aWR5IHRoZSBkYXRhLCB3ZSBjYW4gdXNlIHRoZSBgZ2F0aGVyKClgIGZ1bmN0aW9uIHRvCltwaXZvdF0oaHR0cHM6Ly9yNGRzLmhhZC5jby5uei90aWR5LWRhdGEuaHRtbCNwaXZvdGluZykgdGhlIGRhdGEuIEluIHRoaXMgY2FzZSwKd2Ugd2FudCB0byAiZ2F0aGVyIiB0aGUgYHRpbWVgIChlbmNvZGVkIGluIHRoZSBjb2x1bW4gbmFtZXMgYGJlZm9yZWAgYW5kCmBhZnRlcmApIGFuZCBgY29uY2VudHJhdGlvbmAgdmFyaWFibGVzICh3aGljaCBpcyBlbmNvZGVkIGluIHRoZSBhY3R1YWwgdmFsdWVzKS4KVGhlIGBwYXRpZW50YCBjb2x1bW4gc2hvdWxkIHN0YXkgdGhlIHNhbWUuIFdlIGNhbiBzcGVjaWZ5IHRoaXMgd2l0aCB0aGUKZm9sbG93aW5nIHN5bnRheC4KCmBgYHtyfQpkaWFiZXRlc190aWR5IDwtIGRpYWJldGVzICU+JQogIGdhdGhlcihrZXkgPSAidGltZSIsIHZhbHVlID0gImNvbmNlbnRyYXRpb24iLCAtcGF0aWVudCkKCiMjIFRha2UgYSBsb29rIGF0IHRoZSBuZXcgZGF0YQpnbGltcHNlKGRpYWJldGVzX3RpZHkpCmRpYWJldGVzX3RpZHkKYGBgCgpUbyBpbXByb3ZlIHRoZSB2aXN1YWxpemF0aW9ucyBiZWxvdywgd2UgY2FuIGFsc28gc2xpZ3RobHkgcmVjb2RlIHRoZSBgdGltZWAgdmFyaWFibGUsIHNvIHRoYXQgdGhlICJiZWZvcmUiIGxldmVsIGlzIHRoZSBmaXJzdCBvbmUuIFdlIGNhbiBkbyB0aGlzIGJ5IGNvbnZlcnRpbmcgYHRpbWVgIHRvIGEgZmFjdG9yLgoKYGBge3J9CmRpYWJldGVzX3RpZHkgPC0gZGlhYmV0ZXNfdGlkeSAlPiUKICBtdXRhdGUoCiAgICB0aW1lID0gYXMuZmFjdG9yKHRpbWUpLAogICAgdGltZSA9IHJlbGV2ZWwodGltZSwgcmVmID0gImJlZm9yZSIpCiAgKQpgYGAKCldlIGNvdWxkIHZpc3VhbGl6ZSB0aGUgZGF0YSB1c2luZyBib3hwbG90cy4gTm90ZSwgaG93ZXZlciwgdGhhdCB3ZSBsb3NlIHRoZQpwYWlyZWQgY2hhcmFjdGVyaXN0aWMgb2YgdGhlIGRhdGEgd2l0aCB0aGlzIHZpc3VhbGl6YXRpb24uIE5ldmVydGhlbGVzcywgaXQgaXMKc3RpbGwgYSB1c2VmdWwgdmlzdWFsaXphdGlvbiB0byBhc3Nlc3MgYW55IGRpZmZlcmVuY2VzIGluIG1lYW4gYW5kIHZhcmlhbmNlCmJldHdlZW4gdGhlIHR3byB0aW1lIHBvaW50cy4KCmBgYHtyfQpib3hwbG90IDwtIGRpYWJldGVzX3RpZHkgJT4lCiAgZ2dwbG90KGFlcyh4ID0gdGltZSwgeSA9IGNvbmNlbnRyYXRpb24sIGZpbGwgPSB0aW1lKSkgKwogIHRoZW1lX2J3KCkgKwogIGdlb21fYm94cGxvdChvdXRsaWVyLnNoYXBlID0gTkEpICsKICBnZW9tX2ppdHRlcih3aWR0aCA9IDAuMikgKwogIHN0YXRfc3VtbWFyeSgKICAgIGZ1biA9IG1lYW4sIGdlb20gPSAicG9pbnQiLAogICAgc2hhcGUgPSA1LCBzaXplID0gMywKICAgIGNvbG9yID0gImJsYWNrIgogICkgKwogIHlsYWIoIkNvbmNlbnRyYXRpb24gKG1tb2wvbCkiKQoKYm94cGxvdApgYGAKCldlIG9ic2VydmUgdGhhdCB0aGUgdmFyaWFiaWxpdHkgb2YgdGhlIGdsdWNvc2UgbGV2ZWxzIGFyZSBoaWdoZXIgYWZ0ZXIgdGhhbgpiZWZvcmUgdGhlIHN1Z2FyIGludGFrZS4gIFRoZSBkaWZmZXJlbmNlIHBsb3QgYWxzbyBzaG93cyB0aGF0IGdsdWNvc2UgbGV2ZWxzIGluCnRoZSBibG9vZCBhcmUgaGlnaGVyIGZvciBtb3N0IG9mIHRoZSBwYXRpZW50cyB0d28gaG91cnMgYWZ0ZXIgdGhlIHN1Z2FyIGludGFrZS4KT25seSBmb3Igb25lIHBhdGllbnQgdGhlIGdsdWNvc2UgY29uY2VudHJhdGlvbiB0d28gaG91cnMgYWZ0ZXIgdHJlYXRtZW50IGlzCmxvd2VyLgoKVG8gdmlzdWFsaXplIHRoZSBwYWlyZWQgbmF0dXJlIG9mIHRoZSBkYXRhLCB3ZSBjYW4gdXNlIGEgKipsaW5lIHBsb3QqKiwKY29ubmVjdGluZyB0aGUgYGJlZm9yZWAgYW5kIGBhZnRlcmAgcG9pbnRzIGZvciBlYWNoIHBhdGllbnQuCgpgYGB7cn0KZGlhYmV0ZXNfdGlkeSAlPiUKICBnZ3Bsb3QoYWVzKHRpbWUsIGNvbmNlbnRyYXRpb24pKSArCiAgZ2VvbV9wb2ludCgpICsKICBnZW9tX2xpbmUoYWVzKGdyb3VwID0gcGF0aWVudCkpCmBgYAoKCiMgUXVlc3Rpb24gMQoKSXMgdGhlIGdsdWNvc2UgbGV2ZWwgYWZ0ZXIgOCBob3VycyBvZiBmYXN0aW5nIG9uIGF2ZXJhZ2UgZGlmZmVyZW50IGZyb20gdGhlIGdsdWNvc2UgbGV2ZWwgdHdvIGhvdXJzIGFmdGVyIGludGFrZSBvZiAxMDBnIG9mIGdsdWNvc2U/CgpBcyB0aGUgZGF0YSBhcmUgcGFpcmVkLCB3ZSBjYW4gZXhwZWN0IHRoYXQgdGhlIG1lYXN1cmVtZW50cyBiZWZvcmUgYW5kIGFmdGVyIHRoZSBnbHVjb3NlIGludGFrZSBhcmUgY29ycmVsYXRlZC4KV2UgY2FuIGlsbHVzdHJhdGUgdGhpcyB3aXRoIGEgc2NhdHRlcnBsb3QuCgpOb3RlIHRoYXQgaW4gdGhpcyBjYXNlLCB0aGUgbm9uLXRpZHkgZGF0YSBpcyBhY3R1YWxseSBhIG1vcmUgc3VpdGFibGUgZm9ybWF0IHRvIHZpc3VhbGl6ZS4KCmBgYHtyfQpkaWFiZXRlcyAlPiUKICBnZ3Bsb3QoYWVzKHggPSBiZWZvcmUsIHkgPSBhZnRlcikpICsKICBnZW9tX3BvaW50KCkgKwogIHlsYWIoImJlZm9yZSAobW1vbC9sKSIpICsKICB4bGFiKCJhZnRlciAobW1vbC9sKSIpCmBgYAoKYGBge3J9CmNvcihkaWFiZXRlcyRiZWZvcmUsIGRpYWJldGVzJGFmdGVyLCBtZXRob2QgPSAic3BlYXJtYW4iKQpgYGAKCiMjIENoZWNrIHRoZSBhc3N1bXB0aW9ucwoKVGhlIHBhaXJlZCB0LXRlc3QgaGFzIDIgYXNzdW1wdGlvbnM6CgoxLiBUaGUgZGlmZmVyZW5jZXMgaW4gZ2x1Y29zZSBsZXZlbHMgYXJlIGluZGVwZW5kZW50IG9mIGVhY2ggb3RoZXIuCgoyLiBUaGUgZGlmZmVyZW5jZXMgaW4gZ2x1Y29zZSBsZXZlbHMgYXJlIG5vcm1hbGx5IGRpc3RyaWJ1dGVkLgoKVGhlIGZpcnN0IGFzc3VtcHRpb24gaXMgbWV0IGdpdmVuIHRoZSBleHBlcmltZW50YWwgZGVzaWduLgpVcG9uIGRpZmZlcmVuY2luZyB0aGUgbWVhc3VyZW1lbnRzIGJlZm9yZSBhbmQgYWZ0ZXIgdGhlIGdsdWNvc2UgaW50YWtlLCB3ZSBvYnRhaW5lZCBvbmUgZGlmZmVyZW5jZSBmb3IgZWFjaCBwYXRpZW50LiBBcyB0aGUgcGF0aWVudHMgd2VyZSBzYW1wbGVkIGF0IHJhbmRvbSBmcm9tIHRoZSBwb3B1bGF0aW9uIHdlIGNhbiBleHBlY3QgdGhlbSB0byBiZSBpbmRlcGVuZGVudC4KClNlY29uZGx5LCB3ZSBhc3Nlc3MgaWYgdGhlIGRpZmZlcmVuY2VzIGFyZSBub3JtYWxseSBkaXN0cmlidXRlZC4KCldlIGNhbiBjYWxjdWxhdGUgdGhlIGRpZmZlcmVuY2VzIGZvciBlYWNoIHBhdGllbnQgdXNpbmcgYSBgZ3JvdXBfYnkoKWAgKwpgc3VtbWFyaXplKClgIGNvbWJpbmF0aW9uIG9uIHRoZSB0aWR5IGRhdGEuCgpgYGB7cn0KZGlhYmV0ZXNfZGlmZiA8LSBkaWFiZXRlc190aWR5ICU+JQogIGdyb3VwX2J5KHBhdGllbnQpICU+JQogIHN1bW1hcml6ZShkaWZmZXJlbmNlID0gZGlmZihjb25jZW50cmF0aW9uKSkKZGlhYmV0ZXNfZGlmZgpgYGAKCmBgYHtyfQpkaWFiZXRlc19kaWZmICU+JQogIGdncGxvdChhZXMoc2FtcGxlID0gZGlmZmVyZW5jZSkpICsKICBnZW9tX3FxKCkgKwogIGdlb21fcXFfbGluZSgpCmBgYAoKQmFzZWQgb24gdGhlIFFRLXBsb3QsIHdlIG1heSBhc3N1bWUgdGhhdCBvdXIgZGF0YSBhcmUgbm9ybWFsbHkgZGlzdHJpYnV0ZWQuCkFzIG91ciBhc3N1bXB0aW9ucyBhcmUgbWV0IHdlIG1heSBjb250aW51ZSB3aXRoIHBlcmZvcm1pbmcgdGhlIHBhaXJlZCB0LXRlc3QuCgojIyBIeXBvdGhlc2lzIHRlc3QKCldlIHdpbGwgcGVyZm9ybSBhICoqcGFpcmVkIHQtdGVzdCoqLgoKLSBUaGUgbnVsbCBoeXBvdGhlc2lzIG9mIHRoZSB0ZXN0IGlzIHRoYXQgdGhlIGdsdWNvc2UgbGV2ZWxzIGJlZm9yZSBhbmQgdHdvIGhvdXJzIGFmdGVyCmdsdWNvc2UgaW50YWtlIGFyZSBvbiBhdmVyYWdlIGVxdWFsLgotIFdoaWNoIHdpbGwgYmUgdGVzdGVkIGFnYWluc3QgdGhlIGFsdGVybmF0aXZlIGh5cG90aGVzaXMgdGhhdCB0aGUgZ2x1Y29zZSBsZXZlbHMgYmVmb3JlIGFuZCB0d28gaG91cnMgYWZ0ZXIgdGhlIGdsdWNvc2UgaW50YWtlIGFyZSBvbiBhdmVyYWdlIGRpZmZlcmVudC4KCmBgYHtyfQpwYWlyZWRfdCA8LSB0LnRlc3QoY29uY2VudHJhdGlvbiB+IHRpbWUsIGRhdGEgPSBkaWFiZXRlc190aWR5LCBwYWlyZWQgPSBUUlVFKQpwYWlyZWRfdApgYGAKCgojIyBDb25jbHVzaW9uCgpUaGVyZSBpcyBvbiBhdmVyYWdlIGFuIHNpZ25pZmljYW50IGJsb29kIGluY3JlYXNlIGluIHRoZSBibG9vZCBwcmVzc3VyZSB1cG9uCmFkbWluaXN0ZXJpbmcgMTAwZyBvZiBzdWdhciB0byBwYXRpZW50cyAocCA9IGByIHJvdW5kKHBhaXJlZF90JHAudmFsdWUsIDIpYCkuClRoZSBnbHVjb3NlIGxldmVscyB0d28gaG91cnMgYWZ0ZXIgYWRtaW5pc3RlcmluZyAxMDBnIG9mIGdsdWNvc2UgYXJlIG9uIGF2ZXJhZ2UgYHIgcm91bmQocGFpcmVkX3QkZXN0aW1hdGUsMSlgIG1tb2wvbCBoaWdoZXIgdGhhbiB1cG9uIDggaG91cnMgb2YgZmFzdGVuaW5nCig5NSUgQ0kgW2ByIHJvdW5kKHBhaXJlZF90JGNvbmYuaW50LDEpYF1tbW9sL2wpLgoKIyBBbHRlcm5hdGl2ZSBzb2x1dGlvbjogT25lLXNhbXBsZSB0LXRlc3Qgb24gdGhlIGRpZmZlcmVuY2UKClNpbmNlIHRoZSBkYXRhIGlzIHBhaXJlZCwgd2UgY2FuIGFsc28gc2ltcGx5IGNhbGN1bGF0ZSB0aGUgZGlmZmVyZW5jZXMgaW4KZ2x1Y29zZSBsZXZlbCBiZWZvcmUgYW5kIGFmdGVyIHN1Z2FyIGludGFrZSBmb3IgZWFjaCBwYXRpZW50LiBXZSBjYW4gdGhlbgpwZXJmb3JtIGEgb25lLXNhbXBsZSB0LXRlc3Qgb24gdGhlc2UgZGlmZmVyZW5jZXMsIHRlc3Rpbmcgd2hldGhlciB0aGV5IGFyZQpzaWduaWZpY2FudGx5IGRpZmZlcmVudCBmcm9tIHplcm8uIFRoaXMgaXMgZXF1aXZhbGVudCB0byB0aGUgcGFpcmVkIHQtdGVzdCB3ZQpwZXJmb3JtZWQgYWJvdmUuCgpXZSBjYW4gdmVyaWZ5IHRoaXMgd2l0aCB0aGUgYW5hbHlzaXMgYmVsb3cKCmBgYHtyfQp0LnRlc3QoZGlmZmVyZW5jZSB+IDEsIGRhdGEgPSBkaWFiZXRlc19kaWZmLCBtdSA9IDApCmBgYAoKSW5kZWVkLCB0aGUgb3V0cHV0IGlzIGVxdWl2YWxlbnQgdG8gdGhhdCBvZiB0aGUgcGFpcmVkIHQtdGVzdC4KCioqKgoKIyBRdWVzdGlvbiAyCgpJcyB0aGUgYXZlcmFnZSBnbHVjb3NlIGxldmVsIHR3byBob3VycyBhZnRlciBzdWdhciBpbnRha2UKaGlnaGVyIHRoYW4gdGhlIHRocmVzaG9sZCBvZiA3LjggbW1vbC9sIGZvciBwcmUtZGlhYmV0ZXM/CgpXZSBjYW4gdGVzdCB0aGlzIGh5cG90aGVzaXMgdXNpbmcgYSAqKm9uZS1zYW1wbGUgdC10ZXN0KiouCkluZGVlZCB3ZSBhcmUgaW50ZXJlc3RlZCB0byBjb21wYXJlIHRoZSBhdmVyYWdlIGdsdWNvc2UgbGV2ZWwgdG8gYSBrbm93biB0aHJlc2hvbGQgZm9yIHByZS1kaWFiZXRlcy4KCiMjIEFzc2VzcyB0aGUgYXNzdW1wdGlvbnMKCkJlZm9yZSB3ZSBjYW4gcGVyZm9ybSBhIG9uZSBzYW1wbGUgdC10ZXN0LCB3ZSBtdXN0IGNoZWNrIHRoYXQgdGhlIHJlcXVpcmVkCmFzc3VtcHRpb25zIGFyZSBtZXQhCgoxLiBUaGUgb2JzZXJ2YXRpb25zIGFyZSBpbmRlcGVuZGVudAoyLiBUaGUgZ2x1Y29zZSBsZXZlbHMgdHdvIGhvdXJzIGFmdGVyIHRoZSB0cmVhdG1lbnQgYXJlIG5vcm1hbGx5IGRpc3RyaWJ1dGVkCgpUaGUgZmlyc3QgYXNzdW1wdGlvbiByZXF1aXJlcyB1cyB0byB0aGluayBhYm91dCBob3cgdGhlIGRhdGEgd2VyZSBjb2xsZWN0ZWQuCkFyZSB0aGVyZSBkZXBlbmRlbmNlcyBpbiB0aGUgZGF0YT8KVGhlIDggZ2x1Y29zZSBsZXZlbHMgdXBvbiBzdWdhciBpbnRha2UgYXJlIGNvbGxlY3RlZCBvbiA4IHJhbmRvbSBwYXRpZW50cyBzbyB3ZSBjYW4gYXNzdW1lIHRoYXQgdGhlIGdsdWNvc2UgbGV2ZWxzIDIgaG91cnMgYWZ0ZXIgc3VnYXIgaW50YWtlIGFyZSBpbmRlcGVuZGVudC4KCldlIGNhbiBhc3Nlc3MgdGhlIHNlY29uZCBhc3N1bXB0aW9uIHdpdGggYSBxdWFudGlsZS1xdWFudGlsZSBwbG90LiBGaXJzdCB3ZSBuZWVkIHRvIGZpbHRlciB0aGUgZGF0YSwgc28gd2Ugb25seSByZXRhaW4gdGhlIHZhbHVlcyBmb3IgdGhlIGB0aW1lID09ICJhZnRlciJgIGxldmVsCgpgYGB7cn0KZGlhYmV0ZXNfYWZ0ZXIgPC0gZGlhYmV0ZXNfdGlkeSAlPiUKICBmaWx0ZXIodGltZSA9PSAiYWZ0ZXIiKQpgYGAKCmBgYHtyfQpkaWFiZXRlc19hZnRlciAlPiUKICBnZ3Bsb3QoYWVzKHNhbXBsZSA9IGNvbmNlbnRyYXRpb24pKSArCiAgZ2VvbV9xcSgpICsKICBnZW9tX3FxX2xpbmUoKQpgYGAKClRoZSBkYXRhIHNlZW0gdG8gYmUgbmljZWx5IHNjYXR0ZXJlZCBhcm91bmQgdGhlIHF1YW50aWxlLXF1YW50aWxlCmxpbmUgKGJsYWNrIGxpbmUpLgpXZSBhbHNvIGRvIG5vdCBvYnNlcnZlIGxhcmdlIGRldmlhdGlvbnMgaW4gdGhlIHBsb3QuCgpTbyB3ZSB3aWxsIGFzc3VtZSB0aGF0IG91ciBkYXRhIGlzIG5vcm1hbGx5CmRpc3RyaWJ1dGVkLgpOb3RlLCB0aGF0IHRoZXJlIGFyZSBub3QgbWFueSBvYnNlcnZhdGlvbnMgdG8gYXNzZXNzIG5vcm1hbGl0eS4KCiMjIEh5cG90aGVzaXMgdGVzdAoKSGVyZSwgd2Ugd2lsbCB0ZXN0IGlmIG1lYW4gZ2x1Y29zZSBsZXZlbCAyIGhvdXJzIGFmdGVyIHN1Z2FyIGludGFrZSBpcyBzaWduaWZpY2FudGx5CmhpZ2hlciB0aGFuIHRoZSB0aHJlc2hvbGQgZm9yIHByZS1kaWFiZXRlcyBvZiA3LjggbW1vbC9sLiBNb3JlIHNwZWNpZmljYWxseSwgd2Ugd2lsbCB0ZXN0IHRoZSBudWxsIGh5cG90aGVzaXM7CgokSF8wOiQgdGhlIG1lYW4gZ2x1Y29zZSBsZXZlbCB0d28gaG91cnMgYWZ0ZXIgMTAwZyBvZiBzdWdhciBpbnRha2UgaXMgZXF1YWwgdG8gNy44IG1tb2wvbAoKdmVyc3VzIHRoZSBhbHRlcm5hdGl2ZSBoeXBvdGhlc2lzOwoKJEhfMTokIHRoZSBtZWFuIGdsdWNvc2UgbGV2ZWwgdHdvIGhvdXJzIGFmdGVyIDEwMGcgb2Ygc3VnYXIgaW50YWtlIGlzIGdyZWF0ZXIgdGhhbiA3LjggbW1vbC9sCgpgYGB7cn0KdF90ZXN0X2FmdGVyIDwtIHQudGVzdChjb25jZW50cmF0aW9uIH4gMSwKICBkYXRhID0gZGlhYmV0ZXNfYWZ0ZXIsCiAgbXUgPSA3LjgsCiAgYWx0ZXJuYXRpdmUgPSAiZ3JlYXRlciIsCiAgY29uZi5sZXZlbCA9IDAuOTUKKQp0X3Rlc3RfYWZ0ZXIKYGBgCgojIyBDb25jbHVzaW9uCgpXaGVuIHdyaXRpbmcgYSBjb25jbHVzaW9uIG9uIHlvdXIgcmVzZWFyY2ggaHlwb3RoZXNpcywKaXQgaXMgdmVyeSBpbXBvcnRhbnQgdG8gYmUgcHJlY2lzZSwgY29uY2lzZSwgYW5kIGNvbXBsZXRlLgoKQW4gZXhhbXBsZSBvZiBzdWNoIGEgY29uY2x1c2lvbiBmb3Igb3VyIHJlc2VhcmNoIHF1ZXN0aW9uCmlzIGdpdmVuIGJlbG93OgoKV2UgY2FuIGNvbmNsdWRlIHRoYXQgdGhlIG1lYW4gZ2x1Y29zZSBsZXZlbCBvZiBwYXRpZW50cyB0d28gaG91cnMgYWZ0ZXIgMTAwZyBvZiBnbHVjb3NlIGludGFrZSBpcyBub3Qgc2lnbmlmaWNhbnRseSBoaWdoZXIgdGhhbiB0aGUgdGhyZXNob2xkICBmb3IgcHJlLWRpYWJldGVzIG9mIDcuOCBtbW9sL2wgKHAgPSBgciByb3VuZCh0X3Rlc3RfYWZ0ZXIkcC52YWx1ZSwyKWApLgpUaGUgbWVhbiBnbHVjb3NlIGxldmVsIHR3byBob3VycyBhZnRlciB0aGUgaW50YWtlIG9mIDEwMGcgb2Ygc3VnYXIgZXF1YWxzIGByIHJvdW5kKHRfdGVzdF9hZnRlciRlc3RpbWF0ZSwxKWAgbW1vbC9sICg5NSUgQ0kgW2ByIHJvdW5kKHRfdGVzdF9hZnRlciRjb25mLmludCwxKWBdKS4KCkFzIHdlIGhhdmUgc2VlbiBpbiB0aGUgdGhlb3J5IGNsYXNzLCB0aGUgOTUlIGNvbmZpZGVuY2UKaW50ZXJ2YWwgY2FuIGJlIGludGVycHJldGVkIGFzOwoKV2l0aCA5NSUgY29uZmlkZW5jZSB3ZSBjYW4gY29uY2x1ZGUgdGhhdCB0aGUgdHJ1ZSBhdmVyYWdlIG9mIGdsdWNvc2UgbGV2ZWwgb2YgdGhlIHBhdGllbnRzIGluIHRoZSBwb3B1bGF0aW9uIGlzIGFib3ZlIGByIHJvdW5kKHRfdGVzdF9hZnRlciRjb25mLmludFsxXSwyKWAuCgpOb3RlLCB0aGF0IHdlIG9ubHkgcmVwb3J0IGEgb25lIHNpZGVkIGNvbmZpZGVuY2UgaW50ZXJ2YWwgYmVjYXVzZSB3ZSBvbmx5IHRlc3QgYWdhaW5zdCB0aGUgYWx0ZXJuYXRpdmUgaHlwb3RoZXNpcyB0aGF0IHRoZSBnbHVjb3NlIGxldmVsIHR3byBob3VycyBhZnRlciBzdWdhciBpbnRha2UgaXMgb24gYXZlcmFnZSBsYXJnZXIgdGhhbiB0aGUgdGhyZXNob2xkIGZvciBwcmUtZGlhYmV0ZXMgb2YgNy44IG1tb2wvbC4K</div>
 <div class="footer">
     <hr>
     This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
