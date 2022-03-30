@@ -713,15 +713,15 @@ Fit: lm(formula = 1/time ~ poison + treat, data = rats)
 
 Linear Hypotheses:
                       Estimate Std. Error t value Pr(&gt;|t|)    
-poison: II - I == 0    0.04686    0.01744   2.688  0.07353 .  
+poison: II - I == 0    0.04686    0.01744   2.688  0.07346 .  
 poison: III - I == 0   0.19964    0.01744  11.451  &lt; 0.001 ***
 poison: III - II == 0  0.15278    0.01744   8.763  &lt; 0.001 ***
 treat: B - A == 0     -0.16574    0.02013  -8.233  &lt; 0.001 ***
-treat: C - A == 0     -0.05721    0.02013  -2.842  0.05082 .  
+treat: C - A == 0     -0.05721    0.02013  -2.842  0.05088 .  
 treat: D - A == 0     -0.13583    0.02013  -6.747  &lt; 0.001 ***
 treat: C - B == 0      0.10853    0.02013   5.391  &lt; 0.001 ***
-treat: D - B == 0      0.02991    0.02013   1.485  0.61547    
-treat: D - C == 0     -0.07862    0.02013  -3.905  0.00277 ** 
+treat: D - B == 0      0.02991    0.02013   1.485  0.61545    
+treat: D - C == 0     -0.07862    0.02013  -3.905  0.00288 ** 
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -734,21 +734,21 @@ Multiple Comparisons of Means: Tukey Contrasts
 
 Fit: lm(formula = 1/time ~ poison + treat, data = rats)
 
-Quantile = 2.85
+Quantile = 2.8494
 95% family-wise confidence level
  
 
 Linear Hypotheses:
                       Estimate   lwr        upr       
-poison: II - I == 0    0.0468641 -0.0028259  0.0965541
-poison: III - I == 0   0.1996425  0.1499525  0.2493325
-poison: III - II == 0  0.1527784  0.1030884  0.2024684
-treat: B - A == 0     -0.1657402 -0.2231173 -0.1083632
-treat: C - A == 0     -0.0572135 -0.1145906  0.0001635
-treat: D - A == 0     -0.1358338 -0.1932109 -0.0784567
-treat: C - B == 0      0.1085267  0.0511496  0.1659038
-treat: D - B == 0      0.0299064 -0.0274707  0.0872835
-treat: D - C == 0     -0.0786203 -0.1359974 -0.0212432</code></pre>
+poison: II - I == 0    0.0468641 -0.0028157  0.0965440
+poison: III - I == 0   0.1996425  0.1499626  0.2493224
+poison: III - II == 0  0.1527784  0.1030985  0.2024582
+treat: B - A == 0     -0.1657402 -0.2231056 -0.1083749
+treat: C - A == 0     -0.0572135 -0.1145789  0.0001518
+treat: D - A == 0     -0.1358338 -0.1931992 -0.0784685
+treat: C - B == 0      0.1085267  0.0511613  0.1658921
+treat: D - B == 0      0.0299064 -0.0274590  0.0872718
+treat: D - C == 0     -0.0786203 -0.1359857 -0.0212549</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(comparisons, <span class="at">yaxt =</span> <span class="st">&quot;none&quot;</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>contrastNames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;II-I&quot;</span>, <span class="st">&quot;III-I&quot;</span>, <span class="st">&quot;III-II&quot;</span>, <span class="st">&quot;B-A&quot;</span>, <span class="st">&quot;C-A&quot;</span>, <span class="st">&quot;D-A&quot;</span>, <span class="st">&quot;C-B&quot;</span>, <span class="st">&quot;D-B&quot;</span>, <span class="st">&quot;D-C&quot;</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">at =</span> <span class="fu">c</span>(<span class="fu">length</span>(contrastNames)<span class="sc">:</span><span class="dv">1</span>), <span class="at">labels =</span> contrastNames, <span class="at">las =</span> <span class="dv">2</span>)</span></code></pre></div>
@@ -918,7 +918,7 @@ H_0:\beta_{III} + \frac{1}{4} \times \beta_{III:B} +  \frac{1}{4} \times\beta_{I
 <h1><span class="header-section-number">5</span> Conclusion</h1>
 <p>There is an extremely significant effect of the Poison and Treatment on the rate of dying of the rats (p &lt;&lt; 0.001).</p>
 <p>The effect of the poison does not significantly differ according to the treatment and vice versa (p = 0.387).</p>
-<p>The rate of dying is on average 0.2h<span class="math inline">\(^{-1}\)</span> and 0.15h<span class="math inline">\(^{-1}\)</span> higher for rats that are exposed to poison III that those exposed to poison I and II, respectively (both p &lt;&lt; 0.001, 95% CI III-I: [0.15, 0.25]h<span class="math inline">\(^{-1}\)</span>, 95% CI III-II: [0.1, 0.2]h<span class="math inline">\(^{-1}\)</span>) The average rate of dying was not significantly different between rats exposed to poison I and poison II (p=0.073).</p>
+<p>The rate of dying is on average 0.2h<span class="math inline">\(^{-1}\)</span> and 0.15h<span class="math inline">\(^{-1}\)</span> higher for rats that are exposed to poison III that those exposed to poison I and II, respectively (both p &lt;&lt; 0.001, 95% CI III-I: [0.15, 0.25]h<span class="math inline">\(^{-1}\)</span>, 95% CI III-II: [0.1, 0.2]h<span class="math inline">\(^{-1}\)</span>) The average rate of dying was not significantly different between rats exposed to poison I and poison II (p=0.074).</p>
 <p>The rate of dying is on average 0.17h<span class="math inline">\(^{-1}\)</span> and 0.14h<span class="math inline">\(^{-1}\)</span> higher upon treatment A than upon treatment B and D, respectively (p &lt;&lt; 0.001, 95% CI B-A: [-0.22, -0.11]h<span class="math inline">\(^{-1}\)</span>, 95% CI D-A: [-0.19, -0.08]h<span class="math inline">\(^{-1}\)</span>). The rate of dying is on average 0.11h<span class="math inline">\(^{-1}\)</span> and 0.08h<span class="math inline">\(^{-1}\)</span> higher upon treatment C than upon treatment B and D, respectively (C-B: p &lt;&lt; 0.001, 95% CI [0.05, 0.17]h<span class="math inline">\(^{-1}\)</span> , D-C: p = 0.003, 95% CI [-0.14, -0.02]h<span class="math inline">\(^{-1}\)</span>). The average rate of dying was not significantly different between treatment C and A (p = 0.051), and, between treatment B and D (p = 0.61).</p>
 <p>All p-values are corrected for multiple testing.</p>
 </div>
