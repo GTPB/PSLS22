@@ -12,7 +12,7 @@
 <meta name="author" content="Lieven Clement and Jeroen Gilis" />
 
 
-<title>Exercises on chapter 7: ANOVA</title>
+<title>Exercises on chapter 6: Simple linear regression</title>
 
 <script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -446,68 +446,67 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Exercises on chapter 7: ANOVA</h1>
+<h1 class="title toc-ignore">Exercises on chapter 6: Simple linear regression</h1>
 <h4 class="author">Lieven Clement and Jeroen Gilis</h4>
 <h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
 
 </div>
 
 
-<p>In this hands-on tutorial session you will perform three exercises on one-way Anova.,</p>
-<p>For your reference you can find the code for the prostacyclin case study from the lecture for chapter 7: <a href="./07_prostacyclin_example.Rmd">prostacyclin example</a></p>
-<div id="the-lettuce-freshweight-dataset" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> The lettuce freshweight dataset</h1>
-<p>In agriculture, it is important to have a high yield of crops. One way to increase the number of leaves (or better, total leaf weight) is by using a fertilizer.</p>
-<p>Here, we consider three types of fertilizers:</p>
+<p>In this hands-on tutorial session you will perform three exercises on linear regression. For your reference you can find the code for the brca case study from the lecture for chapter 6:</p>
+<p>[LINK TO FILE]</p>
+<div id="the-puromycin-dataset" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> The puromycin dataset</h1>
+<p>Data on the velocity of an enzymatic reaction were obtained by Treloar (1974). The number of counts per minute of radioactive product from the reaction was measured as a function of substrate concentration in parts per million (ppm) and from these counts the initial rate (or velocity) of the reaction was calculated (counts/min/min). The experiment was conducted once with the enzyme treated with Puromycin, and once with the enzyme untreated.</p>
+<p>In this tutorial you will assess if there is an association between the substrate concentration and rate for the <strong>treated</strong> enzyme.</p>
+<p>The aims of this exercise are to</p>
+<ol style="list-style-type: decimal">
+<li>independently perform a linear regression analysis on a new case study</li>
+<li>critically assess the assumptions for linear regression</li>
+<li>grasp how an appropriate transformation can remediate invalid assumptions</li>
+<li>get more proficient in formulating the conclusion of a statistical analysis in terms of the research question.</li>
+</ol>
+<p>FILES:</p>
 <ul>
-<li>biochar</li>
-<li>compost</li>
-<li>cobc (combination of biochar and compost)</li>
+<li>Exercise: <a href="./06_3_puromycin.html">Exercise1</a></li>
+<li>Data path: Not required <!-- - Solution: [Solution1](./06_3_puromycin_sol.html) --></li>
 </ul>
-<p>The researchers want to find out if either of these fertilizers have a positive influence on the growth of lettuce plants. To this end, they grew up lettuce plants in a greenhouse. The pots were filled with one of four soil types;</p>
-<ul>
-<li>Soil only (control)</li>
-<li>Soil supplemented with biochar (refoak)</li>
-<li>Soil supplemented with compost (compost)</li>
-<li>Soil supplemented with both biochar and compost (cobc)</li>
-</ul>
-<p>The dataset <code>freshweight_lettuce.txt</code> contains the freshweight for 28 lettuce plants. The researchers want to test if there is an effect of one or more of the treatments on the growth of lettuce plants.</p>
-<p>The aims of this exercise are to learn how to:</p>
-<ul>
-<li><p>formulate the null and alternative hypotheses for ANOVA</p></li>
-<li><p>assess the assumptions for one-way ANOVA in a data exploration</p></li>
-<li><p>conduct a one-way anova and posthoc tests using a linear model</p></li>
-<li><p>interpret the results from an anova analysis in the context of the research question</p></li>
-</ul>
+</div>
+<div id="the-poison-dataset" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> The poison dataset:</h1>
+<p>In this experiment, 96 fish (dojofish, goldfish and zebrafish) were placed separately in a tank with two litres of water and a certain dose (in mg) of a certain poison EI-43,064. The resistance of the fish a against the poison was measured as the amount of minutes the fish survived upon adding the poison (Surv_time, in minutes). Additionally, the weight of each fish was measured.</p>
+<p>In this tutorial, we will study the association between dose and survival time by using a linear regression model.</p>
+<p>The aims of this exercise are to sharpen your skills in</p>
+<ol style="list-style-type: decimal">
+<li><p>data exploration for datasets with multiple variables</p></li>
+<li><p>assessing the assumptions of the linear model and remediating the fit using transformations</p></li>
+<li><p>interpreting the linear model parameters in the context of the research question</p></li>
+</ol>
 <p>Files:</p>
 <ul>
-<li>Exercise: <a href="./07_1_lettuce.html">Exercise1</a></li>
-<li>Data path: <a href="https://raw.githubusercontent.com/statOmics/PSLS21/data/freshweight_lettuce.txt" class="uri">https://raw.githubusercontent.com/statOmics/PSLS21/data/freshweight_lettuce.txt</a> <!-- - Solution: [Solution1](./07_1_lettuce_sol.html) --></li>
+<li>Exercise: <a href="./06_1_poison.html">Exercise2</a></li>
+<li>Data path: <a href="https://raw.githubusercontent.com/statOmics/PSLS21/data/poison.csv" class="uri">https://raw.githubusercontent.com/statOmics/PSLS21/data/poison.csv</a> <!-- - Solution: [Solution2](./06_1_poison_sol.html) --></li>
 </ul>
 <hr />
 </div>
-<div id="the-cuckoo-dataset" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> The cuckoo dataset</h1>
-<p>The common cuckoo does not build its own nest: it prefers to lay its eggs in another birds’ nest. It is known, since 1892, that the type of cuckoo bird eggs are different between different locations. In a study from 1940, it was shown that cuckoos return to the same nesting area each year, and that they always pick the same bird species to be a “foster parent” for their eggs.</p>
-<p>Over the years, this has lead to the development of geographically determined subspecies of cuckoos. These subspecies have evolved in such a way that their eggs look as similar as possible as those of their foster parents.</p>
-<p>The cuckoo dataset contains information on 120 Cuckoo eggs, obtained from randomly selected “foster” nests. The researchers want to test if the type of foster parent has an effect on the average length of the cuckoo eggs.</p>
+<div id="armpit-example" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Armpit example</h1>
+<p>Smelly armpits are not caused by sweat, itself. The smell is caused by specific micro-organisms belonging to the group of Corynebacterium spp. that metabolise sweat. Another group of abundant bacteria are the Staphylococcus spp., which do not metabolise sweat in smelly compounds.</p>
+<p>The CMET-groep at Ghent University does research on transplanting the armpit microbiome to help people with smelly armpits. To test the effect of transplanting the microbiome, they conducted an experiment on two groups of volunteers: one group was treated with a placebo, while the other had a microbiome transplant. The goal was to assess whether a microbial transplant can affect the relative abundance Staphylococcus spp. in the microbiome of the armpit.</p>
+<p>In the previous tutorial, we analysed the armpit data using a two sample t-test. Add a section to the script file for the armpit example where you model the data using a linear model. Compare the output of the linear model to the results you optained with the two sample t-test and formulate your conclusion based on the output of the linear model.</p>
+<p>The aims of this exercise are to</p>
+<ol style="list-style-type: decimal">
+<li>learn how the linear regression model can also be used to compare two group means.</li>
+<li>grasp how a two sample t-test can be recasted in a test on the slope term for a dummy variable</li>
+</ol>
+<p>Files:</p>
 <ul>
-<li>Exercise: <a href="./07_2_cuckoo.html">Exercise2</a></li>
-<li>Data path: <a href="https://raw.githubusercontent.com/statOmics/PSLS21/data/Cuckoo.txt" class="uri">https://raw.githubusercontent.com/statOmics/PSLS21/data/Cuckoo.txt</a> <!-- - Solution: [Solution2](./07_2_cuckoo_sol.html) --></li>
-</ul>
-<hr />
-</div>
-<div id="the-nhanes-dataset" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> The NHANES dataset:</h1>
-<p>The National Health and Nutrition Examination Survey (NHANES) contains data that has been collected since 1960. For this tutorial, we will make use of the data that was collected between 2009 and 2012, for 10.000 U.S. civilians. The dataset contains a large number of physical, demographic, nutritional and life-style-related parameters.</p>
-<p>We want to test whether or not the mean systolic blood pressure value (take column <code>BPSys1</code>) is equal between the five self-reported health categories. To this end, we will use an ANOVA analysis.</p>
-<ul>
-<li>Exercise: <a href="./07_3_NHANES.html">Exercise3</a></li>
-<li>Data path: <a href="https://raw.githubusercontent.com/statOmics/PSLS21/data/NHANES.csv" class="uri">https://raw.githubusercontent.com/statOmics/PSLS21/data/NHANES.csv</a> <!-- - Solution: [Solution3](./07_3_NHANES_sol.html) --></li>
+<li>Data path: <a href="https://raw.githubusercontent.com/statOmics/PSLS21/data/armpit.csv" class="uri">https://raw.githubusercontent.com/statOmics/PSLS21/data/armpit.csv</a>”</li>
+<li>Exercise: <a href="./06_3_armpit.html">Exercise3</a></li>
 </ul>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2VzIG9uIGNoYXB0ZXIgNzogQU5PVkEiCmF1dGhvcjogIkxpZXZlbiBDbGVtZW50IGFuZCBKZXJvZW4gR2lsaXMiCmRhdGU6ICJzdGF0T21pY3MsIEdoZW50IFVuaXZlcnNpdHkgKGh0dHBzOi8vc3RhdG9taWNzLmdpdGh1Yi5pbykiCi0tLQoKSW4gdGhpcyBoYW5kcy1vbiB0dXRvcmlhbCBzZXNzaW9uIHlvdSB3aWxsIHBlcmZvcm0gdGhyZWUgZXhlcmNpc2VzIG9uIG9uZS13YXkgQW5vdmEuLAoKRm9yIHlvdXIgcmVmZXJlbmNlIHlvdSBjYW4gZmluZCB0aGUgY29kZSBmb3IgdGhlIHByb3N0YWN5Y2xpbiBjYXNlIHN0dWR5IGZyb20gdGhlIGxlY3R1cmUgZm9yIGNoYXB0ZXIgNzogW3Byb3N0YWN5Y2xpbiBleGFtcGxlXSguLzA3X3Byb3N0YWN5Y2xpbl9leGFtcGxlLlJtZCkKCgojIFRoZSBsZXR0dWNlIGZyZXNod2VpZ2h0IGRhdGFzZXQKCkluIGFncmljdWx0dXJlLCBpdCBpcyBpbXBvcnRhbnQgdG8gaGF2ZSBhIGhpZ2ggeWllbGQgb2YgY3JvcHMuIE9uZSB3YXkgdG8KaW5jcmVhc2UgdGhlIG51bWJlciBvZiBsZWF2ZXMgKG9yIGJldHRlciwgdG90YWwgbGVhZiB3ZWlnaHQpIGlzIGJ5IHVzaW5nIGEKZmVydGlsaXplci4KCkhlcmUsIHdlIGNvbnNpZGVyIHRocmVlIHR5cGVzIG9mIGZlcnRpbGl6ZXJzOgoKICAtIGJpb2NoYXIKICAtIGNvbXBvc3QKICAtIGNvYmMgKGNvbWJpbmF0aW9uIG9mIGJpb2NoYXIgYW5kIGNvbXBvc3QpCgpUaGUgcmVzZWFyY2hlcnMgd2FudCB0byBmaW5kIG91dCBpZiBlaXRoZXIgb2YgdGhlc2UgZmVydGlsaXplcnMgaGF2ZSBhIHBvc2l0aXZlCmluZmx1ZW5jZSBvbiB0aGUgZ3Jvd3RoIG9mIGxldHR1Y2UgcGxhbnRzLiBUbyB0aGlzIGVuZCwgdGhleSBncmV3IHVwIGxldHR1Y2UKcGxhbnRzIGluIGEgZ3JlZW5ob3VzZS4gVGhlIHBvdHMgd2VyZSBmaWxsZWQgd2l0aCBvbmUgb2YgZm91ciBzb2lsIHR5cGVzOwoKICAtIFNvaWwgb25seSAoY29udHJvbCkKICAtIFNvaWwgc3VwcGxlbWVudGVkIHdpdGggYmlvY2hhciAocmVmb2FrKQogIC0gU29pbCBzdXBwbGVtZW50ZWQgd2l0aCBjb21wb3N0IChjb21wb3N0KQogIC0gU29pbCBzdXBwbGVtZW50ZWQgd2l0aCBib3RoIGJpb2NoYXIgYW5kIGNvbXBvc3QgKGNvYmMpCgpUaGUgZGF0YXNldCBgZnJlc2h3ZWlnaHRfbGV0dHVjZS50eHRgIGNvbnRhaW5zIHRoZSBmcmVzaHdlaWdodCBmb3IgMjggbGV0dHVjZQpwbGFudHMuIFRoZSByZXNlYXJjaGVycyB3YW50IHRvIHRlc3QgaWYgdGhlcmUgaXMgYW4gZWZmZWN0IG9mIG9uZSBvciBtb3JlIG9mCnRoZSB0cmVhdG1lbnRzIG9uIHRoZSBncm93dGggb2YgbGV0dHVjZSBwbGFudHMuCgpUaGUgYWltcyBvZiB0aGlzIGV4ZXJjaXNlIGFyZSB0byBsZWFybiBob3cgdG86CgotIGZvcm11bGF0ZSB0aGUgbnVsbCBhbmQgYWx0ZXJuYXRpdmUgaHlwb3RoZXNlcyBmb3IgQU5PVkEKCi0gYXNzZXNzIHRoZSBhc3N1bXB0aW9ucyBmb3Igb25lLXdheSBBTk9WQSBpbiBhIGRhdGEgZXhwbG9yYXRpb24gCgotIGNvbmR1Y3QgYSBvbmUtd2F5IGFub3ZhIGFuZCBwb3N0aG9jIHRlc3RzIHVzaW5nIGEgbGluZWFyIG1vZGVsIAoKLSBpbnRlcnByZXQgdGhlIHJlc3VsdHMgZnJvbSBhbiBhbm92YSBhbmFseXNpcyBpbiB0aGUgY29udGV4dCBvZiB0aGUgcmVzZWFyY2ggcXVlc3Rpb24KCkZpbGVzOiAKCi0gRXhlcmNpc2U6IFtFeGVyY2lzZTFdKC4vMDdfMV9sZXR0dWNlLmh0bWwpCi0gRGF0YSBwYXRoOiBodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vc3RhdE9taWNzL1BTTFMyMS9kYXRhL2ZyZXNod2VpZ2h0X2xldHR1Y2UudHh0CjwhLS0gLSBTb2x1dGlvbjogW1NvbHV0aW9uMV0oLi8wN18xX2xldHR1Y2Vfc29sLmh0bWwpIC0tPgoKLS0tCgojIFRoZSBjdWNrb28gZGF0YXNldAoKVGhlIGNvbW1vbiBjdWNrb28gZG9lcyBub3QgYnVpbGQgaXRzIG93biBuZXN0OiBpdCBwcmVmZXJzIHRvIGxheSBpdHMgZWdncyBpbgphbm90aGVyIGJpcmRzJyBuZXN0LiBJdCBpcyBrbm93biwgc2luY2UgMTg5MiwgdGhhdCB0aGUgdHlwZSBvZiBjdWNrb28gYmlyZCBlZ2dzCmFyZSBkaWZmZXJlbnQgYmV0d2VlbiBkaWZmZXJlbnQgbG9jYXRpb25zLiBJbiBhIHN0dWR5IGZyb20gMTk0MCwgaXQgd2FzIHNob3duCnRoYXQgY3Vja29vcyByZXR1cm4gdG8gdGhlIHNhbWUgbmVzdGluZyBhcmVhIGVhY2ggeWVhciwgYW5kIHRoYXQgdGhleSBhbHdheXMKcGljayB0aGUgc2FtZSBiaXJkIHNwZWNpZXMgdG8gYmUgYSAiZm9zdGVyIHBhcmVudCIgZm9yIHRoZWlyIGVnZ3MuCgpPdmVyIHRoZSB5ZWFycywgdGhpcyBoYXMgbGVhZCB0byB0aGUgZGV2ZWxvcG1lbnQgb2YgZ2VvZ3JhcGhpY2FsbHkgZGV0ZXJtaW5lZApzdWJzcGVjaWVzIG9mIGN1Y2tvb3MuIFRoZXNlIHN1YnNwZWNpZXMgaGF2ZSBldm9sdmVkIGluIHN1Y2ggYSB3YXkgdGhhdCB0aGVpcgplZ2dzIGxvb2sgYXMgc2ltaWxhciBhcyBwb3NzaWJsZSBhcyB0aG9zZSBvZiB0aGVpciBmb3N0ZXIgcGFyZW50cy4KClRoZSBjdWNrb28gZGF0YXNldCBjb250YWlucyBpbmZvcm1hdGlvbiBvbiAxMjAgQ3Vja29vIGVnZ3MsIG9idGFpbmVkIGZyb20KcmFuZG9tbHkgc2VsZWN0ZWQgImZvc3RlciIgbmVzdHMuIFRoZSByZXNlYXJjaGVycyB3YW50IHRvIHRlc3QgaWYgdGhlIHR5cGUgb2YKZm9zdGVyIHBhcmVudCBoYXMgYW4gZWZmZWN0IG9uIHRoZSBhdmVyYWdlIGxlbmd0aCBvZiB0aGUgY3Vja29vIGVnZ3MuCgotIEV4ZXJjaXNlOiBbRXhlcmNpc2UyXSguLzA3XzJfY3Vja29vLmh0bWwpCi0gRGF0YSBwYXRoOiBodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vc3RhdE9taWNzL1BTTFMyMS9kYXRhL0N1Y2tvby50eHQKPCEtLSAtIFNvbHV0aW9uOiBbU29sdXRpb24yXSguLzA3XzJfY3Vja29vX3NvbC5odG1sKSAtLT4KCi0tLQoKIyBUaGUgTkhBTkVTIGRhdGFzZXQ6CgpUaGUgTmF0aW9uYWwgSGVhbHRoIGFuZCBOdXRyaXRpb24gRXhhbWluYXRpb24gU3VydmV5IChOSEFORVMpIGNvbnRhaW5zIGRhdGEKdGhhdCBoYXMgYmVlbiBjb2xsZWN0ZWQgc2luY2UgMTk2MC4gRm9yIHRoaXMgdHV0b3JpYWwsIHdlIHdpbGwgbWFrZSB1c2Ugb2YgdGhlCmRhdGEgdGhhdCB3YXMgY29sbGVjdGVkICBiZXR3ZWVuIDIwMDkgYW5kICAyMDEyLCBmb3IgMTAuMDAwIFUuUy4gY2l2aWxpYW5zLgpUaGUgZGF0YXNldCBjb250YWlucyBhIGxhcmdlIG51bWJlciBvZiBwaHlzaWNhbCwgZGVtb2dyYXBoaWMsIG51dHJpdGlvbmFsIGFuZApsaWZlLXN0eWxlLXJlbGF0ZWQgcGFyYW1ldGVycy4KCldlIHdhbnQgdG8gdGVzdCB3aGV0aGVyIG9yIG5vdCB0aGUgbWVhbiBzeXN0b2xpYyBibG9vZCBwcmVzc3VyZSB2YWx1ZQoodGFrZSBjb2x1bW4gYEJQU3lzMWApIGlzIGVxdWFsIGJldHdlZW4gdGhlIGZpdmUgc2VsZi1yZXBvcnRlZCBoZWFsdGgKY2F0ZWdvcmllcy4gVG8gdGhpcyBlbmQsIHdlIHdpbGwgdXNlIGFuIEFOT1ZBIGFuYWx5c2lzLgoKLSBFeGVyY2lzZTogW0V4ZXJjaXNlM10oLi8wN18zX05IQU5FUy5odG1sKQotIERhdGEgcGF0aDogaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3N0YXRPbWljcy9QU0xTMjEvZGF0YS9OSEFORVMuY3N2CjwhLS0gLSBTb2x1dGlvbjogW1NvbHV0aW9uM10oLi8wN18zX05IQU5FU19zb2wuaHRtbCkgLS0+Cg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2VzIG9uIGNoYXB0ZXIgNjogU2ltcGxlIGxpbmVhciByZWdyZXNzaW9uIgphdXRob3I6ICJMaWV2ZW4gQ2xlbWVudCBhbmQgSmVyb2VuIEdpbGlzIgpkYXRlOiAic3RhdE9taWNzLCBHaGVudCBVbml2ZXJzaXR5IChodHRwczovL3N0YXRvbWljcy5naXRodWIuaW8pIgotLS0KCkluIHRoaXMgaGFuZHMtb24gdHV0b3JpYWwgc2Vzc2lvbiB5b3Ugd2lsbCBwZXJmb3JtIHRocmVlIGV4ZXJjaXNlcyBvbiBsaW5lYXIgcmVncmVzc2lvbi4gCkZvciB5b3VyIHJlZmVyZW5jZSB5b3UgY2FuIGZpbmQgdGhlIGNvZGUgZm9yIHRoZSBicmNhIGNhc2Ugc3R1ZHkgZnJvbSB0aGUgbGVjdHVyZSBmb3IgY2hhcHRlciA2OiAKCltMSU5LIFRPIEZJTEVdCgoKIyBUaGUgcHVyb215Y2luIGRhdGFzZXQKCkRhdGEgb24gdGhlIHZlbG9jaXR5IG9mIGFuIGVuenltYXRpYyByZWFjdGlvbiB3ZXJlIG9idGFpbmVkIGJ5IFRyZWxvYXIgKDE5NzQpLgpUaGUgbnVtYmVyIG9mIGNvdW50cyBwZXIgbWludXRlIG9mIHJhZGlvYWN0aXZlIHByb2R1Y3QgZnJvbSB0aGUgcmVhY3Rpb24gd2FzCm1lYXN1cmVkIGFzIGEgZnVuY3Rpb24gb2Ygc3Vic3RyYXRlIGNvbmNlbnRyYXRpb24gaW4gcGFydHMgcGVyIG1pbGxpb24gKHBwbSkKYW5kIGZyb20gdGhlc2UgY291bnRzIHRoZSBpbml0aWFsIHJhdGUgKG9yIHZlbG9jaXR5KSBvZiB0aGUgcmVhY3Rpb24gd2FzCmNhbGN1bGF0ZWQgKGNvdW50cy9taW4vbWluKS4gVGhlIGV4cGVyaW1lbnQgd2FzIGNvbmR1Y3RlZCBvbmNlIHdpdGggdGhlIGVuenltZQp0cmVhdGVkIHdpdGggUHVyb215Y2luLCBhbmQgb25jZSB3aXRoIHRoZSBlbnp5bWUgdW50cmVhdGVkLgoKSW4gdGhpcyB0dXRvcmlhbCB5b3Ugd2lsbCBhc3Nlc3MgaWYgdGhlcmUgaXMgYW4gYXNzb2NpYXRpb24gYmV0d2VlbiB0aGUgc3Vic3RyYXRlCmNvbmNlbnRyYXRpb24gYW5kIHJhdGUgZm9yIHRoZSAqKnRyZWF0ZWQqKiBlbnp5bWUuCgpUaGUgYWltcyBvZiB0aGlzIGV4ZXJjaXNlIGFyZSB0byAKCjEuIGluZGVwZW5kZW50bHkgcGVyZm9ybSBhIGxpbmVhciByZWdyZXNzaW9uIGFuYWx5c2lzIG9uIGEgbmV3IGNhc2Ugc3R1ZHkKMi4gY3JpdGljYWxseSBhc3Nlc3MgdGhlIGFzc3VtcHRpb25zIGZvciBsaW5lYXIgcmVncmVzc2lvbgozLiBncmFzcCBob3cgYW4gYXBwcm9wcmlhdGUgdHJhbnNmb3JtYXRpb24gY2FuIHJlbWVkaWF0ZSBpbnZhbGlkIGFzc3VtcHRpb25zCjQuIGdldCBtb3JlIHByb2ZpY2llbnQgaW4gZm9ybXVsYXRpbmcgdGhlIGNvbmNsdXNpb24gb2YgYSBzdGF0aXN0aWNhbCBhbmFseXNpcyBpbiB0ZXJtcyBvZiB0aGUgcmVzZWFyY2ggcXVlc3Rpb24uCgpGSUxFUzogCgotIEV4ZXJjaXNlOiBbRXhlcmNpc2UxXSguLzA2XzNfcHVyb215Y2luLmh0bWwpCi0gRGF0YSBwYXRoOiBOb3QgcmVxdWlyZWQKPCEtLSAtIFNvbHV0aW9uOiBbU29sdXRpb24xXSguLzA2XzNfcHVyb215Y2luX3NvbC5odG1sKSAtLT4KCgojIFRoZSBwb2lzb24gZGF0YXNldDoKCkluIHRoaXMgZXhwZXJpbWVudCwgOTYgZmlzaCAoZG9qb2Zpc2gsIGdvbGRmaXNoIGFuZCB6ZWJyYWZpc2gpCndlcmUgcGxhY2VkIHNlcGFyYXRlbHkgaW4gYSB0YW5rIHdpdGggdHdvIGxpdHJlcyBvZiB3YXRlciBhbmQKYSBjZXJ0YWluIGRvc2UgKGluIG1nKSBvZiBhIGNlcnRhaW4gcG9pc29uIEVJLTQzLDA2NC4gVGhlIHJlc2lzdGFuY2UKb2YgdGhlIGZpc2ggYSBhZ2FpbnN0IHRoZSBwb2lzb24gd2FzIG1lYXN1cmVkIGFzIHRoZSBhbW91bnQgb2YKbWludXRlcyB0aGUgZmlzaCBzdXJ2aXZlZCB1cG9uIGFkZGluZyB0aGUgcG9pc29uIChTdXJ2X3RpbWUsIGluCm1pbnV0ZXMpLiBBZGRpdGlvbmFsbHksIHRoZSB3ZWlnaHQgb2YgZWFjaCBmaXNoIHdhcyBtZWFzdXJlZC4KCkluIHRoaXMgdHV0b3JpYWwsIHdlIHdpbGwgc3R1ZHkgdGhlIGFzc29jaWF0aW9uIGJldHdlZW4gZG9zZSBhbmQgc3Vydml2YWwgdGltZQpieSB1c2luZyBhIGxpbmVhciByZWdyZXNzaW9uIG1vZGVsLgoKClRoZSBhaW1zIG9mIHRoaXMgZXhlcmNpc2UgYXJlIHRvIHNoYXJwZW4geW91ciBza2lsbHMgaW4gCiAKMS4gZGF0YSBleHBsb3JhdGlvbiBmb3IgZGF0YXNldHMgd2l0aCBtdWx0aXBsZSB2YXJpYWJsZXMgCgoyLiBhc3Nlc3NpbmcgdGhlIGFzc3VtcHRpb25zIG9mIHRoZSBsaW5lYXIgbW9kZWwgYW5kIHJlbWVkaWF0aW5nIHRoZSBmaXQgdXNpbmcgdHJhbnNmb3JtYXRpb25zCgozLiBpbnRlcnByZXRpbmcgdGhlIGxpbmVhciBtb2RlbCBwYXJhbWV0ZXJzIGluIHRoZSBjb250ZXh0IG9mIHRoZSByZXNlYXJjaCBxdWVzdGlvbgoKRmlsZXM6CgotIEV4ZXJjaXNlOiBbRXhlcmNpc2UyXSguLzA2XzFfcG9pc29uLmh0bWwpCi0gRGF0YSBwYXRoOiBodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vc3RhdE9taWNzL1BTTFMyMS9kYXRhL3BvaXNvbi5jc3YKPCEtLSAtIFNvbHV0aW9uOiBbU29sdXRpb24yXSguLzA2XzFfcG9pc29uX3NvbC5odG1sKSAtLT4KCi0tLQoKIyBBcm1waXQgZXhhbXBsZQoKU21lbGx5IGFybXBpdHMgYXJlIG5vdCBjYXVzZWQgYnkgc3dlYXQsIGl0c2VsZi4gVGhlIHNtZWxsIGlzIGNhdXNlZCBieSBzcGVjaWZpYwptaWNyby1vcmdhbmlzbXMgYmVsb25naW5nIHRvIHRoZSBncm91cCBvZiBDb3J5bmViYWN0ZXJpdW0gc3BwLiB0aGF0IG1ldGFib2xpc2UKc3dlYXQuIEFub3RoZXIgZ3JvdXAgb2YgYWJ1bmRhbnQgYmFjdGVyaWEgYXJlIHRoZSBTdGFwaHlsb2NvY2N1cyBzcHAuLCB3aGljaCBkbwpub3QgbWV0YWJvbGlzZSBzd2VhdCBpbiBzbWVsbHkgY29tcG91bmRzLgoKVGhlIENNRVQtZ3JvZXAgYXQgR2hlbnQgVW5pdmVyc2l0eSBkb2VzIHJlc2VhcmNoIG9uIHRyYW5zcGxhbnRpbmcgdGhlIGFybXBpdAptaWNyb2Jpb21lIHRvIGhlbHAgcGVvcGxlIHdpdGggc21lbGx5IGFybXBpdHMuIFRvIHRlc3QgdGhlIGVmZmVjdCBvZgp0cmFuc3BsYW50aW5nIHRoZSBtaWNyb2Jpb21lLCB0aGV5IGNvbmR1Y3RlZCBhbiBleHBlcmltZW50IG9uIHR3byBncm91cHMKb2Ygdm9sdW50ZWVyczogb25lIGdyb3VwIHdhcyB0cmVhdGVkIHdpdGggYSBwbGFjZWJvLCB3aGlsZSB0aGUgb3RoZXIgaGFkIGEKbWljcm9iaW9tZSB0cmFuc3BsYW50LiBUaGUgZ29hbCB3YXMgdG8gYXNzZXNzIHdoZXRoZXIgYSBtaWNyb2JpYWwgdHJhbnNwbGFudCBjYW4gYWZmZWN0IHRoZSByZWxhdGl2ZSBhYnVuZGFuY2UgU3RhcGh5bG9jb2NjdXMgc3BwLiBpbiB0aGUgbWljcm9iaW9tZSBvZiB0aGUgYXJtcGl0LgoKSW4gdGhlIHByZXZpb3VzIHR1dG9yaWFsLCB3ZSBhbmFseXNlZCB0aGUgYXJtcGl0IGRhdGEgdXNpbmcgYSB0d28gc2FtcGxlIHQtdGVzdC4KQWRkIGEgc2VjdGlvbiB0byB0aGUgc2NyaXB0IGZpbGUgZm9yIHRoZSBhcm1waXQgZXhhbXBsZSB3aGVyZSB5b3UgbW9kZWwgdGhlIGRhdGEgdXNpbmcgYSBsaW5lYXIgbW9kZWwuIENvbXBhcmUgdGhlIG91dHB1dCBvZiB0aGUgbGluZWFyIG1vZGVsIHRvIHRoZSByZXN1bHRzIHlvdSBvcHRhaW5lZCB3aXRoIHRoZSB0d28gc2FtcGxlIHQtdGVzdCBhbmQgZm9ybXVsYXRlIHlvdXIgY29uY2x1c2lvbiBiYXNlZCBvbiB0aGUgb3V0cHV0IG9mIHRoZSBsaW5lYXIgbW9kZWwuCgpUaGUgYWltcyBvZiB0aGlzIGV4ZXJjaXNlIGFyZSB0bwoKMS4gbGVhcm4gaG93IHRoZSBsaW5lYXIgcmVncmVzc2lvbiBtb2RlbCBjYW4gYWxzbyBiZSB1c2VkIHRvIGNvbXBhcmUgdHdvIGdyb3VwIG1lYW5zLgoyLiBncmFzcCBob3cgYSB0d28gc2FtcGxlIHQtdGVzdCBjYW4gYmUgcmVjYXN0ZWQgaW4gYSB0ZXN0IG9uIHRoZSBzbG9wZSB0ZXJtIGZvciBhIGR1bW15IHZhcmlhYmxlCgpGaWxlczogCgotIERhdGEgcGF0aDogaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3N0YXRPbWljcy9QU0xTMjEvZGF0YS9hcm1waXQuY3N2IgotIEV4ZXJjaXNlOiBbRXhlcmNpc2UzXSguLzA2XzNfYXJtcGl0Lmh0bWwpCg==</div>
 <div class="footer">
     <hr>
     This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
@@ -550,7 +549,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("07_exercises.Rmd");
+  window.initializeSourceEmbed("06_exercises_bub.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>

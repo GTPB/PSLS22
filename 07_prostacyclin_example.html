@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Lieven Clement" />
+
+
+<title>Analysis of prostacyclin experiment</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-chalkboard-teacher"></span>
+     
+    Topics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="01-intro.html">1. Introduction</a>
+    </li>
+    <li>
+      <a href="02-concepts.html">2. Concepts</a>
+    </li>
+    <li>
+      <a href="03-experimentalDesign.html">3. Experimental Design I</a>
+    </li>
+    <li>
+      <a href="04-dataExploration.html">4. Data Exploration</a>
+    </li>
+    <li>
+      <a href="05-statisticalInference.html">5.1 Statistical Inference 1</a>
+    </li>
+    <li>
+      <a href="05-statisticalInference-twosampleT.html">5.2 Statistical Inference 2</a>
+    </li>
+    <li>
+      <a href="06-linearRegression.html">6. Linear Regression</a>
+    </li>
+    <li>
+      <a href="07-Anova.html">7. Analysis of Variance</a>
+    </li>
+    <li>
+      <a href="08-MultipleRegression.html">8. Multiple Regression</a>
+    </li>
+    <li>
+      <a href="08-MultipleRegression-SpecificDesigns.html">8.2 Multiple Regression: Factorial Designs</a>
+    </li>
+    <li>
+      <a href="08-experimentalDesignII.html">8.3. Experimental Design II</a>
+    </li>
+    <li>
+      <a href="08-experimentalDesignIII.html">8.4. Experimental Design III</a>
+    </li>
+    <li>
+      <a href="09-NonparametericStatistics-WilcoxonMannWithney.html">9.1. Nonparametric Statistics 1</a>
+    </li>
+    <li>
+      <a href="09-NonparametericStatistics-KruskalWallis.html">9.2. Nonparametric Statistics 2</a>
+    </li>
+    <li>
+      <a href="10-categoricalDataAnalysis.html">10. Categorical Data Analysis</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-laptop"></span>
+     
+    Exercises
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="04_exercises.html">4. Data Exploration</a>
+    </li>
+    <li>
+      <a href="05_exercises.html">5. Statistical inference</a>
+    </li>
+    <li>
+      <a href="06_exercises.html">6. Simple linear regression</a>
+    </li>
+    <li>
+      <a href="07_exercises.html">7. ANOVA</a>
+    </li>
+    <li>
+      <a href="08_exercises.html">8. Multiple linear regression</a>
+    </li>
+    <li>
+      <a href="09_exercises.html">9. Non-parametric statistics</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/statOmics/PSLS">
+    <span class="fab fa-github"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://statomics.github.io/">statOmics</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Analysis of prostacyclin experiment</h1>
+<h4 class="author">Lieven Clement</h4>
+
+</div>
+
+
+<div id="background" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Background</h1>
+<p>Researchers study the effect of arachidonic acid on prostacyclin level in blood plasma. They use 3 different doses of arachidonic acid: low (10 units), medium (25 units) and high dose (50 units) and measure the prostacycline levels in blood plasma using an elisa fluorescence measurement. Treatments are randomly assigned to rats and every rat originates from a different litter and is grown in a separate cage.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
+<pre><code>## ── Attaching packages ───────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 3.3.5     ✔ purrr   0.3.4
+## ✔ tibble  3.1.6     ✔ dplyr   1.0.8
+## ✔ tidyr   1.2.0     ✔ stringr 1.4.0
+## ✔ readr   2.1.2     ✔ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ──────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div id="experimental-design" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Experimental design</h1>
+<ul>
+<li>There is one explanatory variable: the factor dose</li>
+<li>There are three treatments: low, medium and high dose of arachidonic acid</li>
+<li>The effect of the treatments is assessed on the response variable prostacyclin level in blood plasma</li>
+<li>The rats are the experimental and observational units</li>
+<li>The experiment is a completely randomized design (CRD)</li>
+<li>Researchers are interested to assess if there is an effect of the arachidonic acid dose on the prostacyclin level and when there is an effect, they want to asssess for which dose levels significantly different effects occur.</li>
+</ul>
+</div>
+<div id="data" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Data</h1>
+<p>The data can be found in a table of Voorbeeld 5.23 in the bachelor cours of statistics.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>prostacyclin <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">prostac=</span><span class="fu">c</span>(<span class="fl">19.2</span>, <span class="fl">10.8</span>, <span class="fl">33.6</span>, <span class="fl">11.9</span>, <span class="fl">15.9</span>, <span class="fl">33.3</span>, <span class="fl">81.1</span>, <span class="fl">36.7</span>, <span class="fl">58.0</span>, <span class="fl">60.8</span>, <span class="fl">50.6</span>, <span class="fl">69.4</span>, <span class="fl">30.8</span>, <span class="fl">27.6</span>, <span class="fl">13.2</span>, <span class="fl">38.8</span>, <span class="fl">37.0</span>, <span class="fl">38.3</span>, <span class="fl">65.2</span>, <span class="fl">66.4</span>, <span class="fl">63.2</span>, <span class="fl">49.9</span>, <span class="fl">89.5</span>, <span class="fl">60.5</span>, <span class="fl">102.9</span>, <span class="fl">57.1</span>, <span class="fl">76.7</span>, <span class="fl">70.5</span>, <span class="fl">66.4</span>, <span class="fl">76.3</span>, <span class="fl">83.1</span>, <span class="fl">61.7</span>, <span class="fl">101.5</span>, <span class="fl">86.2</span>, <span class="fl">115.9</span>, <span class="fl">102.1</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">dose=</span><span class="fu">factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">10</span>,<span class="dv">12</span>),<span class="fu">rep</span>(<span class="dv">25</span>,<span class="dv">12</span>),<span class="fu">rep</span>(<span class="dv">50</span>,<span class="dv">12</span>))))</span></code></pre></div>
+</div>
+<div id="analysis" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Analysis</h1>
+<p>One-way anova to assess if there is an effect of the treatment. Tukey post-hoc test to assess pairwise differences between the treatment.</p>
+<div id="one-way-anova" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> One-way anova</h2>
+<div id="data-exploration" class="section level3" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Data exploration</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>prostacyclin <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>dose, <span class="at">y=</span>prostac)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="st">&quot;jitter&quot;</span>)</span></code></pre></div>
+<p><img src="07_prostacyclin_example_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>prostacyclin <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">sample=</span>prostac)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>() <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(dose))</span></code></pre></div>
+<p><img src="07_prostacyclin_example_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<ul>
+<li>The boxplots show that the data are homoscedastic</li>
+<li>The qq-plot show no severe deviations from normality</li>
+</ul>
+</div>
+<div id="anova" class="section level3" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Anova</h3>
+<ul>
+<li>H0: On average there is no effect of the arachidonic acid treatment on the prostacyclin level in blood serum of rats</li>
+<li>H1: The average prostacyclin level in blood serum of rats is different for at least two arachidonic dose levels</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code></pre></div>
+<pre><code>## Loading required package: carData</code></pre>
+<pre><code>## 
+## Attaching package: &#39;car&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     recode</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     some</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span></code></pre></div>
+<pre><code>## Loading required package: mvtnorm</code></pre>
+<pre><code>## Loading required package: survival</code></pre>
+<pre><code>## Loading required package: TH.data</code></pre>
+<pre><code>## Loading required package: MASS</code></pre>
+<pre><code>## 
+## Attaching package: &#39;MASS&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     select</code></pre>
+<pre><code>## 
+## Attaching package: &#39;TH.data&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:MASS&#39;:
+## 
+##     geyser</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(prostac<span class="sc">~</span>dose,<span class="at">data=</span>prostacyclin)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(lm1,<span class="at">type=</span><span class="dv">3</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"19304.14","2":"1","3":"42.52984","4":"2.096323e-07","_rn_":"(Intercept)"},{"1":"12657.93","2":"2","3":"13.94364","4":"4.081242e-05","_rn_":"dose"},{"1":"14978.58","2":"33","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>There is an extremely significant effect of arachidonic acid on the average prostacyclin blood concentration in rats (p&lt;0.001).</p>
+<p>###Post-hoc</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tukey <span class="ot">&lt;-</span> <span class="fu">glht</span>(lm1,<span class="at">linfct=</span><span class="fu">mcp</span>(<span class="at">dose=</span><span class="st">&quot;Tukey&quot;</span>))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tukey)</span></code></pre></div>
+<pre><code>## 
+##   Simultaneous Tests for General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Tukey Contrasts
+## 
+## 
+## Fit: lm(formula = prostac ~ dose, data = prostacyclin)
+## 
+## Linear Hypotheses:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## 25 - 10 == 0    8.258      8.698   0.949    0.613    
+## 50 - 10 == 0   43.258      8.698   4.974   &lt;0.001 ***
+## 50 - 25 == 0   35.000      8.698   4.024   &lt;0.001 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## (Adjusted p values reported -- single-step method)</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(tukey)</span></code></pre></div>
+<pre><code>## 
+##   Simultaneous Confidence Intervals
+## 
+## Multiple Comparisons of Means: Tukey Contrasts
+## 
+## 
+## Fit: lm(formula = prostac ~ dose, data = prostacyclin)
+## 
+## Quantile = 2.4558
+## 95% family-wise confidence level
+##  
+## 
+## Linear Hypotheses:
+##              Estimate lwr      upr     
+## 25 - 10 == 0   8.2583 -13.1017  29.6184
+## 50 - 10 == 0  43.2583  21.8983  64.6184
+## 50 - 25 == 0  35.0000  13.6399  56.3601</code></pre>
+<p>The average prostacyclin concentration is higher in the high dose group than in the low and moderate dose group (both p-values are smaller than p&lt;0.001). The average concentration in the high dose group is 43.3 ng/ml (95% CI [21.9, 64.6]) and 35 ng/ml (95% CI [13.7, 56.3]) higher than in the low and moderate dose group, respectively (both p&lt;0.001). The difference in average prostacyclin concentration between the moderate and low dose group is not significant (p=0.61, 95% CI on average difference [-13.1, 29.6] ng/ml).</p>
+</div>
+</div>
+</div>
+<div id="conclusion" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Conclusion</h1>
+<p>There is an extremely significant effect of arachidonic acid on the average prostacyclin blood concentration in rats (p&lt;0.001). The average concentration in the high dose group is 43.3 ng/ml (95% CI [21.9, 64.6]) and 35 ng/ml (95% CI [13.7, 56.3]) higher than in the low and moderate dose group, respectively (both p&lt;0.001). The difference in average prostacyclin concentration between the moderate and low dose group is not significant (p=0.61, 95% CI on average difference [-13.1, 29.6] ng/ml).</p>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiBBbmFseXNpcyBvZiBwcm9zdGFjeWNsaW4gZXhwZXJpbWVudAphdXRob3I6IExpZXZlbiBDbGVtZW50Ci0tLQoKIyBCYWNrZ3JvdW5kCgpSZXNlYXJjaGVycyBzdHVkeSB0aGUgZWZmZWN0IG9mIGFyYWNoaWRvbmljIGFjaWQgb24gcHJvc3RhY3ljbGluIGxldmVsIGluIGJsb29kIHBsYXNtYS4gVGhleSB1c2UgMyBkaWZmZXJlbnQgZG9zZXMgb2YgYXJhY2hpZG9uaWMgYWNpZDogbG93ICgxMCB1bml0cyksIG1lZGl1bSAoMjUgdW5pdHMpIGFuZCBoaWdoIGRvc2UgKDUwIHVuaXRzKSBhbmQgbWVhc3VyZSB0aGUgcHJvc3RhY3ljbGluZSBsZXZlbHMgaW4gYmxvb2QgcGxhc21hIHVzaW5nIGFuIGVsaXNhIGZsdW9yZXNjZW5jZSBtZWFzdXJlbWVudC4gVHJlYXRtZW50cyBhcmUgcmFuZG9tbHkgYXNzaWduZWQgdG8gcmF0cyBhbmQgZXZlcnkgcmF0IG9yaWdpbmF0ZXMgZnJvbSBhIGRpZmZlcmVudCBsaXR0ZXIgYW5kIGlzIGdyb3duIGluIGEgc2VwYXJhdGUgY2FnZS4gCgpgYGB7cn0KbGlicmFyeSgidGlkeXZlcnNlIikKYGBgCgojIEV4cGVyaW1lbnRhbCBkZXNpZ24gCgotIFRoZXJlIGlzIG9uZSBleHBsYW5hdG9yeSB2YXJpYWJsZTogdGhlIGZhY3RvciBkb3NlCi0gVGhlcmUgYXJlIHRocmVlIHRyZWF0bWVudHM6IGxvdywgbWVkaXVtIGFuZCBoaWdoIGRvc2Ugb2YgYXJhY2hpZG9uaWMgYWNpZAotIFRoZSBlZmZlY3Qgb2YgdGhlIHRyZWF0bWVudHMgaXMgYXNzZXNzZWQgb24gdGhlIHJlc3BvbnNlIHZhcmlhYmxlIHByb3N0YWN5Y2xpbiBsZXZlbCBpbiBibG9vZCBwbGFzbWEKLSBUaGUgcmF0cyBhcmUgdGhlIGV4cGVyaW1lbnRhbCBhbmQgb2JzZXJ2YXRpb25hbCB1bml0cwotIFRoZSBleHBlcmltZW50IGlzIGEgY29tcGxldGVseSByYW5kb21pemVkIGRlc2lnbiAoQ1JEKQotIFJlc2VhcmNoZXJzIGFyZSBpbnRlcmVzdGVkIHRvIGFzc2VzcyBpZiB0aGVyZSBpcyBhbiBlZmZlY3Qgb2YgdGhlIGFyYWNoaWRvbmljIGFjaWQgZG9zZSBvbiB0aGUgcHJvc3RhY3ljbGluIGxldmVsIGFuZCB3aGVuIHRoZXJlIGlzIGFuIGVmZmVjdCwgdGhleSB3YW50IHRvIGFzc3Nlc3MgZm9yIHdoaWNoIGRvc2UgbGV2ZWxzIHNpZ25pZmljYW50bHkgZGlmZmVyZW50IGVmZmVjdHMgb2NjdXIuIAoKIyBEYXRhCgpUaGUgZGF0YSBjYW4gYmUgZm91bmQgaW4gYSB0YWJsZSBvZiBWb29yYmVlbGQgNS4yMyBpbiB0aGUgYmFjaGVsb3IgY291cnMgb2Ygc3RhdGlzdGljcy4KCmBgYHtyfQpwcm9zdGFjeWNsaW4gPC0gZGF0YS5mcmFtZSgKCXByb3N0YWM9YygxOS4yLCAxMC44LCAzMy42LCAxMS45LCAxNS45LCAzMy4zLCA4MS4xLCAzNi43LCA1OC4wLCA2MC44LCA1MC42LCA2OS40LCAzMC44LCAyNy42LCAxMy4yLCAzOC44LCAzNy4wLCAzOC4zLCA2NS4yLCA2Ni40LCA2My4yLCA0OS45LCA4OS41LCA2MC41LCAxMDIuOSwgNTcuMSwgNzYuNywgNzAuNSwgNjYuNCwgNzYuMywgODMuMSwgNjEuNywgMTAxLjUsIDg2LjIsIDExNS45LCAxMDIuMSksCglkb3NlPWZhY3RvcihjKHJlcCgxMCwxMikscmVwKDI1LDEyKSxyZXAoNTAsMTIpKSkpCmBgYAogICAKIyBBbmFseXNpcwoKT25lLXdheSBhbm92YSB0byBhc3Nlc3MgaWYgdGhlcmUgaXMgYW4gZWZmZWN0IG9mIHRoZSB0cmVhdG1lbnQuIFR1a2V5IHBvc3QtaG9jIHRlc3QgdG8gYXNzZXNzIHBhaXJ3aXNlIGRpZmZlcmVuY2VzIGJldHdlZW4gdGhlIHRyZWF0bWVudC4gCgojIyBPbmUtd2F5IGFub3ZhIAoKIyMjIERhdGEgZXhwbG9yYXRpb24KCmBgYHtyfQpwcm9zdGFjeWNsaW4gJT4lCiAgZ2dwbG90KGFlcyh4PWRvc2UsIHk9cHJvc3RhYykpICsKICBnZW9tX2JveHBsb3Qob3V0bGllci5zaGFwZSA9IE5BKSArCiAgZ2VvbV9wb2ludChwb3NpdGlvbiA9ICJqaXR0ZXIiKQoKcHJvc3RhY3ljbGluICU+JQogIGdncGxvdChhZXMoc2FtcGxlPXByb3N0YWMpKSArCiAgZ2VvbV9xcSgpICsKICBnZW9tX3FxX2xpbmUoKSArCiAgZmFjZXRfZ3JpZChjb2xzID0gdmFycyhkb3NlKSkKYGBgCgotIFRoZSBib3hwbG90cyBzaG93IHRoYXQgdGhlIGRhdGEgYXJlIGhvbW9zY2VkYXN0aWMKLSBUaGUgcXEtcGxvdCBzaG93IG5vIHNldmVyZSBkZXZpYXRpb25zIGZyb20gbm9ybWFsaXR5CgojIyMgQW5vdmEgCgotIEgwOiBPbiBhdmVyYWdlIHRoZXJlIGlzIG5vIGVmZmVjdCBvZiB0aGUgYXJhY2hpZG9uaWMgYWNpZCB0cmVhdG1lbnQgb24gdGhlIHByb3N0YWN5Y2xpbiBsZXZlbCBpbiBibG9vZCBzZXJ1bSBvZiByYXRzCi0gSDE6IFRoZSBhdmVyYWdlIHByb3N0YWN5Y2xpbiBsZXZlbCBpbiBibG9vZCBzZXJ1bSBvZiByYXRzIGlzIGRpZmZlcmVudCBmb3IgYXQgbGVhc3QgdHdvIGFyYWNoaWRvbmljIGRvc2UgbGV2ZWxzCgpgYGB7cn0KbGlicmFyeShjYXIpCmxpYnJhcnkobXVsdGNvbXApCmxtMSA8LSBsbShwcm9zdGFjfmRvc2UsZGF0YT1wcm9zdGFjeWNsaW4pCkFub3ZhKGxtMSx0eXBlPTMpCmBgYApUaGVyZSBpcyBhbiBleHRyZW1lbHkgc2lnbmlmaWNhbnQgZWZmZWN0IG9mIGFyYWNoaWRvbmljIGFjaWQgb24gdGhlIGF2ZXJhZ2UgcHJvc3RhY3ljbGluIGJsb29kIGNvbmNlbnRyYXRpb24gaW4gcmF0cyAocDwwLjAwMSkuCgojIyNQb3N0LWhvYwoKYGBge3J9CnR1a2V5IDwtIGdsaHQobG0xLGxpbmZjdD1tY3AoZG9zZT0iVHVrZXkiKSkKc3VtbWFyeSh0dWtleSkKY29uZmludCh0dWtleSkKYGBgCgpUaGUgYXZlcmFnZSBwcm9zdGFjeWNsaW4gY29uY2VudHJhdGlvbiBpcyBoaWdoZXIgaW4gdGhlIGhpZ2ggZG9zZSBncm91cCB0aGFuIGluIHRoZSBsb3cgYW5kIG1vZGVyYXRlIGRvc2UgZ3JvdXAgKGJvdGggcC12YWx1ZXMgYXJlIHNtYWxsZXIgdGhhbiBwPDAuMDAxKS4KVGhlIGF2ZXJhZ2UgY29uY2VudHJhdGlvbiBpbiB0aGUgaGlnaCBkb3NlIGdyb3VwIGlzIGByIHJvdW5kKHN1bW1hcnkodHVrZXkpJHRlc3QkY29lZlsyXSwxKWAgbmcvbWwgKDk1JSBDSSBbYHIgcm91bmQoY29uZmludCh0dWtleSkkY29uZmludFsyLGMoImx3ciIsInVwciIpXSwxKWBdKSBhbmQgYHIgcm91bmQoc3VtbWFyeSh0dWtleSkkdGVzdCRjb2VmWzNdLDEpYCBuZy9tbCAoOTUlIENJIFtgciByb3VuZChjb25maW50KHR1a2V5KSRjb25maW50WzMsYygibHdyIiwidXByIildLDEpYF0pIGhpZ2hlciB0aGFuIGluIHRoZSBsb3cgYW5kIG1vZGVyYXRlIGRvc2UgZ3JvdXAsIHJlc3BlY3RpdmVseSAoYm90aCBwPDAuMDAxKS4KVGhlIGRpZmZlcmVuY2UgaW4gYXZlcmFnZSBwcm9zdGFjeWNsaW4gY29uY2VudHJhdGlvbiBiZXR3ZWVuIHRoZSBtb2RlcmF0ZSBhbmQgbG93IGRvc2UgZ3JvdXAgaXMgbm90IHNpZ25pZmljYW50IChwPWByIHJvdW5kKHN1bW1hcnkodHVrZXkpJHRlc3QkcHZhbHVlc1sxXSwyKWAsIDk1JSBDSSBvbiBhdmVyYWdlIGRpZmZlcmVuY2UgW2ByIHJvdW5kKGNvbmZpbnQodHVrZXkpJGNvbmZpbnRbMSxjKCJsd3IiLCJ1cHIiKV0sMSlgXSBuZy9tbCkuCgojIENvbmNsdXNpb24KVGhlcmUgaXMgYW4gZXh0cmVtZWx5IHNpZ25pZmljYW50IGVmZmVjdCBvZiBhcmFjaGlkb25pYyBhY2lkIG9uIHRoZSBhdmVyYWdlIHByb3N0YWN5Y2xpbiBibG9vZCBjb25jZW50cmF0aW9uIGluIHJhdHMgKHA8MC4wMDEpLiAKVGhlIGF2ZXJhZ2UgY29uY2VudHJhdGlvbiBpbiB0aGUgaGlnaCBkb3NlIGdyb3VwIGlzIGByIHJvdW5kKHN1bW1hcnkodHVrZXkpJHRlc3QkY29lZlsyXSwxKWAgbmcvbWwgKDk1JSBDSSBbYHIgcm91bmQoY29uZmludCh0dWtleSkkY29uZmludFsyLGMoImx3ciIsInVwciIpXSwxKWBdKSBhbmQgYHIgcm91bmQoc3VtbWFyeSh0dWtleSkkdGVzdCRjb2VmWzNdLDEpYCBuZy9tbCAoOTUlIENJIFtgciByb3VuZChjb25maW50KHR1a2V5KSRjb25maW50WzMsYygibHdyIiwidXByIildLDEpYF0pIGhpZ2hlciB0aGFuIGluIHRoZSBsb3cgYW5kIG1vZGVyYXRlIGRvc2UgZ3JvdXAsIHJlc3BlY3RpdmVseSAoYm90aCBwPDAuMDAxKS4KVGhlIGRpZmZlcmVuY2UgaW4gYXZlcmFnZSBwcm9zdGFjeWNsaW4gY29uY2VudHJhdGlvbiBiZXR3ZWVuIHRoZSBtb2RlcmF0ZSBhbmQgbG93IGRvc2UgZ3JvdXAgaXMgbm90IHNpZ25pZmljYW50IChwPWByIHJvdW5kKHN1bW1hcnkodHVrZXkpJHRlc3QkcHZhbHVlc1sxXSwyKWAsIDk1JSBDSSBvbiBhdmVyYWdlIGRpZmZlcmVuY2UgW2ByIHJvdW5kKGNvbmZpbnQodHVrZXkpJGNvbmZpbnRbMSxjKCJsd3IiLCJ1cHIiKV0sMSlgXSBuZy9tbCkuCgo=</div>
+<div class="footer">
+    <hr>
+    This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
+    CC BY-NC-SA 4.0</a> licence.
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("07_prostacyclin_example.Rmd");
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
