@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Lieven Clement and Jeroen Gilis" />
+<meta name="author" content="Lieven Clement, Jeroen Gilis and Milan Malfait" />
 
 
 <title>Exercise 8.5: Blocking on the rat diet dataset - solution</title>
@@ -550,7 +550,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Exercise 8.5: Blocking on the rat diet dataset - solution</h1>
-<h4 class="author">Lieven Clement and Jeroen Gilis</h4>
+<h4 class="author">Lieven Clement, Jeroen Gilis and Milan Malfait</h4>
 <h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
 
 </div>
@@ -590,12 +590,26 @@ div.tocify {
 <div id="tidy-data" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Tidy data</h1>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>diet <span class="ot">&lt;-</span> diet <span class="sc">%&gt;%</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">block =</span> <span class="fu">as.factor</span>(block),</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">protSource =</span> <span class="fu">as.factor</span>(protSource),</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">protLevel =</span> <span class="fu">as.factor</span>(protLevel)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">protLevel =</span> <span class="fu">fct_relevel</span>(protLevel, <span class="st">&quot;l&quot;</span>))</span></code></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Convert categorical levels to factors</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">block =</span> <span class="fu">as.factor</span>(block),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">protSource =</span> <span class="fu">as.factor</span>(protSource),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">protLevel =</span> <span class="fu">as.factor</span>(protLevel)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Recode factors to make them more verbose</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">protLevel =</span> <span class="fu">fct_recode</span>(protLevel, <span class="at">high =</span> <span class="st">&quot;h&quot;</span>, <span class="at">low =</span> <span class="st">&quot;l&quot;</span>),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">protSource =</span> <span class="fu">fct_recode</span>(protSource, <span class="at">beef =</span> <span class="st">&quot;b&quot;</span>, <span class="at">cereal =</span> <span class="st">&quot;c&quot;</span>, <span class="at">pork =</span> <span class="st">&quot;p&quot;</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Set &quot;low&quot; as the reference level for `protLevel`</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">protLevel =</span> <span class="fu">fct_relevel</span>(protLevel, <span class="st">&quot;low&quot;</span>))</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(diet)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["weightGain"],"name":[1],"type":["int"],"align":["right"]},{"label":["protSource"],"name":[2],"type":["fct"],"align":["left"]},{"label":["protLevel"],"name":[3],"type":["fct"],"align":["left"]},{"label":["block"],"name":[4],"type":["fct"],"align":["left"]}],"data":[{"1":"107","2":"beef","3":"high","4":"1","_rn_":"1"},{"1":"96","2":"cereal","3":"high","4":"1","_rn_":"2"},{"1":"112","2":"pork","3":"high","4":"1","_rn_":"3"},{"1":"83","2":"beef","3":"low","4":"1","_rn_":"4"},{"1":"87","2":"cereal","3":"low","4":"1","_rn_":"5"},{"1":"90","2":"pork","3":"low","4":"1","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 <div id="data-exploration" class="section level1" number="5">
 <h1><span class="header-section-number">5</span> Data exploration</h1>
@@ -609,23 +623,26 @@ div.tocify {
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">color =</span> block)) <span class="sc">+</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Weight gain dependence on protein source&quot;</span>) <span class="sc">+</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Weigth gain (g)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># stat_summary(fun = mean, geom=&quot;point&quot;, shape=5, size=3, color=&quot;black&quot;, fill=&quot;black&quot;) +</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(. <span class="sc">~</span> protSource)</span></code></pre></div>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Protein level&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Weight gain (g)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">fun =</span> mean, <span class="at">geom=</span><span class="st">&quot;point&quot;</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape=</span><span class="dv">5</span>, <span class="at">size=</span><span class="dv">3</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(protSource))</span></code></pre></div>
 <p><img src="08_5_rats_sol_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <ul>
 <li>Lineplot of the weight gain against protein source, protein level with coloring and grouping according to block</li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>diet <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> protSource<span class="sc">:</span>protLevel, <span class="at">y =</span> weightGain)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> protLevel, <span class="at">y =</span> weightGain, <span class="at">color =</span> block)) <span class="sc">+</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;RdGy&quot;</span>) <span class="sc">+</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> block, <span class="at">color =</span> block)) <span class="sc">+</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> block)) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> block)) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Weight gain dependence on protein source&quot;</span>) <span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Weigth gain (g)&quot;</span>)</span></code></pre></div>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Weight gain (g)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(protSource))</span></code></pre></div>
 <p><img src="08_5_rats_sol_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># stat_summary(fun = mean, geom=&quot;point&quot;, shape=5, size=3, color=&quot;black&quot;, fill=&quot;black&quot;)</span></span></code></pre></div>
 <ul>
 <li><p>An increase in the weight of the rats seems to depend on the protein source received in the diet.</p></li>
 <li><p>The increase in the weight of the rats seems to depend on the level of protein received in the diet</p></li>
@@ -635,7 +652,7 @@ div.tocify {
 </div>
 <div id="filter-the-data-to-only-use-the-beef-and-cereal-diet" class="section level1" number="6">
 <h1><span class="header-section-number">6</span> Filter the data to only use the beef and cereal diet</h1>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>diet.bc <span class="ot">&lt;-</span> diet <span class="sc">%&gt;%</span> <span class="fu">filter</span>(protSource <span class="sc">!=</span> <span class="st">&quot;p&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>diet_bc <span class="ot">&lt;-</span> diet <span class="sc">%&gt;%</span> <span class="fu">filter</span>(protSource <span class="sc">!=</span> <span class="st">&quot;pork&quot;</span>)</span></code></pre></div>
 </div>
 <div id="multivariate-linear-regression-analysis" class="section level1" number="7">
 <h1><span class="header-section-number">7</span> Multivariate linear regression analysis</h1>
@@ -649,38 +666,52 @@ div.tocify {
 <li>Homoscedasticity of the data</li>
 </ol>
 <p>The first assumption is met if we correct for block in the model because the rats were randomized to the treatment within block. The other three assumptions can be assessed by fitting the linear model and calling the <code>plot()</code> function as follows.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(weightGain <span class="sc">~</span> block <span class="sc">+</span> protSource <span class="sc">*</span> protLevel, <span class="at">data =</span> diet.bc)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lm1)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(weightGain <span class="sc">~</span> block <span class="sc">+</span> protSource <span class="sc">*</span> protLevel, <span class="at">data =</span> diet_bc)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lm1)</span></code></pre></div>
 <p><img src="08_5_rats_sol_files/figure-html/unnamed-chunk-7-1.png" width="672" /><img src="08_5_rats_sol_files/figure-html/unnamed-chunk-7-2.png" width="672" /><img src="08_5_rats_sol_files/figure-html/unnamed-chunk-7-3.png" width="672" /><img src="08_5_rats_sol_files/figure-html/unnamed-chunk-7-4.png" width="672" /></p>
 <p>All assumptions are met for this dataset.</p>
 </div>
 <div id="hypothesis-testing" class="section level2" number="7.2">
 <h2><span class="header-section-number">7.2</span> Hypothesis testing</h2>
 <p>We here fit a linear model with a blocking factor for <code>block</code> and main and interaction effects for protein source and protein level.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm1)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm1)</span></code></pre></div>
 <pre><code>## 
 ## Call:
-## lm(formula = weightGain ~ block + protSource * protLevel, data = diet.bc)
+## lm(formula = weightGain ~ block + protSource * protLevel, data = diet_bc)
 ## 
 ## Residuals:
 ##    Min     1Q Median     3Q    Max 
 ## -21.00  -6.25  -1.25   6.50  17.50 
 ## 
 ## Coefficients:
-##                        Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)              87.250      5.506  15.846 3.39e-15 ***
-## block2                  -11.750      6.830  -1.720 0.096797 .  
-## block3                   -3.750      6.830  -0.549 0.587467    
-## block4                  -19.000      6.830  -2.782 0.009735 ** 
-## block5                   -9.000      6.830  -1.318 0.198650    
-## block6                    3.250      6.830   0.476 0.637999    
-## block7                  -30.250      6.830  -4.429 0.000141 ***
-## block8                   -8.250      6.830  -1.208 0.237536    
-## block9                  -16.750      6.830  -2.453 0.020933 *  
-## block10                   2.000      6.830   0.293 0.771883    
-## protSourcec               1.100      4.319   0.255 0.800914    
-## protLevelh               20.000      4.319   4.630 8.23e-05 ***
-## protSourcec:protLevelh  -18.200      6.109  -2.979 0.006043 ** 
+##                                Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)                      87.250      5.506  15.846 3.39e-15
+## block2                          -11.750      6.830  -1.720 0.096797
+## block3                           -3.750      6.830  -0.549 0.587467
+## block4                          -19.000      6.830  -2.782 0.009735
+## block5                           -9.000      6.830  -1.318 0.198650
+## block6                            3.250      6.830   0.476 0.637999
+## block7                          -30.250      6.830  -4.429 0.000141
+## block8                           -8.250      6.830  -1.208 0.237536
+## block9                          -16.750      6.830  -2.453 0.020933
+## block10                           2.000      6.830   0.293 0.771883
+## protSourcecereal                  1.100      4.319   0.255 0.800914
+## protLevelhigh                    20.000      4.319   4.630 8.23e-05
+## protSourcecereal:protLevelhigh  -18.200      6.109  -2.979 0.006043
+##                                   
+## (Intercept)                    ***
+## block2                         .  
+## block3                            
+## block4                         ** 
+## block5                            
+## block6                            
+## block7                         ***
+## block8                            
+## block9                         *  
+## block10                           
+## protSourcecereal                  
+## protLevelhigh                  ***
+## protSourcecereal:protLevelhigh ** 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -690,8 +721,7 @@ div.tocify {
 </div>
 <div id="interpretation-of-the-regression-parameters" class="section level2" number="7.3">
 <h2><span class="header-section-number">7.3</span> Interpretation of the regression parameters</h2>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ExploreModelMatrix)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>ExploreModelMatrix<span class="sc">::</span><span class="fu">VisualizeDesign</span>(diet.bc, <span class="sc">~</span> block <span class="sc">+</span> protSource <span class="sc">*</span> protLevel)<span class="sc">$</span>plotlist</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ExploreModelMatrix<span class="sc">::</span><span class="fu">VisualizeDesign</span>(diet_bc, <span class="sc">~</span> block <span class="sc">+</span> protSource <span class="sc">*</span> protLevel)<span class="sc">$</span>plotlist</span></code></pre></div>
 <pre><code>## $`block = 1`</code></pre>
 <p><img src="08_5_rats_sol_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <pre><code>## 
@@ -742,8 +772,8 @@ div.tocify {
 <div id="testing-the-overall-combined-effect-of-diet" class="section level2" number="7.4">
 <h2><span class="header-section-number">7.4</span> Testing the overall (combined) effect of diet</h2>
 <p>Because there are multiple factors with different levels in the model, we can first assess the effect of the diet (protein Level, protein source and the interaction) by using anova. With this test we will assess the null hypothesis that the average weight gain in each treatment is equal: i.e. <span class="math inline">\(H_0: \mu_{b,l}=\mu_{b,h}=\mu_{c,h}=\mu_{c,l}\)</span> versus the alternative hyptohesis <span class="math inline">\(H_1:\)</span> that at least two treatment means are different.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>lm0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(weightGain <span class="sc">~</span> block, <span class="at">data =</span> diet.bc)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(lm0, lm1)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>lm0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(weightGain <span class="sc">~</span> block, <span class="at">data =</span> diet_bc)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(lm0, lm1)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"30","2":"5175.0","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"27","2":"2518.8","3":"3","4":"2656.2","5":"9.490948","6":"0.0001890084","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -753,38 +783,52 @@ div.tocify {
 </div>
 <div id="assessing-the-interaction-effect-between-protein-source-and-protein-level" class="section level2" number="7.5">
 <h2><span class="header-section-number">7.5</span> Assessing the interaction effect between protein source and protein level</h2>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm1)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm1)</span></code></pre></div>
 <pre><code>## 
 ## Call:
-## lm(formula = weightGain ~ block + protSource * protLevel, data = diet.bc)
+## lm(formula = weightGain ~ block + protSource * protLevel, data = diet_bc)
 ## 
 ## Residuals:
 ##    Min     1Q Median     3Q    Max 
 ## -21.00  -6.25  -1.25   6.50  17.50 
 ## 
 ## Coefficients:
-##                        Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)              87.250      5.506  15.846 3.39e-15 ***
-## block2                  -11.750      6.830  -1.720 0.096797 .  
-## block3                   -3.750      6.830  -0.549 0.587467    
-## block4                  -19.000      6.830  -2.782 0.009735 ** 
-## block5                   -9.000      6.830  -1.318 0.198650    
-## block6                    3.250      6.830   0.476 0.637999    
-## block7                  -30.250      6.830  -4.429 0.000141 ***
-## block8                   -8.250      6.830  -1.208 0.237536    
-## block9                  -16.750      6.830  -2.453 0.020933 *  
-## block10                   2.000      6.830   0.293 0.771883    
-## protSourcec               1.100      4.319   0.255 0.800914    
-## protLevelh               20.000      4.319   4.630 8.23e-05 ***
-## protSourcec:protLevelh  -18.200      6.109  -2.979 0.006043 ** 
+##                                Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)                      87.250      5.506  15.846 3.39e-15
+## block2                          -11.750      6.830  -1.720 0.096797
+## block3                           -3.750      6.830  -0.549 0.587467
+## block4                          -19.000      6.830  -2.782 0.009735
+## block5                           -9.000      6.830  -1.318 0.198650
+## block6                            3.250      6.830   0.476 0.637999
+## block7                          -30.250      6.830  -4.429 0.000141
+## block8                           -8.250      6.830  -1.208 0.237536
+## block9                          -16.750      6.830  -2.453 0.020933
+## block10                           2.000      6.830   0.293 0.771883
+## protSourcecereal                  1.100      4.319   0.255 0.800914
+## protLevelhigh                    20.000      4.319   4.630 8.23e-05
+## protSourcecereal:protLevelhigh  -18.200      6.109  -2.979 0.006043
+##                                   
+## (Intercept)                    ***
+## block2                         .  
+## block3                            
+## block4                         ** 
+## block5                            
+## block6                            
+## block7                         ***
+## block8                            
+## block9                         *  
+## block10                           
+## protSourcecereal                  
+## protLevelhigh                  ***
+## protSourcecereal:protLevelhigh ** 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 9.659 on 27 degrees of freedom
 ## Multiple R-squared:  0.7252, Adjusted R-squared:  0.6031 
 ## F-statistic: 5.939 on 12 and 27 DF,  p-value: 6.122e-05</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(lm1, <span class="at">type =</span> <span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(lm1, <span class="at">type =</span> <span class="st">&quot;III&quot;</span>)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"23423.27","2":"1","3":"251.08316231","4":"3.387443e-15","_rn_":"(Intercept)"},{"1":"3992.60","2":"9","3":"4.75535970","4":"7.545657e-04","_rn_":"block"},{"1":"6.05","2":"1","3":"0.06485231","4":"8.009145e-01","_rn_":"protSource"},{"1":"2000.00","2":"1","3":"21.43878037","4":"8.227801e-05","_rn_":"protLevel"},{"1":"828.10","2":"1","3":"8.87672701","4":"6.043197e-03","_rn_":"protSource:protLevel"},{"1":"2518.80","2":"27","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -812,58 +856,82 @@ div.tocify {
 </ol>
 <p>These effects of interest are so-called <strong>contrasts, i.e. linear combinations of the parameters</strong>.</p>
 <p>We can define the contrasts and assess the significance of the contrasts with the code below. The contrasts are given as input in the form of symbolic descriptions to the <code>linfct</code> argument of the <code>glht</code> function.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">75468</span>) <span class="co"># to get reproducible results (small effect if removed)</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>lm1MultComp <span class="ot">&lt;-</span> <span class="fu">glht</span>(</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm1,</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">linfct =</span> <span class="fu">c</span>(</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcec = 0&quot;</span>,</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcec + protSourcec:protLevelh = 0&quot;</span>,</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protLevelh = 0&quot;</span>,</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protLevelh +  protSourcec:protLevelh = 0&quot;</span>,</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcec:protLevelh = 0&quot;</span></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm1MultComp)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">75468</span>) <span class="co"># to get reproducible results (small effect if removed)</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>lm1MultComp <span class="ot">&lt;-</span> <span class="fu">glht</span>(</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm1,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">linfct =</span> <span class="fu">c</span>(</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcecereal = 0&quot;</span>,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcecereal + protSourcecereal:protLevelhigh = 0&quot;</span>,</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protLevelhigh = 0&quot;</span>,</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protLevelhigh +  protSourcecereal:protLevelhigh = 0&quot;</span>,</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcecereal:protLevelhigh = 0&quot;</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm1MultComp)</span></code></pre></div>
 <pre><code>## 
 ##   Simultaneous Tests for General Linear Hypotheses
 ## 
-## Fit: lm(formula = weightGain ~ block + protSource * protLevel, data = diet.bc)
+## Fit: lm(formula = weightGain ~ block + protSource * protLevel, data = diet_bc)
 ## 
 ## Linear Hypotheses:
-##                                           Estimate Std. Error t value
-## protSourcec == 0                             1.100      4.319   0.255
-## protSourcec + protSourcec:protLevelh == 0  -17.100      4.319  -3.959
-## protLevelh == 0                             20.000      4.319   4.630
-## protLevelh + protSourcec:protLevelh == 0     1.800      4.319   0.417
-## protSourcec:protLevelh == 0                -18.200      6.109  -2.979
-##                                           Pr(&gt;|t|)    
-## protSourcec == 0                           0.99235    
-## protSourcec + protSourcec:protLevelh == 0  0.00211 ** 
-## protLevelh == 0                            &lt; 0.001 ***
-## protLevelh + protSourcec:protLevelh == 0   0.96838    
-## protSourcec:protLevelh == 0                0.02351 *  
+##                                                        Estimate
+## protSourcecereal == 0                                     1.100
+## protSourcecereal + protSourcecereal:protLevelhigh == 0  -17.100
+## protLevelhigh == 0                                       20.000
+## protLevelhigh + protSourcecereal:protLevelhigh == 0       1.800
+## protSourcecereal:protLevelhigh == 0                     -18.200
+##                                                        Std. Error
+## protSourcecereal == 0                                       4.319
+## protSourcecereal + protSourcecereal:protLevelhigh == 0      4.319
+## protLevelhigh == 0                                          4.319
+## protLevelhigh + protSourcecereal:protLevelhigh == 0         4.319
+## protSourcecereal:protLevelhigh == 0                         6.109
+##                                                        t value
+## protSourcecereal == 0                                    0.255
+## protSourcecereal + protSourcecereal:protLevelhigh == 0  -3.959
+## protLevelhigh == 0                                       4.630
+## protLevelhigh + protSourcecereal:protLevelhigh == 0      0.417
+## protSourcecereal:protLevelhigh == 0                     -2.979
+##                                                        Pr(&gt;|t|)    
+## protSourcecereal == 0                                   0.99235    
+## protSourcecereal + protSourcecereal:protLevelhigh == 0  0.00211 ** 
+## protLevelhigh == 0                                      &lt; 0.001 ***
+## protLevelhigh + protSourcecereal:protLevelhigh == 0     0.96838    
+## protSourcecereal:protLevelhigh == 0                     0.02351 *  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- single-step method)</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lm1MultComp)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lm1MultComp)</span></code></pre></div>
 <pre><code>## 
 ##   Simultaneous Confidence Intervals
 ## 
-## Fit: lm(formula = weightGain ~ block + protSource * protLevel, data = diet.bc)
+## Fit: lm(formula = weightGain ~ block + protSource * protLevel, data = diet_bc)
 ## 
 ## Quantile = 2.6386
 ## 95% family-wise confidence level
 ##  
 ## 
 ## Linear Hypotheses:
-##                                           Estimate lwr      upr     
-## protSourcec == 0                            1.1000 -10.2975  12.4975
-## protSourcec + protSourcec:protLevelh == 0 -17.1000 -28.4975  -5.7025
-## protLevelh == 0                            20.0000   8.6025  31.3975
-## protLevelh + protSourcec:protLevelh == 0    1.8000  -9.5975  13.1975
-## protSourcec:protLevelh == 0               -18.2000 -34.3185  -2.0815</code></pre>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lm1MultComp)</span></code></pre></div>
+##                                                        Estimate
+## protSourcecereal == 0                                    1.1000
+## protSourcecereal + protSourcecereal:protLevelhigh == 0 -17.1000
+## protLevelhigh == 0                                      20.0000
+## protLevelhigh + protSourcecereal:protLevelhigh == 0      1.8000
+## protSourcecereal:protLevelhigh == 0                    -18.2000
+##                                                        lwr     
+## protSourcecereal == 0                                  -10.2975
+## protSourcecereal + protSourcecereal:protLevelhigh == 0 -28.4975
+## protLevelhigh == 0                                       8.6025
+## protLevelhigh + protSourcecereal:protLevelhigh == 0     -9.5975
+## protSourcecereal:protLevelhigh == 0                    -34.3185
+##                                                        upr     
+## protSourcecereal == 0                                   12.4975
+## protSourcecereal + protSourcecereal:protLevelhigh == 0  -5.7025
+## protLevelhigh == 0                                      31.3975
+## protLevelhigh + protSourcecereal:protLevelhigh == 0     13.1975
+## protSourcecereal:protLevelhigh == 0                     -2.0815</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lm1MultComp)</span></code></pre></div>
 <p><img src="08_5_rats_sol_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>Note that the p-values and the confidence intervals are automatically corrected for multiple testing.</p>
 </div>
@@ -873,14 +941,14 @@ div.tocify {
 <ul>
 <li><p>There is an extremely significant effect of the type of protein diet on the weight gain of rats (p&lt;&lt;1e-3).</p></li>
 <li><p>The average weight gain does not vary significantly according to protein source in the diets with low protein levels (p = 0.99).</p></li>
-<li><p>The weight gain in the cereal diet at high protein concentration is on average 17.1g lower than in the high protein beef diet (95% CI [5.7, 28.5]) and the difference is very significant (p = format(summary(lm1MultComp)<span class="math inline">\(test\)</span>pvalues[names(summary(lm1MultComp)<span class="math inline">\(test\)</span>tstat)==“protSourcec + protSourcec:protLevelh”],digits=1)).</p></li>
+<li><p>The weight gain in the cereal diet at high protein concentration is on average 17.1g lower than in the high protein beef diet (95% CI [5.7, 28.5]) and the difference is very significant (p = format(summary(lm1MultComp)<span class="math inline">\(test\)</span>pvalues[names(summary(lm1MultComp)<span class="math inline">\(test\)</span>tstat)==“protSourcecereal + protSourcecereal:protLevelhigh”],digits=1)).</p></li>
 <li><p>We also discovered an extremely significant difference in weight gain according to the protein level for beef based diets (p&lt;&lt;0.001). The weight gain on average increases with 20g in the high protein level as compared to the low protein beef diet (95%CI [8.6, 31.4]). The protein level effect is not significant for the cereal diet (0.97).</p></li>
 <li><p>Finally there is a significant interaction between protein level and protein source (p = 0.023), i.e. the increase in weight gain due to protein level in beef based diets was 18.2g than that in the cerial diet (95% CI [2.1, 34.3]).</p></li>
 </ul>
 <p>All reported p-values and confidence intervals were corrected for multiple testing</p>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2UgOC41OiBCbG9ja2luZyBvbiB0aGUgcmF0IGRpZXQgZGF0YXNldCAtIHNvbHV0aW9uIgphdXRob3I6ICJMaWV2ZW4gQ2xlbWVudCBhbmQgSmVyb2VuIEdpbGlzIgpkYXRlOiAic3RhdE9taWNzLCBHaGVudCBVbml2ZXJzaXR5IChodHRwczovL3N0YXRvbWljcy5naXRodWIuaW8pIgotLS0KCiMgQmFja2dyb3VuZAoKUmVzZWFyY2hlcnMgYXJlIHN0dWR5aW5nIHRoZSBpbXBhY3Qgb2YgcHJvdGVpbiBzb3VyY2VzIGFuZCBwcm90ZWluIGxldmVscyBpbgp0aGUgZGlldCBvbiB0aGUgd2VpZ2h0IG9mIHJhdHMuIFRoZXkgZmVlZCB0aGUgcmF0cyB3aXRoIGRpZXRzIG9mIGJlZWYsIGNlcmVhbAphbmQgcG9yayBhbmQgdXNlIGEgbG93IGFuZCBoaWdoIHByb3RlaW4gbGV2ZWwgZm9yIGVhY2ggZGlldCB0eXBlLgpUaGUgcmVzZWFyY2hlcnMgY2FuIGluY2x1ZGUgNjAgcmF0cyBpbiB0aGUgZXhwZXJpbWVudC4gUHJpb3IgdG8gdGhlIGV4cGVyaW1lbnQsCnRoZSByYXRzIHdlcmUgZGl2aWRlZCBpbiAxMCBob21vZ2VuZW91cyBncm91cHMgb2YgNiByYXRzIGJhc2VkIG9uCmNoYXJhY3RlcmlzdGljcyBzdWNoIGFzIGluaXRpYWwgd2VpZ2h0LCBhcHBldGl0ZSwgZXRjLgoKV2l0aGluIGVhY2ggZ3JvdXAgYSByYXQgaXMgcmFuZG9tbHkgYXNzaWduZWQgdG8gYSBkaWV0LiBUaGUgcmF0cyBhcmUgZmVkIGR1cmluZwphIG1vbnRoIGFuZCB0aGUgd2VpZ2h0IGdhaW4gaW4gZ3JhbXMgaXMgcmVjb3JkZWQgZm9yIGVhY2ggcmF0LgoKVGhlIHJlc2VhcmNoZXJzIHdhbnQgdG8gYXNzZXNzIHRoZSBlZmZlY3Qgb2YgdGhlIHR5cGUgb2YgZGlldCBhbmQgdGhlIHByb3RlaW4KbGV2ZWwgb24gdGhlIHdlaWdodCBvZiB0aGUgcmF0cy4KCkluIHRoaXMgZXhlcmNpc2Ugd2Ugd2lsbCBwZXJmb3JtIHRoZSBkYXRhIGV4cGxvcmF0aW9uIHVzaW5nIGFsbCBkaWV0cywgYnV0LAp0byBrZWVwIHRoZSBkYXRhIGFuYWx5c2lzIHNpbXBsZSB3ZSB3aWxsIG9ubHkgYXNzZXNzIHRoZSBiZWVmIGFuZCBjZXJlYWwgZGlldHMuCgojIEV4cGVyaW1lbnRhbCBkZXNpZ24KCi0gVGhlcmUgYXJlIHRocmVlIGV4cGxhbmF0b3J5IHZhcmlhYmxlcyBpbiB0aGUgZXhwZXJpbWVudDogdGhlIGZhY3RvciBkaWV0IHR5cGUKd2l0aCB0d28gbGV2ZWxzIChiZWVmIGFuZCBjZXJlYWwpLCBmYWN0b3IgcHJvdGVpbiBsZXZlbCB3aXRoIGxldmVscwoobG93IGFuZCBoaWdoKSBhbmQgYSBncm91cCBibG9ja2luZyBmYWN0b3Igd2l0aCAxMCBsZXZlbHMuCgotIFRoZXJlIGFyZSA2IHRyZWF0bWVudHM6IGJlZWYtaGlnaCwgY2VyZWFsLWhpZ2gsIHBvcmstaGlnaCwgYmVlZi1sb3csCmNlcmVhbC1sb3csIHBvcmstbG93IHByb3RlaW4uCgotIFRoZSByYXRzIGFyZSB0aGUgZXhwZXJpbWVudGFsIGFuZCBvYnNlcnZhdGlvbmFsIHVuaXRzLgoKLSBUaGUgd2VpZ2h0IGdhaW4gaXMgdGhlIHJlc3BvbnNlIHZhcmlhYmxlLgoKLSBUaGUgZXhwZXJpbWVudCBpcyBhIHJhbmRvbWl6ZWQgY29tcGxldGUgYmxvY2sgKFJDQikgZGVzaWduCgpMb2FkIGxpYnJhcmllcwoKYGBge3IsIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9CmxpYnJhcnkodGlkeXZlcnNlKQpgYGAKCiMgRGF0YSBpbXBvcnQKCmBgYHtyfQpkaWV0IDwtIHJlYWQudGFibGUoImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9zdGF0T21pY3MvUFNMUzIxL2RhdGEvZGlldFJhdHMudHh0IiwKICBoZWFkZXIgPSBUUlVFCikKaGVhZChkaWV0KQpgYGAKCiMgVGlkeSBkYXRhCgpgYGB7cn0KZGlldCA8LSBkaWV0ICU+JQogIG11dGF0ZSgKICAgIGJsb2NrID0gYXMuZmFjdG9yKGJsb2NrKSwKICAgIHByb3RTb3VyY2UgPSBhcy5mYWN0b3IocHJvdFNvdXJjZSksCiAgICBwcm90TGV2ZWwgPSBhcy5mYWN0b3IocHJvdExldmVsKQogICkgJT4lCiAgbXV0YXRlKHByb3RMZXZlbCA9IGZjdF9yZWxldmVsKHByb3RMZXZlbCwgImwiKSkKYGBgCgojIERhdGEgZXhwbG9yYXRpb24KCi0gQm94cGxvdCBvZiB0aGUgd2VpZ2h0IGdhaW4gYWdhaW5zdCBwcm90ZWluIHNvdXJjZSwgcHJvdGVpbiBsZXZlbCB3aXRoIGNvbG9yaW5nIGFjY29yZGluZyB0byBibG9jawoKYGBge3J9CmRpZXQgJT4lCiAgZ2dwbG90KGFlcyh4ID0gcHJvdExldmVsLCB5ID0gd2VpZ2h0R2FpbikpICsKICBzY2FsZV9maWxsX2JyZXdlcihwYWxldHRlID0gIlJkR3kiKSArCiAgdGhlbWVfYncoKSArCiAgZ2VvbV9ib3hwbG90KG91dGxpZXIuc2hhcGUgPSBOQSkgKwogIGdlb21faml0dGVyKGFlcyhjb2xvciA9IGJsb2NrKSkgKwogIGdndGl0bGUoIldlaWdodCBnYWluIGRlcGVuZGVuY2Ugb24gcHJvdGVpbiBzb3VyY2UiKSArCiAgeWxhYigiV2VpZ3RoIGdhaW4gKGcpIikgKwogICMgc3RhdF9zdW1tYXJ5KGZ1biA9IG1lYW4sIGdlb209InBvaW50Iiwgc2hhcGU9NSwgc2l6ZT0zLCBjb2xvcj0iYmxhY2siLCBmaWxsPSJibGFjayIpICsKICBmYWNldF93cmFwKC4gfiBwcm90U291cmNlKQpgYGAKCi0gTGluZXBsb3Qgb2YgdGhlIHdlaWdodCBnYWluIGFnYWluc3QgcHJvdGVpbiBzb3VyY2UsIHByb3RlaW4gbGV2ZWwgd2l0aCBjb2xvcmluZyBhbmQgZ3JvdXBpbmcgYWNjb3JkaW5nIHRvIGJsb2NrCgpgYGB7cn0KZGlldCAlPiUKICBnZ3Bsb3QoYWVzKHggPSBwcm90U291cmNlOnByb3RMZXZlbCwgeSA9IHdlaWdodEdhaW4pKSArCiAgc2NhbGVfZmlsbF9icmV3ZXIocGFsZXR0ZSA9ICJSZEd5IikgKwogIHRoZW1lX2J3KCkgKwogIGdlb21fbGluZShhZXMoZ3JvdXAgPSBibG9jaywgY29sb3IgPSBibG9jaykpICsKICBnZW9tX3BvaW50KGFlcyhjb2xvciA9IGJsb2NrKSkgKwogIGdndGl0bGUoIldlaWdodCBnYWluIGRlcGVuZGVuY2Ugb24gcHJvdGVpbiBzb3VyY2UiKSArCiAgeWxhYigiV2VpZ3RoIGdhaW4gKGcpIikKIyBzdGF0X3N1bW1hcnkoZnVuID0gbWVhbiwgZ2VvbT0icG9pbnQiLCBzaGFwZT01LCBzaXplPTMsIGNvbG9yPSJibGFjayIsIGZpbGw9ImJsYWNrIikKYGBgCgotIEFuIGluY3JlYXNlIGluIHRoZSB3ZWlnaHQgb2YgdGhlIHJhdHMgc2VlbXMgdG8gZGVwZW5kIG9uIHRoZSBwcm90ZWluIHNvdXJjZQpyZWNlaXZlZCBpbiB0aGUgZGlldC4KCi0gVGhlIGluY3JlYXNlIGluIHRoZSB3ZWlnaHQgb2YgdGhlIHJhdHMgc2VlbXMgdG8gZGVwZW5kIG9uIHRoZSBsZXZlbCBvZiBwcm90ZWluCnJlY2VpdmVkIGluIHRoZSBkaWV0CgotIFRoZXJlIGFsc28gc2VlbXMgdG8gYmUgYW4gaW50ZXJhY3Rpb24gZWZmZWN0IGJldHdlZW4gdGhlIHByb3RlaW4gbGV2ZWwgYW5kIHRoZQpwcm90ZWluIHNvdXJjZSBvbiB0aGUgZ2FpbiBpbiB3ZWlnaHQgb2YgdGhlIHJhdHMuIEZvciB0aGUgYmVlZiBhbmQgdGhlIHBvcmsKZGlldHMgdGhlIGVmZmVjdCBvZiBoaWdoIHByb3RlaW4gbGV2ZWxzIGluIHRoZSBkYXRhIHNlZW1zIHRvIGJlIG11Y2ggc3Ryb25nZXIKdGhhbiBpbiB0aGUgY2VyZWFsIGRpZXQuCgotIFRoZXJlIGlzIGFsc28gYSBzdHJvbmcgZWZmZWN0IG9mIHRoZSBibG9jay4gQmxvY2tpbmcgaW1wbGllcyBhIHJhbmRvbWlzYXRpb24KcmVzdHJpY3Rpb24sIGhlbmNlLCB3ZSB3aWxsIGhhdmUgdG8gaW5jbHVkZSB0aGUgYmxvY2sgZWZmZWN0IGFueXdheS4KCiMgRmlsdGVyIHRoZSBkYXRhIHRvIG9ubHkgdXNlIHRoZSBiZWVmIGFuZCBjZXJlYWwgZGlldAoKYGBge3J9CmRpZXQuYmMgPC0gZGlldCAlPiUgZmlsdGVyKHByb3RTb3VyY2UgIT0gInAiKQpgYGAKCiMgTXVsdGl2YXJpYXRlIGxpbmVhciByZWdyZXNzaW9uIGFuYWx5c2lzCgojIyBBc3N1bXB0aW9ucwoKTGlzdCBhc3N1bXB0aW9uczoKCjEuIFRoZSBvYnNlcnZhdGlvbnMgYXJlIGluZGVwZW5kZW50CjIuIExpbmVhcml0eSBiZXR3ZWVuIHRoZSByZXNwb25zZSBhbmQgcHJlZGljdG9yIHZhcmlhYmxlCjMuIFRoZSByZXNpZHVhbHMgb2YgdGhlIG1vZGVsIG11c3QgYmUgbm9ybWFsbHkgZGlzdHJpYnV0ZWQKNC4gSG9tb3NjZWRhc3RpY2l0eSBvZiB0aGUgZGF0YQoKVGhlIGZpcnN0IGFzc3VtcHRpb24gaXMgbWV0IGlmIHdlIGNvcnJlY3QgZm9yIGJsb2NrIGluIHRoZSBtb2RlbCBiZWNhdXNlIHRoZQpyYXRzIHdlcmUgcmFuZG9taXplZCB0byB0aGUgdHJlYXRtZW50IHdpdGhpbiBibG9jay4gVGhlIG90aGVyIHRocmVlIGFzc3VtcHRpb25zCmNhbiBiZSBhc3Nlc3NlZCBieSBmaXR0aW5nIHRoZSBsaW5lYXIgbW9kZWwgYW5kIGNhbGxpbmcgdGhlIGBwbG90KClgIGZ1bmN0aW9uCmFzIGZvbGxvd3MuCgpgYGB7cn0KbG0xIDwtIGxtKHdlaWdodEdhaW4gfiBibG9jayArIHByb3RTb3VyY2UgKiBwcm90TGV2ZWwsIGRhdGEgPSBkaWV0LmJjKQpwbG90KGxtMSkKYGBgCgpBbGwgYXNzdW1wdGlvbnMgYXJlIG1ldCBmb3IgdGhpcyBkYXRhc2V0LgoKIyMgSHlwb3RoZXNpcyB0ZXN0aW5nCgpXZSBoZXJlIGZpdCBhIGxpbmVhciBtb2RlbCB3aXRoIGEgYmxvY2tpbmcgZmFjdG9yIGZvciBgYmxvY2tgIGFuZCBtYWluIGFuZAppbnRlcmFjdGlvbiBlZmZlY3RzIGZvciBwcm90ZWluIHNvdXJjZSBhbmQgcHJvdGVpbiBsZXZlbC4KCmBgYHtyfQpzdW1tYXJ5KGxtMSkKYGBgCgojIyBJbnRlcnByZXRhdGlvbiBvZiB0aGUgcmVncmVzc2lvbiBwYXJhbWV0ZXJzCgpgYGB7cn0KbGlicmFyeShFeHBsb3JlTW9kZWxNYXRyaXgpCkV4cGxvcmVNb2RlbE1hdHJpeDo6VmlzdWFsaXplRGVzaWduKGRpZXQuYmMsIH4gYmxvY2sgKyBwcm90U291cmNlICogcHJvdExldmVsKSRwbG90bGlzdApgYGAKClRoZXJlIGFyZSAzIGxldmVscyBmb3IgcHJvdGVpbiBzb3VyY2UsIDIgbGV2ZWxzIGZvciBwcm90ZWluIGxldmVsIGFuZCAxMCBsZXZlbHMKZm9yIHRoZSBibG9ja2luZyB2YXJpYWJsZS4gV2Ugd2lsbCBoYXZlIG9uZSByZWZlcmVuY2UgbGV2ZWwgZm9yIGVhY2ggcmVzcGVjdGl2ZQp2YXJpYWJsZTogYmVlZiwgbG93LCBibG9jayAxLiBTbyB3ZSBuZWVkIDIsIDEgYW5kIDkgZHVtbXkgdmFyaWFibGVzIHRvIGludHJvZHVjZQp0aGUgZmFjdG9ycyBwcm90ZWluIHNvdXJjZSwgcHJvdGVpbiBsZXZlbCBhbmQgYmxvY2sgaW4gdGhlIGxpbmVhciBtb2RlbCwKcmVzcGVjdGl2ZWx5LgoKSGVuY2UsIHdlIGNhbiB3cml0ZSBkb3duIHRoZSBsaW5lYXIgbW9kZWwgYXMgZm9sbG93czoKCiR5X2k9XGJldGFfMCtcYmV0YV9jeF97aSxjfSArXGJldGFfaHhfe2ksaH0rXGJldGFfe2NofXhfe2ksY314X3tpLGh9K1xiZXRhX3tiMn14X3tpLGIyfStcbGRvdHMrXGJldGFfe2IxMH14X3tpLGIxMH0rXGVwc2lsb25fe2l9JAoKd2l0aDoKJHlfaSQgdGhlIG9ic2VydmVkIHdlaWdodCBnYWluIGZvciByYXQgaSwKJHhfe2ksaH0kIGEgZHVtbXkgdmFyaWFibGUgd2hpY2ggaXMgMSBpZiByYXQgaSByZWNlaXZlcyBhIGhpZ2ggcHJvdGVpbiBkaWV0CmFuZCBpcyAwIG90aGVyd2lzZSwKJHhfe2ksY30kIGEgZHVtbXkgdmFyaWFibGUgd2hpY2ggaXMgMSBpZiByYXQgaSByZWNlaXZlcyBhIGNlcmVhbCBkaWV0CmFuZCBpcyAwIG90aGVyd2lzZSwKJHhfe2ksYmt9JCBpcyBhIGR1bW15IHZhcmlhYmxlIHdoaWNoIGlzIDEgaWYgcmF0IGkgYmVsb25ncyB0byBibG9jayAkYmskCmFuZCBpcyAwIG90aGVyd2lzZSwgd2l0aCAkayBcaW4gMixcbGRvdHMsIDEwJCwKYW5kICRcZXBzaWxvbl9pJCBhbiBlcnJvciB0ZXJtIHdoaWNoIGlzIG5vcm1hbGx5IGRpc3RyaWJ1dGVkIHdpdGggbWVhbiAwIGFuZAp2YXJpYW5jZSAkXHNpZ21hXjIkLCBpLmUuICRcZXBzaWxvbl9pIFxzaW0gTigwLFxzaWdtYV4yKSQuCgotIFJhdHMgdGhhdCBhcmUgYXNzaWduZWQgdG8gYmxvY2sgJGskIGFuZCByZWNlaXZlIGEgYmVlZiBiYXNlZCBsb3cgcHJvdGVpbiBkaWV0IGhhdmUKCWEgY292YXJpYXRlIHBhdHRlcm4gJHhfe2ksaH09MCQsICR4X3tpLGN9PTAkLCAkeF97aSxibX09MCQgd2l0aCAkbVxuZXEgayQgYW5kICR4X3tpLGJrfT0xJC4KCVRoZWlyIG1lYW4gd2VpZ2h0IGdhaW4gaXMgdGh1cyBlcXVhbCB0byAkXG11X3tsLGIsYmt9PVxiZXRhXzArXGJldGFfe2JrfSQKCi0gUmF0cyB0aGF0IGFyZSBhc3NpZ25lZCB0byBibG9jayAkayQgYW5kIHJlY2VpdmUgYSBiZWVmIGJhc2VkIGhpZ2ggcHJvdGVpbiBkaWV0IGhhdmUKCWEgY292YXJpYXRlIHBhdHRlcm4gJHhfe2ksaH09MSQsICR4X3tpLGN9PTAkLCAkeF97aSxibX09MCQgd2l0aCAkbVxuZXEgayQgYW5kICR4X3tpLGJrfT0xJC4KCVRoZWlyIG1lYW4gd2VpZ2h0IGdhaW4gaXMgdGh1cyBlcXVhbCB0byAkXG11X3toLGIsYmt9PVxiZXRhXzArXGJldGFfaCtcYmV0YV97Ymt9JAoKLSBSYXRzIHRoYXQgYXJlIGFzc2lnbmVkIHRvIGJsb2NrICRrJCBhbmQgcmVjZWl2ZSBhIGNlcmVhbCBiYXNlZCBsb3cgcHJvdGVpbiBkaWV0IGhhdmUKCWEgY292YXJpYXRlIHBhdHRlcm4gJHhfe2ksaH09MCQsICR4X3tpLGN9PTEkLCAkeF97aSxibX09MCQgd2l0aCAkbVxuZXEgayQgYW5kICR4X3tpLGJrfT0xJC4KCVRoZWlyIG1lYW4gd2VpZ2h0IGdhaW4gaXMgdGh1cyBlcXVhbCB0byAkXG11X3toLGMsYmt9PVxiZXRhXzArXGJldGFfYytcYmV0YV97Ymt9JAoKLSBSYXRzIHRoYXQgYXJlIGFzc2lnbmVkIHRvIGJsb2NrICRrJCBhbmQgcmVjZWl2ZSBhIGNlcmVhbCBiYXNlZCBoZWlnaCBwcm90ZWluIGRpZXQgaGF2ZQoJYSBjb3ZhcmlhdGUgcGF0dGVybiAkeF97aSxofT0xJCwgJHhfe2ksY309MSQgJHhfe2ksYm19PTAkIHdpdGggJG1cbmVxIGskIGFuZCAkeF97aSxia309MSQuCglUaGVpciBtZWFuIHdlaWdodCBnYWluIGlzIHRodXMgZXF1YWwgdG8gJFxtdV97aCxjLGJrfT1cYmV0YV8wK1xiZXRhX2grXGJldGFfYytcYmV0YV97Y2h9K1xiZXRhX3tia30kCgpXZSBjYW4gbm93IHJlbGF0ZSB0aGlzIHRvIHRoZSBvdXRwdXQgb2YgdGhlIGBsbWAgZnVuY3Rpb246CgotIFRoZSBpbnRlcmNlcHQgJFxiZXRhXzAkIGlzIHRodXMgdGhlIGF2ZXJhZ2Ugd2VpZ2h0IGdhaW4gaW4gdGhlIGxvdyBiZWVmCmRpZXQgZm9yIHJhdHMgaW4gYmxvY2sgMS4KCi0gVGhlIHBhcmFtZXRlciAkXGJldGFfYyQ6IHRoZSBhdmVyYWdlIHdlaWdodCBnYWluIGRpZmZlcmVuY2UgYmV0d2VlbiBjZXJlYWwtbG93IGFuZApiZWVmLWxvdyBkaWV0IGlzIGByIGxtMSRjb2VmWyJwcm90U291cmNlYyJdYGcuCgotIFRoZSBwYXJhbWV0ZXIgJFxiZXRhX2gkOiB0aGUgYXZlcmFnZSB3ZWlnaHQgZ2FpbiBkaWZmZXJlbmNlIGJldHdlZW4gYmVlZi1oaWdoIGFuZApiZWVmLUxvdyBkaWV0IGlzIGByIGxtMSRjb2VmWyJwcm90TGV2ZWxoIl1gZy4KCi0gVGhlIHBhcmFtZXRlciAkXGJldGFfe2NofSQgaXMgdGhlIGRpZmZlcmVuY2UgaW4gdGhlIGF2ZXJhZ2Ugd2VpZ2h0IGdhaW4gZGlmZmVyZW5jZQpkdWUgdG8gdGhlIGhpZ2ggcHJvdGVpbiBsZXZlbCBhcyBjb21wYXJlZCB0byB0aGUgbG93IHByb3RlaW4gbGV2ZWwgZm9yIGNlcmVhbCBkaWV0cwphcyBjb21wYXJlZCB0byB0aGUgd2VpZ2h0IGdhaW4gZGlmZmVyZW5jZSB0aGF0IG9jY3VycyBkdWUgdG8gdGhlIHByb3RlaW4gbGV2ZWwKaW4gdGhlIHJlZmVyZW5jZSBjbGFzcyAoaGVyZSBiZWVmIGRpZXQpLiBIZXJlIHRoaXMgaXMgbmVnYXRpdmUsCmkuZS4gYHIgbG0xJGNvZWZbInByb3RTb3VyY2VjOnByb3RMZXZlbGgiXWBnLCB0aHVzIHRoZSB3ZWlnaHQgZ2Fpbgpmb3IgdGhlIGNlcmVhbCBwcm90ZWluIHNvdXJjZSBpbmNyZWFzZXMgb24gYXZlcmFnZSBsZXNzIGJldHdlZW4gaGlnaCBhbmQKbG93IHByb3RlaW4gZGlldHMgdGhhbiBpbiBiZWVmIGJhc2VkIGRpZXRzLgoKIyMgVGVzdGluZyB0aGUgb3ZlcmFsbCAoY29tYmluZWQpIGVmZmVjdCBvZiBkaWV0CgpCZWNhdXNlIHRoZXJlIGFyZSBtdWx0aXBsZSBmYWN0b3JzIHdpdGggZGlmZmVyZW50IGxldmVscyBpbiB0aGUgbW9kZWwsCndlIGNhbiBmaXJzdCBhc3Nlc3MgdGhlIGVmZmVjdCBvZiB0aGUgZGlldCAocHJvdGVpbiBMZXZlbCwgcHJvdGVpbiBzb3VyY2UKYW5kIHRoZSBpbnRlcmFjdGlvbikgYnkgdXNpbmcgYW5vdmEuIFdpdGggdGhpcyB0ZXN0IHdlIHdpbGwgYXNzZXNzIHRoZSBudWxsCmh5cG90aGVzaXMgdGhhdCB0aGUgYXZlcmFnZSB3ZWlnaHQgZ2FpbiBpbiBlYWNoIHRyZWF0bWVudCBpcyBlcXVhbDogaS5lLiAkSF8wOiBcbXVfe2IsbH09XG11X3tiLGh9PVxtdV97YyxofT1cbXVfe2MsbH0kIHZlcnN1cwp0aGUgYWx0ZXJuYXRpdmUgaHlwdG9oZXNpcyAkSF8xOiQgdGhhdCBhdCBsZWFzdCB0d28gdHJlYXRtZW50IG1lYW5zIGFyZQpkaWZmZXJlbnQuCgpgYGB7cn0KbG0wIDwtIGxtKHdlaWdodEdhaW4gfiBibG9jaywgZGF0YSA9IGRpZXQuYmMpCmFub3ZhKGxtMCwgbG0xKQpgYGAKCldlIGNhbiBjb25jbHVkZSB0aGF0IHRoZXJlIGlzIGFuIHZlcnkgc2lnbmlmaWNhbnQgZWZmZWN0IG9mIHRoZSBkaWV0IHR5cGUKKHByb3RlaW4gc291cmNlIGFuZC9vciBwcm90ZWluIGxldmVsIGFuZC9vciBwcm90ZWluIHNvdXJjZS1wcm90ZWluIGxldmVsCmludGVyYWN0aW9uKSBvbiB0aGUgd2VpZ2h0IGdhaW4gb2YgcmF0cyAocCA9IGByIGZvcm1hdChhbm92YShsbTAsIGxtMSkkIlByKD5GKSJbMl0sZGlnaXRzID0xKWApLgoKIyMgQXNzZXNzaW5nIHRoZSBpbnRlcmFjdGlvbiBlZmZlY3QgYmV0d2VlbiBwcm90ZWluIHNvdXJjZSBhbmQgcHJvdGVpbiBsZXZlbAoKYGBge3IsIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9CmxpYnJhcnkoY2FyKQpzdW1tYXJ5KGxtMSkKQW5vdmEobG0xLCB0eXBlID0gIklJSSIpCmBgYAoKVGhlcmUgaXMgYSB2ZXJ5IHNpZ25pZmljYW50IGludGVyYWN0aW9uIGJldHdlZW4gdGhlIHByb3RlaW4gc291cmNlIGFuZAp0aGUgcHJvdGVpbiBsZXZlbC4gVGhpcyBpbmRpY2F0ZXMgdGhhdCB0aGUgYXZlcmFnZSB3ZWlnaHQgaW5jcmVhc2UgZHVlIHRvCnRoZSBwcm90ZWluIGxldmVsIGRpZmZlcnMgYWNjb3JkaW5nIHRvIHRoZSBwcm90ZWluIHNvdXJjZS4KSGVuY2UsIHdlIGNhbm5vdCBhc3Nlc3MgdGhlIGVmZmVjdCBvZiB0aGUgcHJvdGVpbiBzb3VyY2UgYW5kL29yIHByb3RlaW4gbGV2ZWwKaW5kZXBlbmRlbnRseSBiZWNhdXNlIHRoZXJlIGVmZmVjdHMgb2YgdGhlIHByb3RlaW4gc291cmNlIHZhcnkgYWNjb3JkaW5nIHRvCnRoZSBwcm90ZWluIGxldmVsLgoKIyMgQXNzZXNzaW5nIHNwZWNpZmljIGNvbnRyYXN0cwoKSW1hZ2luZSB0aGF0IHdlIGFyZSBpbnRlcmVzdGVkIGluIGFzc2Vzc2luZyBpZiB0aGVyZSBpcyBhbiBlZmZlY3Qgb2YKCjEuIHByb3RlaW4gc291cmNlIGluIHRoZSBsb3cgcHJvdGVpbiBkaWV0cwoJLSAkXG11X3tjLGx9LVxtdV97YixsfSA9IFxiZXRhX2MkCgoKMi4gcHJvdGVpbiBzb3VyY2UgaW4gaGlnaCBwcm90ZWluIGRpZXRzCgktICRcbXVfe2MsaH0tXG11X3tiLGh9PVxiZXRhX2MrXGJldGFfe2NofSQKCjMuIHByb3RlaW4gbGV2ZWwgZm9yIGJlZWYgZGlldHMgKCRcbXVfe2IsaH0tXG11X3tiLGx9PVxiZXRhX2gkKSwgYW5kCmNlcmVhbCBkaWV0cyAgKCRcbXVfe2MsaH0tXG11X3tjLGx9PVxiZXRhX2grXGJldGFfe2NofSQpCgo0LiBpZiB0aGUgZWZmZWN0IG9mIHRoZSBwcm90ZWluIGxldmVsIGRpZmZlcnMgYmV0d2VlbgoJLSBiZWVmIGFuZCBjZXJlYWwgICQoXG11X3tjLGh9LVxtdV97YyxsfSkgLSAoXG11X3tiLGh9LVxtdV97YixsfSk9XGJldGFfe2NofSQKClRoZXNlIGVmZmVjdHMgb2YgaW50ZXJlc3QgYXJlIHNvLWNhbGxlZAoqKmNvbnRyYXN0cywgaS5lLiBsaW5lYXIgY29tYmluYXRpb25zIG9mIHRoZSBwYXJhbWV0ZXJzKiouCgpXZSBjYW4gZGVmaW5lIHRoZSBjb250cmFzdHMgYW5kIGFzc2VzcyB0aGUgc2lnbmlmaWNhbmNlIG9mIHRoZSBjb250cmFzdHMgd2l0aAp0aGUgY29kZSBiZWxvdy4gVGhlIGNvbnRyYXN0cyBhcmUgZ2l2ZW4gYXMgaW5wdXQgaW4gdGhlIGZvcm0gb2Ygc3ltYm9saWMKZGVzY3JpcHRpb25zIHRvIHRoZSBgbGluZmN0YCBhcmd1bWVudCBvZiB0aGUgYGdsaHRgIGZ1bmN0aW9uLgoKYGBge3IsbWVzc2FnZT1GQUxTRSwgd2FybmluZz1GQUxTRX0KbGlicmFyeShtdWx0Y29tcCkKc2V0LnNlZWQoNzU0NjgpICMgdG8gZ2V0IHJlcHJvZHVjaWJsZSByZXN1bHRzIChzbWFsbCBlZmZlY3QgaWYgcmVtb3ZlZCkKbG0xTXVsdENvbXAgPC0gZ2xodCgKICBtb2RlbCA9IGxtMSwKICBsaW5mY3QgPSBjKAogICAgInByb3RTb3VyY2VjID0gMCIsCiAgICAicHJvdFNvdXJjZWMgKyBwcm90U291cmNlYzpwcm90TGV2ZWxoID0gMCIsCiAgICAicHJvdExldmVsaCA9IDAiLAogICAgInByb3RMZXZlbGggKyAgcHJvdFNvdXJjZWM6cHJvdExldmVsaCA9IDAiLAogICAgInByb3RTb3VyY2VjOnByb3RMZXZlbGggPSAwIgogICkKKQpgYGAKCmBgYHtyfQpzdW1tYXJ5KGxtMU11bHRDb21wKQpgYGAKCmBgYHtyfQpjb25maW50KGxtMU11bHRDb21wKQpwbG90KGxtMU11bHRDb21wKQpgYGAKCk5vdGUgdGhhdCB0aGUgcC12YWx1ZXMgYW5kIHRoZSBjb25maWRlbmNlIGludGVydmFscyBhcmUgYXV0b21hdGljYWxseSBjb3JyZWN0ZWQKZm9yIG11bHRpcGxlIHRlc3RpbmcuCgojIENvbmNsdXNpb24KCi0gVGhlcmUgaXMgYW4gZXh0cmVtZWx5IHNpZ25pZmljYW50IGVmZmVjdCBvZiB0aGUgdHlwZSBvZiBwcm90ZWluIGRpZXQgb24gdGhlCndlaWdodCBnYWluIG9mIHJhdHMgIChwPDwxZS0zKS4KCi0gVGhlIGF2ZXJhZ2Ugd2VpZ2h0IGdhaW4gZG9lcyBub3QgdmFyeSBzaWduaWZpY2FudGx5IGFjY29yZGluZyB0byBwcm90ZWluCnNvdXJjZSBpbiB0aGUgZGlldHMgd2l0aCBsb3cgcHJvdGVpbiBsZXZlbHMgKHAgPSBgciBmb3JtYXQoc3VtbWFyeShsbTFNdWx0Q29tcCkkdGVzdCRwdmFsdWVzW25hbWVzKHN1bW1hcnkobG0xTXVsdENvbXApJHRlc3QkdHN0YXQpPT0icHJvdFNvdXJjZWMiXSxkaWdpdHM9MilgKS4KCi0gVGhlIHdlaWdodCBnYWluIGluIHRoZSBjZXJlYWwgZGlldCBhdCBoaWdoIHByb3RlaW4gY29uY2VudHJhdGlvbiBpcyBvbgphdmVyYWdlIGByIGNvbmZpbnQobG0xTXVsdENvbXApJGNvbmZpbnRbInByb3RTb3VyY2VjICsgcHJvdFNvdXJjZWM6cHJvdExldmVsaCIsMV0gJT4lIGFicyAlPiUgcm91bmQoLiwxKWBnIGxvd2VyIHRoYW4gaW4gdGhlIGhpZ2ggcHJvdGVpbiBiZWVmIGRpZXQgKDk1JSBDSSBbYHIgY29uZmludChsbTFNdWx0Q29tcCkkY29uZmludFsicHJvdFNvdXJjZWMgKyBwcm90U291cmNlYzpwcm90TGV2ZWxoIiwtMV0gJT4lIGFicyAlPiUgcm91bmQoLiwxKSAlPiUgc29ydGBdKSBhbmQgdGhlIGRpZmZlcmVuY2UgaXMKdmVyeSBzaWduaWZpY2FudCAocCA9IGZvcm1hdChzdW1tYXJ5KGxtMU11bHRDb21wKSR0ZXN0JHB2YWx1ZXNbbmFtZXMoc3VtbWFyeShsbTFNdWx0Q29tcCkkdGVzdCR0c3RhdCk9PSJwcm90U291cmNlYyArIHByb3RTb3VyY2VjOnByb3RMZXZlbGgiXSxkaWdpdHM9MSkpLgoKLSBXZSBhbHNvIGRpc2NvdmVyZWQgYW4gZXh0cmVtZWx5IHNpZ25pZmljYW50IGRpZmZlcmVuY2UgaW4gd2VpZ2h0IGdhaW4KYWNjb3JkaW5nIHRvIHRoZSBwcm90ZWluIGxldmVsIGZvciBiZWVmIGJhc2VkIGRpZXRzIChwPDwwLjAwMSkuClRoZSB3ZWlnaHQgZ2FpbiBvbiBhdmVyYWdlIGluY3JlYXNlcyB3aXRoIGByIHJvdW5kKGNvbmZpbnQobG0xTXVsdENvbXApJGNvbmZpbnRbInByb3RMZXZlbGgiLDFdLDEpYGcgaW4gdGhlIGhpZ2ggcHJvdGVpbgpsZXZlbCBhcyBjb21wYXJlZCB0byB0aGUgbG93IHByb3RlaW4gYmVlZiBkaWV0Cig5NSVDSSBbYHIgcm91bmQoY29uZmludChsbTFNdWx0Q29tcCkkY29uZmludFsicHJvdExldmVsaCIsLTFdLDEpYF0pLgpUaGUgcHJvdGVpbiBsZXZlbCBlZmZlY3QgaXMgbm90IHNpZ25pZmljYW50CmZvciB0aGUgY2VyZWFsIGRpZXQgKGByIGZvcm1hdChzdW1tYXJ5KGxtMU11bHRDb21wKSR0ZXN0JHB2YWx1ZXNbbmFtZXMoc3VtbWFyeShsbTFNdWx0Q29tcCkkdGVzdCR0c3RhdCk9PSJwcm90TGV2ZWxoICsgcHJvdFNvdXJjZWM6cHJvdExldmVsaCJdLGRpZ2l0cz0yKWApLgoKLSBGaW5hbGx5IHRoZXJlIGlzIGEgc2lnbmlmaWNhbnQgaW50ZXJhY3Rpb24gYmV0d2VlbiBwcm90ZWluIGxldmVsIGFuZCBwcm90ZWluIHNvdXJjZSAocCA9IGByIGZvcm1hdChzdW1tYXJ5KGxtMU11bHRDb21wKSR0ZXN0JHB2YWx1ZXNbbmFtZXMoc3VtbWFyeShsbTFNdWx0Q29tcCkkdGVzdCR0c3RhdCk9PSJwcm90U291cmNlYzpwcm90TGV2ZWxoIl0sZGlnaXRzPTIpYCksIGkuZS4gdGhlIGluY3JlYXNlIGluIHdlaWdodCBnYWluIGR1ZSB0byBwcm90ZWluIGxldmVsIGluIGJlZWYKYmFzZWQgZGlldHMgd2FzIGByIGNvbmZpbnQobG0xTXVsdENvbXApJGNvbmZpbnRbInByb3RTb3VyY2VjOnByb3RMZXZlbGgiLDFdICU+JSBhYnMgJT4lIHJvdW5kKC4sMSlgZyB0aGFuIHRoYXQgaW4gdGhlIGNlcmlhbCBkaWV0ICg5NSUgQ0kgW2ByIGNvbmZpbnQobG0xTXVsdENvbXApJGNvbmZpbnRbInByb3RTb3VyY2VjOnByb3RMZXZlbGgiLC0xXSAlPiUgYWJzICU+JSByb3VuZCguLDEpICU+JSBzb3J0YF0pLgoKQWxsIHJlcG9ydGVkIHAtdmFsdWVzIGFuZCBjb25maWRlbmNlIGludGVydmFscyB3ZXJlIGNvcnJlY3RlZCBmb3IgbXVsdGlwbGUKdGVzdGluZwo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2UgOC41OiBCbG9ja2luZyBvbiB0aGUgcmF0IGRpZXQgZGF0YXNldCAtIHNvbHV0aW9uIgphdXRob3I6ICJMaWV2ZW4gQ2xlbWVudCwgSmVyb2VuIEdpbGlzIGFuZCBNaWxhbiBNYWxmYWl0IgpkYXRlOiAic3RhdE9taWNzLCBHaGVudCBVbml2ZXJzaXR5IChodHRwczovL3N0YXRvbWljcy5naXRodWIuaW8pIgotLS0KCiMgQmFja2dyb3VuZAoKUmVzZWFyY2hlcnMgYXJlIHN0dWR5aW5nIHRoZSBpbXBhY3Qgb2YgcHJvdGVpbiBzb3VyY2VzIGFuZCBwcm90ZWluIGxldmVscyBpbgp0aGUgZGlldCBvbiB0aGUgd2VpZ2h0IG9mIHJhdHMuIFRoZXkgZmVlZCB0aGUgcmF0cyB3aXRoIGRpZXRzIG9mIGJlZWYsIGNlcmVhbAphbmQgcG9yayBhbmQgdXNlIGEgbG93IGFuZCBoaWdoIHByb3RlaW4gbGV2ZWwgZm9yIGVhY2ggZGlldCB0eXBlLgpUaGUgcmVzZWFyY2hlcnMgY2FuIGluY2x1ZGUgNjAgcmF0cyBpbiB0aGUgZXhwZXJpbWVudC4gUHJpb3IgdG8gdGhlIGV4cGVyaW1lbnQsCnRoZSByYXRzIHdlcmUgZGl2aWRlZCBpbiAxMCBob21vZ2VuZW91cyBncm91cHMgb2YgNiByYXRzIGJhc2VkIG9uCmNoYXJhY3RlcmlzdGljcyBzdWNoIGFzIGluaXRpYWwgd2VpZ2h0LCBhcHBldGl0ZSwgZXRjLgoKV2l0aGluIGVhY2ggZ3JvdXAgYSByYXQgaXMgcmFuZG9tbHkgYXNzaWduZWQgdG8gYSBkaWV0LiBUaGUgcmF0cyBhcmUgZmVkIGR1cmluZwphIG1vbnRoIGFuZCB0aGUgd2VpZ2h0IGdhaW4gaW4gZ3JhbXMgaXMgcmVjb3JkZWQgZm9yIGVhY2ggcmF0LgoKVGhlIHJlc2VhcmNoZXJzIHdhbnQgdG8gYXNzZXNzIHRoZSBlZmZlY3Qgb2YgdGhlIHR5cGUgb2YgZGlldCBhbmQgdGhlIHByb3RlaW4KbGV2ZWwgb24gdGhlIHdlaWdodCBvZiB0aGUgcmF0cy4KCkluIHRoaXMgZXhlcmNpc2Ugd2Ugd2lsbCBwZXJmb3JtIHRoZSBkYXRhIGV4cGxvcmF0aW9uIHVzaW5nIGFsbCBkaWV0cywgYnV0LAp0byBrZWVwIHRoZSBkYXRhIGFuYWx5c2lzIHNpbXBsZSB3ZSB3aWxsIG9ubHkgYXNzZXNzIHRoZSBiZWVmIGFuZCBjZXJlYWwgZGlldHMuCgojIEV4cGVyaW1lbnRhbCBkZXNpZ24KCi0gVGhlcmUgYXJlIHRocmVlIGV4cGxhbmF0b3J5IHZhcmlhYmxlcyBpbiB0aGUgZXhwZXJpbWVudDogdGhlIGZhY3RvciBkaWV0IHR5cGUKd2l0aCB0d28gbGV2ZWxzIChiZWVmIGFuZCBjZXJlYWwpLCBmYWN0b3IgcHJvdGVpbiBsZXZlbCB3aXRoIGxldmVscwoobG93IGFuZCBoaWdoKSBhbmQgYSBncm91cCBibG9ja2luZyBmYWN0b3Igd2l0aCAxMCBsZXZlbHMuCgotIFRoZXJlIGFyZSA2IHRyZWF0bWVudHM6IGJlZWYtaGlnaCwgY2VyZWFsLWhpZ2gsIHBvcmstaGlnaCwgYmVlZi1sb3csCmNlcmVhbC1sb3csIHBvcmstbG93IHByb3RlaW4uCgotIFRoZSByYXRzIGFyZSB0aGUgZXhwZXJpbWVudGFsIGFuZCBvYnNlcnZhdGlvbmFsIHVuaXRzLgoKLSBUaGUgd2VpZ2h0IGdhaW4gaXMgdGhlIHJlc3BvbnNlIHZhcmlhYmxlLgoKLSBUaGUgZXhwZXJpbWVudCBpcyBhIHJhbmRvbWl6ZWQgY29tcGxldGUgYmxvY2sgKFJDQikgZGVzaWduCgpMb2FkIGxpYnJhcmllcwoKYGBge3IsIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9CmxpYnJhcnkodGlkeXZlcnNlKQpgYGAKCiMgRGF0YSBpbXBvcnQKCmBgYHtyfQpkaWV0IDwtIHJlYWQudGFibGUoImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9zdGF0T21pY3MvUFNMUzIxL2RhdGEvZGlldFJhdHMudHh0IiwKICBoZWFkZXIgPSBUUlVFCikKaGVhZChkaWV0KQpgYGAKCiMgVGlkeSBkYXRhCgpgYGB7cn0KZGlldCA8LSBkaWV0ICU+JQogICMjIENvbnZlcnQgY2F0ZWdvcmljYWwgbGV2ZWxzIHRvIGZhY3RvcnMKICBtdXRhdGUoCiAgICBibG9jayA9IGFzLmZhY3RvcihibG9jayksCiAgICBwcm90U291cmNlID0gYXMuZmFjdG9yKHByb3RTb3VyY2UpLAogICAgcHJvdExldmVsID0gYXMuZmFjdG9yKHByb3RMZXZlbCkKICApICU+JQogICMjIFJlY29kZSBmYWN0b3JzIHRvIG1ha2UgdGhlbSBtb3JlIHZlcmJvc2UKICBtdXRhdGUoCiAgICBwcm90TGV2ZWwgPSBmY3RfcmVjb2RlKHByb3RMZXZlbCwgaGlnaCA9ICJoIiwgbG93ID0gImwiKSwKICAgIHByb3RTb3VyY2UgPSBmY3RfcmVjb2RlKHByb3RTb3VyY2UsIGJlZWYgPSAiYiIsIGNlcmVhbCA9ICJjIiwgcG9yayA9ICJwIikKICApICU+JQogICMjIFNldCAibG93IiBhcyB0aGUgcmVmZXJlbmNlIGxldmVsIGZvciBgcHJvdExldmVsYAogIG11dGF0ZShwcm90TGV2ZWwgPSBmY3RfcmVsZXZlbChwcm90TGV2ZWwsICJsb3ciKSkKCmhlYWQoZGlldCkKYGBgCgojIERhdGEgZXhwbG9yYXRpb24KCi0gQm94cGxvdCBvZiB0aGUgd2VpZ2h0IGdhaW4gYWdhaW5zdCBwcm90ZWluIHNvdXJjZSwgcHJvdGVpbiBsZXZlbCB3aXRoIGNvbG9yaW5nIGFjY29yZGluZyB0byBibG9jawoKYGBge3J9CmRpZXQgJT4lCiAgZ2dwbG90KGFlcyh4ID0gcHJvdExldmVsLCB5ID0gd2VpZ2h0R2FpbikpICsKICBzY2FsZV9maWxsX2JyZXdlcihwYWxldHRlID0gIlJkR3kiKSArCiAgdGhlbWVfYncoKSArCiAgZ2VvbV9ib3hwbG90KG91dGxpZXIuc2hhcGUgPSBOQSkgKwogIGdlb21faml0dGVyKGFlcyhjb2xvciA9IGJsb2NrKSkgKwogIGdndGl0bGUoIldlaWdodCBnYWluIGRlcGVuZGVuY2Ugb24gcHJvdGVpbiBzb3VyY2UiKSArCiAgbGFicyh4ID0gIlByb3RlaW4gbGV2ZWwiLCB5ID0gIldlaWdodCBnYWluIChnKSIpICsKICBzdGF0X3N1bW1hcnkoCiAgICBmdW4gPSBtZWFuLCBnZW9tPSJwb2ludCIsCiAgICBzaGFwZT01LCBzaXplPTMsIGNvbG9yPSJibGFjayIKICApICsKICBmYWNldF93cmFwKHZhcnMocHJvdFNvdXJjZSkpCmBgYAoKLSBMaW5lcGxvdCBvZiB0aGUgd2VpZ2h0IGdhaW4gYWdhaW5zdCBwcm90ZWluIHNvdXJjZSwgcHJvdGVpbiBsZXZlbCB3aXRoIGNvbG9yaW5nIGFuZCBncm91cGluZyBhY2NvcmRpbmcgdG8gYmxvY2sKCmBgYHtyfQpkaWV0ICU+JQogIGdncGxvdChhZXMoeCA9IHByb3RMZXZlbCwgeSA9IHdlaWdodEdhaW4sIGNvbG9yID0gYmxvY2spKSArCiAgc2NhbGVfZmlsbF9icmV3ZXIocGFsZXR0ZSA9ICJSZEd5IikgKwogIHRoZW1lX2J3KCkgKwogIGdlb21fbGluZShhZXMoZ3JvdXAgPSBibG9jaykpICsKICBnZW9tX3BvaW50KCkgKwogIGdndGl0bGUoIldlaWdodCBnYWluIGRlcGVuZGVuY2Ugb24gcHJvdGVpbiBzb3VyY2UiKSArCiAgeWxhYigiV2VpZ2h0IGdhaW4gKGcpIikgKwogIGZhY2V0X3dyYXAodmFycyhwcm90U291cmNlKSkKYGBgCgotIEFuIGluY3JlYXNlIGluIHRoZSB3ZWlnaHQgb2YgdGhlIHJhdHMgc2VlbXMgdG8gZGVwZW5kIG9uIHRoZSBwcm90ZWluIHNvdXJjZQpyZWNlaXZlZCBpbiB0aGUgZGlldC4KCi0gVGhlIGluY3JlYXNlIGluIHRoZSB3ZWlnaHQgb2YgdGhlIHJhdHMgc2VlbXMgdG8gZGVwZW5kIG9uIHRoZSBsZXZlbCBvZiBwcm90ZWluCnJlY2VpdmVkIGluIHRoZSBkaWV0CgotIFRoZXJlIGFsc28gc2VlbXMgdG8gYmUgYW4gaW50ZXJhY3Rpb24gZWZmZWN0IGJldHdlZW4gdGhlIHByb3RlaW4gbGV2ZWwgYW5kIHRoZQpwcm90ZWluIHNvdXJjZSBvbiB0aGUgZ2FpbiBpbiB3ZWlnaHQgb2YgdGhlIHJhdHMuIEZvciB0aGUgYmVlZiBhbmQgdGhlIHBvcmsKZGlldHMgdGhlIGVmZmVjdCBvZiBoaWdoIHByb3RlaW4gbGV2ZWxzIGluIHRoZSBkYXRhIHNlZW1zIHRvIGJlIG11Y2ggc3Ryb25nZXIKdGhhbiBpbiB0aGUgY2VyZWFsIGRpZXQuCgotIFRoZXJlIGlzIGFsc28gYSBzdHJvbmcgZWZmZWN0IG9mIHRoZSBibG9jay4gQmxvY2tpbmcgaW1wbGllcyBhIHJhbmRvbWlzYXRpb24KcmVzdHJpY3Rpb24sIGhlbmNlLCB3ZSB3aWxsIGhhdmUgdG8gaW5jbHVkZSB0aGUgYmxvY2sgZWZmZWN0IGFueXdheS4KCiMgRmlsdGVyIHRoZSBkYXRhIHRvIG9ubHkgdXNlIHRoZSBiZWVmIGFuZCBjZXJlYWwgZGlldAoKYGBge3J9CmRpZXRfYmMgPC0gZGlldCAlPiUgZmlsdGVyKHByb3RTb3VyY2UgIT0gInBvcmsiKQpgYGAKCiMgTXVsdGl2YXJpYXRlIGxpbmVhciByZWdyZXNzaW9uIGFuYWx5c2lzCgojIyBBc3N1bXB0aW9ucwoKTGlzdCBhc3N1bXB0aW9uczoKCjEuIFRoZSBvYnNlcnZhdGlvbnMgYXJlIGluZGVwZW5kZW50CjIuIExpbmVhcml0eSBiZXR3ZWVuIHRoZSByZXNwb25zZSBhbmQgcHJlZGljdG9yIHZhcmlhYmxlCjMuIFRoZSByZXNpZHVhbHMgb2YgdGhlIG1vZGVsIG11c3QgYmUgbm9ybWFsbHkgZGlzdHJpYnV0ZWQKNC4gSG9tb3NjZWRhc3RpY2l0eSBvZiB0aGUgZGF0YQoKVGhlIGZpcnN0IGFzc3VtcHRpb24gaXMgbWV0IGlmIHdlIGNvcnJlY3QgZm9yIGJsb2NrIGluIHRoZSBtb2RlbCBiZWNhdXNlIHRoZQpyYXRzIHdlcmUgcmFuZG9taXplZCB0byB0aGUgdHJlYXRtZW50IHdpdGhpbiBibG9jay4gVGhlIG90aGVyIHRocmVlIGFzc3VtcHRpb25zCmNhbiBiZSBhc3Nlc3NlZCBieSBmaXR0aW5nIHRoZSBsaW5lYXIgbW9kZWwgYW5kIGNhbGxpbmcgdGhlIGBwbG90KClgIGZ1bmN0aW9uCmFzIGZvbGxvd3MuCgpgYGB7cn0KbG0xIDwtIGxtKHdlaWdodEdhaW4gfiBibG9jayArIHByb3RTb3VyY2UgKiBwcm90TGV2ZWwsIGRhdGEgPSBkaWV0X2JjKQpwbG90KGxtMSkKYGBgCgpBbGwgYXNzdW1wdGlvbnMgYXJlIG1ldCBmb3IgdGhpcyBkYXRhc2V0LgoKIyMgSHlwb3RoZXNpcyB0ZXN0aW5nCgpXZSBoZXJlIGZpdCBhIGxpbmVhciBtb2RlbCB3aXRoIGEgYmxvY2tpbmcgZmFjdG9yIGZvciBgYmxvY2tgIGFuZCBtYWluIGFuZAppbnRlcmFjdGlvbiBlZmZlY3RzIGZvciBwcm90ZWluIHNvdXJjZSBhbmQgcHJvdGVpbiBsZXZlbC4KCmBgYHtyfQpzdW1tYXJ5KGxtMSkKYGBgCgojIyBJbnRlcnByZXRhdGlvbiBvZiB0aGUgcmVncmVzc2lvbiBwYXJhbWV0ZXJzCgpgYGB7cn0KRXhwbG9yZU1vZGVsTWF0cml4OjpWaXN1YWxpemVEZXNpZ24oZGlldF9iYywgfiBibG9jayArIHByb3RTb3VyY2UgKiBwcm90TGV2ZWwpJHBsb3RsaXN0CmBgYAoKVGhlcmUgYXJlIDMgbGV2ZWxzIGZvciBwcm90ZWluIHNvdXJjZSwgMiBsZXZlbHMgZm9yIHByb3RlaW4gbGV2ZWwgYW5kIDEwIGxldmVscwpmb3IgdGhlIGJsb2NraW5nIHZhcmlhYmxlLiBXZSB3aWxsIGhhdmUgb25lIHJlZmVyZW5jZSBsZXZlbCBmb3IgZWFjaCByZXNwZWN0aXZlCnZhcmlhYmxlOiBiZWVmLCBsb3csIGJsb2NrIDEuIFNvIHdlIG5lZWQgMiwgMSBhbmQgOSBkdW1teSB2YXJpYWJsZXMgdG8gaW50cm9kdWNlCnRoZSBmYWN0b3JzIHByb3RlaW4gc291cmNlLCBwcm90ZWluIGxldmVsIGFuZCBibG9jayBpbiB0aGUgbGluZWFyIG1vZGVsLApyZXNwZWN0aXZlbHkuCgpIZW5jZSwgd2UgY2FuIHdyaXRlIGRvd24gdGhlIGxpbmVhciBtb2RlbCBhcyBmb2xsb3dzOgoKJHlfaT1cYmV0YV8wK1xiZXRhX2N4X3tpLGN9ICtcYmV0YV9oeF97aSxofStcYmV0YV97Y2h9eF97aSxjfXhfe2ksaH0rXGJldGFfe2IyfXhfe2ksYjJ9K1xsZG90cytcYmV0YV97YjEwfXhfe2ksYjEwfStcZXBzaWxvbl97aX0kCgp3aXRoOgokeV9pJCB0aGUgb2JzZXJ2ZWQgd2VpZ2h0IGdhaW4gZm9yIHJhdCBpLAokeF97aSxofSQgYSBkdW1teSB2YXJpYWJsZSB3aGljaCBpcyAxIGlmIHJhdCBpIHJlY2VpdmVzIGEgaGlnaCBwcm90ZWluIGRpZXQKYW5kIGlzIDAgb3RoZXJ3aXNlLAokeF97aSxjfSQgYSBkdW1teSB2YXJpYWJsZSB3aGljaCBpcyAxIGlmIHJhdCBpIHJlY2VpdmVzIGEgY2VyZWFsIGRpZXQKYW5kIGlzIDAgb3RoZXJ3aXNlLAokeF97aSxia30kIGlzIGEgZHVtbXkgdmFyaWFibGUgd2hpY2ggaXMgMSBpZiByYXQgaSBiZWxvbmdzIHRvIGJsb2NrICRiayQKYW5kIGlzIDAgb3RoZXJ3aXNlLCB3aXRoICRrIFxpbiAyLFxsZG90cywgMTAkLAphbmQgJFxlcHNpbG9uX2kkIGFuIGVycm9yIHRlcm0gd2hpY2ggaXMgbm9ybWFsbHkgZGlzdHJpYnV0ZWQgd2l0aCBtZWFuIDAgYW5kCnZhcmlhbmNlICRcc2lnbWFeMiQsIGkuZS4gJFxlcHNpbG9uX2kgXHNpbSBOKDAsXHNpZ21hXjIpJC4KCi0gUmF0cyB0aGF0IGFyZSBhc3NpZ25lZCB0byBibG9jayAkayQgYW5kIHJlY2VpdmUgYSBiZWVmIGJhc2VkIGxvdyBwcm90ZWluIGRpZXQgaGF2ZQoJYSBjb3ZhcmlhdGUgcGF0dGVybiAkeF97aSxofT0wJCwgJHhfe2ksY309MCQsICR4X3tpLGJtfT0wJCB3aXRoICRtXG5lcSBrJCBhbmQgJHhfe2ksYmt9PTEkLgoJVGhlaXIgbWVhbiB3ZWlnaHQgZ2FpbiBpcyB0aHVzIGVxdWFsIHRvICRcbXVfe2wsYixia309XGJldGFfMCtcYmV0YV97Ymt9JAoKLSBSYXRzIHRoYXQgYXJlIGFzc2lnbmVkIHRvIGJsb2NrICRrJCBhbmQgcmVjZWl2ZSBhIGJlZWYgYmFzZWQgaGlnaCBwcm90ZWluIGRpZXQgaGF2ZQoJYSBjb3ZhcmlhdGUgcGF0dGVybiAkeF97aSxofT0xJCwgJHhfe2ksY309MCQsICR4X3tpLGJtfT0wJCB3aXRoICRtXG5lcSBrJCBhbmQgJHhfe2ksYmt9PTEkLgoJVGhlaXIgbWVhbiB3ZWlnaHQgZ2FpbiBpcyB0aHVzIGVxdWFsIHRvICRcbXVfe2gsYixia309XGJldGFfMCtcYmV0YV9oK1xiZXRhX3tia30kCgotIFJhdHMgdGhhdCBhcmUgYXNzaWduZWQgdG8gYmxvY2sgJGskIGFuZCByZWNlaXZlIGEgY2VyZWFsIGJhc2VkIGxvdyBwcm90ZWluIGRpZXQgaGF2ZQoJYSBjb3ZhcmlhdGUgcGF0dGVybiAkeF97aSxofT0wJCwgJHhfe2ksY309MSQsICR4X3tpLGJtfT0wJCB3aXRoICRtXG5lcSBrJCBhbmQgJHhfe2ksYmt9PTEkLgoJVGhlaXIgbWVhbiB3ZWlnaHQgZ2FpbiBpcyB0aHVzIGVxdWFsIHRvICRcbXVfe2gsYyxia309XGJldGFfMCtcYmV0YV9jK1xiZXRhX3tia30kCgotIFJhdHMgdGhhdCBhcmUgYXNzaWduZWQgdG8gYmxvY2sgJGskIGFuZCByZWNlaXZlIGEgY2VyZWFsIGJhc2VkIGhlaWdoIHByb3RlaW4gZGlldCBoYXZlCglhIGNvdmFyaWF0ZSBwYXR0ZXJuICR4X3tpLGh9PTEkLCAkeF97aSxjfT0xJCAkeF97aSxibX09MCQgd2l0aCAkbVxuZXEgayQgYW5kICR4X3tpLGJrfT0xJC4KCVRoZWlyIG1lYW4gd2VpZ2h0IGdhaW4gaXMgdGh1cyBlcXVhbCB0byAkXG11X3toLGMsYmt9PVxiZXRhXzArXGJldGFfaCtcYmV0YV9jK1xiZXRhX3tjaH0rXGJldGFfe2JrfSQKCldlIGNhbiBub3cgcmVsYXRlIHRoaXMgdG8gdGhlIG91dHB1dCBvZiB0aGUgYGxtYCBmdW5jdGlvbjoKCi0gVGhlIGludGVyY2VwdCAkXGJldGFfMCQgaXMgdGh1cyB0aGUgYXZlcmFnZSB3ZWlnaHQgZ2FpbiBpbiB0aGUgbG93IGJlZWYKZGlldCBmb3IgcmF0cyBpbiBibG9jayAxLgoKLSBUaGUgcGFyYW1ldGVyICRcYmV0YV9jJDogdGhlIGF2ZXJhZ2Ugd2VpZ2h0IGdhaW4gZGlmZmVyZW5jZSBiZXR3ZWVuIGNlcmVhbC1sb3cgYW5kCmJlZWYtbG93IGRpZXQgaXMgYHIgbG0xJGNvZWZbInByb3RTb3VyY2VjZXJlYWwiXWBnLgoKLSBUaGUgcGFyYW1ldGVyICRcYmV0YV9oJDogdGhlIGF2ZXJhZ2Ugd2VpZ2h0IGdhaW4gZGlmZmVyZW5jZSBiZXR3ZWVuIGJlZWYtaGlnaCBhbmQKYmVlZi1Mb3cgZGlldCBpcyBgciBsbTEkY29lZlsicHJvdExldmVsaGlnaCJdYGcuCgotIFRoZSBwYXJhbWV0ZXIgJFxiZXRhX3tjaH0kIGlzIHRoZSBkaWZmZXJlbmNlIGluIHRoZSBhdmVyYWdlIHdlaWdodCBnYWluIGRpZmZlcmVuY2UKZHVlIHRvIHRoZSBoaWdoIHByb3RlaW4gbGV2ZWwgYXMgY29tcGFyZWQgdG8gdGhlIGxvdyBwcm90ZWluIGxldmVsIGZvciBjZXJlYWwgZGlldHMKYXMgY29tcGFyZWQgdG8gdGhlIHdlaWdodCBnYWluIGRpZmZlcmVuY2UgdGhhdCBvY2N1cnMgZHVlIHRvIHRoZSBwcm90ZWluIGxldmVsCmluIHRoZSByZWZlcmVuY2UgY2xhc3MgKGhlcmUgYmVlZiBkaWV0KS4gSGVyZSB0aGlzIGlzIG5lZ2F0aXZlLAppLmUuIGByIGxtMSRjb2VmWyJwcm90U291cmNlY2VyZWFsOnByb3RMZXZlbGhpZ2giXWBnLCB0aHVzIHRoZSB3ZWlnaHQgZ2Fpbgpmb3IgdGhlIGNlcmVhbCBwcm90ZWluIHNvdXJjZSBpbmNyZWFzZXMgb24gYXZlcmFnZSBsZXNzIGJldHdlZW4gaGlnaCBhbmQKbG93IHByb3RlaW4gZGlldHMgdGhhbiBpbiBiZWVmIGJhc2VkIGRpZXRzLgoKIyMgVGVzdGluZyB0aGUgb3ZlcmFsbCAoY29tYmluZWQpIGVmZmVjdCBvZiBkaWV0CgpCZWNhdXNlIHRoZXJlIGFyZSBtdWx0aXBsZSBmYWN0b3JzIHdpdGggZGlmZmVyZW50IGxldmVscyBpbiB0aGUgbW9kZWwsCndlIGNhbiBmaXJzdCBhc3Nlc3MgdGhlIGVmZmVjdCBvZiB0aGUgZGlldCAocHJvdGVpbiBMZXZlbCwgcHJvdGVpbiBzb3VyY2UKYW5kIHRoZSBpbnRlcmFjdGlvbikgYnkgdXNpbmcgYW5vdmEuIFdpdGggdGhpcyB0ZXN0IHdlIHdpbGwgYXNzZXNzIHRoZSBudWxsCmh5cG90aGVzaXMgdGhhdCB0aGUgYXZlcmFnZSB3ZWlnaHQgZ2FpbiBpbiBlYWNoIHRyZWF0bWVudCBpcyBlcXVhbDogaS5lLiAkSF8wOiBcbXVfe2IsbH09XG11X3tiLGh9PVxtdV97YyxofT1cbXVfe2MsbH0kIHZlcnN1cwp0aGUgYWx0ZXJuYXRpdmUgaHlwdG9oZXNpcyAkSF8xOiQgdGhhdCBhdCBsZWFzdCB0d28gdHJlYXRtZW50IG1lYW5zIGFyZQpkaWZmZXJlbnQuCgpgYGB7cn0KbG0wIDwtIGxtKHdlaWdodEdhaW4gfiBibG9jaywgZGF0YSA9IGRpZXRfYmMpCmFub3ZhKGxtMCwgbG0xKQpgYGAKCldlIGNhbiBjb25jbHVkZSB0aGF0IHRoZXJlIGlzIGFuIHZlcnkgc2lnbmlmaWNhbnQgZWZmZWN0IG9mIHRoZSBkaWV0IHR5cGUKKHByb3RlaW4gc291cmNlIGFuZC9vciBwcm90ZWluIGxldmVsIGFuZC9vciBwcm90ZWluIHNvdXJjZS1wcm90ZWluIGxldmVsCmludGVyYWN0aW9uKSBvbiB0aGUgd2VpZ2h0IGdhaW4gb2YgcmF0cyAocCA9IGByIGZvcm1hdChhbm92YShsbTAsIGxtMSkkIlByKD5GKSJbMl0sZGlnaXRzID0xKWApLgoKIyMgQXNzZXNzaW5nIHRoZSBpbnRlcmFjdGlvbiBlZmZlY3QgYmV0d2VlbiBwcm90ZWluIHNvdXJjZSBhbmQgcHJvdGVpbiBsZXZlbAoKYGBge3IsIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9CmxpYnJhcnkoY2FyKQpzdW1tYXJ5KGxtMSkKQW5vdmEobG0xLCB0eXBlID0gIklJSSIpCmBgYAoKVGhlcmUgaXMgYSB2ZXJ5IHNpZ25pZmljYW50IGludGVyYWN0aW9uIGJldHdlZW4gdGhlIHByb3RlaW4gc291cmNlIGFuZAp0aGUgcHJvdGVpbiBsZXZlbC4gVGhpcyBpbmRpY2F0ZXMgdGhhdCB0aGUgYXZlcmFnZSB3ZWlnaHQgaW5jcmVhc2UgZHVlIHRvCnRoZSBwcm90ZWluIGxldmVsIGRpZmZlcnMgYWNjb3JkaW5nIHRvIHRoZSBwcm90ZWluIHNvdXJjZS4KSGVuY2UsIHdlIGNhbm5vdCBhc3Nlc3MgdGhlIGVmZmVjdCBvZiB0aGUgcHJvdGVpbiBzb3VyY2UgYW5kL29yIHByb3RlaW4gbGV2ZWwKaW5kZXBlbmRlbnRseSBiZWNhdXNlIHRoZXJlIGVmZmVjdHMgb2YgdGhlIHByb3RlaW4gc291cmNlIHZhcnkgYWNjb3JkaW5nIHRvCnRoZSBwcm90ZWluIGxldmVsLgoKIyMgQXNzZXNzaW5nIHNwZWNpZmljIGNvbnRyYXN0cwoKSW1hZ2luZSB0aGF0IHdlIGFyZSBpbnRlcmVzdGVkIGluIGFzc2Vzc2luZyBpZiB0aGVyZSBpcyBhbiBlZmZlY3Qgb2YKCjEuIHByb3RlaW4gc291cmNlIGluIHRoZSBsb3cgcHJvdGVpbiBkaWV0cwoJLSAkXG11X3tjLGx9LVxtdV97YixsfSA9IFxiZXRhX2MkCgoKMi4gcHJvdGVpbiBzb3VyY2UgaW4gaGlnaCBwcm90ZWluIGRpZXRzCgktICRcbXVfe2MsaH0tXG11X3tiLGh9PVxiZXRhX2MrXGJldGFfe2NofSQKCjMuIHByb3RlaW4gbGV2ZWwgZm9yIGJlZWYgZGlldHMgKCRcbXVfe2IsaH0tXG11X3tiLGx9PVxiZXRhX2gkKSwgYW5kCmNlcmVhbCBkaWV0cyAgKCRcbXVfe2MsaH0tXG11X3tjLGx9PVxiZXRhX2grXGJldGFfe2NofSQpCgo0LiBpZiB0aGUgZWZmZWN0IG9mIHRoZSBwcm90ZWluIGxldmVsIGRpZmZlcnMgYmV0d2VlbgoJLSBiZWVmIGFuZCBjZXJlYWwgICQoXG11X3tjLGh9LVxtdV97YyxsfSkgLSAoXG11X3tiLGh9LVxtdV97YixsfSk9XGJldGFfe2NofSQKClRoZXNlIGVmZmVjdHMgb2YgaW50ZXJlc3QgYXJlIHNvLWNhbGxlZAoqKmNvbnRyYXN0cywgaS5lLiBsaW5lYXIgY29tYmluYXRpb25zIG9mIHRoZSBwYXJhbWV0ZXJzKiouCgpXZSBjYW4gZGVmaW5lIHRoZSBjb250cmFzdHMgYW5kIGFzc2VzcyB0aGUgc2lnbmlmaWNhbmNlIG9mIHRoZSBjb250cmFzdHMgd2l0aAp0aGUgY29kZSBiZWxvdy4gVGhlIGNvbnRyYXN0cyBhcmUgZ2l2ZW4gYXMgaW5wdXQgaW4gdGhlIGZvcm0gb2Ygc3ltYm9saWMKZGVzY3JpcHRpb25zIHRvIHRoZSBgbGluZmN0YCBhcmd1bWVudCBvZiB0aGUgYGdsaHRgIGZ1bmN0aW9uLgoKYGBge3IsbWVzc2FnZT1GQUxTRSwgd2FybmluZz1GQUxTRX0KbGlicmFyeShtdWx0Y29tcCkKc2V0LnNlZWQoNzU0NjgpICMgdG8gZ2V0IHJlcHJvZHVjaWJsZSByZXN1bHRzIChzbWFsbCBlZmZlY3QgaWYgcmVtb3ZlZCkKbG0xTXVsdENvbXAgPC0gZ2xodCgKICBtb2RlbCA9IGxtMSwKICBsaW5mY3QgPSBjKAogICAgInByb3RTb3VyY2VjZXJlYWwgPSAwIiwKICAgICJwcm90U291cmNlY2VyZWFsICsgcHJvdFNvdXJjZWNlcmVhbDpwcm90TGV2ZWxoaWdoID0gMCIsCiAgICAicHJvdExldmVsaGlnaCA9IDAiLAogICAgInByb3RMZXZlbGhpZ2ggKyAgcHJvdFNvdXJjZWNlcmVhbDpwcm90TGV2ZWxoaWdoID0gMCIsCiAgICAicHJvdFNvdXJjZWNlcmVhbDpwcm90TGV2ZWxoaWdoID0gMCIKICApCikKYGBgCgpgYGB7cn0Kc3VtbWFyeShsbTFNdWx0Q29tcCkKYGBgCgpgYGB7cn0KY29uZmludChsbTFNdWx0Q29tcCkKcGxvdChsbTFNdWx0Q29tcCkKYGBgCgpOb3RlIHRoYXQgdGhlIHAtdmFsdWVzIGFuZCB0aGUgY29uZmlkZW5jZSBpbnRlcnZhbHMgYXJlIGF1dG9tYXRpY2FsbHkgY29ycmVjdGVkCmZvciBtdWx0aXBsZSB0ZXN0aW5nLgoKIyBDb25jbHVzaW9uCgotIFRoZXJlIGlzIGFuIGV4dHJlbWVseSBzaWduaWZpY2FudCBlZmZlY3Qgb2YgdGhlIHR5cGUgb2YgcHJvdGVpbiBkaWV0IG9uIHRoZQp3ZWlnaHQgZ2FpbiBvZiByYXRzICAocDw8MWUtMykuCgotIFRoZSBhdmVyYWdlIHdlaWdodCBnYWluIGRvZXMgbm90IHZhcnkgc2lnbmlmaWNhbnRseSBhY2NvcmRpbmcgdG8gcHJvdGVpbgpzb3VyY2UgaW4gdGhlIGRpZXRzIHdpdGggbG93IHByb3RlaW4gbGV2ZWxzIChwID0gYHIgZm9ybWF0KHN1bW1hcnkobG0xTXVsdENvbXApJHRlc3QkcHZhbHVlc1tuYW1lcyhzdW1tYXJ5KGxtMU11bHRDb21wKSR0ZXN0JHRzdGF0KT09InByb3RTb3VyY2VjZXJlYWwiXSxkaWdpdHM9MilgKS4KCi0gVGhlIHdlaWdodCBnYWluIGluIHRoZSBjZXJlYWwgZGlldCBhdCBoaWdoIHByb3RlaW4gY29uY2VudHJhdGlvbiBpcyBvbgphdmVyYWdlIGByIGNvbmZpbnQobG0xTXVsdENvbXApJGNvbmZpbnRbInByb3RTb3VyY2VjZXJlYWwgKyBwcm90U291cmNlY2VyZWFsOnByb3RMZXZlbGhpZ2giLDFdICU+JSBhYnMgJT4lIHJvdW5kKC4sMSlgZyBsb3dlciB0aGFuIGluIHRoZSBoaWdoIHByb3RlaW4gYmVlZiBkaWV0ICg5NSUgQ0kgW2ByIGNvbmZpbnQobG0xTXVsdENvbXApJGNvbmZpbnRbInByb3RTb3VyY2VjZXJlYWwgKyBwcm90U291cmNlY2VyZWFsOnByb3RMZXZlbGhpZ2giLC0xXSAlPiUgYWJzICU+JSByb3VuZCguLDEpICU+JSBzb3J0YF0pIGFuZCB0aGUgZGlmZmVyZW5jZSBpcwp2ZXJ5IHNpZ25pZmljYW50IChwID0gZm9ybWF0KHN1bW1hcnkobG0xTXVsdENvbXApJHRlc3QkcHZhbHVlc1tuYW1lcyhzdW1tYXJ5KGxtMU11bHRDb21wKSR0ZXN0JHRzdGF0KT09InByb3RTb3VyY2VjZXJlYWwgKyBwcm90U291cmNlY2VyZWFsOnByb3RMZXZlbGhpZ2giXSxkaWdpdHM9MSkpLgoKLSBXZSBhbHNvIGRpc2NvdmVyZWQgYW4gZXh0cmVtZWx5IHNpZ25pZmljYW50IGRpZmZlcmVuY2UgaW4gd2VpZ2h0IGdhaW4KYWNjb3JkaW5nIHRvIHRoZSBwcm90ZWluIGxldmVsIGZvciBiZWVmIGJhc2VkIGRpZXRzIChwPDwwLjAwMSkuClRoZSB3ZWlnaHQgZ2FpbiBvbiBhdmVyYWdlIGluY3JlYXNlcyB3aXRoIGByIHJvdW5kKGNvbmZpbnQobG0xTXVsdENvbXApJGNvbmZpbnRbInByb3RMZXZlbGhpZ2giLDFdLDEpYGcgaW4gdGhlIGhpZ2ggcHJvdGVpbgpsZXZlbCBhcyBjb21wYXJlZCB0byB0aGUgbG93IHByb3RlaW4gYmVlZiBkaWV0Cig5NSVDSSBbYHIgcm91bmQoY29uZmludChsbTFNdWx0Q29tcCkkY29uZmludFsicHJvdExldmVsaGlnaCIsLTFdLDEpYF0pLgpUaGUgcHJvdGVpbiBsZXZlbCBlZmZlY3QgaXMgbm90IHNpZ25pZmljYW50CmZvciB0aGUgY2VyZWFsIGRpZXQgKGByIGZvcm1hdChzdW1tYXJ5KGxtMU11bHRDb21wKSR0ZXN0JHB2YWx1ZXNbbmFtZXMoc3VtbWFyeShsbTFNdWx0Q29tcCkkdGVzdCR0c3RhdCk9PSJwcm90TGV2ZWxoaWdoICsgcHJvdFNvdXJjZWNlcmVhbDpwcm90TGV2ZWxoaWdoIl0sZGlnaXRzPTIpYCkuCgotIEZpbmFsbHkgdGhlcmUgaXMgYSBzaWduaWZpY2FudCBpbnRlcmFjdGlvbiBiZXR3ZWVuIHByb3RlaW4gbGV2ZWwgYW5kIHByb3RlaW4gc291cmNlIChwID0gYHIgZm9ybWF0KHN1bW1hcnkobG0xTXVsdENvbXApJHRlc3QkcHZhbHVlc1tuYW1lcyhzdW1tYXJ5KGxtMU11bHRDb21wKSR0ZXN0JHRzdGF0KT09InByb3RTb3VyY2VjZXJlYWw6cHJvdExldmVsaGlnaCJdLGRpZ2l0cz0yKWApLCBpLmUuIHRoZSBpbmNyZWFzZSBpbiB3ZWlnaHQgZ2FpbiBkdWUgdG8gcHJvdGVpbiBsZXZlbCBpbiBiZWVmCmJhc2VkIGRpZXRzIHdhcyBgciBjb25maW50KGxtMU11bHRDb21wKSRjb25maW50WyJwcm90U291cmNlY2VyZWFsOnByb3RMZXZlbGhpZ2giLDFdICU+JSBhYnMgJT4lIHJvdW5kKC4sMSlgZyB0aGFuIHRoYXQgaW4gdGhlIGNlcmlhbCBkaWV0ICg5NSUgQ0kgW2ByIGNvbmZpbnQobG0xTXVsdENvbXApJGNvbmZpbnRbInByb3RTb3VyY2VjZXJlYWw6cHJvdExldmVsaGlnaCIsLTFdICU+JSBhYnMgJT4lIHJvdW5kKC4sMSkgJT4lIHNvcnRgXSkuCgpBbGwgcmVwb3J0ZWQgcC12YWx1ZXMgYW5kIGNvbmZpZGVuY2UgaW50ZXJ2YWxzIHdlcmUgY29ycmVjdGVkIGZvciBtdWx0aXBsZQp0ZXN0aW5nCg==</div>
 <div class="footer">
     <hr>
     This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">

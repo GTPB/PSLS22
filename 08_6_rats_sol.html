@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Lieven Clement and Jeroen Gilis" />
+<meta name="author" content="Lieven Clement, Jeroen Gilis and Milan Malfait" />
 
 
 <title>Exercise 8.6: Blocking on the rat diet dataset - solution</title>
@@ -550,7 +550,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Exercise 8.6: Blocking on the rat diet dataset - solution</h1>
-<h4 class="author">Lieven Clement and Jeroen Gilis</h4>
+<h4 class="author">Lieven Clement, Jeroen Gilis and Milan Malfait</h4>
 <h4 class="date">statOmics, Ghent University (<a href="https://statomics.github.io" class="uri">https://statomics.github.io</a>)</h4>
 
 </div>
@@ -588,12 +588,26 @@ div.tocify {
 <div id="tidy-data" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Tidy data</h1>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>diet <span class="ot">&lt;-</span> diet <span class="sc">%&gt;%</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">block =</span> <span class="fu">as.factor</span>(block),</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">protSource =</span> <span class="fu">as.factor</span>(protSource),</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">protLevel =</span> <span class="fu">as.factor</span>(protLevel)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">protLevel =</span> <span class="fu">fct_relevel</span>(protLevel, <span class="st">&quot;l&quot;</span>))</span></code></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Convert categorical levels to factors</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">block =</span> <span class="fu">as.factor</span>(block),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">protSource =</span> <span class="fu">as.factor</span>(protSource),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">protLevel =</span> <span class="fu">as.factor</span>(protLevel)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Recode factors to make them more verbose</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">protLevel =</span> <span class="fu">fct_recode</span>(protLevel, <span class="at">high =</span> <span class="st">&quot;h&quot;</span>, <span class="at">low =</span> <span class="st">&quot;l&quot;</span>),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">protSource =</span> <span class="fu">fct_recode</span>(protSource, <span class="at">beef =</span> <span class="st">&quot;b&quot;</span>, <span class="at">cereal =</span> <span class="st">&quot;c&quot;</span>, <span class="at">pork =</span> <span class="st">&quot;p&quot;</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Set &quot;low&quot; as the reference level for `protLevel`</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">protLevel =</span> <span class="fu">fct_relevel</span>(protLevel, <span class="st">&quot;low&quot;</span>))</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(diet)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["weightGain"],"name":[1],"type":["int"],"align":["right"]},{"label":["protSource"],"name":[2],"type":["fct"],"align":["left"]},{"label":["protLevel"],"name":[3],"type":["fct"],"align":["left"]},{"label":["block"],"name":[4],"type":["fct"],"align":["left"]}],"data":[{"1":"107","2":"beef","3":"high","4":"1","_rn_":"1"},{"1":"96","2":"cereal","3":"high","4":"1","_rn_":"2"},{"1":"112","2":"pork","3":"high","4":"1","_rn_":"3"},{"1":"83","2":"beef","3":"low","4":"1","_rn_":"4"},{"1":"87","2":"cereal","3":"low","4":"1","_rn_":"5"},{"1":"90","2":"pork","3":"low","4":"1","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 </div>
 <div id="data-exploration" class="section level1" number="5">
 <h1><span class="header-section-number">5</span> Data exploration</h1>
@@ -607,23 +621,26 @@ div.tocify {
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">color =</span> block)) <span class="sc">+</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Weight gain dependence on protein source&quot;</span>) <span class="sc">+</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Weigth gain (g)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># stat_summary(fun = mean, geom=&quot;point&quot;, shape=5, size=3, color=&quot;black&quot;, fill=&quot;black&quot;) +</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(. <span class="sc">~</span> protSource)</span></code></pre></div>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Protein level&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Weight gain (g)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">fun =</span> mean, <span class="at">geom=</span><span class="st">&quot;point&quot;</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape=</span><span class="dv">5</span>, <span class="at">size=</span><span class="dv">3</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(protSource))</span></code></pre></div>
 <p><img src="08_6_rats_sol_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <ul>
 <li>Lineplot of the weight gain against protein source, protein level with coloring and grouping according to block</li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>diet <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> protSource<span class="sc">:</span>protLevel, <span class="at">y =</span> weightGain)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> protLevel, <span class="at">y =</span> weightGain, <span class="at">color =</span> block)) <span class="sc">+</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;RdGy&quot;</span>) <span class="sc">+</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> block, <span class="at">color =</span> block)) <span class="sc">+</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> block)) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> block)) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Weight gain dependence on protein source&quot;</span>) <span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Weigth gain (g)&quot;</span>)</span></code></pre></div>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Weight gain (g)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(protSource))</span></code></pre></div>
 <p><img src="08_6_rats_sol_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># stat_summary(fun = mean, geom=&quot;point&quot;, shape=5, size=3, color=&quot;black&quot;, fill=&quot;black&quot;)</span></span></code></pre></div>
 <ul>
 <li><p>An increase in the weight of the rats seems to depend on the protein source received in the diet.</p></li>
 <li><p>The increase in the weight of the rats seems to depend on the level of protein received in the diet</p></li>
@@ -643,15 +660,15 @@ div.tocify {
 <li>Homoscedasticity of the data</li>
 </ol>
 <p>The first assumption is met if we correct for block in the model because the rats were randomized to the treatment within block. The other three assumptions can be assessed by fitting the linear model and calling the <code>plot()</code> function as follows.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(weightGain <span class="sc">~</span> block <span class="sc">+</span> protSource <span class="sc">*</span> protLevel, <span class="at">data =</span> diet)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lm1)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(weightGain <span class="sc">~</span> block <span class="sc">+</span> protSource <span class="sc">*</span> protLevel, <span class="at">data =</span> diet)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lm1)</span></code></pre></div>
 <p><img src="08_6_rats_sol_files/figure-html/unnamed-chunk-6-1.png" width="672" /><img src="08_6_rats_sol_files/figure-html/unnamed-chunk-6-2.png" width="672" /><img src="08_6_rats_sol_files/figure-html/unnamed-chunk-6-3.png" width="672" /><img src="08_6_rats_sol_files/figure-html/unnamed-chunk-6-4.png" width="672" /></p>
 <p>All assumptions are met for this dataset.</p>
 </div>
 <div id="hypothesis-testing" class="section level2" number="6.2">
 <h2><span class="header-section-number">6.2</span> Hypothesis testing</h2>
 <p>We here fit a linear model with a blocking factor for <code>block</code> and main and interaction effects for protein source and protein level.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm1)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm1)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = weightGain ~ block + protSource * protLevel, data = diet)
@@ -661,22 +678,38 @@ div.tocify {
 ## -21.017  -5.183  -1.017   4.092  18.983 
 ## 
 ## Coefficients:
-##                        Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)             88.3500     4.1728  21.173  &lt; 2e-16 ***
-## block2                  -9.1667     4.8183  -1.902 0.063520 .  
-## block3                  -4.8333     4.8183  -1.003 0.321166    
-## block4                 -20.3333     4.8183  -4.220 0.000117 ***
-## block5                  -9.3333     4.8183  -1.937 0.059031 .  
-## block6                   0.6667     4.8183   0.138 0.890572    
-## block7                 -31.3333     4.8183  -6.503 5.58e-08 ***
-## block8                 -10.1667     4.8183  -2.110 0.040450 *  
-## block9                 -19.8333     4.8183  -4.116 0.000162 ***
-## block10                 -0.1667     4.8183  -0.035 0.972559    
-## protSourcec              1.1000     3.7322   0.295 0.769556    
-## protSourcep              1.3000     3.7322   0.348 0.729226    
-## protLevelh              20.0000     3.7322   5.359 2.76e-06 ***
-## protSourcec:protLevelh -18.2000     5.2782  -3.448 0.001236 ** 
-## protSourcep:protLevelh  -1.7000     5.2782  -0.322 0.748883    
+##                                Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)                     88.3500     4.1728  21.173  &lt; 2e-16
+## block2                          -9.1667     4.8183  -1.902 0.063520
+## block3                          -4.8333     4.8183  -1.003 0.321166
+## block4                         -20.3333     4.8183  -4.220 0.000117
+## block5                          -9.3333     4.8183  -1.937 0.059031
+## block6                           0.6667     4.8183   0.138 0.890572
+## block7                         -31.3333     4.8183  -6.503 5.58e-08
+## block8                         -10.1667     4.8183  -2.110 0.040450
+## block9                         -19.8333     4.8183  -4.116 0.000162
+## block10                         -0.1667     4.8183  -0.035 0.972559
+## protSourcecereal                 1.1000     3.7322   0.295 0.769556
+## protSourcepork                   1.3000     3.7322   0.348 0.729226
+## protLevelhigh                   20.0000     3.7322   5.359 2.76e-06
+## protSourcecereal:protLevelhigh -18.2000     5.2782  -3.448 0.001236
+## protSourcepork:protLevelhigh    -1.7000     5.2782  -0.322 0.748883
+##                                   
+## (Intercept)                    ***
+## block2                         .  
+## block3                            
+## block4                         ***
+## block5                         .  
+## block6                            
+## block7                         ***
+## block8                         *  
+## block9                         ***
+## block10                           
+## protSourcecereal                  
+## protSourcepork                    
+## protLevelhigh                  ***
+## protSourcecereal:protLevelhigh ** 
+## protSourcepork:protLevelhigh      
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -686,8 +719,8 @@ div.tocify {
 </div>
 <div id="interpretation-of-the-regression-parameters" class="section level2" number="6.3">
 <h2><span class="header-section-number">6.3</span> Interpretation of the regression parameters</h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ExploreModelMatrix)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>ExploreModelMatrix<span class="sc">::</span><span class="fu">VisualizeDesign</span>(diet, <span class="sc">~</span> block <span class="sc">+</span> protSource <span class="sc">*</span> protLevel)<span class="sc">$</span>plotlist</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ExploreModelMatrix)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>ExploreModelMatrix<span class="sc">::</span><span class="fu">VisualizeDesign</span>(diet, <span class="sc">~</span> block <span class="sc">+</span> protSource <span class="sc">*</span> protLevel)<span class="sc">$</span>plotlist</span></code></pre></div>
 <pre><code>## $`block = 1`</code></pre>
 <p><img src="08_6_rats_sol_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <pre><code>## 
@@ -742,8 +775,8 @@ div.tocify {
 <div id="testing-the-overall-combined-effect-of-diet" class="section level2" number="6.4">
 <h2><span class="header-section-number">6.4</span> Testing the overall (combined) effect of diet</h2>
 <p>Because there are multiple factors with different levels in the model, we can first assess the effect of the diet (protein Level, protein source and the interaction) by using anova. With this test we will assess the null hypothesis that the average weight gain in each treatment is equal: i.e. <span class="math inline">\(H_0: \mu_{b,l}=\mu_{b,h}=\mu_{c,h}=\mu_{c,l}=\mu_{p,h}=\mu_{p,h}\)</span> versus the alternative hyptohesis <span class="math inline">\(H_1:\)</span> that at least two treatment means are different.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>lm0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(weightGain <span class="sc">~</span> block, <span class="at">data =</span> diet)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(lm0, lm1)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>lm0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(weightGain <span class="sc">~</span> block, <span class="at">data =</span> diet)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(lm0, lm1)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Res.Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["RSS"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Sum of Sq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["F"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"50","2":"7728.833","3":"NA","4":"NA","5":"NA","6":"NA","_rn_":"1"},{"1":"45","2":"3134.150","3":"5","4":"4594.683","5":"13.19406","6":"6.308133e-08","_rn_":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -753,8 +786,8 @@ div.tocify {
 </div>
 <div id="assessing-the-interaction-effect-between-protein-source-and-protein-level" class="section level2" number="6.5">
 <h2><span class="header-section-number">6.5</span> Assessing the interaction effect between protein source and protein level</h2>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(lm1, <span class="at">type =</span> <span class="st">&quot;III&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Anova</span>(lm1, <span class="at">type =</span> <span class="st">&quot;III&quot;</span>)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sum Sq"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Df"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"31222.890","2":"1","3":"448.297002","4":"4.955763e-25","_rn_":"(Intercept)"},{"1":"5969.350","2":"9","3":"9.523076","4":"6.083601e-08","_rn_":"block"},{"1":"9.800","2":"2","3":"0.070354","4":"9.321661e-01","_rn_":"protSource"},{"1":"2000.000","2":"1","3":"28.715920","4":"2.762595e-06","_rn_":"protLevel"},{"1":"1010.633","2":"2","3":"7.255316","4":"1.857393e-03","_rn_":"protSource:protLevel"},{"1":"3134.150","2":"45","3":"NA","4":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -793,101 +826,101 @@ div.tocify {
 </ol>
 <p>These effects of interest are so-called <strong>contrasts, i.e. linear combinations of the parameters</strong>.</p>
 <p>We can define the contrasts and assess the significance of the contrasts with the code below. The contrasts are given as input in the form of symbolic descriptions to the <code>linfct</code> argument of the <code>glht</code> function.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">75468</span>) <span class="co"># to get reproducible results (small effect if removed)</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>lm1MultComp <span class="ot">&lt;-</span> <span class="fu">glht</span>(</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm1,</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">linfct =</span> <span class="fu">c</span>(</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcec = 0&quot;</span>,</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcep = 0&quot;</span>,</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcec- protSourcep = 0&quot;</span>,</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcec + protSourcec:protLevelh = 0&quot;</span>,</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcep + protSourcep:protLevelh = 0&quot;</span>,</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;(protSourcec + protSourcec:protLevelh) - (protSourcep + protSourcep:protLevelh) = 0&quot;</span>,</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protLevelh = 0&quot;</span>,</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protLevelh +  protSourcec:protLevelh = 0&quot;</span>,</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protLevelh +  protSourcep:protLevelh = 0&quot;</span>,</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcec:protLevelh = 0&quot;</span>,</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcep:protLevelh = 0&quot;</span>,</span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcec:protLevelh - protSourcep:protLevelh = 0&quot;</span></span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm1MultComp)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">75468</span>) <span class="co"># to get reproducible results (small effect if removed)</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>lm1MultComp <span class="ot">&lt;-</span> <span class="fu">glht</span>(</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm1,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">linfct =</span> <span class="fu">c</span>(</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcecereal = 0&quot;</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcepork = 0&quot;</span>,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcecereal- protSourcepork = 0&quot;</span>,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcecereal + protSourcecereal:protLevelhigh = 0&quot;</span>,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcepork + protSourcepork:protLevelhigh = 0&quot;</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;(protSourcecereal + protSourcecereal:protLevelhigh) - (protSourcepork + protSourcepork:protLevelhigh) = 0&quot;</span>,</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protLevelhigh = 0&quot;</span>,</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protLevelhigh +  protSourcecereal:protLevelhigh = 0&quot;</span>,</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protLevelhigh +  protSourcepork:protLevelhigh = 0&quot;</span>,</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcecereal:protLevelhigh = 0&quot;</span>,</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcepork:protLevelhigh = 0&quot;</span>,</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;protSourcecereal:protLevelhigh - protSourcepork:protLevelhigh = 0&quot;</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm1MultComp)</span></code></pre></div>
 <pre><code>## 
 ##   Simultaneous Tests for General Linear Hypotheses
 ## 
 ## Fit: lm(formula = weightGain ~ block + protSource * protLevel, data = diet)
 ## 
 ## Linear Hypotheses:
-##                                                                                      Estimate
-## protSourcec == 0                                                                        1.100
-## protSourcep == 0                                                                        1.300
-## protSourcec - protSourcep == 0                                                         -0.200
-## protSourcec + protSourcec:protLevelh == 0                                             -17.100
-## protSourcep + protSourcep:protLevelh == 0                                              -0.400
-## (protSourcec + protSourcec:protLevelh) - (protSourcep + protSourcep:protLevelh) == 0  -16.700
-## protLevelh == 0                                                                        20.000
-## protLevelh + protSourcec:protLevelh == 0                                                1.800
-## protLevelh + protSourcep:protLevelh == 0                                               18.300
-## protSourcec:protLevelh == 0                                                           -18.200
-## protSourcep:protLevelh == 0                                                            -1.700
-## protSourcec:protLevelh - protSourcep:protLevelh == 0                                  -16.500
-##                                                                                      Std. Error
-## protSourcec == 0                                                                          3.732
-## protSourcep == 0                                                                          3.732
-## protSourcec - protSourcep == 0                                                            3.732
-## protSourcec + protSourcec:protLevelh == 0                                                 3.732
-## protSourcep + protSourcep:protLevelh == 0                                                 3.732
-## (protSourcec + protSourcec:protLevelh) - (protSourcep + protSourcep:protLevelh) == 0      3.732
-## protLevelh == 0                                                                           3.732
-## protLevelh + protSourcec:protLevelh == 0                                                  3.732
-## protLevelh + protSourcep:protLevelh == 0                                                  3.732
-## protSourcec:protLevelh == 0                                                               5.278
-## protSourcep:protLevelh == 0                                                               5.278
-## protSourcec:protLevelh - protSourcep:protLevelh == 0                                      5.278
-##                                                                                      t value
-## protSourcec == 0                                                                       0.295
-## protSourcep == 0                                                                       0.348
-## protSourcec - protSourcep == 0                                                        -0.054
-## protSourcec + protSourcec:protLevelh == 0                                             -4.582
-## protSourcep + protSourcep:protLevelh == 0                                             -0.107
-## (protSourcec + protSourcec:protLevelh) - (protSourcep + protSourcep:protLevelh) == 0  -4.475
-## protLevelh == 0                                                                        5.359
-## protLevelh + protSourcec:protLevelh == 0                                               0.482
-## protLevelh + protSourcep:protLevelh == 0                                               4.903
-## protSourcec:protLevelh == 0                                                           -3.448
-## protSourcep:protLevelh == 0                                                           -0.322
-## protSourcec:protLevelh - protSourcep:protLevelh == 0                                  -3.126
-##                                                                                      Pr(&gt;|t|)
-## protSourcec == 0                                                                       0.9995
-## protSourcep == 0                                                                       0.9989
-## protSourcec - protSourcep == 0                                                         1.0000
-## protSourcec + protSourcec:protLevelh == 0                                              &lt;0.001
-## protSourcep + protSourcep:protLevelh == 0                                              1.0000
-## (protSourcec + protSourcec:protLevelh) - (protSourcep + protSourcep:protLevelh) == 0   &lt;0.001
-## protLevelh == 0                                                                        &lt;0.001
-## protLevelh + protSourcec:protLevelh == 0                                               0.9949
-## protLevelh + protSourcep:protLevelh == 0                                               &lt;0.001
-## protSourcec:protLevelh == 0                                                            0.0118
-## protSourcep:protLevelh == 0                                                            0.9993
-## protSourcec:protLevelh - protSourcep:protLevelh == 0                                   0.0265
-##                                                                                         
-## protSourcec == 0                                                                        
-## protSourcep == 0                                                                        
-## protSourcec - protSourcep == 0                                                          
-## protSourcec + protSourcec:protLevelh == 0                                            ***
-## protSourcep + protSourcep:protLevelh == 0                                               
-## (protSourcec + protSourcec:protLevelh) - (protSourcep + protSourcep:protLevelh) == 0 ***
-## protLevelh == 0                                                                      ***
-## protLevelh + protSourcec:protLevelh == 0                                                
-## protLevelh + protSourcep:protLevelh == 0                                             ***
-## protSourcec:protLevelh == 0                                                          *  
-## protSourcep:protLevelh == 0                                                             
-## protSourcec:protLevelh - protSourcep:protLevelh == 0                                 *  
+##                                                                                                            Estimate
+## protSourcecereal == 0                                                                                         1.100
+## protSourcepork == 0                                                                                           1.300
+## protSourcecereal - protSourcepork == 0                                                                       -0.200
+## protSourcecereal + protSourcecereal:protLevelhigh == 0                                                      -17.100
+## protSourcepork + protSourcepork:protLevelhigh == 0                                                           -0.400
+## (protSourcecereal + protSourcecereal:protLevelhigh) - (protSourcepork + protSourcepork:protLevelhigh) == 0  -16.700
+## protLevelhigh == 0                                                                                           20.000
+## protLevelhigh + protSourcecereal:protLevelhigh == 0                                                           1.800
+## protLevelhigh + protSourcepork:protLevelhigh == 0                                                            18.300
+## protSourcecereal:protLevelhigh == 0                                                                         -18.200
+## protSourcepork:protLevelhigh == 0                                                                            -1.700
+## protSourcecereal:protLevelhigh - protSourcepork:protLevelhigh == 0                                          -16.500
+##                                                                                                            Std. Error
+## protSourcecereal == 0                                                                                           3.732
+## protSourcepork == 0                                                                                             3.732
+## protSourcecereal - protSourcepork == 0                                                                          3.732
+## protSourcecereal + protSourcecereal:protLevelhigh == 0                                                          3.732
+## protSourcepork + protSourcepork:protLevelhigh == 0                                                              3.732
+## (protSourcecereal + protSourcecereal:protLevelhigh) - (protSourcepork + protSourcepork:protLevelhigh) == 0      3.732
+## protLevelhigh == 0                                                                                              3.732
+## protLevelhigh + protSourcecereal:protLevelhigh == 0                                                             3.732
+## protLevelhigh + protSourcepork:protLevelhigh == 0                                                               3.732
+## protSourcecereal:protLevelhigh == 0                                                                             5.278
+## protSourcepork:protLevelhigh == 0                                                                               5.278
+## protSourcecereal:protLevelhigh - protSourcepork:protLevelhigh == 0                                              5.278
+##                                                                                                            t value
+## protSourcecereal == 0                                                                                        0.295
+## protSourcepork == 0                                                                                          0.348
+## protSourcecereal - protSourcepork == 0                                                                      -0.054
+## protSourcecereal + protSourcecereal:protLevelhigh == 0                                                      -4.582
+## protSourcepork + protSourcepork:protLevelhigh == 0                                                          -0.107
+## (protSourcecereal + protSourcecereal:protLevelhigh) - (protSourcepork + protSourcepork:protLevelhigh) == 0  -4.475
+## protLevelhigh == 0                                                                                           5.359
+## protLevelhigh + protSourcecereal:protLevelhigh == 0                                                          0.482
+## protLevelhigh + protSourcepork:protLevelhigh == 0                                                            4.903
+## protSourcecereal:protLevelhigh == 0                                                                         -3.448
+## protSourcepork:protLevelhigh == 0                                                                           -0.322
+## protSourcecereal:protLevelhigh - protSourcepork:protLevelhigh == 0                                          -3.126
+##                                                                                                            Pr(&gt;|t|)
+## protSourcecereal == 0                                                                                        0.9995
+## protSourcepork == 0                                                                                          0.9989
+## protSourcecereal - protSourcepork == 0                                                                       1.0000
+## protSourcecereal + protSourcecereal:protLevelhigh == 0                                                       &lt;0.001
+## protSourcepork + protSourcepork:protLevelhigh == 0                                                           1.0000
+## (protSourcecereal + protSourcecereal:protLevelhigh) - (protSourcepork + protSourcepork:protLevelhigh) == 0   &lt;0.001
+## protLevelhigh == 0                                                                                           &lt;0.001
+## protLevelhigh + protSourcecereal:protLevelhigh == 0                                                          0.9949
+## protLevelhigh + protSourcepork:protLevelhigh == 0                                                            &lt;0.001
+## protSourcecereal:protLevelhigh == 0                                                                          0.0118
+## protSourcepork:protLevelhigh == 0                                                                            0.9993
+## protSourcecereal:protLevelhigh - protSourcepork:protLevelhigh == 0                                           0.0265
+##                                                                                                               
+## protSourcecereal == 0                                                                                         
+## protSourcepork == 0                                                                                           
+## protSourcecereal - protSourcepork == 0                                                                        
+## protSourcecereal + protSourcecereal:protLevelhigh == 0                                                     ***
+## protSourcepork + protSourcepork:protLevelhigh == 0                                                            
+## (protSourcecereal + protSourcecereal:protLevelhigh) - (protSourcepork + protSourcepork:protLevelhigh) == 0 ***
+## protLevelhigh == 0                                                                                         ***
+## protLevelhigh + protSourcecereal:protLevelhigh == 0                                                           
+## protLevelhigh + protSourcepork:protLevelhigh == 0                                                          ***
+## protSourcecereal:protLevelhigh == 0                                                                        *  
+## protSourcepork:protLevelhigh == 0                                                                             
+## protSourcecereal:protLevelhigh - protSourcepork:protLevelhigh == 0                                         *  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- single-step method)</code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lm1MultComp)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(lm1MultComp)</span></code></pre></div>
 <pre><code>## 
 ##   Simultaneous Confidence Intervals
 ## 
@@ -898,45 +931,45 @@ div.tocify {
 ##  
 ## 
 ## Linear Hypotheses:
-##                                                                                      Estimate
-## protSourcec == 0                                                                       1.1000
-## protSourcep == 0                                                                       1.3000
-## protSourcec - protSourcep == 0                                                        -0.2000
-## protSourcec + protSourcec:protLevelh == 0                                            -17.1000
-## protSourcep + protSourcep:protLevelh == 0                                             -0.4000
-## (protSourcec + protSourcec:protLevelh) - (protSourcep + protSourcep:protLevelh) == 0 -16.7000
-## protLevelh == 0                                                                       20.0000
-## protLevelh + protSourcec:protLevelh == 0                                               1.8000
-## protLevelh + protSourcep:protLevelh == 0                                              18.3000
-## protSourcec:protLevelh == 0                                                          -18.2000
-## protSourcep:protLevelh == 0                                                           -1.7000
-## protSourcec:protLevelh - protSourcep:protLevelh == 0                                 -16.5000
-##                                                                                      lwr     
-## protSourcec == 0                                                                      -9.6358
-## protSourcep == 0                                                                      -9.4358
-## protSourcec - protSourcep == 0                                                       -10.9358
-## protSourcec + protSourcec:protLevelh == 0                                            -27.8358
-## protSourcep + protSourcep:protLevelh == 0                                            -11.1358
-## (protSourcec + protSourcec:protLevelh) - (protSourcep + protSourcep:protLevelh) == 0 -27.4358
-## protLevelh == 0                                                                        9.2642
-## protLevelh + protSourcec:protLevelh == 0                                              -8.9358
-## protLevelh + protSourcep:protLevelh == 0                                               7.5642
-## protSourcec:protLevelh == 0                                                          -33.3827
-## protSourcep:protLevelh == 0                                                          -16.8827
-## protSourcec:protLevelh - protSourcep:protLevelh == 0                                 -31.6827
-##                                                                                      upr     
-## protSourcec == 0                                                                      11.8358
-## protSourcep == 0                                                                      12.0358
-## protSourcec - protSourcep == 0                                                        10.5358
-## protSourcec + protSourcec:protLevelh == 0                                             -6.3642
-## protSourcep + protSourcep:protLevelh == 0                                             10.3358
-## (protSourcec + protSourcec:protLevelh) - (protSourcep + protSourcep:protLevelh) == 0  -5.9642
-## protLevelh == 0                                                                       30.7358
-## protLevelh + protSourcec:protLevelh == 0                                              12.5358
-## protLevelh + protSourcep:protLevelh == 0                                              29.0358
-## protSourcec:protLevelh == 0                                                           -3.0173
-## protSourcep:protLevelh == 0                                                           13.4827
-## protSourcec:protLevelh - protSourcep:protLevelh == 0                                  -1.3173</code></pre>
+##                                                                                                            Estimate
+## protSourcecereal == 0                                                                                        1.1000
+## protSourcepork == 0                                                                                          1.3000
+## protSourcecereal - protSourcepork == 0                                                                      -0.2000
+## protSourcecereal + protSourcecereal:protLevelhigh == 0                                                     -17.1000
+## protSourcepork + protSourcepork:protLevelhigh == 0                                                          -0.4000
+## (protSourcecereal + protSourcecereal:protLevelhigh) - (protSourcepork + protSourcepork:protLevelhigh) == 0 -16.7000
+## protLevelhigh == 0                                                                                          20.0000
+## protLevelhigh + protSourcecereal:protLevelhigh == 0                                                          1.8000
+## protLevelhigh + protSourcepork:protLevelhigh == 0                                                           18.3000
+## protSourcecereal:protLevelhigh == 0                                                                        -18.2000
+## protSourcepork:protLevelhigh == 0                                                                           -1.7000
+## protSourcecereal:protLevelhigh - protSourcepork:protLevelhigh == 0                                         -16.5000
+##                                                                                                            lwr     
+## protSourcecereal == 0                                                                                       -9.6358
+## protSourcepork == 0                                                                                         -9.4358
+## protSourcecereal - protSourcepork == 0                                                                     -10.9358
+## protSourcecereal + protSourcecereal:protLevelhigh == 0                                                     -27.8358
+## protSourcepork + protSourcepork:protLevelhigh == 0                                                         -11.1358
+## (protSourcecereal + protSourcecereal:protLevelhigh) - (protSourcepork + protSourcepork:protLevelhigh) == 0 -27.4358
+## protLevelhigh == 0                                                                                           9.2642
+## protLevelhigh + protSourcecereal:protLevelhigh == 0                                                         -8.9358
+## protLevelhigh + protSourcepork:protLevelhigh == 0                                                            7.5642
+## protSourcecereal:protLevelhigh == 0                                                                        -33.3827
+## protSourcepork:protLevelhigh == 0                                                                          -16.8827
+## protSourcecereal:protLevelhigh - protSourcepork:protLevelhigh == 0                                         -31.6827
+##                                                                                                            upr     
+## protSourcecereal == 0                                                                                       11.8358
+## protSourcepork == 0                                                                                         12.0358
+## protSourcecereal - protSourcepork == 0                                                                      10.5358
+## protSourcecereal + protSourcecereal:protLevelhigh == 0                                                      -6.3642
+## protSourcepork + protSourcepork:protLevelhigh == 0                                                          10.3358
+## (protSourcecereal + protSourcecereal:protLevelhigh) - (protSourcepork + protSourcepork:protLevelhigh) == 0  -5.9642
+## protLevelhigh == 0                                                                                          30.7358
+## protLevelhigh + protSourcecereal:protLevelhigh == 0                                                         12.5358
+## protLevelhigh + protSourcepork:protLevelhigh == 0                                                           29.0358
+## protSourcecereal:protLevelhigh == 0                                                                         -3.0173
+## protSourcepork:protLevelhigh == 0                                                                           13.4827
+## protSourcecereal:protLevelhigh - protSourcepork:protLevelhigh == 0                                          -1.3173</code></pre>
 <p>Note that the p-values and the confidence intervals are automatically corrected for multiple testing.</p>
 </div>
 </div>
@@ -952,7 +985,7 @@ div.tocify {
 <p>All reported p-values and confidence intervals were corrected for multiple testing</p>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2UgOC42OiBCbG9ja2luZyBvbiB0aGUgcmF0IGRpZXQgZGF0YXNldCAtIHNvbHV0aW9uIgphdXRob3I6ICJMaWV2ZW4gQ2xlbWVudCBhbmQgSmVyb2VuIEdpbGlzIgpkYXRlOiAic3RhdE9taWNzLCBHaGVudCBVbml2ZXJzaXR5IChodHRwczovL3N0YXRvbWljcy5naXRodWIuaW8pIgotLS0KCiMgQmFja2dyb3VuZAoKUmVzZWFyY2hlcnMgYXJlIHN0dWR5aW5nIHRoZSBpbXBhY3Qgb2YgcHJvdGVpbiBzb3VyY2VzIGFuZCBwcm90ZWluIGxldmVscyBpbgp0aGUgZGlldCBvbiB0aGUgd2VpZ2h0IG9mIHJhdHMuIFRoZXkgZmVlZCB0aGUgcmF0cyB3aXRoIGRpZXRzIG9mIGJlZWYsIGNlcmVhbAphbmQgcG9yayBhbmQgdXNlIGEgbG93IGFuZCBoaWdoIHByb3RlaW4gbGV2ZWwgZm9yIGVhY2ggZGlldCB0eXBlLgpUaGUgcmVzZWFyY2hlcnMgY2FuIGluY2x1ZGUgNjAgcmF0cyBpbiB0aGUgZXhwZXJpbWVudC4gUHJpb3IgdG8gdGhlIGV4cGVyaW1lbnQsCnRoZSByYXRzIHdlcmUgZGl2aWRlZCBpbiAxMCBob21vZ2VuZW91cyBncm91cHMgb2YgNiByYXRzIGJhc2VkIG9uCmNoYXJhY3RlcmlzdGljcyBzdWNoIGFzIGluaXRpYWwgd2VpZ2h0LCBhcHBldGl0ZSwgZXRjLgoKV2l0aGluIGVhY2ggZ3JvdXAgYSByYXQgaXMgcmFuZG9tbHkgYXNzaWduZWQgdG8gYSBkaWV0LiBUaGUgcmF0cyBhcmUgZmVkIGR1cmluZwphIG1vbnRoIGFuZCB0aGUgd2VpZ2h0IGdhaW4gaW4gZ3JhbXMgaXMgcmVjb3JkZWQgZm9yIGVhY2ggcmF0LgoKIyBFeHBlcmltZW50YWwgZGVzaWduCgotIFRoZXJlIGFyZSB0aHJlZSBleHBsYW5hdG9yeSB2YXJpYWJsZXMgaW4gdGhlIGV4cGVyaW1lbnQ6IHRoZSBmYWN0b3IgZGlldCB0eXBlCndpdGggdGhyZWUgbGV2ZWxzIChiZWVmLCBjZXJlYWwgYW5kIHBvcmspLCBmYWN0b3IgcHJvdGVpbiBsZXZlbCB3aXRoIGxldmVscwoobG93IGFuZCBoaWdoKSBhbmQgYSBncm91cCBibG9ja2luZyBmYWN0b3Igd2l0aCAxMCBsZXZlbHMuCgotIFRoZXJlIGFyZSA2IHRyZWF0bWVudHM6IGJlZWYtaGlnaCwgY2VyZWFsLWhpZ2gsIHBvcmstaGlnaCwgYmVlZi1sb3csCmNlcmVhbC1sb3csIHBvcmstbG93IHByb3RlaW4uCgotIFRoZSByYXRzIGFyZSB0aGUgZXhwZXJpbWVudGFsIGFuZCBvYnNlcnZhdGlvbmFsIHVuaXRzLgoKLSBUaGUgd2VpZ2h0IGdhaW4gaXMgdGhlIHJlc3BvbnNlIHZhcmlhYmxlLgoKLSBUaGUgZXhwZXJpbWVudCBpcyBhIHJhbmRvbWl6ZWQgY29tcGxldGUgYmxvY2sgKFJDQikgZGVzaWduCgpMb2FkIGxpYnJhcmllcwoKYGBge3IsIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9CmxpYnJhcnkodGlkeXZlcnNlKQpgYGAKCiMgRGF0YSBpbXBvcnQKCmBgYHtyfQpkaWV0IDwtIHJlYWQudGFibGUoImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9zdGF0T21pY3MvUFNMUzIxL2RhdGEvZGlldFJhdHMudHh0IiwKICBoZWFkZXIgPSBUUlVFCikKaGVhZChkaWV0KQpgYGAKCiMgVGlkeSBkYXRhCgpgYGB7cn0KZGlldCA8LSBkaWV0ICU+JQogIG11dGF0ZSgKICAgIGJsb2NrID0gYXMuZmFjdG9yKGJsb2NrKSwKICAgIHByb3RTb3VyY2UgPSBhcy5mYWN0b3IocHJvdFNvdXJjZSksCiAgICBwcm90TGV2ZWwgPSBhcy5mYWN0b3IocHJvdExldmVsKQogICkgJT4lCiAgbXV0YXRlKHByb3RMZXZlbCA9IGZjdF9yZWxldmVsKHByb3RMZXZlbCwgImwiKSkKYGBgCgojIERhdGEgZXhwbG9yYXRpb24KCi0gQm94cGxvdCBvZiB0aGUgd2VpZ2h0IGdhaW4gYWdhaW5zdCBwcm90ZWluIHNvdXJjZSwgcHJvdGVpbiBsZXZlbCB3aXRoIGNvbG9yaW5nIGFjY29yZGluZyB0byBibG9jawoKYGBge3J9CmRpZXQgJT4lCiAgZ2dwbG90KGFlcyh4ID0gcHJvdExldmVsLCB5ID0gd2VpZ2h0R2FpbikpICsKICBzY2FsZV9maWxsX2JyZXdlcihwYWxldHRlID0gIlJkR3kiKSArCiAgdGhlbWVfYncoKSArCiAgZ2VvbV9ib3hwbG90KG91dGxpZXIuc2hhcGUgPSBOQSkgKwogIGdlb21faml0dGVyKGFlcyhjb2xvciA9IGJsb2NrKSkgKwogIGdndGl0bGUoIldlaWdodCBnYWluIGRlcGVuZGVuY2Ugb24gcHJvdGVpbiBzb3VyY2UiKSArCiAgeWxhYigiV2VpZ3RoIGdhaW4gKGcpIikgKwogICMgc3RhdF9zdW1tYXJ5KGZ1biA9IG1lYW4sIGdlb209InBvaW50Iiwgc2hhcGU9NSwgc2l6ZT0zLCBjb2xvcj0iYmxhY2siLCBmaWxsPSJibGFjayIpICsKICBmYWNldF93cmFwKC4gfiBwcm90U291cmNlKQpgYGAKCi0gTGluZXBsb3Qgb2YgdGhlIHdlaWdodCBnYWluIGFnYWluc3QgcHJvdGVpbiBzb3VyY2UsIHByb3RlaW4gbGV2ZWwgd2l0aCBjb2xvcmluZyBhbmQgZ3JvdXBpbmcgYWNjb3JkaW5nIHRvIGJsb2NrCgpgYGB7cn0KZGlldCAlPiUKICBnZ3Bsb3QoYWVzKHggPSBwcm90U291cmNlOnByb3RMZXZlbCwgeSA9IHdlaWdodEdhaW4pKSArCiAgc2NhbGVfZmlsbF9icmV3ZXIocGFsZXR0ZSA9ICJSZEd5IikgKwogIHRoZW1lX2J3KCkgKwogIGdlb21fbGluZShhZXMoZ3JvdXAgPSBibG9jaywgY29sb3IgPSBibG9jaykpICsKICBnZW9tX3BvaW50KGFlcyhjb2xvciA9IGJsb2NrKSkgKwogIGdndGl0bGUoIldlaWdodCBnYWluIGRlcGVuZGVuY2Ugb24gcHJvdGVpbiBzb3VyY2UiKSArCiAgeWxhYigiV2VpZ3RoIGdhaW4gKGcpIikKIyBzdGF0X3N1bW1hcnkoZnVuID0gbWVhbiwgZ2VvbT0icG9pbnQiLCBzaGFwZT01LCBzaXplPTMsIGNvbG9yPSJibGFjayIsIGZpbGw9ImJsYWNrIikKYGBgCgotIEFuIGluY3JlYXNlIGluIHRoZSB3ZWlnaHQgb2YgdGhlIHJhdHMgc2VlbXMgdG8gZGVwZW5kIG9uIHRoZSBwcm90ZWluIHNvdXJjZQpyZWNlaXZlZCBpbiB0aGUgZGlldC4KCi0gVGhlIGluY3JlYXNlIGluIHRoZSB3ZWlnaHQgb2YgdGhlIHJhdHMgc2VlbXMgdG8gZGVwZW5kIG9uIHRoZSBsZXZlbCBvZiBwcm90ZWluCnJlY2VpdmVkIGluIHRoZSBkaWV0CgotIFRoZXJlIGFsc28gc2VlbXMgdG8gYmUgYW4gaW50ZXJhY3Rpb24gZWZmZWN0IGJldHdlZW4gdGhlIHByb3RlaW4gbGV2ZWwgYW5kIHRoZQpwcm90ZWluIHNvdXJjZSBvbiB0aGUgZ2FpbiBpbiB3ZWlnaHQgb2YgdGhlIHJhdHMuIEZvciB0aGUgYmVlZiBhbmQgdGhlIHBvcmsKZGlldHMgdGhlIGVmZmVjdCBvZiBoaWdoIHByb3RlaW4gbGV2ZWxzIGluIHRoZSBkYXRhIHNlZW1zIHRvIGJlIG11Y2ggc3Ryb25nZXIKdGhhbiBpbiB0aGUgY2VyZWFsIGRpZXQuCgotIFRoZXJlIGlzIGFsc28gYSBzdHJvbmcgZWZmZWN0IG9mIHRoZSBibG9jay4gQmxvY2tpbmcgaW1wbGllcyBhIHJhbmRvbWlzYXRpb24KcmVzdHJpY3Rpb24sIGhlbmNlLCB3ZSB3aWxsIGhhdmUgdG8gaW5jbHVkZSB0aGUgYmxvY2sgZWZmZWN0IGFueXdheS4KCiMgTXVsdGl2YXJpYXRlIGxpbmVhciByZWdyZXNzaW9uIGFuYWx5c2lzCgojIyBBc3N1bXB0aW9ucwoKTGlzdCBhc3N1bXB0aW9uczoKCjEuIFRoZSBvYnNlcnZhdGlvbnMgYXJlIGluZGVwZW5kZW50CjIuIExpbmVhcml0eSBiZXR3ZWVuIHRoZSByZXNwb25zZSBhbmQgcHJlZGljdG9yIHZhcmlhYmxlCjMuIFRoZSByZXNpZHVhbHMgb2YgdGhlIG1vZGVsIG11c3QgYmUgbm9ybWFsbHkgZGlzdHJpYnV0ZWQKNC4gSG9tb3NjZWRhc3RpY2l0eSBvZiB0aGUgZGF0YQoKVGhlIGZpcnN0IGFzc3VtcHRpb24gaXMgbWV0IGlmIHdlIGNvcnJlY3QgZm9yIGJsb2NrIGluIHRoZSBtb2RlbCBiZWNhdXNlIHRoZSByYXRzIHdlcmUgcmFuZG9taXplZCB0byB0aGUgdHJlYXRtZW50IHdpdGhpbiBibG9jay4gVGhlIG90aGVyIHRocmVlIGFzc3VtcHRpb25zIGNhbiBiZSBhc3Nlc3NlZCBieQpmaXR0aW5nIHRoZSBsaW5lYXIgbW9kZWwgYW5kIGNhbGxpbmcgdGhlIGBwbG90KClgIGZ1bmN0aW9uIGFzIGZvbGxvd3MuCgpgYGB7cn0KbG0xIDwtIGxtKHdlaWdodEdhaW4gfiBibG9jayArIHByb3RTb3VyY2UgKiBwcm90TGV2ZWwsIGRhdGEgPSBkaWV0KQpwbG90KGxtMSkKYGBgCgpBbGwgYXNzdW1wdGlvbnMgYXJlIG1ldCBmb3IgdGhpcyBkYXRhc2V0LgoKIyMgSHlwb3RoZXNpcyB0ZXN0aW5nCgpXZSBoZXJlIGZpdCBhIGxpbmVhciBtb2RlbCB3aXRoIGEgYmxvY2tpbmcgZmFjdG9yIGZvciBgYmxvY2tgIGFuZCBtYWluIGFuZAppbnRlcmFjdGlvbiBlZmZlY3RzIGZvciBwcm90ZWluIHNvdXJjZSBhbmQgcHJvdGVpbiBsZXZlbC4KCmBgYHtyfQpzdW1tYXJ5KGxtMSkKYGBgCgojIyBJbnRlcnByZXRhdGlvbiBvZiB0aGUgcmVncmVzc2lvbiBwYXJhbWV0ZXJzCgpgYGB7cn0KbGlicmFyeShFeHBsb3JlTW9kZWxNYXRyaXgpCkV4cGxvcmVNb2RlbE1hdHJpeDo6VmlzdWFsaXplRGVzaWduKGRpZXQsIH4gYmxvY2sgKyBwcm90U291cmNlICogcHJvdExldmVsKSRwbG90bGlzdApgYGAKClRoZXJlIGFyZSAzIGxldmVscyBmb3IgcHJvdGVpbiBzb3VyY2UsIDIgbGV2ZWxzIGZvciBwcm90ZWluIGxldmVsIGFuZCAxMCBsZXZlbHMKZm9yIHRoZSBibG9ja2luZyB2YXJpYWJsZS4gV2Ugd2lsbCBoYXZlIG9uZSByZWZlcmVuY2UgbGV2ZWwgZm9yIGVhY2ggcmVzcGVjdGl2ZQp2YXJpYWJsZTogYmVlZiwgbG93LCBibG9jayAxLiBTbyB3ZSBuZWVkIDIsIDEgYW5kIDkgZHVtbXkgdmFyaWFibGVzIHRvIGludHJvZHVjZQp0aGUgZmFjdG9ycyBwcm90ZWluIHNvdXJjZSwgcHJvdGVpbiBsZXZlbCBhbmQgYmxvY2sgaW4gdGhlIGxpbmVhciBtb2RlbCwKcmVzcGVjdGl2ZWx5LgoKSGVuY2UsIHdlIGNhbiB3cml0ZSBkb3duIHRoZSBsaW5lYXIgbW9kZWwgYXMgZm9sbG93czoKCiR5X2k9XGJldGFfMCtcYmV0YV9jeF97aSxjfSArXGJldGFfcHhfe2kscH0rXGJldGFfaHhfe2ksaH0rXGJldGFfe2NofXhfe2ksY314X3tpLGh9K1xiZXRhX3twaH14X3tpLHB9eF97aSxofStcYmV0YV97YjJ9eF97aSxiMn0rXGxkb3RzK1xiZXRhX3tiMTB9eF97aSxiMTB9K1xlcHNpbG9uX3tpfSQKCndpdGg6CiR5X2kkIHRoZSBvYnNlcnZlZCB3ZWlnaHQgZ2FpbiBmb3IgcmF0IGksCiR4X3tpLGh9JCBhIGR1bW15IHZhcmlhYmxlIHdoaWNoIGlzIDEgaWYgcmF0IGkgcmVjZWl2ZXMgYSBoaWdoIHByb3RlaW4gZGlldAphbmQgaXMgMCBvdGhlcndpc2UsCiR4X3tpLGN9JCBhIGR1bW15IHZhcmlhYmxlIHdoaWNoIGlzIDEgaWYgcmF0IGkgcmVjZWl2ZXMgYSBjZXJlYWwgZGlldAphbmQgaXMgMCBvdGhlcndpc2UsCiR4X3tpLHB9JCBhIGR1bW15IHZhcmlhYmxlIHdoaWNoIGlzIDEgaWYgcmF0IGkgcmVjZWl2ZXMgYSBwb3JrIGRpZXQKYW5kIGlzIDAgb3RoZXJ3aXNlIGFuZAokeF97aSxia30kIGlzIGEgZHVtbXkgdmFyaWFibGUgd2hpY2ggaXMgMSBpZiByYXQgaSBiZWxvbmdzIHRvIGJsb2NrICRiayQKYW5kIGlzIDAgb3RoZXJ3aXNlLCB3aXRoICRrIFxpbiAyLFxsZG90cywgMTAkLAphbmQgJFxlcHNpbG9uX2kkIGFuIGVycm9yIHRlcm0gd2hpY2ggaXMgbm9ybWFsbHkgZGlzdHJpYnV0ZWQgd2l0aCBtZWFuIDAgYW5kCnZhcmlhbmNlICRcc2lnbWFeMiQsIGkuZS4gJFxlcHNpbG9uX2kgXHNpbSBOKDAsXHNpZ21hXjIpJC4KCi0gUmF0cyB0aGF0IGFyZSBhc3NpZ25lZCB0byBibG9jayAkayQgYW5kIHJlY2VpdmUgYSBiZWVmIGJhc2VkIGxvdyBwcm90ZWluIGRpZXQgaGF2ZQoJYSBjb3ZhcmlhdGUgcGF0dGVybiAkeF97aSxofT0wJCwgJHhfe2ksY309MCQsICR4X3tpLHB9PTAkLCAkeF97aSxibX09MCQgd2l0aCAkbVxuZXEgayQgYW5kICR4X3tpLGJrfT0xJC4KCVRoZWlyIG1lYW4gd2VpZ2h0IGdhaW4gaXMgdGh1cyBlcXVhbCB0byAkXG11X3tsLGIsYmt9PVxiZXRhXzArXGJldGFfe2JrfSQKCi0gUmF0cyB0aGF0IGFyZSBhc3NpZ25lZCB0byBibG9jayAkayQgYW5kIHJlY2VpdmUgYSBiZWVmIGJhc2VkIGhpZ2ggcHJvdGVpbiBkaWV0IGhhdmUKCWEgY292YXJpYXRlIHBhdHRlcm4gJHhfe2ksaH09MSQsICR4X3tpLGN9PTAkLCAkeF97aSxwfT0wJCwgJHhfe2ksYm19PTAkIHdpdGggJG1cbmVxIGskIGFuZCAkeF97aSxia309MSQuCglUaGVpciBtZWFuIHdlaWdodCBnYWluIGlzIHRodXMgZXF1YWwgdG8gJFxtdV97aCxiLGJrfT1cYmV0YV8wK1xiZXRhX2grXGJldGFfe2JrfSQKCi0gUmF0cyB0aGF0IGFyZSBhc3NpZ25lZCB0byBibG9jayAkayQgYW5kIHJlY2VpdmUgYSBjZXJlYWwgYmFzZWQgbG93IHByb3RlaW4gZGlldCBoYXZlCglhIGNvdmFyaWF0ZSBwYXR0ZXJuICR4X3tpLGh9PTAkLCAkeF97aSxjfT0xJCwgJHhfe2kscH09MCQsICR4X3tpLGJtfT0wJCB3aXRoICRtXG5lcSBrJCBhbmQgJHhfe2ksYmt9PTEkLgoJVGhlaXIgbWVhbiB3ZWlnaHQgZ2FpbiBpcyB0aHVzIGVxdWFsIHRvICRcbXVfe2gsYyxia309XGJldGFfMCtcYmV0YV9jK1xiZXRhX3tia30kCgotIFJhdHMgdGhhdCBhcmUgYXNzaWduZWQgdG8gYmxvY2sgJGskIGFuZCByZWNlaXZlIGEgY2VyZWFsIGJhc2VkIGhlaWdoIHByb3RlaW4gZGlldCBoYXZlCglhIGNvdmFyaWF0ZSBwYXR0ZXJuICR4X3tpLGh9PTEkLCAkeF97aSxjfT0xJCwgJHhfe2kscH09MCQsICR4X3tpLGJtfT0wJCB3aXRoICRtXG5lcSBrJCBhbmQgJHhfe2ksYmt9PTEkLgoJVGhlaXIgbWVhbiB3ZWlnaHQgZ2FpbiBpcyB0aHVzIGVxdWFsIHRvICRcbXVfe2gsYyxia309XGJldGFfMCtcYmV0YV9oK1xiZXRhX2MrXGJldGFfe2NofStcYmV0YV97Ymt9JAoKLSBSYXRzIHRoYXQgYXJlIGFzc2lnbmVkIHRvIGJsb2NrICRrJCBhbmQgcmVjZWl2ZSBhIHBvcmsgYmFzZWQgbG93IHByb3RlaW4gZGlldCBoYXZlCglhIGNvdmFyaWF0ZSBwYXR0ZXJuICR4X3tpLGh9PTAkLCAgJHhfe2ksY309MCQsICR4X3tpLHB9PTEkLCAkeF97aSxibX09MCQgd2l0aCAkbVxuZXEgayQgYW5kICR4X3tpLGJrfT0xJC4KCVRoZWlyIG1lYW4gd2VpZ2h0IGdhaW4gaXMgdGh1cyBlcXVhbCB0byAkXG11X3tsLHAsYmt9PVxiZXRhXzArXGJldGFfcCtcYmV0YV97Ymt9JAoKLSBSYXRzIHRoYXQgYXJlIGFzc2lnbmVkIHRvIGJsb2NrICRrJCBhbmQgcmVjZWl2ZSBhIHBvcmsgYmFzZWQgaGVpZ2ggcHJvdGVpbiBkaWV0IGhhdmUKCWEgY292YXJpYXRlIHBhdHRlcm4gJHhfe2ksaH09MSQsICR4X3tpLGN9PTAkLCAkeF97aSxwfT0xJCwgJHhfe2ksYm19PTAkIHdpdGggJG1cbmVxIGskIGFuZCAkeF97aSxia309MSQuCglUaGVyZSBtZWFuIHdlaWdodCBnYWluIGlzIHRodXMgZXF1YWwgdG8gJFxtdV97aCxwLGJrfT1cYmV0YV8wK1xiZXRhX2grXGJldGFfcCtcYmV0YV97cGh9K1xiZXRhX3tia30kCgpXZSBjYW4gbm93IHJlbGF0ZSB0aGlzIHRvIHRoZSBvdXRwdXQgb2YgdGhlIGBsbWAgZnVuY3Rpb246CgotIFRoZSBpbnRlcmNlcHQgJFxiZXRhXzAkIGlzIHRodXMgdGhlIGF2ZXJhZ2Ugd2VpZ2h0IGluY3JlYXNlIGluIHRoZSBsb3cgYmVlZgpkaWV0IGZvciByYXRzIGluIGJsb2NrIDEuCgotIFRoZSBwYXJhbWV0ZXIgJFxiZXRhX2MkOiB0aGUgYXZlcmFnZSBkaWZmZXJlbmNlIGluIHdlaWdodCBnYWluIGJldHdlZW4gY2VyZWFsLWxvdyBhbmQKYmVlZi1sb3cgZGlldCBpcyBgciBsbTEkY29lZlsicHJvdFNvdXJjZWMiXWBnLgoKLSBUaGUgcGFyYW1ldGVyICRcYmV0YV9wJDogdGhlIGF2ZXJhZ2UgZGlmZmVyZW5jZSBpbiB3ZWlnaHQgZ2FpbiBiZXR3ZWVuIHBvcmstbG93IGFuZApiZWVmLWxvdyBkaWV0IGlzIGByIGxtMSRjb2VmWyJwcm90U291cmNlcCJdYGcuCgotIFRoZSBwYXJhbWV0ZXIgJFxiZXRhX2gkOiB0aGUgYXZlcmFnZSBkaWZmZXJlbmNlIGluIHdlaWdodCBnYWluIGJldHdlZW4gYmVlZi1oaWdoIGFuZApiZWVmLUxvdyBkaWV0IGlzIGByIGxtMSRjb2VmWyJwcm90TGV2ZWxoIl1gZy4KCi0gVGhlIHBhcmFtZXRlciAkXGJldGFfe2NofSQgaXMgdGhlIGRpZmZlcmVuY2UgaW4gdGhlIGF2ZXJhZ2Ugd2VpZ2h0IGdhaW4gZGlmZmVyZW5jZQpkdWUgdG8gdGhlIGhpZ2ggcHJvdGVpbiBsZXZlbCBhcyBjb21wYXJlZCB0byB0aGUgbG93IHByb3RlaW4gbGV2ZWwgZm9yIGNlcmVhbCBkaWV0cwphcyBjb21wYXJlZCB0byB0aGUgd2VpZ2h0IGdhaW4gZGlmZmVyZW5jZSB0aGF0IG9jY3VycyBkdWUgdG8gdGhlIHByb3RlaW4gbGV2ZWwKaW4gdGhlIHJlZmVyZW5jZSBjbGFzcyAoaGVyZSBiZWVmIGRpZXQpLiBIZXJlIHRoaXMgaXMgbmVnYXRpdmUsCmkuZS4gYHIgbG0xJGNvZWZbInByb3RTb3VyY2VjOnByb3RMZXZlbGgiXWBnLCB0aHVzIHRoZSB3ZWlnaHQgZ2Fpbgpmb3IgdGhlIGNlcmVhbCBwcm90ZWluIHNvdXJjZSBpbmNyZWFzZXMgb24gYXZlcmFnZSBsZXNzIGJldHdlZW4gaGlnaCBhbmQgbG93IHByb3RlaW4gZGlldHMKdGhhbiBpbiBiZWVmIGJhc2VkIGRpZXRzLgoKLSBUaGUgcGFyYW1ldGVyICRcYmV0YV97cGh9JCBpcyB0aGUgZGlmZmVyZW5jZSBpbiB0aGUgYXZlcmFnZSB3ZWlnaHQgZ2FpbiBkaWZmZXJlbmNlCmR1ZSB0byB0aGUgaGlnaCBwcm90ZWluIGxldmVsIGFzIGNvbXBhcmVkIHRvIHRoZSBsb3cgcHJvdGVpbiBsZXZlbCBmb3IgcG9yayBkaWV0cwphcyBjb21wYXJlZCB0byB0aGUgd2VpZ2h0IGdhaW4gZGlmZmVyZW5jZSB0aGF0IG9jY3VycyBkdWUgdG8gdGhlIHByb3RlaW4gbGV2ZWwKaW4gdGhlIHJlZmVyZW5jZSBjbGFzcyAoaGVyZSBiZWVmIGRpZXQpLiBIZXJlIHRoaXMgaXMgbmVnYXRpdmUsCmkuZS4gYHIgbG0xJGNvZWZbInByb3RTb3VyY2VwOnByb3RMZXZlbGgiXWBnLCB0aHVzIHRoZSB3ZWlnaHQgZ2Fpbgpmb3IgdGhlIHByb2MgcHJvdGVpbiBzb3VyY2UgaW5jcmVhc2VzIG9uIGF2ZXJhZ2UgbGVzcyBiZXR3ZWVuIGhpZ2ggYW5kIGxvdyBwcm90ZWluIGRpZXRzCnRoYW4gaW4gYmVlZiBiYXNlZCBkaWV0cy4KCiMjIFRlc3RpbmcgdGhlIG92ZXJhbGwgKGNvbWJpbmVkKSBlZmZlY3Qgb2YgZGlldAoKQmVjYXVzZSB0aGVyZSBhcmUgbXVsdGlwbGUgZmFjdG9ycyB3aXRoIGRpZmZlcmVudCBsZXZlbHMgaW4gdGhlIG1vZGVsLAp3ZSBjYW4gZmlyc3QgYXNzZXNzIHRoZSBlZmZlY3Qgb2YgdGhlIGRpZXQgKHByb3RlaW4gTGV2ZWwsIHByb3RlaW4gc291cmNlCmFuZCB0aGUgaW50ZXJhY3Rpb24pIGJ5IHVzaW5nIGFub3ZhLiBXaXRoIHRoaXMgdGVzdCB3ZSB3aWxsIGFzc2VzcyB0aGUgbnVsbApoeXBvdGhlc2lzIHRoYXQgdGhlIGF2ZXJhZ2Ugd2VpZ2h0IGdhaW4gaW4gZWFjaCB0cmVhdG1lbnQgaXMgZXF1YWw6IGkuZS4gJEhfMDogXG11X3tiLGx9PVxtdV97YixofT1cbXVfe2MsaH09XG11X3tjLGx9PVxtdV97cCxofT1cbXVfe3AsaH0kIHZlcnN1cwp0aGUgYWx0ZXJuYXRpdmUgaHlwdG9oZXNpcyAkSF8xOiQgdGhhdCBhdCBsZWFzdCB0d28gdHJlYXRtZW50IG1lYW5zIGFyZQpkaWZmZXJlbnQuCgpgYGB7cn0KbG0wIDwtIGxtKHdlaWdodEdhaW4gfiBibG9jaywgZGF0YSA9IGRpZXQpCmFub3ZhKGxtMCwgbG0xKQpgYGAKCldlIGNhbiBjb25jbHVkZSB0aGF0IHRoZXJlIGlzIGFuIGV4dHJlbWVseSBzaWduaWZpY2FudCBlZmZlY3Qgb2YgdGhlIGRpZXQgdHlwZQoocHJvdGVpbiBzb3VyY2UgYW5kL29yIHByb3RlaW4gbGV2ZWwgYW5kL29yIHByb3RlaW4gc291cmNlLXByb3RlaW4gbGV2ZWwKaW50ZXJhY3Rpb24pIG9uIHRoZSB3ZWlnaHQgZ2FpbiBvZiByYXRzIChwIDw8IDAuMDAxKS4KCiMjIEFzc2Vzc2luZyB0aGUgaW50ZXJhY3Rpb24gZWZmZWN0IGJldHdlZW4gcHJvdGVpbiBzb3VyY2UgYW5kIHByb3RlaW4gbGV2ZWwKCmBgYHtyLCBtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFfQpsaWJyYXJ5KGNhcikKQW5vdmEobG0xLCB0eXBlID0gIklJSSIpCmBgYAoKVGhlcmUgaXMgYSB2ZXJ5IHNpZ25pZmljYW50IGludGVyYWN0aW9uIGJldHdlZW4gdGhlIHByb3RlaW4gc291cmNlIGFuZAp0aGUgcHJvdGVpbiBsZXZlbCAocCA9IGByIGZvcm1hdChBbm92YShsbTEsIHR5cGU9MykkIlByKD5GKSIsZGlnaXRzPTEpWzVdYCkuIFRoaXMgaW5kaWNhdGVzIHRoYXQgdGhlIGF2ZXJhZ2Ugd2VpZ2h0IGluY3JlYXNlIGR1ZSB0bwp0aGUgcHJvdGVpbiBsZXZlbCBkaWZmZXJzIGFjY29yZGluZyB0byB0aGUgcHJvdGVpbiBzb3VyY2UuCkhlbmNlLCB3ZSBjYW5ub3QgYXNzZXNzIHRoZSBlZmZlY3Qgb2YgdGhlIHByb3RlaW4gc291cmNlIGFuZC9vciBwcm90ZWluIGxldmVsCmluZGVwZW5kZW50bHkgYmVjYXVzZSB0aGVyZSBlZmZlY3RzIG9mIHRoZSBwcm90ZWluIHNvdXJjZSB2YXJ5IGFjY29yZGluZyB0bwp0aGUgcHJvdGVpbiBsZXZlbC4KCiMjIEFzc2Vzc2luZyBzcGVjaWZpYyBjb250cmFzdHMKCkltYWdpbmUgdGhhdCB3ZSBhcmUgaW50ZXJlc3RlZCBpbiBhc3Nlc3NpbmcgaWYgdGhlcmUgaXMgYW4gZWZmZWN0IG9mCgoxLiBwcm90ZWluIHNvdXJjZSBpbiB0aGUgbG93IHByb3RlaW4gZGlldHMKCS0gJFxtdV97YyxsfS1cbXVfe2IsbH0gPSBcYmV0YV9jJAoJLSAkXG11X3twLGx9LVxtdV97YixsfSA9IFxiZXRhX3AkCgktICRcbXVfe2MsbH0tXG11X3twLGx9PSBcYmV0YV9jLVxiZXRhX3AkKQoKCjIuIHByb3RlaW4gc291cmNlIGluIGhpZ2ggcHJvdGVpbiBkaWV0cwoJLSAkXG11X3tjLGh9LVxtdV97YixofT1cYmV0YV9jK1xiZXRhX3tjaH0kCgktICRcbXVfe3AsaH0tXG11X3tiLGh9PVxiZXRhX3ArXGJldGFfe3BofSQKCS0gJFxtdV97cCxofS1cbXVfe2MsaH09KFxiZXRhX2MrXGJldGFfe2NofSktKFxiZXRhX3ArXGJldGFfe3BofSkkCgoKMy4gcHJvdGVpbiBsZXZlbCBmb3IKCS0gYmVlZiBkaWV0cyAoJFxtdV97YixofS1cbXVfe2IsbH09XGJldGFfaCQpLAoJLSBjZXJlYWwgZGlldHMgICgkXG11X3tjLGh9LVxtdV97YyxsfT1cYmV0YV9oK1xiZXRhX3tjaH0kKSBhbmQKCS0gcG9yayBkaWV0cyAgKCRcbXVfe3AsaH0tXG11X3twLGx9PVxiZXRhX2grXGJldGFfe3BofSQpLgoKCjQuIElmIHRoZSBlZmZlY3Qgb2YgdGhlIHByb3RlaW4gbGV2ZWwgZGlmZmVycyBiZXR3ZWVuCgktIGJlZWYgYW5kIGNlcmVhbCAgJChcbXVfe2MsaH0tXG11X3tjLGx9KSAtIChcbXVfe2IsaH0tXG11X3tiLGx9KT1cYmV0YV97Y2h9JAoJLSBiZWVmIGFuZCBwb3JrICQoXG11X3twLGh9LVxtdV97cCxsfSkgLSAoXG11X3tjLGh9LVxtdV97YyxsfSk9XGJldGFfe3BofSQgYW5kCgktIGNlcmVhbCBhbmQgcG9yayBkaWV0cyAkKFxtdV97YyxofS1cbXVfe2MsbH0pIC0gKFxtdV97cCxofS1cbXVfe3AsbH0pPVxiZXRhX3tjaH0tXGJldGFfe3BofSQuCgpUaGVzZSBlZmZlY3RzIG9mIGludGVyZXN0IGFyZSBzby1jYWxsZWQKKipjb250cmFzdHMsIGkuZS4gbGluZWFyIGNvbWJpbmF0aW9ucyBvZiB0aGUgcGFyYW1ldGVycyoqLgoKV2UgY2FuIGRlZmluZSB0aGUgY29udHJhc3RzIGFuZCBhc3Nlc3MgdGhlIHNpZ25pZmljYW5jZSBvZiB0aGUgY29udHJhc3RzIHdpdGgKdGhlIGNvZGUgYmVsb3cuIFRoZSBjb250cmFzdHMgYXJlIGdpdmVuIGFzIGlucHV0IGluIHRoZSBmb3JtIG9mIHN5bWJvbGljCmRlc2NyaXB0aW9ucyB0byB0aGUgYGxpbmZjdGAgYXJndW1lbnQgb2YgdGhlIGBnbGh0YCBmdW5jdGlvbi4KCmBgYHtyLG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9CmxpYnJhcnkobXVsdGNvbXApCnNldC5zZWVkKDc1NDY4KSAjIHRvIGdldCByZXByb2R1Y2libGUgcmVzdWx0cyAoc21hbGwgZWZmZWN0IGlmIHJlbW92ZWQpCmxtMU11bHRDb21wIDwtIGdsaHQoCiAgbW9kZWwgPSBsbTEsCiAgbGluZmN0ID0gYygKICAgICJwcm90U291cmNlYyA9IDAiLAogICAgInByb3RTb3VyY2VwID0gMCIsCiAgICAicHJvdFNvdXJjZWMtIHByb3RTb3VyY2VwID0gMCIsCiAgICAicHJvdFNvdXJjZWMgKyBwcm90U291cmNlYzpwcm90TGV2ZWxoID0gMCIsCiAgICAicHJvdFNvdXJjZXAgKyBwcm90U291cmNlcDpwcm90TGV2ZWxoID0gMCIsCiAgICAiKHByb3RTb3VyY2VjICsgcHJvdFNvdXJjZWM6cHJvdExldmVsaCkgLSAocHJvdFNvdXJjZXAgKyBwcm90U291cmNlcDpwcm90TGV2ZWxoKSA9IDAiLAogICAgInByb3RMZXZlbGggPSAwIiwKICAgICJwcm90TGV2ZWxoICsgIHByb3RTb3VyY2VjOnByb3RMZXZlbGggPSAwIiwKICAgICJwcm90TGV2ZWxoICsgIHByb3RTb3VyY2VwOnByb3RMZXZlbGggPSAwIiwKICAgICJwcm90U291cmNlYzpwcm90TGV2ZWxoID0gMCIsCiAgICAicHJvdFNvdXJjZXA6cHJvdExldmVsaCA9IDAiLAogICAgInByb3RTb3VyY2VjOnByb3RMZXZlbGggLSBwcm90U291cmNlcDpwcm90TGV2ZWxoID0gMCIKICApCikKYGBgCgpgYGB7cn0Kc3VtbWFyeShsbTFNdWx0Q29tcCkKYGBgCgpgYGB7cn0KY29uZmludChsbTFNdWx0Q29tcCkKYGBgCgpOb3RlIHRoYXQgdGhlIHAtdmFsdWVzIGFuZCB0aGUgY29uZmlkZW5jZSBpbnRlcnZhbHMgYXJlIGF1dG9tYXRpY2FsbHkgY29ycmVjdGVkCmZvciBtdWx0aXBsZSB0ZXN0aW5nLgoKIyBDb25jbHVzaW9uCgotIFRoZXJlIGlzIGFuIGV4dHJlbWVseSBzaWduaWZpY2FudCBlZmZlY3Qgb2YgdGhlIHR5cGUgb2YgcHJvdGVpbiBkaWV0IG9uIHRoZQp3ZWlnaHQgZ2FpbiBvZiByYXRzICAocDw8MWUtNikuIFRoZSBpbnRlcmFjdGlvbiBiZXR3ZWVuIHByb3RlaW4gdHlwZSBhbmQgcHJvdGVpbgpzb3VyY2UgaXMgYWxzbyB2ZXJ5IHNpZ25pZmljYW50IChwPWByIHJvdW5kKEFub3ZhKGxtMSx0eXBlPTMpJFByWzVdLDQpYCkuCgotIFRoZSBhdmVyYWdlIHdlaWdodCBnYWluIGRvZXMgbm90IHZhcnkgc2lnbmlmaWNhbnRseSBhY2NvcmRpbmcgdG8gcHJvdGVpbgpzb3VyY2UgaW4gdGhlIGRpZXRzIHdpdGggbG93IHByb3RlaW4gbGV2ZWxzIChhbGwgcD4wLjk5KS4KCi0gVGhlIHdlaWdodCBnYWluIGluIHRoZSBjZXJlYWwgZGlldCBhdCBoaWdoIHByb3RlaW4gY29uY2VudHJhdGlvbiBpcyBvbgphdmVyYWdlIGByIGNvbmZpbnQobG0xTXVsdENvbXApJGNvbmZpbnRbInByb3RTb3VyY2VjICsgcHJvdFNvdXJjZWM6cHJvdExldmVsaCIsMV0gJT4lIGFicyAlPiUgcm91bmQoLiwxKWBnIGFuZCBgciBjb25maW50KGxtMU11bHRDb21wKSRjb25maW50WyIocHJvdFNvdXJjZWMgKyBwcm90U291cmNlYzpwcm90TGV2ZWxoKSAtIChwcm90U291cmNlcCArIHByb3RTb3VyY2VwOnByb3RMZXZlbGgpIiwxXSAlPiUgYWJzICU+JSByb3VuZCguLDEpYGcgZyBsb3dlciB0aGFuIGluIHRoZSBoaWdoIHByb3RlaW4gYmVlZiBhbmQgcG9yayBkaWV0LApyZXNwZWN0aXZlbHkgKDk1JSBDSSBbYHIgY29uZmludChsbTFNdWx0Q29tcCkkY29uZmludFsicHJvdFNvdXJjZWMgKyBwcm90U291cmNlYzpwcm90TGV2ZWxoIiwtMV0gJT4lIGFicyAlPiUgcm91bmQoLiwxKSAlPiUgc29ydGBdIGFuZCBbYHIgY29uZmludChsbTFNdWx0Q29tcCkkY29uZmludFsiKHByb3RTb3VyY2VjICsgcHJvdFNvdXJjZWM6cHJvdExldmVsaCkgLSAocHJvdFNvdXJjZXAgKyBwcm90U291cmNlcDpwcm90TGV2ZWxoKSIsLTFdICU+JSBhYnMgJT4lIHJvdW5kKC4sMSkgJT4lIHNvcnRgXSkgYW5kIHRoZSBkaWZmZXJlbmNlcyBhcmUKZXh0cmVtZWx5IHNpZ25pZmljYW50IChwPDAuMDAxKS4gVGhlIGF2ZXJhZ2Ugd2VpZ2h0IGdhaW5zIGFmdGVyIG1lYXQgYmFzZWQKZGlldHMgYXQgaGlnaCBwcm90ZWluIGxldmVscywgaG93ZXZlciwgZG8gbm90IGRpZmZlciBzaWduaWZpY2FudGx5CihwPjAuOTkpLgoKLSBXZSBhbHNvIGRpc2NvdmVyZWQgYW4gZXh0cmVtZWx5IHNpZ25pZmljYW50IGRpZmZlcmVuY2UgaW4gd2VpZ2h0IGdhaW4KYWNjb3JkaW5nIHRvIHRoZSBwcm90ZWluIGxldmVsIGZvciBiZWVmIGFuZCBwb3JrIGJhc2VkIGRpZXRzIChwPDAuMDAxKS4KVGhlIHdlaWdodCBnYWluIG9uIGF2ZXJhZ2UgaW5jcmVhc2VzIHdpdGggYHIgcm91bmQoY29uZmludChsbTFNdWx0Q29tcCkkY29uZmludFsicHJvdExldmVsaCIsMV0sMSlgZyBhbmQgYHIgcm91bmQoY29uZmludChsbTFNdWx0Q29tcCkkY29uZmludFsicHJvdExldmVsaCArIHByb3RTb3VyY2VwOnByb3RMZXZlbGgiLDFdLDEpYGcgaW4gdGhlIGhpZ2ggcHJvdGVpbgpsZXZlbCBhcyBjb21wYXJlZCB0byB0aGUgbG93IHByb3RlaW4gYmVlZiBhbmQgcG9yayBkaWV0LCByZXNwZWN0aXZlbHkKKDk1JUNJIFtgciByb3VuZChjb25maW50KGxtMU11bHRDb21wKSRjb25maW50WyJwcm90TGV2ZWxoIiwtMV0sMSlgXSBhbmQgW2ByIHJvdW5kKGNvbmZpbnQobG0xTXVsdENvbXApJGNvbmZpbnRbInByb3RMZXZlbGggKyBwcm90U291cmNlcDpwcm90TGV2ZWxoIiwtMV0sMSlgXSkuIFRoZSBwcm90ZWluIGxldmVsIGVmZmVjdCBpcyBub3Qgc2lnbmlmaWNhbnQKZm9yIHRoZSBjZXJlYWwgZGlldCAocD4wLjk5KS4KCi0gRmluYWxseSBzaWduaWZpY2FudCBpbnRlcmFjdGlvbnMgYmV0d2VlbiBwcm90ZWluIGxldmVsIGFuZCBwcm90ZWluIHNvdXJjZSB3ZXJlCmZvdW5kIChwPDAuMDUpLCBpLmUuIHRoZSBpbmNyZWFzZSBpbiB3ZWlnaHQgZ2FpbiBkdWUgdG8gcHJvdGVpbiBsZXZlbCBpbiBjZXJlYWwKYmFzZWQgZGlldHMgd2FzIDE4LjJnIGFuZCAxNi41ZyBsb3dlciB0aGFuIHRoYXQgb2YgYmVlZiBhbmQgcG9yayBiYXNlZCBkaWV0cywKcmVzcGVjdGl2ZWx5ICg5NSUgQ0kgWzNnLDMzLjRnXSBhbmQgWzEuM2csMzEuN2ddKS4gVGhlIGF2ZXJhZ2UgZGlmZmVyZW5jZSBpbgppbmNyZWFzZSBpbiB3ZWlnaHQgZ2FpbiBkdWUgdG8gcHJvdGVpbiBsZXZlbCBhbW9uZyB0aGUgbWVhdCBiYXNlZCBkaWV0cyB3YXMgbm90CnNpZ25pZmljYW50IChwPjAuOTkpLgoKQWxsIHJlcG9ydGVkIHAtdmFsdWVzIGFuZCBjb25maWRlbmNlIGludGVydmFscyB3ZXJlIGNvcnJlY3RlZCBmb3IgbXVsdGlwbGUKdGVzdGluZwo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlcmNpc2UgOC42OiBCbG9ja2luZyBvbiB0aGUgcmF0IGRpZXQgZGF0YXNldCAtIHNvbHV0aW9uIgphdXRob3I6ICJMaWV2ZW4gQ2xlbWVudCwgSmVyb2VuIEdpbGlzIGFuZCBNaWxhbiBNYWxmYWl0IgpkYXRlOiAic3RhdE9taWNzLCBHaGVudCBVbml2ZXJzaXR5IChodHRwczovL3N0YXRvbWljcy5naXRodWIuaW8pIgotLS0KCiMgQmFja2dyb3VuZAoKUmVzZWFyY2hlcnMgYXJlIHN0dWR5aW5nIHRoZSBpbXBhY3Qgb2YgcHJvdGVpbiBzb3VyY2VzIGFuZCBwcm90ZWluIGxldmVscyBpbgp0aGUgZGlldCBvbiB0aGUgd2VpZ2h0IG9mIHJhdHMuIFRoZXkgZmVlZCB0aGUgcmF0cyB3aXRoIGRpZXRzIG9mIGJlZWYsIGNlcmVhbAphbmQgcG9yayBhbmQgdXNlIGEgbG93IGFuZCBoaWdoIHByb3RlaW4gbGV2ZWwgZm9yIGVhY2ggZGlldCB0eXBlLgpUaGUgcmVzZWFyY2hlcnMgY2FuIGluY2x1ZGUgNjAgcmF0cyBpbiB0aGUgZXhwZXJpbWVudC4gUHJpb3IgdG8gdGhlIGV4cGVyaW1lbnQsCnRoZSByYXRzIHdlcmUgZGl2aWRlZCBpbiAxMCBob21vZ2VuZW91cyBncm91cHMgb2YgNiByYXRzIGJhc2VkIG9uCmNoYXJhY3RlcmlzdGljcyBzdWNoIGFzIGluaXRpYWwgd2VpZ2h0LCBhcHBldGl0ZSwgZXRjLgoKV2l0aGluIGVhY2ggZ3JvdXAgYSByYXQgaXMgcmFuZG9tbHkgYXNzaWduZWQgdG8gYSBkaWV0LiBUaGUgcmF0cyBhcmUgZmVkIGR1cmluZwphIG1vbnRoIGFuZCB0aGUgd2VpZ2h0IGdhaW4gaW4gZ3JhbXMgaXMgcmVjb3JkZWQgZm9yIGVhY2ggcmF0LgoKIyBFeHBlcmltZW50YWwgZGVzaWduCgotIFRoZXJlIGFyZSB0aHJlZSBleHBsYW5hdG9yeSB2YXJpYWJsZXMgaW4gdGhlIGV4cGVyaW1lbnQ6IHRoZSBmYWN0b3IgZGlldCB0eXBlCndpdGggdGhyZWUgbGV2ZWxzIChiZWVmLCBjZXJlYWwgYW5kIHBvcmspLCBmYWN0b3IgcHJvdGVpbiBsZXZlbCB3aXRoIGxldmVscwoobG93IGFuZCBoaWdoKSBhbmQgYSBncm91cCBibG9ja2luZyBmYWN0b3Igd2l0aCAxMCBsZXZlbHMuCgotIFRoZXJlIGFyZSA2IHRyZWF0bWVudHM6IGJlZWYtaGlnaCwgY2VyZWFsLWhpZ2gsIHBvcmstaGlnaCwgYmVlZi1sb3csCmNlcmVhbC1sb3csIHBvcmstbG93IHByb3RlaW4uCgotIFRoZSByYXRzIGFyZSB0aGUgZXhwZXJpbWVudGFsIGFuZCBvYnNlcnZhdGlvbmFsIHVuaXRzLgoKLSBUaGUgd2VpZ2h0IGdhaW4gaXMgdGhlIHJlc3BvbnNlIHZhcmlhYmxlLgoKLSBUaGUgZXhwZXJpbWVudCBpcyBhIHJhbmRvbWl6ZWQgY29tcGxldGUgYmxvY2sgKFJDQikgZGVzaWduCgpMb2FkIGxpYnJhcmllcwoKYGBge3IsIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9CmxpYnJhcnkodGlkeXZlcnNlKQpgYGAKCiMgRGF0YSBpbXBvcnQKCmBgYHtyfQpkaWV0IDwtIHJlYWQudGFibGUoImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9zdGF0T21pY3MvUFNMUzIxL2RhdGEvZGlldFJhdHMudHh0IiwKICBoZWFkZXIgPSBUUlVFCikKaGVhZChkaWV0KQpgYGAKCiMgVGlkeSBkYXRhCgpgYGB7cn0KZGlldCA8LSBkaWV0ICU+JQogICMjIENvbnZlcnQgY2F0ZWdvcmljYWwgbGV2ZWxzIHRvIGZhY3RvcnMKICBtdXRhdGUoCiAgICBibG9jayA9IGFzLmZhY3RvcihibG9jayksCiAgICBwcm90U291cmNlID0gYXMuZmFjdG9yKHByb3RTb3VyY2UpLAogICAgcHJvdExldmVsID0gYXMuZmFjdG9yKHByb3RMZXZlbCkKICApICU+JQogICMjIFJlY29kZSBmYWN0b3JzIHRvIG1ha2UgdGhlbSBtb3JlIHZlcmJvc2UKICBtdXRhdGUoCiAgICBwcm90TGV2ZWwgPSBmY3RfcmVjb2RlKHByb3RMZXZlbCwgaGlnaCA9ICJoIiwgbG93ID0gImwiKSwKICAgIHByb3RTb3VyY2UgPSBmY3RfcmVjb2RlKHByb3RTb3VyY2UsIGJlZWYgPSAiYiIsIGNlcmVhbCA9ICJjIiwgcG9yayA9ICJwIikKICApICU+JQogICMjIFNldCAibG93IiBhcyB0aGUgcmVmZXJlbmNlIGxldmVsIGZvciBgcHJvdExldmVsYAogIG11dGF0ZShwcm90TGV2ZWwgPSBmY3RfcmVsZXZlbChwcm90TGV2ZWwsICJsb3ciKSkKCmhlYWQoZGlldCkKYGBgCgojIERhdGEgZXhwbG9yYXRpb24KCi0gQm94cGxvdCBvZiB0aGUgd2VpZ2h0IGdhaW4gYWdhaW5zdCBwcm90ZWluIHNvdXJjZSwgcHJvdGVpbiBsZXZlbCB3aXRoIGNvbG9yaW5nIGFjY29yZGluZyB0byBibG9jawoKYGBge3J9CmRpZXQgJT4lCiAgZ2dwbG90KGFlcyh4ID0gcHJvdExldmVsLCB5ID0gd2VpZ2h0R2FpbikpICsKICBzY2FsZV9maWxsX2JyZXdlcihwYWxldHRlID0gIlJkR3kiKSArCiAgdGhlbWVfYncoKSArCiAgZ2VvbV9ib3hwbG90KG91dGxpZXIuc2hhcGUgPSBOQSkgKwogIGdlb21faml0dGVyKGFlcyhjb2xvciA9IGJsb2NrKSkgKwogIGdndGl0bGUoIldlaWdodCBnYWluIGRlcGVuZGVuY2Ugb24gcHJvdGVpbiBzb3VyY2UiKSArCiAgbGFicyh4ID0gIlByb3RlaW4gbGV2ZWwiLCB5ID0gIldlaWdodCBnYWluIChnKSIpICsKICBzdGF0X3N1bW1hcnkoCiAgICBmdW4gPSBtZWFuLCBnZW9tPSJwb2ludCIsCiAgICBzaGFwZT01LCBzaXplPTMsIGNvbG9yPSJibGFjayIKICApICsKICBmYWNldF93cmFwKHZhcnMocHJvdFNvdXJjZSkpCmBgYAoKLSBMaW5lcGxvdCBvZiB0aGUgd2VpZ2h0IGdhaW4gYWdhaW5zdCBwcm90ZWluIHNvdXJjZSwgcHJvdGVpbiBsZXZlbCB3aXRoIGNvbG9yaW5nIGFuZCBncm91cGluZyBhY2NvcmRpbmcgdG8gYmxvY2sKCmBgYHtyfQpkaWV0ICU+JQogIGdncGxvdChhZXMoeCA9IHByb3RMZXZlbCwgeSA9IHdlaWdodEdhaW4sIGNvbG9yID0gYmxvY2spKSArCiAgc2NhbGVfZmlsbF9icmV3ZXIocGFsZXR0ZSA9ICJSZEd5IikgKwogIHRoZW1lX2J3KCkgKwogIGdlb21fbGluZShhZXMoZ3JvdXAgPSBibG9jaykpICsKICBnZW9tX3BvaW50KCkgKwogIGdndGl0bGUoIldlaWdodCBnYWluIGRlcGVuZGVuY2Ugb24gcHJvdGVpbiBzb3VyY2UiKSArCiAgeWxhYigiV2VpZ2h0IGdhaW4gKGcpIikgKwogIGZhY2V0X3dyYXAodmFycyhwcm90U291cmNlKSkKYGBgCgotIEFuIGluY3JlYXNlIGluIHRoZSB3ZWlnaHQgb2YgdGhlIHJhdHMgc2VlbXMgdG8gZGVwZW5kIG9uIHRoZSBwcm90ZWluIHNvdXJjZQpyZWNlaXZlZCBpbiB0aGUgZGlldC4KCi0gVGhlIGluY3JlYXNlIGluIHRoZSB3ZWlnaHQgb2YgdGhlIHJhdHMgc2VlbXMgdG8gZGVwZW5kIG9uIHRoZSBsZXZlbCBvZiBwcm90ZWluCnJlY2VpdmVkIGluIHRoZSBkaWV0CgotIFRoZXJlIGFsc28gc2VlbXMgdG8gYmUgYW4gaW50ZXJhY3Rpb24gZWZmZWN0IGJldHdlZW4gdGhlIHByb3RlaW4gbGV2ZWwgYW5kIHRoZQpwcm90ZWluIHNvdXJjZSBvbiB0aGUgZ2FpbiBpbiB3ZWlnaHQgb2YgdGhlIHJhdHMuIEZvciB0aGUgYmVlZiBhbmQgdGhlIHBvcmsKZGlldHMgdGhlIGVmZmVjdCBvZiBoaWdoIHByb3RlaW4gbGV2ZWxzIGluIHRoZSBkYXRhIHNlZW1zIHRvIGJlIG11Y2ggc3Ryb25nZXIKdGhhbiBpbiB0aGUgY2VyZWFsIGRpZXQuCgotIFRoZXJlIGlzIGFsc28gYSBzdHJvbmcgZWZmZWN0IG9mIHRoZSBibG9jay4gQmxvY2tpbmcgaW1wbGllcyBhIHJhbmRvbWlzYXRpb24KcmVzdHJpY3Rpb24sIGhlbmNlLCB3ZSB3aWxsIGhhdmUgdG8gaW5jbHVkZSB0aGUgYmxvY2sgZWZmZWN0IGFueXdheS4KCiMgTXVsdGl2YXJpYXRlIGxpbmVhciByZWdyZXNzaW9uIGFuYWx5c2lzCgojIyBBc3N1bXB0aW9ucwoKTGlzdCBhc3N1bXB0aW9uczoKCjEuIFRoZSBvYnNlcnZhdGlvbnMgYXJlIGluZGVwZW5kZW50CjIuIExpbmVhcml0eSBiZXR3ZWVuIHRoZSByZXNwb25zZSBhbmQgcHJlZGljdG9yIHZhcmlhYmxlCjMuIFRoZSByZXNpZHVhbHMgb2YgdGhlIG1vZGVsIG11c3QgYmUgbm9ybWFsbHkgZGlzdHJpYnV0ZWQKNC4gSG9tb3NjZWRhc3RpY2l0eSBvZiB0aGUgZGF0YQoKVGhlIGZpcnN0IGFzc3VtcHRpb24gaXMgbWV0IGlmIHdlIGNvcnJlY3QgZm9yIGJsb2NrIGluIHRoZSBtb2RlbCBiZWNhdXNlIHRoZSByYXRzIHdlcmUgcmFuZG9taXplZCB0byB0aGUgdHJlYXRtZW50IHdpdGhpbiBibG9jay4gVGhlIG90aGVyIHRocmVlIGFzc3VtcHRpb25zIGNhbiBiZSBhc3Nlc3NlZCBieQpmaXR0aW5nIHRoZSBsaW5lYXIgbW9kZWwgYW5kIGNhbGxpbmcgdGhlIGBwbG90KClgIGZ1bmN0aW9uIGFzIGZvbGxvd3MuCgpgYGB7cn0KbG0xIDwtIGxtKHdlaWdodEdhaW4gfiBibG9jayArIHByb3RTb3VyY2UgKiBwcm90TGV2ZWwsIGRhdGEgPSBkaWV0KQpwbG90KGxtMSkKYGBgCgpBbGwgYXNzdW1wdGlvbnMgYXJlIG1ldCBmb3IgdGhpcyBkYXRhc2V0LgoKIyMgSHlwb3RoZXNpcyB0ZXN0aW5nCgpXZSBoZXJlIGZpdCBhIGxpbmVhciBtb2RlbCB3aXRoIGEgYmxvY2tpbmcgZmFjdG9yIGZvciBgYmxvY2tgIGFuZCBtYWluIGFuZAppbnRlcmFjdGlvbiBlZmZlY3RzIGZvciBwcm90ZWluIHNvdXJjZSBhbmQgcHJvdGVpbiBsZXZlbC4KCmBgYHtyfQpzdW1tYXJ5KGxtMSkKYGBgCgojIyBJbnRlcnByZXRhdGlvbiBvZiB0aGUgcmVncmVzc2lvbiBwYXJhbWV0ZXJzCgpgYGB7cn0KbGlicmFyeShFeHBsb3JlTW9kZWxNYXRyaXgpCkV4cGxvcmVNb2RlbE1hdHJpeDo6VmlzdWFsaXplRGVzaWduKGRpZXQsIH4gYmxvY2sgKyBwcm90U291cmNlICogcHJvdExldmVsKSRwbG90bGlzdApgYGAKClRoZXJlIGFyZSAzIGxldmVscyBmb3IgcHJvdGVpbiBzb3VyY2UsIDIgbGV2ZWxzIGZvciBwcm90ZWluIGxldmVsIGFuZCAxMCBsZXZlbHMKZm9yIHRoZSBibG9ja2luZyB2YXJpYWJsZS4gV2Ugd2lsbCBoYXZlIG9uZSByZWZlcmVuY2UgbGV2ZWwgZm9yIGVhY2ggcmVzcGVjdGl2ZQp2YXJpYWJsZTogYmVlZiwgbG93LCBibG9jayAxLiBTbyB3ZSBuZWVkIDIsIDEgYW5kIDkgZHVtbXkgdmFyaWFibGVzIHRvIGludHJvZHVjZQp0aGUgZmFjdG9ycyBwcm90ZWluIHNvdXJjZSwgcHJvdGVpbiBsZXZlbCBhbmQgYmxvY2sgaW4gdGhlIGxpbmVhciBtb2RlbCwKcmVzcGVjdGl2ZWx5LgoKSGVuY2UsIHdlIGNhbiB3cml0ZSBkb3duIHRoZSBsaW5lYXIgbW9kZWwgYXMgZm9sbG93czoKCiR5X2k9XGJldGFfMCtcYmV0YV9jeF97aSxjfSArXGJldGFfcHhfe2kscH0rXGJldGFfaHhfe2ksaH0rXGJldGFfe2NofXhfe2ksY314X3tpLGh9K1xiZXRhX3twaH14X3tpLHB9eF97aSxofStcYmV0YV97YjJ9eF97aSxiMn0rXGxkb3RzK1xiZXRhX3tiMTB9eF97aSxiMTB9K1xlcHNpbG9uX3tpfSQKCndpdGg6CiR5X2kkIHRoZSBvYnNlcnZlZCB3ZWlnaHQgZ2FpbiBmb3IgcmF0IGksCiR4X3tpLGh9JCBhIGR1bW15IHZhcmlhYmxlIHdoaWNoIGlzIDEgaWYgcmF0IGkgcmVjZWl2ZXMgYSBoaWdoIHByb3RlaW4gZGlldAphbmQgaXMgMCBvdGhlcndpc2UsCiR4X3tpLGN9JCBhIGR1bW15IHZhcmlhYmxlIHdoaWNoIGlzIDEgaWYgcmF0IGkgcmVjZWl2ZXMgYSBjZXJlYWwgZGlldAphbmQgaXMgMCBvdGhlcndpc2UsCiR4X3tpLHB9JCBhIGR1bW15IHZhcmlhYmxlIHdoaWNoIGlzIDEgaWYgcmF0IGkgcmVjZWl2ZXMgYSBwb3JrIGRpZXQKYW5kIGlzIDAgb3RoZXJ3aXNlIGFuZAokeF97aSxia30kIGlzIGEgZHVtbXkgdmFyaWFibGUgd2hpY2ggaXMgMSBpZiByYXQgaSBiZWxvbmdzIHRvIGJsb2NrICRiayQKYW5kIGlzIDAgb3RoZXJ3aXNlLCB3aXRoICRrIFxpbiAyLFxsZG90cywgMTAkLAphbmQgJFxlcHNpbG9uX2kkIGFuIGVycm9yIHRlcm0gd2hpY2ggaXMgbm9ybWFsbHkgZGlzdHJpYnV0ZWQgd2l0aCBtZWFuIDAgYW5kCnZhcmlhbmNlICRcc2lnbWFeMiQsIGkuZS4gJFxlcHNpbG9uX2kgXHNpbSBOKDAsXHNpZ21hXjIpJC4KCi0gUmF0cyB0aGF0IGFyZSBhc3NpZ25lZCB0byBibG9jayAkayQgYW5kIHJlY2VpdmUgYSBiZWVmIGJhc2VkIGxvdyBwcm90ZWluIGRpZXQgaGF2ZQoJYSBjb3ZhcmlhdGUgcGF0dGVybiAkeF97aSxofT0wJCwgJHhfe2ksY309MCQsICR4X3tpLHB9PTAkLCAkeF97aSxibX09MCQgd2l0aCAkbVxuZXEgayQgYW5kICR4X3tpLGJrfT0xJC4KCVRoZWlyIG1lYW4gd2VpZ2h0IGdhaW4gaXMgdGh1cyBlcXVhbCB0byAkXG11X3tsLGIsYmt9PVxiZXRhXzArXGJldGFfe2JrfSQKCi0gUmF0cyB0aGF0IGFyZSBhc3NpZ25lZCB0byBibG9jayAkayQgYW5kIHJlY2VpdmUgYSBiZWVmIGJhc2VkIGhpZ2ggcHJvdGVpbiBkaWV0IGhhdmUKCWEgY292YXJpYXRlIHBhdHRlcm4gJHhfe2ksaH09MSQsICR4X3tpLGN9PTAkLCAkeF97aSxwfT0wJCwgJHhfe2ksYm19PTAkIHdpdGggJG1cbmVxIGskIGFuZCAkeF97aSxia309MSQuCglUaGVpciBtZWFuIHdlaWdodCBnYWluIGlzIHRodXMgZXF1YWwgdG8gJFxtdV97aCxiLGJrfT1cYmV0YV8wK1xiZXRhX2grXGJldGFfe2JrfSQKCi0gUmF0cyB0aGF0IGFyZSBhc3NpZ25lZCB0byBibG9jayAkayQgYW5kIHJlY2VpdmUgYSBjZXJlYWwgYmFzZWQgbG93IHByb3RlaW4gZGlldCBoYXZlCglhIGNvdmFyaWF0ZSBwYXR0ZXJuICR4X3tpLGh9PTAkLCAkeF97aSxjfT0xJCwgJHhfe2kscH09MCQsICR4X3tpLGJtfT0wJCB3aXRoICRtXG5lcSBrJCBhbmQgJHhfe2ksYmt9PTEkLgoJVGhlaXIgbWVhbiB3ZWlnaHQgZ2FpbiBpcyB0aHVzIGVxdWFsIHRvICRcbXVfe2gsYyxia309XGJldGFfMCtcYmV0YV9jK1xiZXRhX3tia30kCgotIFJhdHMgdGhhdCBhcmUgYXNzaWduZWQgdG8gYmxvY2sgJGskIGFuZCByZWNlaXZlIGEgY2VyZWFsIGJhc2VkIGhlaWdoIHByb3RlaW4gZGlldCBoYXZlCglhIGNvdmFyaWF0ZSBwYXR0ZXJuICR4X3tpLGh9PTEkLCAkeF97aSxjfT0xJCwgJHhfe2kscH09MCQsICR4X3tpLGJtfT0wJCB3aXRoICRtXG5lcSBrJCBhbmQgJHhfe2ksYmt9PTEkLgoJVGhlaXIgbWVhbiB3ZWlnaHQgZ2FpbiBpcyB0aHVzIGVxdWFsIHRvICRcbXVfe2gsYyxia309XGJldGFfMCtcYmV0YV9oK1xiZXRhX2MrXGJldGFfe2NofStcYmV0YV97Ymt9JAoKLSBSYXRzIHRoYXQgYXJlIGFzc2lnbmVkIHRvIGJsb2NrICRrJCBhbmQgcmVjZWl2ZSBhIHBvcmsgYmFzZWQgbG93IHByb3RlaW4gZGlldCBoYXZlCglhIGNvdmFyaWF0ZSBwYXR0ZXJuICR4X3tpLGh9PTAkLCAgJHhfe2ksY309MCQsICR4X3tpLHB9PTEkLCAkeF97aSxibX09MCQgd2l0aCAkbVxuZXEgayQgYW5kICR4X3tpLGJrfT0xJC4KCVRoZWlyIG1lYW4gd2VpZ2h0IGdhaW4gaXMgdGh1cyBlcXVhbCB0byAkXG11X3tsLHAsYmt9PVxiZXRhXzArXGJldGFfcCtcYmV0YV97Ymt9JAoKLSBSYXRzIHRoYXQgYXJlIGFzc2lnbmVkIHRvIGJsb2NrICRrJCBhbmQgcmVjZWl2ZSBhIHBvcmsgYmFzZWQgaGVpZ2ggcHJvdGVpbiBkaWV0IGhhdmUKCWEgY292YXJpYXRlIHBhdHRlcm4gJHhfe2ksaH09MSQsICR4X3tpLGN9PTAkLCAkeF97aSxwfT0xJCwgJHhfe2ksYm19PTAkIHdpdGggJG1cbmVxIGskIGFuZCAkeF97aSxia309MSQuCglUaGVyZSBtZWFuIHdlaWdodCBnYWluIGlzIHRodXMgZXF1YWwgdG8gJFxtdV97aCxwLGJrfT1cYmV0YV8wK1xiZXRhX2grXGJldGFfcCtcYmV0YV97cGh9K1xiZXRhX3tia30kCgpXZSBjYW4gbm93IHJlbGF0ZSB0aGlzIHRvIHRoZSBvdXRwdXQgb2YgdGhlIGBsbWAgZnVuY3Rpb246CgotIFRoZSBpbnRlcmNlcHQgJFxiZXRhXzAkIGlzIHRodXMgdGhlIGF2ZXJhZ2Ugd2VpZ2h0IGluY3JlYXNlIGluIHRoZSBsb3cgYmVlZgpkaWV0IGZvciByYXRzIGluIGJsb2NrIDEuCgotIFRoZSBwYXJhbWV0ZXIgJFxiZXRhX2MkOiB0aGUgYXZlcmFnZSBkaWZmZXJlbmNlIGluIHdlaWdodCBnYWluIGJldHdlZW4gY2VyZWFsLWxvdyBhbmQKYmVlZi1sb3cgZGlldCBpcyBgciBsbTEkY29lZlsicHJvdFNvdXJjZWNlcmVhbCJdYGcuCgotIFRoZSBwYXJhbWV0ZXIgJFxiZXRhX3AkOiB0aGUgYXZlcmFnZSBkaWZmZXJlbmNlIGluIHdlaWdodCBnYWluIGJldHdlZW4gcG9yay1sb3cgYW5kCmJlZWYtbG93IGRpZXQgaXMgYHIgbG0xJGNvZWZbInByb3RTb3VyY2Vwb3JrIl1gZy4KCi0gVGhlIHBhcmFtZXRlciAkXGJldGFfaCQ6IHRoZSBhdmVyYWdlIGRpZmZlcmVuY2UgaW4gd2VpZ2h0IGdhaW4gYmV0d2VlbiBiZWVmLWhpZ2ggYW5kCmJlZWYtTG93IGRpZXQgaXMgYHIgbG0xJGNvZWZbInByb3RMZXZlbGhpZ2giXWBnLgoKLSBUaGUgcGFyYW1ldGVyICRcYmV0YV97Y2h9JCBpcyB0aGUgZGlmZmVyZW5jZSBpbiB0aGUgYXZlcmFnZSB3ZWlnaHQgZ2FpbiBkaWZmZXJlbmNlCmR1ZSB0byB0aGUgaGlnaCBwcm90ZWluIGxldmVsIGFzIGNvbXBhcmVkIHRvIHRoZSBsb3cgcHJvdGVpbiBsZXZlbCBmb3IgY2VyZWFsIGRpZXRzCmFzIGNvbXBhcmVkIHRvIHRoZSB3ZWlnaHQgZ2FpbiBkaWZmZXJlbmNlIHRoYXQgb2NjdXJzIGR1ZSB0byB0aGUgcHJvdGVpbiBsZXZlbAppbiB0aGUgcmVmZXJlbmNlIGNsYXNzIChoZXJlIGJlZWYgZGlldCkuIEhlcmUgdGhpcyBpcyBuZWdhdGl2ZSwKaS5lLiBgciBsbTEkY29lZlsicHJvdFNvdXJjZWNlcmVhbDpwcm90TGV2ZWxoaWdoIl1gZywgdGh1cyB0aGUgd2VpZ2h0IGdhaW4KZm9yIHRoZSBjZXJlYWwgcHJvdGVpbiBzb3VyY2UgaW5jcmVhc2VzIG9uIGF2ZXJhZ2UgbGVzcyBiZXR3ZWVuIGhpZ2ggYW5kIGxvdyBwcm90ZWluIGRpZXRzCnRoYW4gaW4gYmVlZiBiYXNlZCBkaWV0cy4KCi0gVGhlIHBhcmFtZXRlciAkXGJldGFfe3BofSQgaXMgdGhlIGRpZmZlcmVuY2UgaW4gdGhlIGF2ZXJhZ2Ugd2VpZ2h0IGdhaW4gZGlmZmVyZW5jZQpkdWUgdG8gdGhlIGhpZ2ggcHJvdGVpbiBsZXZlbCBhcyBjb21wYXJlZCB0byB0aGUgbG93IHByb3RlaW4gbGV2ZWwgZm9yIHBvcmsgZGlldHMKYXMgY29tcGFyZWQgdG8gdGhlIHdlaWdodCBnYWluIGRpZmZlcmVuY2UgdGhhdCBvY2N1cnMgZHVlIHRvIHRoZSBwcm90ZWluIGxldmVsCmluIHRoZSByZWZlcmVuY2UgY2xhc3MgKGhlcmUgYmVlZiBkaWV0KS4gSGVyZSB0aGlzIGlzIG5lZ2F0aXZlLAppLmUuIGByIGxtMSRjb2VmWyJwcm90U291cmNlcG9yazpwcm90TGV2ZWxoaWdoIl1gZywgdGh1cyB0aGUgd2VpZ2h0IGdhaW4KZm9yIHRoZSBwcm9jIHByb3RlaW4gc291cmNlIGluY3JlYXNlcyBvbiBhdmVyYWdlIGxlc3MgYmV0d2VlbiBoaWdoIGFuZCBsb3cgcHJvdGVpbiBkaWV0cwp0aGFuIGluIGJlZWYgYmFzZWQgZGlldHMuCgojIyBUZXN0aW5nIHRoZSBvdmVyYWxsIChjb21iaW5lZCkgZWZmZWN0IG9mIGRpZXQKCkJlY2F1c2UgdGhlcmUgYXJlIG11bHRpcGxlIGZhY3RvcnMgd2l0aCBkaWZmZXJlbnQgbGV2ZWxzIGluIHRoZSBtb2RlbCwKd2UgY2FuIGZpcnN0IGFzc2VzcyB0aGUgZWZmZWN0IG9mIHRoZSBkaWV0IChwcm90ZWluIExldmVsLCBwcm90ZWluIHNvdXJjZQphbmQgdGhlIGludGVyYWN0aW9uKSBieSB1c2luZyBhbm92YS4gV2l0aCB0aGlzIHRlc3Qgd2Ugd2lsbCBhc3Nlc3MgdGhlIG51bGwKaHlwb3RoZXNpcyB0aGF0IHRoZSBhdmVyYWdlIHdlaWdodCBnYWluIGluIGVhY2ggdHJlYXRtZW50IGlzIGVxdWFsOiBpLmUuICRIXzA6IFxtdV97YixsfT1cbXVfe2IsaH09XG11X3tjLGh9PVxtdV97YyxsfT1cbXVfe3AsaH09XG11X3twLGh9JCB2ZXJzdXMKdGhlIGFsdGVybmF0aXZlIGh5cHRvaGVzaXMgJEhfMTokIHRoYXQgYXQgbGVhc3QgdHdvIHRyZWF0bWVudCBtZWFucyBhcmUKZGlmZmVyZW50LgoKYGBge3J9CmxtMCA8LSBsbSh3ZWlnaHRHYWluIH4gYmxvY2ssIGRhdGEgPSBkaWV0KQphbm92YShsbTAsIGxtMSkKYGBgCgpXZSBjYW4gY29uY2x1ZGUgdGhhdCB0aGVyZSBpcyBhbiBleHRyZW1lbHkgc2lnbmlmaWNhbnQgZWZmZWN0IG9mIHRoZSBkaWV0IHR5cGUKKHByb3RlaW4gc291cmNlIGFuZC9vciBwcm90ZWluIGxldmVsIGFuZC9vciBwcm90ZWluIHNvdXJjZS1wcm90ZWluIGxldmVsCmludGVyYWN0aW9uKSBvbiB0aGUgd2VpZ2h0IGdhaW4gb2YgcmF0cyAocCA8PCAwLjAwMSkuCgojIyBBc3Nlc3NpbmcgdGhlIGludGVyYWN0aW9uIGVmZmVjdCBiZXR3ZWVuIHByb3RlaW4gc291cmNlIGFuZCBwcm90ZWluIGxldmVsCgpgYGB7ciwgbWVzc2FnZT1GQUxTRSwgd2FybmluZz1GQUxTRX0KbGlicmFyeShjYXIpCkFub3ZhKGxtMSwgdHlwZSA9ICJJSUkiKQpgYGAKClRoZXJlIGlzIGEgdmVyeSBzaWduaWZpY2FudCBpbnRlcmFjdGlvbiBiZXR3ZWVuIHRoZSBwcm90ZWluIHNvdXJjZSBhbmQKdGhlIHByb3RlaW4gbGV2ZWwgKHAgPSBgciBmb3JtYXQoQW5vdmEobG0xLCB0eXBlPTMpJCJQcig+RikiLGRpZ2l0cz0xKVs1XWApLiBUaGlzIGluZGljYXRlcyB0aGF0IHRoZSBhdmVyYWdlIHdlaWdodCBpbmNyZWFzZSBkdWUgdG8KdGhlIHByb3RlaW4gbGV2ZWwgZGlmZmVycyBhY2NvcmRpbmcgdG8gdGhlIHByb3RlaW4gc291cmNlLgpIZW5jZSwgd2UgY2Fubm90IGFzc2VzcyB0aGUgZWZmZWN0IG9mIHRoZSBwcm90ZWluIHNvdXJjZSBhbmQvb3IgcHJvdGVpbiBsZXZlbAppbmRlcGVuZGVudGx5IGJlY2F1c2UgdGhlcmUgZWZmZWN0cyBvZiB0aGUgcHJvdGVpbiBzb3VyY2UgdmFyeSBhY2NvcmRpbmcgdG8KdGhlIHByb3RlaW4gbGV2ZWwuCgojIyBBc3Nlc3Npbmcgc3BlY2lmaWMgY29udHJhc3RzCgpJbWFnaW5lIHRoYXQgd2UgYXJlIGludGVyZXN0ZWQgaW4gYXNzZXNzaW5nIGlmIHRoZXJlIGlzIGFuIGVmZmVjdCBvZgoKMS4gcHJvdGVpbiBzb3VyY2UgaW4gdGhlIGxvdyBwcm90ZWluIGRpZXRzCgktICRcbXVfe2MsbH0tXG11X3tiLGx9ID0gXGJldGFfYyQKCS0gJFxtdV97cCxsfS1cbXVfe2IsbH0gPSBcYmV0YV9wJAoJLSAkXG11X3tjLGx9LVxtdV97cCxsfT0gXGJldGFfYy1cYmV0YV9wJCkKCgoyLiBwcm90ZWluIHNvdXJjZSBpbiBoaWdoIHByb3RlaW4gZGlldHMKCS0gJFxtdV97YyxofS1cbXVfe2IsaH09XGJldGFfYytcYmV0YV97Y2h9JAoJLSAkXG11X3twLGh9LVxtdV97YixofT1cYmV0YV9wK1xiZXRhX3twaH0kCgktICRcbXVfe3AsaH0tXG11X3tjLGh9PShcYmV0YV9jK1xiZXRhX3tjaH0pLShcYmV0YV9wK1xiZXRhX3twaH0pJAoKCjMuIHByb3RlaW4gbGV2ZWwgZm9yCgktIGJlZWYgZGlldHMgKCRcbXVfe2IsaH0tXG11X3tiLGx9PVxiZXRhX2gkKSwKCS0gY2VyZWFsIGRpZXRzICAoJFxtdV97YyxofS1cbXVfe2MsbH09XGJldGFfaCtcYmV0YV97Y2h9JCkgYW5kCgktIHBvcmsgZGlldHMgICgkXG11X3twLGh9LVxtdV97cCxsfT1cYmV0YV9oK1xiZXRhX3twaH0kKS4KCgo0LiBJZiB0aGUgZWZmZWN0IG9mIHRoZSBwcm90ZWluIGxldmVsIGRpZmZlcnMgYmV0d2VlbgoJLSBiZWVmIGFuZCBjZXJlYWwgICQoXG11X3tjLGh9LVxtdV97YyxsfSkgLSAoXG11X3tiLGh9LVxtdV97YixsfSk9XGJldGFfe2NofSQKCS0gYmVlZiBhbmQgcG9yayAkKFxtdV97cCxofS1cbXVfe3AsbH0pIC0gKFxtdV97YyxofS1cbXVfe2MsbH0pPVxiZXRhX3twaH0kIGFuZAoJLSBjZXJlYWwgYW5kIHBvcmsgZGlldHMgJChcbXVfe2MsaH0tXG11X3tjLGx9KSAtIChcbXVfe3AsaH0tXG11X3twLGx9KT1cYmV0YV97Y2h9LVxiZXRhX3twaH0kLgoKVGhlc2UgZWZmZWN0cyBvZiBpbnRlcmVzdCBhcmUgc28tY2FsbGVkCioqY29udHJhc3RzLCBpLmUuIGxpbmVhciBjb21iaW5hdGlvbnMgb2YgdGhlIHBhcmFtZXRlcnMqKi4KCldlIGNhbiBkZWZpbmUgdGhlIGNvbnRyYXN0cyBhbmQgYXNzZXNzIHRoZSBzaWduaWZpY2FuY2Ugb2YgdGhlIGNvbnRyYXN0cyB3aXRoCnRoZSBjb2RlIGJlbG93LiBUaGUgY29udHJhc3RzIGFyZSBnaXZlbiBhcyBpbnB1dCBpbiB0aGUgZm9ybSBvZiBzeW1ib2xpYwpkZXNjcmlwdGlvbnMgdG8gdGhlIGBsaW5mY3RgIGFyZ3VtZW50IG9mIHRoZSBgZ2xodGAgZnVuY3Rpb24uCgpgYGB7cixtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFfQpsaWJyYXJ5KG11bHRjb21wKQpzZXQuc2VlZCg3NTQ2OCkgIyB0byBnZXQgcmVwcm9kdWNpYmxlIHJlc3VsdHMgKHNtYWxsIGVmZmVjdCBpZiByZW1vdmVkKQpsbTFNdWx0Q29tcCA8LSBnbGh0KAogIG1vZGVsID0gbG0xLAogIGxpbmZjdCA9IGMoCiAgICAicHJvdFNvdXJjZWNlcmVhbCA9IDAiLAogICAgInByb3RTb3VyY2Vwb3JrID0gMCIsCiAgICAicHJvdFNvdXJjZWNlcmVhbC0gcHJvdFNvdXJjZXBvcmsgPSAwIiwKICAgICJwcm90U291cmNlY2VyZWFsICsgcHJvdFNvdXJjZWNlcmVhbDpwcm90TGV2ZWxoaWdoID0gMCIsCiAgICAicHJvdFNvdXJjZXBvcmsgKyBwcm90U291cmNlcG9yazpwcm90TGV2ZWxoaWdoID0gMCIsCiAgICAiKHByb3RTb3VyY2VjZXJlYWwgKyBwcm90U291cmNlY2VyZWFsOnByb3RMZXZlbGhpZ2gpIC0gKHByb3RTb3VyY2Vwb3JrICsgcHJvdFNvdXJjZXBvcms6cHJvdExldmVsaGlnaCkgPSAwIiwKICAgICJwcm90TGV2ZWxoaWdoID0gMCIsCiAgICAicHJvdExldmVsaGlnaCArICBwcm90U291cmNlY2VyZWFsOnByb3RMZXZlbGhpZ2ggPSAwIiwKICAgICJwcm90TGV2ZWxoaWdoICsgIHByb3RTb3VyY2Vwb3JrOnByb3RMZXZlbGhpZ2ggPSAwIiwKICAgICJwcm90U291cmNlY2VyZWFsOnByb3RMZXZlbGhpZ2ggPSAwIiwKICAgICJwcm90U291cmNlcG9yazpwcm90TGV2ZWxoaWdoID0gMCIsCiAgICAicHJvdFNvdXJjZWNlcmVhbDpwcm90TGV2ZWxoaWdoIC0gcHJvdFNvdXJjZXBvcms6cHJvdExldmVsaGlnaCA9IDAiCiAgKQopCmBgYAoKYGBge3J9CnN1bW1hcnkobG0xTXVsdENvbXApCmBgYAoKYGBge3J9CmNvbmZpbnQobG0xTXVsdENvbXApCmBgYAoKTm90ZSB0aGF0IHRoZSBwLXZhbHVlcyBhbmQgdGhlIGNvbmZpZGVuY2UgaW50ZXJ2YWxzIGFyZSBhdXRvbWF0aWNhbGx5IGNvcnJlY3RlZApmb3IgbXVsdGlwbGUgdGVzdGluZy4KCiMgQ29uY2x1c2lvbgoKLSBUaGVyZSBpcyBhbiBleHRyZW1lbHkgc2lnbmlmaWNhbnQgZWZmZWN0IG9mIHRoZSB0eXBlIG9mIHByb3RlaW4gZGlldCBvbiB0aGUKd2VpZ2h0IGdhaW4gb2YgcmF0cyAgKHA8PDFlLTYpLiBUaGUgaW50ZXJhY3Rpb24gYmV0d2VlbiBwcm90ZWluIHR5cGUgYW5kIHByb3RlaW4Kc291cmNlIGlzIGFsc28gdmVyeSBzaWduaWZpY2FudCAocD1gciByb3VuZChBbm92YShsbTEsdHlwZT0zKSRQcls1XSw0KWApLgoKLSBUaGUgYXZlcmFnZSB3ZWlnaHQgZ2FpbiBkb2VzIG5vdCB2YXJ5IHNpZ25pZmljYW50bHkgYWNjb3JkaW5nIHRvIHByb3RlaW4Kc291cmNlIGluIHRoZSBkaWV0cyB3aXRoIGxvdyBwcm90ZWluIGxldmVscyAoYWxsIHA+MC45OSkuCgotIFRoZSB3ZWlnaHQgZ2FpbiBpbiB0aGUgY2VyZWFsIGRpZXQgYXQgaGlnaCBwcm90ZWluIGNvbmNlbnRyYXRpb24gaXMgb24KYXZlcmFnZSBgciBjb25maW50KGxtMU11bHRDb21wKSRjb25maW50WyJwcm90U291cmNlY2VyZWFsICsgcHJvdFNvdXJjZWNlcmVhbDpwcm90TGV2ZWxoaWdoIiwxXSAlPiUgYWJzICU+JSByb3VuZCguLDEpYGcgYW5kIGByIGNvbmZpbnQobG0xTXVsdENvbXApJGNvbmZpbnRbIihwcm90U291cmNlY2VyZWFsICsgcHJvdFNvdXJjZWNlcmVhbDpwcm90TGV2ZWxoaWdoKSAtIChwcm90U291cmNlcG9yayArIHByb3RTb3VyY2Vwb3JrOnByb3RMZXZlbGhpZ2gpIiwxXSAlPiUgYWJzICU+JSByb3VuZCguLDEpYGcgZyBsb3dlciB0aGFuIGluIHRoZSBoaWdoIHByb3RlaW4gYmVlZiBhbmQgcG9yayBkaWV0LApyZXNwZWN0aXZlbHkgKDk1JSBDSSBbYHIgY29uZmludChsbTFNdWx0Q29tcCkkY29uZmludFsicHJvdFNvdXJjZWNlcmVhbCArIHByb3RTb3VyY2VjZXJlYWw6cHJvdExldmVsaGlnaCIsLTFdICU+JSBhYnMgJT4lIHJvdW5kKC4sMSkgJT4lIHNvcnRgXSBhbmQgW2ByIGNvbmZpbnQobG0xTXVsdENvbXApJGNvbmZpbnRbIihwcm90U291cmNlY2VyZWFsICsgcHJvdFNvdXJjZWNlcmVhbDpwcm90TGV2ZWxoaWdoKSAtIChwcm90U291cmNlcG9yayArIHByb3RTb3VyY2Vwb3JrOnByb3RMZXZlbGhpZ2gpIiwtMV0gJT4lIGFicyAlPiUgcm91bmQoLiwxKSAlPiUgc29ydGBdKSBhbmQgdGhlIGRpZmZlcmVuY2VzIGFyZQpleHRyZW1lbHkgc2lnbmlmaWNhbnQgKHA8MC4wMDEpLiBUaGUgYXZlcmFnZSB3ZWlnaHQgZ2FpbnMgYWZ0ZXIgbWVhdCBiYXNlZApkaWV0cyBhdCBoaWdoIHByb3RlaW4gbGV2ZWxzLCBob3dldmVyLCBkbyBub3QgZGlmZmVyIHNpZ25pZmljYW50bHkKKHA+MC45OSkuCgotIFdlIGFsc28gZGlzY292ZXJlZCBhbiBleHRyZW1lbHkgc2lnbmlmaWNhbnQgZGlmZmVyZW5jZSBpbiB3ZWlnaHQgZ2FpbgphY2NvcmRpbmcgdG8gdGhlIHByb3RlaW4gbGV2ZWwgZm9yIGJlZWYgYW5kIHBvcmsgYmFzZWQgZGlldHMgKHA8MC4wMDEpLgpUaGUgd2VpZ2h0IGdhaW4gb24gYXZlcmFnZSBpbmNyZWFzZXMgd2l0aCBgciByb3VuZChjb25maW50KGxtMU11bHRDb21wKSRjb25maW50WyJwcm90TGV2ZWxoaWdoIiwxXSwxKWBnIGFuZCBgciByb3VuZChjb25maW50KGxtMU11bHRDb21wKSRjb25maW50WyJwcm90TGV2ZWxoaWdoICsgcHJvdFNvdXJjZXBvcms6cHJvdExldmVsaGlnaCIsMV0sMSlgZyBpbiB0aGUgaGlnaCBwcm90ZWluCmxldmVsIGFzIGNvbXBhcmVkIHRvIHRoZSBsb3cgcHJvdGVpbiBiZWVmIGFuZCBwb3JrIGRpZXQsIHJlc3BlY3RpdmVseQooOTUlQ0kgW2ByIHJvdW5kKGNvbmZpbnQobG0xTXVsdENvbXApJGNvbmZpbnRbInByb3RMZXZlbGhpZ2giLC0xXSwxKWBdIGFuZCBbYHIgcm91bmQoY29uZmludChsbTFNdWx0Q29tcCkkY29uZmludFsicHJvdExldmVsaGlnaCArIHByb3RTb3VyY2Vwb3JrOnByb3RMZXZlbGhpZ2giLC0xXSwxKWBdKS4gVGhlIHByb3RlaW4gbGV2ZWwgZWZmZWN0IGlzIG5vdCBzaWduaWZpY2FudApmb3IgdGhlIGNlcmVhbCBkaWV0IChwPjAuOTkpLgoKLSBGaW5hbGx5IHNpZ25pZmljYW50IGludGVyYWN0aW9ucyBiZXR3ZWVuIHByb3RlaW4gbGV2ZWwgYW5kIHByb3RlaW4gc291cmNlIHdlcmUKZm91bmQgKHA8MC4wNSksIGkuZS4gdGhlIGluY3JlYXNlIGluIHdlaWdodCBnYWluIGR1ZSB0byBwcm90ZWluIGxldmVsIGluIGNlcmVhbApiYXNlZCBkaWV0cyB3YXMgMTguMmcgYW5kIDE2LjVnIGxvd2VyIHRoYW4gdGhhdCBvZiBiZWVmIGFuZCBwb3JrIGJhc2VkIGRpZXRzLApyZXNwZWN0aXZlbHkgKDk1JSBDSSBbM2csMzMuNGddIGFuZCBbMS4zZywzMS43Z10pLiBUaGUgYXZlcmFnZSBkaWZmZXJlbmNlIGluCmluY3JlYXNlIGluIHdlaWdodCBnYWluIGR1ZSB0byBwcm90ZWluIGxldmVsIGFtb25nIHRoZSBtZWF0IGJhc2VkIGRpZXRzIHdhcyBub3QKc2lnbmlmaWNhbnQgKHA+MC45OSkuCgpBbGwgcmVwb3J0ZWQgcC12YWx1ZXMgYW5kIGNvbmZpZGVuY2UgaW50ZXJ2YWxzIHdlcmUgY29ycmVjdGVkIGZvciBtdWx0aXBsZQp0ZXN0aW5nCg==</div>
 <div class="footer">
     <hr>
     This work is licensed under the <a href= "https://creativecommons.org/licenses/by-nc-sa/4.0">
