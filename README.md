@@ -1,11 +1,11 @@
-# PSLS - Practical Statistics for the Life Sciences
+# PSLS22 - Practical Statistics for the Life Sciences
 
 [![Render and Deploy](https://github.com/statOmics/PSLS/workflows/Render%20and%20Deploy/badge.svg)](https://github.com/statOmics/PSLS/actions)
 
 Course site for Practical Statistics for the Life Sciences,
 taught at the [Gulbenkian Training Programme in Bioinformatics (GTPB)](http://gtpb.igc.gulbenkian.pt/bicourses/index.html).
 
-https://statOmics.github.io/PSLS/
+https://GTPB.github.io/PSLS22/
 
 
 ### License
