@@ -713,15 +713,15 @@ Fit: lm(formula = 1/time ~ poison + treat, data = rats)
 
 Linear Hypotheses:
                       Estimate Std. Error t value Pr(&gt;|t|)    
-poison: II - I == 0    0.04686    0.01744   2.688  0.07348 .  
+poison: II - I == 0    0.04686    0.01744   2.688  0.07345 .  
 poison: III - I == 0   0.19964    0.01744  11.451  &lt; 0.001 ***
 poison: III - II == 0  0.15278    0.01744   8.763  &lt; 0.001 ***
 treat: B - A == 0     -0.16574    0.02013  -8.233  &lt; 0.001 ***
-treat: C - A == 0     -0.05721    0.02013  -2.842  0.05082 .  
+treat: C - A == 0     -0.05721    0.02013  -2.842  0.05088 .  
 treat: D - A == 0     -0.13583    0.02013  -6.747  &lt; 0.001 ***
 treat: C - B == 0      0.10853    0.02013   5.391  &lt; 0.001 ***
-treat: D - B == 0      0.02991    0.02013   1.485  0.61546    
-treat: D - C == 0     -0.07862    0.02013  -3.905  0.00287 ** 
+treat: D - B == 0      0.02991    0.02013   1.485  0.61544    
+treat: D - C == 0     -0.07862    0.02013  -3.905  0.00275 ** 
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -734,21 +734,21 @@ Multiple Comparisons of Means: Tukey Contrasts
 
 Fit: lm(formula = 1/time ~ poison + treat, data = rats)
 
-Quantile = 2.8493
+Quantile = 2.8494
 95% family-wise confidence level
  
 
 Linear Hypotheses:
-                      Estimate   lwr        upr       
-poison: II - I == 0    0.0468641 -0.0028131  0.0965413
-poison: III - I == 0   0.1996425  0.1499653  0.2493197
-poison: III - II == 0  0.1527784  0.1031012  0.2024556
-treat: B - A == 0     -0.1657402 -0.2231025 -0.1083779
-treat: C - A == 0     -0.0572135 -0.1145758  0.0001487
-treat: D - A == 0     -0.1358338 -0.1931961 -0.0784715
-treat: C - B == 0      0.1085267  0.0511644  0.1658890
-treat: D - B == 0      0.0299064 -0.0274559  0.0872687
-treat: D - C == 0     -0.0786203 -0.1359826 -0.0212580</code></pre>
+                      Estimate  lwr       upr      
+poison: II - I == 0    0.046864 -0.002816  0.096544
+poison: III - I == 0   0.199642  0.149962  0.249323
+poison: III - II == 0  0.152778  0.103098  0.202458
+treat: B - A == 0     -0.165740 -0.223106 -0.108375
+treat: C - A == 0     -0.057214 -0.114579  0.000152
+treat: D - A == 0     -0.135834 -0.193199 -0.078468
+treat: C - B == 0      0.108527  0.051161  0.165892
+treat: D - B == 0      0.029906 -0.027459  0.087272
+treat: D - C == 0     -0.078620 -0.135986 -0.021255</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(comparisons, <span class="at">yaxt =</span> <span class="st">&quot;none&quot;</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>contrastNames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;II-I&quot;</span>, <span class="st">&quot;III-I&quot;</span>, <span class="st">&quot;III-II&quot;</span>, <span class="st">&quot;B-A&quot;</span>, <span class="st">&quot;C-A&quot;</span>, <span class="st">&quot;D-A&quot;</span>, <span class="st">&quot;C-B&quot;</span>, <span class="st">&quot;D-B&quot;</span>, <span class="st">&quot;D-C&quot;</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">at =</span> <span class="fu">c</span>(<span class="fu">length</span>(contrastNames)<span class="sc">:</span><span class="dv">1</span>), <span class="at">labels =</span> contrastNames, <span class="at">las =</span> <span class="dv">2</span>)</span></code></pre></div>
