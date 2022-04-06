@@ -1,5 +1,5 @@
 ---
-title: "PSLS - Practical Statistics for the Life Sciences"
+title: "PSLS22 - Practical Statistics for the Life Sciences"
 output:
   html_document:
     number_sections: false
