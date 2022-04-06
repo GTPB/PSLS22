@@ -768,9 +768,9 @@ grade3:nodeRemoved == 0                -0.7748     0.2584  -2.998
                                       Pr(&gt;|t|)    
 grade3 == 0                            &lt; 0.001 ***
 grade3 + grade3:nodeRemoved == 0       &lt; 0.001 ***
-nodeRemoved == 0                       0.00723 ** 
-nodeRemoved + grade3:nodeRemoved == 0  0.89820    
-grade3:nodeRemoved == 0                0.02663 *  
+nodeRemoved == 0                       0.00707 ** 
+nodeRemoved + grade3:nodeRemoved == 0  0.89817    
+grade3:nodeRemoved == 0                0.02681 *  
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -780,28 +780,28 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 
 Fit: lm(formula = log2(gene) ~ grade * node, data = kpna2)
 
-Quantile = 2.6975
+Quantile = 2.6971
 95% family-wise confidence level
  
 
 Linear Hypotheses:
                                       Estimate lwr      upr     
-grade3 == 0                            1.66754  1.17467  2.16040
-grade3 + grade3:nodeRemoved == 0       0.89279  0.39992  1.38565
-nodeRemoved == 0                       0.65773  0.16486  1.15060
-nodeRemoved + grade3:nodeRemoved == 0 -0.11702 -0.60989  0.37585
-grade3:nodeRemoved == 0               -0.77475 -1.47177 -0.07773</code></pre>
+grade3 == 0                            1.66754  1.17474  2.16033
+grade3 + grade3:nodeRemoved == 0       0.89279  0.39999  1.38558
+nodeRemoved == 0                       0.65773  0.16494  1.15053
+nodeRemoved + grade3:nodeRemoved == 0 -0.11702 -0.60982  0.37578
+grade3:nodeRemoved == 0               -0.77475 -1.47167 -0.07783</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="fu">confint</span>(fitGlht)<span class="sc">$</span>confint</span></code></pre></div>
 <pre><code>                                  Estimate       lwr       upr
-grade3                           3.1767209 2.2572780 4.4706749
-grade3 + grade3:nodeRemoved      1.8567602 1.3193554 2.6130628
-nodeRemoved                      1.5775997 1.1209928 2.2201936
-nodeRemoved + grade3:nodeRemoved 0.9220906 0.6552086 1.2976800
-grade3:nodeRemoved               0.5844896 0.3605088 0.9476274
+grade3                           3.1767209 2.2576374 4.4699632
+grade3 + grade3:nodeRemoved      1.8567602 1.3195655 2.6126469
+nodeRemoved                      1.5775997 1.1211712 2.2198402
+nodeRemoved + grade3:nodeRemoved 0.9220906 0.6553129 1.2974734
+grade3:nodeRemoved               0.5844896 0.3605900 0.9474141
 attr(,&quot;conf.level&quot;)
 [1] 0.95
 attr(,&quot;calpha&quot;)
-[1] 2.697984</code></pre>
+[1] 2.696727</code></pre>
 </div>
 <div id="conclusion" class="section level1" number="5">
 <h1><span class="header-section-number">5</span> Conclusion</h1>
