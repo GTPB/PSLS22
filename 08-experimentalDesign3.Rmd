@@ -233,7 +233,7 @@ Similar to the introductory example, we can use simulations to assess the power.
 
 
 - $H_0$: The average weight difference is equal to zero
-- $H-0$: The average weight difference is different from zero
+- $H_1$: The average weight difference is different from zero
 
 - Two sample t-test or a t-test on the slope of a linear model with one dummy variable.
 
@@ -353,7 +353,7 @@ stat <- summary(fit)
 summary(fit)$coef[2, ]
 ```
 
-For this simulated experiment we would `r ifelse(summary(fit)$coef[2,"Pr(>|t|)"] < alpha,"","not")` have been able to pick up the effect of the treatment at the significance level $\alpha$=`r alpha` (p = `r` round(summary(fit)$coef[2,"Pr(>|t|)"],2)`)!
+For this simulated experiment we would `r ifelse(summary(fit)$coef[2,"Pr(>|t|)"] < alpha,"","not")` have been able to pick up the effect of the treatment at the significance level $\alpha$=`r alpha` (p = `r round(summary(fit)$coef[2,"Pr(>|t|)"],2)`)!
 
 - We have to repeat the experiment many times to estimate the power.
 - We will therefore put our simulation in a general function.
