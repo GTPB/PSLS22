@@ -67,7 +67,7 @@ The aims of this exercise are to sharpen your skills in
 - Exercise: [Exercise2](./06_2_poison.html)
 - Data path:
 
-  `https://raw.githubusercontent.com/statOmics/PSLS21/data/poison.csv`
+  `https://raw.githubusercontent.com/statOmics/PSLSData/main/poison.csv`
 
 - Solution: [Solution2](./06_2_poison_sol.html)
 
@@ -97,6 +97,6 @@ The aims of this exercise are to
 - Exercise: [Exercise3](./06_3_armpit.html)
 - Data path:
 
-  `https://raw.githubusercontent.com/statOmics/PSLS21/data/armpit.csv`
+  `https://raw.githubusercontent.com/statOmics/PSLSData/main/armpit.csv`
 
 - Solution: [Solution3](./06_3_armpit_sol.html)

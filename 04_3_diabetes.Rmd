@@ -34,7 +34,7 @@ The data consist of three variables:
 
 Data path:
 
-  `https://raw.githubusercontent.com/statOmics/PSLS21/data/diabetes.txt`
+  `https://raw.githubusercontent.com/statOmics/PSLSData/main/diabetes.txt`
 
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)

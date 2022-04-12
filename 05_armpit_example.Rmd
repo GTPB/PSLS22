@@ -54,7 +54,7 @@ library(tidyverse)
 Import the data
 
 ```{r}
-ap <- read_csv("https://raw.githubusercontent.com/statOmics/PSLS21/data/armpit.csv")
+ap <- read_csv("https://raw.githubusercontent.com/statOmics/PSLSData/main/armpit.csv")
 ```
 
 ```{r}
@@ -163,7 +163,7 @@ In order for the learners to get more proficient in evaluating the assumptions w
 We simulate 9 datasets with the same sample sizes, means and pooled variance as in the sample.
 
 ```{r}
-ap <- read_csv("https://raw.githubusercontent.com/statOmics/PSLS21/data/armpit.csv")
+ap <- read_csv("https://raw.githubusercontent.com/statOmics/PSLSData/main/armpit.csv")
 
 nSamp <- 9
 ## descriptive statistics

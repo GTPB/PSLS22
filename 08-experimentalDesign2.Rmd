@@ -56,7 +56,7 @@ We focus on one protein
 ## Data Exploration
 
 ```{r}
-mouse <- read_tsv("https://raw.githubusercontent.com/statOmics/PSLS21/data/mouseP16045.txt")
+mouse <- read_tsv("https://raw.githubusercontent.com/statOmics/PSLSData/main/mouseP16045.txt")
 mouse
 ```
 
@@ -646,7 +646,7 @@ A study on the facultative pathogen Francisella tularensis was conceived by Ramo
 ## Data exploration
 
 ```{r}
-franc <- read_tsv("https://raw.githubusercontent.com/statOmics/PSLS21/data/francisellaA0Q4J5.txt")
+franc <- read_tsv("https://raw.githubusercontent.com/statOmics/PSLSData/main/francisellaA0Q4J5.txt")
 franc
 ```
 

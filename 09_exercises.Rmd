@@ -19,7 +19,7 @@ The research question is; is there an effect of the growth condition on the PCB
 concentration in the adipose tissue of shrimps?
 
 - Exercise: [Exercise1](./09_1_shrimps.html)
-- Data path: https://raw.githubusercontent.com/statOmics/PSLS21/data/shrimps.txt
+- Data path: https://raw.githubusercontent.com/statOmics/PSLSData/main/shrimps.txt
 <!-- - Solution: [Solution1](./09_1_shrimps_sol.html) -->
 
 ---
@@ -50,7 +50,7 @@ plants. The researchers want to test if there is an effect of one or more of
 the treatments on the growth of lettuce plants.
 
 - Exercise: [Exercise2](./09_2_lettuce.html)
-- Data path: https://raw.githubusercontent.com/statOmics/PSLS21/data/freshweight_lettuce.txt
+- Data path: https://raw.githubusercontent.com/statOmics/PSLSData/main/freshweight_lettuce.txt
 <!-- - Solution: [Solution2](./09_2_lettuce_sol.html) -->
 
 ---

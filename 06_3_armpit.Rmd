@@ -54,7 +54,7 @@ library(tidyverse)
 Import the data
 
 ```{r}
-ap <- read_csv("https://raw.githubusercontent.com/statOmics/PSLS21/data/armpit.csv")
+ap <- read_csv("https://raw.githubusercontent.com/statOmics/PSLSData/main/armpit.csv")
 ```
 
 ```{r}

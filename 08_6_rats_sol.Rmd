@@ -40,7 +40,7 @@ library(tidyverse)
 # Data import
 
 ```{r}
-diet <- read.table("https://raw.githubusercontent.com/statOmics/PSLS21/data/dietRats.txt",
+diet <- read.table("https://raw.githubusercontent.com/statOmics/PSLSData/main/dietRats.txt",
   header = TRUE
 )
 head(diet)

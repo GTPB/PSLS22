@@ -40,7 +40,7 @@ library(tidyverse)
 
 Data path:
 
-  `https://raw.githubusercontent.com/statOmics/PSLS21/data/wbcon.csv`
+  `https://raw.githubusercontent.com/statOmics/PSLSData/main/wbcon.csv`
 
 
 ```{r, eval = FALSE}

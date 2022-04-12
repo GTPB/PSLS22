@@ -9,8 +9,8 @@ date: "statOmics, Ghent University (https://statomics.github.io)"
 This exercise aims to further sharpen your skills in
 
 - translating the research question in a a null and alternative hypothesis of t-tests
-- critically evaluating the assumptions of t-tests, and 
-- selecting the appropriate test for answering the research question. 
+- critically evaluating the assumptions of t-tests, and
+- selecting the appropriate test for answering the research question.
 
 # The shrimps dataset
 
@@ -32,7 +32,7 @@ tissue of shrimps?
 
 1. Explore the data what do you observe?
 
-  Data path: `https://raw.githubusercontent.com/statOmics/PSLS21/data/shrimps.txt`
+  Data path: `https://raw.githubusercontent.com/statOmics/PSLSData/main/shrimps.txt`
 
 2. How will you model the data?
 

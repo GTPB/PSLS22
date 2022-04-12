@@ -74,7 +74,7 @@ library(tidyverse)
 # Import data
 
 ```{r, message=FALSE}
-Cuckoo <- read_tsv("https://raw.githubusercontent.com/statOmics/PSLS21/data/Cuckoo.txt")
+Cuckoo <- read_tsv("https://raw.githubusercontent.com/statOmics/PSLSData/main/Cuckoo.txt")
 head(Cuckoo)
 ```
 

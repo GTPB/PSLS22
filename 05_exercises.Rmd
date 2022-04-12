@@ -43,7 +43,7 @@ Files:
 - Exercise: [Exercise1](./05_1_diabetes.html)
 - Data path:
 
-  `https://raw.githubusercontent.com/statOmics/PSLS21/data/diabetes.txt`
+  `https://raw.githubusercontent.com/statOmics/PSLSData/main/diabetes.txt`
 
 - Solution: [Solution1](./05_1_diabetes_sol.html)
 
@@ -78,7 +78,7 @@ Files
 - Exercise: [Exercise2](./05_2_pertussis.html)
 - Data path:
 
-  `https://raw.githubusercontent.com/statOmics/PSLS21/data/wbcon.csv`
+  `https://raw.githubusercontent.com/statOmics/PSLSData/main/wbcon.csv`
 
 - Solution: [Solution2](./05_2_pertussis_sol.html)
 
@@ -117,7 +117,7 @@ Files:
 - Exercise: [Exercise3](./05_3_cuckoo.html)
 - Data path:
 
-  `https://raw.githubusercontent.com/statOmics/PSLS21/data/Cuckoo.txt`
+  `https://raw.githubusercontent.com/statOmics/PSLSData/main/Cuckoo.txt`
 
 - Solution: [Solution3](./05_3_cuckoo_sol.html)
 
@@ -143,6 +143,6 @@ This exercise aims to further sharpen your skills in
 - Exercise: [Exercise4](./05_4_shrimps.html)
 - Data path:
 
-  `https://raw.githubusercontent.com/statOmics/PSLS21/data/shrimps.txt`
+  `https://raw.githubusercontent.com/statOmics/PSLSData/main/shrimps.txt`
 
 - Solution: [Solution4](./05_4_shrimps_sol.html)

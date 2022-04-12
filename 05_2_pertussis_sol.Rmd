@@ -39,11 +39,11 @@ library(tidyverse)
 
 Data path:
 
-  `https://raw.githubusercontent.com/statOmics/PSLS21/data/wbcon.csv`
+  `https://raw.githubusercontent.com/statOmics/PSLSData/main/wbcon.csv`
 
 
 ```{r}
-wbcon <- read_csv("https://raw.githubusercontent.com/statOmics/PSLS21/data/wbcon.csv")
+wbcon <- read_csv("https://raw.githubusercontent.com/statOmics/PSLSData/main/wbcon.csv")
 ```
 
 ```{r}

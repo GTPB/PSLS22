@@ -48,7 +48,7 @@ library(car)
 
 Data path:
 
-`https://raw.githubusercontent.com/statOmics/PSLS21/data/fev.txt`
+`https://raw.githubusercontent.com/statOmics/PSLSData/main/fev.txt`
 
 Note: `fev.txt` is a tab-separated file: make sure to select the correct `readr`
 function!

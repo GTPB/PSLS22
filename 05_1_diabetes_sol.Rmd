@@ -48,7 +48,7 @@ library(tidyverse)
 ```
 
 ```{r}
-diabetes <- read_delim("https://raw.githubusercontent.com/statOmics/PSLS21/data/diabetes.txt", delim = " ")
+diabetes <- read_delim("https://raw.githubusercontent.com/statOmics/PSLSData/main/diabetes.txt", delim = " ")
 ```
 
 # Data exploration

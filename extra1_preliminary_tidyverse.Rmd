@@ -140,7 +140,7 @@ Let's try reading in some data. We will begin by
 reading in the `NHANES.csv` dataset.
 
 ```{r nhanesDatExpl}
-NHANES <- read_csv("https://raw.githubusercontent.com/statOmics/PSLS21/data/NHANES.csv")
+NHANES <- read_csv("https://raw.githubusercontent.com/statOmics/PSLSData/main/NHANES.csv")
 ```
 
 ```{r}

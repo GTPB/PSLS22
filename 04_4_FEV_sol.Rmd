@@ -50,7 +50,7 @@ Note: `fev.txt` is a tab-separated file: make sure to select the correct `readr`
 function!
 
 ```{r}
-fev <- read_tsv("https://raw.githubusercontent.com/statOmics/PSLS21/data/fev.txt")
+fev <- read_tsv("https://raw.githubusercontent.com/statOmics/PSLSData/main/fev.txt")
 head(fev)
 ```
 
@@ -104,11 +104,11 @@ median FEV than children that do not smoke.
 ```{r}
 fev %>%
   ggplot(aes(x = age, y = fev, color = smoking)) +
-    geom_point() + 
+    geom_point() +
     geom_smooth()
 ```
 
-The trends in the plot seems to match much more with our expectations. 
+The trends in the plot seems to match much more with our expectations.
 
 First, it seems
 that we do not have any smoking children of ages 6, 7 or 8.
@@ -124,7 +124,7 @@ Can we provide additional insights in the data, e.g. by accounting for other use
 ```{r}
 fev %>%
   ggplot(aes(x = age, y = fev, color = smoking)) +
-    geom_point() + 
+    geom_point() +
     geom_smooth() +
     facet_grid(cols = vars(gender))
 ```

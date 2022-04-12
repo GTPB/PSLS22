@@ -4,8 +4,8 @@ author: "Lieven Clement and Jeroen Gilis"
 date: "statOmics, Ghent University (https://statomics.github.io)"
 ---
 
-In this hands-on tutorial session you will perform three exercises on linear regression. 
-For your reference you can find the code for the brca case study from the lecture for chapter 6: 
+In this hands-on tutorial session you will perform three exercises on linear regression.
+For your reference you can find the code for the brca case study from the lecture for chapter 6:
 
 [LINK TO FILE]
 
@@ -22,14 +22,14 @@ treated with Puromycin, and once with the enzyme untreated.
 In this tutorial you will assess if there is an association between the substrate
 concentration and rate for the **treated** enzyme.
 
-The aims of this exercise are to 
+The aims of this exercise are to
 
 1. independently perform a linear regression analysis on a new case study
 2. critically assess the assumptions for linear regression
 3. grasp how an appropriate transformation can remediate invalid assumptions
 4. get more proficient in formulating the conclusion of a statistical analysis in terms of the research question.
 
-FILES: 
+FILES:
 
 - Exercise: [Exercise1](./06_3_puromycin.html)
 - Data path: Not required
@@ -49,9 +49,9 @@ In this tutorial, we will study the association between dose and survival time
 by using a linear regression model.
 
 
-The aims of this exercise are to sharpen your skills in 
- 
-1. data exploration for datasets with multiple variables 
+The aims of this exercise are to sharpen your skills in
+
+1. data exploration for datasets with multiple variables
 
 2. assessing the assumptions of the linear model and remediating the fit using transformations
 
@@ -60,7 +60,7 @@ The aims of this exercise are to sharpen your skills in
 Files:
 
 - Exercise: [Exercise2](./06_1_poison.html)
-- Data path: https://raw.githubusercontent.com/statOmics/PSLS21/data/poison.csv
+- Data path: https://raw.githubusercontent.com/statOmics/PSLSData/main/poison.csv
 <!-- - Solution: [Solution2](./06_1_poison_sol.html) -->
 
 ---
@@ -86,7 +86,7 @@ The aims of this exercise are to
 1. learn how the linear regression model can also be used to compare two group means.
 2. grasp how a two sample t-test can be recasted in a test on the slope term for a dummy variable
 
-Files: 
+Files:
 
-- Data path: https://raw.githubusercontent.com/statOmics/PSLS21/data/armpit.csv"
+- Data path: https://raw.githubusercontent.com/statOmics/PSLSData/main/armpit.csv"
 - Exercise: [Exercise3](./06_3_armpit.html)

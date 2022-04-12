@@ -30,7 +30,7 @@ library(tidyverse)
 
 ```{r}
 shrimps <- read_tsv(
-  "https://raw.githubusercontent.com/statOmics/PSLS21/data/shrimps.txt"
+  "https://raw.githubusercontent.com/statOmics/PSLSData/main/shrimps.txt"
 )
 glimpse(shrimps)
 ```

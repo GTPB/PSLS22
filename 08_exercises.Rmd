@@ -39,7 +39,7 @@ explanatory variable for survival time
 weight
 
 - Exercise: [Exercise1](./08_1_poison1.html)
-- Data path: "https://raw.githubusercontent.com/statOmics/PSLS21/data/poison.csv"
+- Data path: "https://raw.githubusercontent.com/statOmics/PSLSData/main/poison.csv"
 - Solution1: [Solution1](./08_1_poison1_sol.html)
 
 ---
@@ -53,7 +53,7 @@ weight of the fish, **and including an interaction between dose and weight.**
 - Exercise: [Exercise2](./08_2_poison2.html)
 - Data path:
 
-  `https://raw.githubusercontent.com/statOmics/PSLS21/data/poison.csv`
+  `https://raw.githubusercontent.com/statOmics/PSLSData/main/poison.csv`
 
 - Solution2: [Solution2](./08_2_poison2_sol.html)
 
@@ -123,7 +123,7 @@ to keep the data analysis simple we will only assess the beef and cereal diets.
 - Exercise: [Exercise5](./08_5_rats.html)
 - Data path:
 
-  `https://raw.githubusercontent.com/statOmics/PSLS21/data/dietRats.txt`
+  `https://raw.githubusercontent.com/statOmics/PSLSData/main/dietRats.txt`
 
 <!-- - Exercise: [Solution5](./08_5_rats_sol.html) -->
 
@@ -137,7 +137,7 @@ previous exercise, we perform the analysis for all three diets in the dataset.
 - Exercise: [Exercise6](./08_6_rats.html)
 - Data path:
 
-  `https://raw.githubusercontent.com/statOmics/PSLS21/data/dietRats.txt`
+  `https://raw.githubusercontent.com/statOmics/PSLSData/main/dietRats.txt`
 
 <!-- - Exercise: [Solution6](./08_6_rats_sol.html) -->
 

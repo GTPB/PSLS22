@@ -49,7 +49,7 @@ library(multcomp)
 # Data import
 
 ```{r}
-lettuce <- read_csv("https://raw.githubusercontent.com/statOmics/PSLS21/data/freshweight_lettuce.txt")
+lettuce <- read_csv("https://raw.githubusercontent.com/statOmics/PSLSData/main/freshweight_lettuce.txt")
 ```
 
 Take a glimpse at the data

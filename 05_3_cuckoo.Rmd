@@ -75,7 +75,7 @@ First, load the required libraries
 
 Data path:
 
-`https://raw.githubusercontent.com/statOmics/PSLS21/data/Cuckoo.txt`
+`https://raw.githubusercontent.com/statOmics/PSLSData/main/Cuckoo.txt`
 
 Import the data, make sure to use the appropriate function for the delimiter used in this file!
 

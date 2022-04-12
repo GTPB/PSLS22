@@ -38,7 +38,7 @@ Note that we don't need to download the dataset manually; `read_csv()` (or its b
 `read.csv()`) can take a URL as input and read in the data directly.
 
 ```{r nhanesDatExpl}
-NHANES <- read_csv("https://raw.githubusercontent.com/statOmics/PSLS21/data/NHANES.csv")
+NHANES <- read_csv("https://raw.githubusercontent.com/statOmics/PSLSData/main/NHANES.csv")
 ```
 
 ```{r}

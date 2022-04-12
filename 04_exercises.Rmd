@@ -37,7 +37,7 @@ by following and interpreting the code of a worked out example.
 - Exercise: [Exercise1](./04_1_NHANES.html)
 - Data path:
 
-  `https://raw.githubusercontent.com/statOmics/PSLS21/data/NHANES.csv`
+  `https://raw.githubusercontent.com/statOmics/PSLSData/main/NHANES.csv`
 
 ---
 
@@ -66,7 +66,7 @@ Files
 - Exercise: [Exercise2](./04_2_pertussis.html)
 - Data path:
 
-  `https://raw.githubusercontent.com/statOmics/PSLS21/data/wbcon.csv`
+  `https://raw.githubusercontent.com/statOmics/PSLSData/main/wbcon.csv`
 
 - Solution: [Solution2](./04_2_pertussis_sol.html)
 
@@ -101,7 +101,7 @@ Files:
 - Exercise: [Exercise3](./04_3_diabetes.html)
 - Data path:
 
-  `https://raw.githubusercontent.com/statOmics/PSLS21/data/diabetes.txt`
+  `https://raw.githubusercontent.com/statOmics/PSLSData/main/diabetes.txt`
 
 - Solution: [Solution3](./04_3_diabetes_sol.html)
 
@@ -122,7 +122,7 @@ In this exercise, you will learn how plots can help you to discover confounding 
 - Exercise: [Exercise4](./04_4_FEV.html)
 - Data path:
 
-  `https://raw.githubusercontent.com/statOmics/PSLS21/data/fev.txt`
+  `https://raw.githubusercontent.com/statOmics/PSLSData/main/fev.txt`
 
 - Solution: [Solution4](./04_4_FEV_sol.html)
 
